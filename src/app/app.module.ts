@@ -3,18 +3,36 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CardModule} from 'primeng/card';
+import { HttpClientModule } from '@angular/common/http';
+
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+
+// RUTAS
+import { AppRoutingModule } from 'src/app/app-routing.module';
+
+//Configuracion Firebase
+import { environment } from '../environments/environment.prod';
+
+// Idioma Español
+import { DatePipe, TitleCasePipe } from '@angular/common';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
+    AuthModule,
+    AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
-    CardModule
+    //Firebase
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
   ],
-  providers: [],
+  providers: [DatePipe, TitleCasePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
