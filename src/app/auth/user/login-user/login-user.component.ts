@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Auth, signInWithEmailAndPassword,   } from '@angular/fire/auth';
+import { ToastrService } from 'ngx-toastr';
+import { ErrorService } from 'src/app/services/error.service';
+import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-login-user',
@@ -6,10 +13,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login-user.component.css']
 })
 export class LoginUserComponent implements OnInit {
+  loginForm: FormGroup;
+  loading = false;
 
-  constructor() { }
+  constructor(private fb: FormBuilder,
+              private auth: Auth,
+              private toastr: ToastrService,
+              private _errorService: ErrorService,
+              private router: Router) {
+    this.loginForm = this.fb.group({
+      usuario: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    })
+  }
 
   ngOnInit(): void {
   }
+
+  login() {
+    const usuario = this.loginForm.get('usuario').value;
+    const password = this.loginForm.get('password').value;
+    this.loading = true;
+    signInWithEmailAndPassword(this.auth, usuario, password)
+      .then((userCredential) => {
+
+        if (userCredential.user?.emailVerified) {
+          this.toastr.success('Bienvenido', 'Login correcto');
+          this.router.navigate(['/']);
+        } else {
+          this.toastr.error('El usuario no ha verificado su cuenta', 'Error');
+          this.router.navigate(['/verificarCorreo']);
+        }
+        this.loading = false;
+      })
+      .catch((error) => {
+        this.loading = false;
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        this.toastr.error(this._errorService.error(error.code),'Oops, error');
+        this.loginForm.reset();
+      })
+  }
+
 
 }

@@ -6,7 +6,9 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 import {MenubarModule} from 'primeng/menubar';
+
 
 @NgModule({
     imports: [
@@ -19,11 +21,13 @@ import {MenubarModule} from 'primeng/menubar';
     ],
     declarations: [
         NavBarComponent,
-        MenuBarComponent
+        MenuBarComponent,
+        SpinnerComponent,
     ],
     exports: [
         NavBarComponent,
-        MenuBarComponent
+        MenuBarComponent,
+        SpinnerComponent
     ]
 })
 export class SharedModule { }
