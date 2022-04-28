@@ -39,6 +39,7 @@ export class LoginUserComponent implements OnInit {
 
         if (userCredential.user?.emailVerified) {
           this.toastr.success('Bienvenido', 'Login correcto');
+          localStorage.d = JSON.stringify(userCredential.user);
           this.router.navigate(['/']);
         } else {
           this.toastr.error('El usuario no ha verificado su cuenta', 'Error');

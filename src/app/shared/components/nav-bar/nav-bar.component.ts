@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ConfigService } from 'src/config/config.service';
+import { VariablesService } from '../../../services/variablesGL.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -6,13 +8,18 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  @Input() inputBackground: boolean = false;
-  inputBG: boolean = false;
-  constructor() {
-    this.inputBG = this.inputBackground;
+  @Input() type: string;
+  constructor(
+    public configService: ConfigService,
+    private variablesGL: VariablesService
+  ) {
   }
 
   ngOnInit(): void {
+  }
+
+  logout(){
+      this.variablesGL.removeCredential();
   }
 
 }

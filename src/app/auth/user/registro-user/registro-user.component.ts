@@ -4,6 +4,7 @@ import { Auth, createUserWithEmailAndPassword, sendEmailVerification, getAuth  }
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from 'src/app/services/error.service';
+import { VariablesService } from '../../../services/variablesGL.service';
 
 @Component({
   selector: 'app-registro-user',
@@ -14,29 +15,26 @@ export class RegistroUserComponent implements OnInit {
   registerForm: FormGroup;
   loading = false;
 
-  
-  
+
+
   constructor(private fb: FormBuilder,
               private auth: Auth,
               private router: Router,
               private toastr: ToastrService,
-              private _errorService: ErrorService) {
+              private _errorService: ErrorService,
+              private variablesGL: VariablesService) {
     this.registerForm = this.fb.group({
       usuario: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       repetirPassword: ['' ],
-    },{validator: this.checkPassword})
+    },{validator: this.variablesGL.checkPassword})
   }
 
   ngOnInit(): void {
   }
 
-  
-  checkPassword(group: FormGroup): any {
-    const pass = group.controls.password?.value;
-    const confirmPassword = group.controls.repetirPassword?.value;
-    return pass === confirmPassword ? null : { notSame: true };
-  }
+
+
 
   registerUser(value: any) {
     this.loading = true;

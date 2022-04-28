@@ -18,14 +18,14 @@ export class ConfigService {
 
   setLocal() {
     let headers = { 'Content-Type': 'application/json' };
-    let token = this.token;
+    let token = this.Usuario;
     // if (token)
     //   headers['Authorization'] = `Bearer ${token}`;
     // this.headers.next(headers);
   }
 
-  get token() {
+  get Usuario() {
     //return localStorage.d;
-    return localStorage;
+    return localStorage.d;
   }
 }

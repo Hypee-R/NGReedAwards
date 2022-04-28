@@ -7,6 +7,10 @@ import { CategoriasComponent } from './categorias/categorias.component';
 import { NominacionesComponent } from './nominaciones/nominaciones.component';
 import { ContactoComponent } from './contacto/contacto.component';
 //import { NotFoundComponent } from '../not-found/not-found.component';
+import { InicioComponent } from './inicio/inicio.component';
+import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
+import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.component';
+import { AuthGuard } from '../../config/auth.guard';
 
 export const userRoutes: Routes = [
     { path: 'login', component: LoginUserComponent },
@@ -16,6 +20,9 @@ export const userRoutes: Routes = [
     { path: 'categorias', component: CategoriasComponent },
     { path: 'nominaciones', component: NominacionesComponent },
     { path: 'contacto', component: ContactoComponent },
+    { path: 'inicio', component: InicioComponent },
+    { path: 'mi-informacion', component: MiInformacionComponent, canActivate: [AuthGuard] },
+    { path: 'mis-nominaciones', component: MisNominacionesComponent, canActivate: [AuthGuard] },
     //{ path: 'not-found', component: NotFoundComponent },
-    //{ path: '**', redirectTo: 'not-found' }
+    { path: '**', redirectTo: 'inicio' }
 ];

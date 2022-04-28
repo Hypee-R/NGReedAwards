@@ -8,11 +8,19 @@ import { AuthModule } from '../auth/auth.module';
 import { UserRoutingModule } from './user-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { UserComponent } from './user.component';
+
 //PrimeNG
 import { ToastModule } from 'primeng/toast';
+import { FieldsetModule } from 'primeng/fieldset';
+import { CardModule } from 'primeng/card';
+import { DropdownModule } from 'primeng/dropdown';
+
 import { CategoriasComponent } from './categorias/categorias.component';
 import { NominacionesComponent } from './nominaciones/nominaciones.component';
 import { ContactoComponent } from './contacto/contacto.component';
+import { InicioComponent } from './inicio/inicio.component';
+import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
+import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.component';
 
 @NgModule({
     imports: [
@@ -23,13 +31,19 @@ import { ContactoComponent } from './contacto/contacto.component';
         UserRoutingModule,
         SharedModule,
         //PrimeNG
-        ToastModule
+        ToastModule,
+        FieldsetModule,
+        CardModule,
+        DropdownModule,
     ],
     declarations: [
         UserComponent,
         CategoriasComponent,
         NominacionesComponent,
-        ContactoComponent
+        ContactoComponent,
+        InicioComponent,
+        MiInformacionComponent,
+        MisNominacionesComponent
     ]
 })
 export class UserModule { }

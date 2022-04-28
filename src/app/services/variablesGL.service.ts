@@ -3,6 +3,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Toast } from '../shared/models/toast.model';
 import { SwalModel } from 'src/app/shared/models/swal.model';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -32,10 +33,10 @@ export class VariablesService {
   }
 
   removeCredential() {
-    this.router.navigate(['/'], { replaceUrl: true });
     localStorage.d = "";
     localStorage.clear();
     location.reload();
+    this.router.navigate(['/'], { replaceUrl: true });
   }
 
   getDataTable(data: any): any {
@@ -63,64 +64,9 @@ export class VariablesService {
     return { cols: arregloCols, rows: arregloRows };
   }
 
-  setMenuBreadcrumb(menu: string){
-    localStorage.removeItem('pg');
-    localStorage.setItem('pg', menu);
-    this.pagina.next(menu);
-  }
-
-  setMenu(url: string){
-    let rutaActual = localStorage.getItem('pg');
-    switch(url)
-    {
-        case '/home':
-                      if(rutaActual != "Home"){
-                          this.setMenuBreadcrumb("Home");
-                      }
-          break;
-        case '/dashboard':
-                      if(rutaActual != "Dashboard"){
-                          this.setMenuBreadcrumb("Dashboard");
-                      }
-          break;
-        case '/customers':
-                      if(rutaActual != "Customers"){
-                          this.setMenuBreadcrumb("Customers");
-                      }
-          break;
-        case '/analytics':
-                      if(rutaActual != "Analytics"){
-                          this.setMenuBreadcrumb("Analytics");
-                      }
-          break;
-        case '/messages':
-                      if(rutaActual != "Messages"){
-                          this.setMenuBreadcrumb("Messages");
-                      }
-          break;
-        case '/products':
-                      if(rutaActual != "Products"){
-                          this.setMenuBreadcrumb("Products");
-                      }
-          break;
-        case '/reports':
-                      if(rutaActual != "Reports"){
-                          this.setMenuBreadcrumb("Reports");
-                      }
-          break;
-        case '/settings':
-                      if(rutaActual != "Settings"){
-                          this.setMenuBreadcrumb("Settings");
-                      }
-          break;
-        case '/add-product':
-                      if(rutaActual != "Add Product"){
-                          this.setMenuBreadcrumb("Add Product");
-                      }
-          break;
-    }
-    if(this.getStatusPantalla() <= 10){
-        this.showSideBar.next(false);
-    }
+  checkPassword(group: FormGroup): any {
+    const pass = group.controls.password?.value;
+    const confirmPassword = group.controls.repetirPassword?.value;
+    return pass === confirmPassword ? null : { notSame: true };
   }
 }

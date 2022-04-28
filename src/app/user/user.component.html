@@ -1,10 +1,10 @@
 <div id="contenedor" class="container-fluid">
     <div class="row">
-        <app-nav-bar id="sidenav" class="sideNav" [inputBackground]="'true'" style="padding: 0;"></app-nav-bar>
+        <app-nav-bar id="sidenav" class="sideNav" [type]="'user'" style="padding: 0;"></app-nav-bar>
         <div id="Contenido" class="contenidoNormal">
             <p-toast [style]="{marginTop: '80px'}" position="top-right" key="toast"></p-toast>
             <router-outlet></router-outlet>
         </div>
     </div>
-    
+
 </div>
