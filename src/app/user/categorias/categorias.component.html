@@ -1,32 +1,22 @@
 <h1>categorias</h1>
-<tbody>
-  <tr *ngFor="let categoria of categorias">
-     <td>{{ categoria.payload.doc.data().nombre }}</td>
-     
-  </tr>
-  </tbody>
+
 <div class="container">
     <div class="row justify-content-md-center">
-      <div class="col col-lg-2">
-      
-      </div>
-      <div class="col-md-auto">
-      
-      </div>
-      <div class="col col-lg-2">
-       
-      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+          </tr>
+        </thead>
+      <tbody>
+        <tr *ngFor="let categoria of categorias">
+          <th scope="row">{{ categoria['code'] }}</th>
+          <td colspan="2" class="table-active">{{ categoria['nombre'] }}</td>
+        </tr>
+      </tbody>
+    </table>
     </div>
-    <div class="row">
-      <div class="col">
-      
-      </div>
-      <div class="col-md-auto">
-      
-      </div>
-      <div class="col col-lg-2">
-       
-      </div>
-    </div>
-  </div>
+  
+  </div> 
   

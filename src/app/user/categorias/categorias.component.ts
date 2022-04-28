@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 // import { CategoriasService } from "./shared/categorias.service";
 // providers: [CategoriasService]
 
@@ -10,14 +11,23 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 })
 export class CategoriasComponent implements OnInit {
 
-  constructor() { }
+  categorias: any;
+  constructor(
+    private firestore: Firestore
+  ) {
+    this.getCategorias();
+   }
 
   ngOnInit(): void {
   }
-  categorias;
-   getcategorias = () =>
-      this.categorias
-      .getcategorias()
-      .subscribe(res =>(this.categorias = res));
+
+  async getCategorias(){
+    const categoriasCollection = collection(this.firestore, 'categorias');
+    collectionData(categoriasCollection).subscribe( (data) => {
+      this.categorias = data;
+      console.log('data categorias ', this.categorias);
+    });
+  }
+
 
 }
