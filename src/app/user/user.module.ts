@@ -21,6 +21,7 @@ import { ContactoComponent } from './contacto/contacto.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
 import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.component';
+import { CargaImagenesService } from '../services/cargaImagenes.service';
 
 @NgModule({
     imports: [
@@ -44,6 +45,6 @@ import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.co
         InicioComponent,
         MiInformacionComponent,
         MisNominacionesComponent
-    ]
+    ],
 })
 export class UserModule { }

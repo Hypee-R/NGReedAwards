@@ -1,6 +1,8 @@
 export class ImageModel{
   nombre: string;
   url: string;
+  uid: string;
+  fileMapped: string;
 }
 
 export class FileItem{
@@ -9,6 +11,7 @@ export class FileItem{
   public url: string | any;
   public subiendo: boolean;
   public progreso: number;
+  public fileMapped: string;
 
   constructor(archivo: File){
     this.archivo = archivo;
@@ -16,5 +19,6 @@ export class FileItem{
     this.url = '';
     this.subiendo = false;
     this.progreso = 0;
+    this.fileMapped = '';
   }
 }

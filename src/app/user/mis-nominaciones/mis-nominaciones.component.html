@@ -52,7 +52,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Imagen representativa o logo*</label>
-                        <input class="form-control" type="file" accept="image/*" id="formFile">
+                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileLogoEmpresa')">
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="pais" class="form-label">Pa&iacute;s*</label>
-                        <p-dropdown [options]="paises" formControlName="pais" placeholder="Selecciona un pa&iacute;s" optionLabel="name" [showClear]="true" [ngClass]="submitted && nominacionForm.controls['pais'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : null"
+                        <p-dropdown [options]="paises" formControlName="pais" placeholder="Selecciona un pa&iacute;s" optionLabel="name.common" optionValue="name.common" [filter]="true" filterBy="name.common" [showClear]="true" [ngClass]="submitted && nominacionForm.controls['pais'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : null"
                             [style]="{'width':'100%'}"></p-dropdown>
                         <div *ngIf="submitted && nominacionForm.controls['pais'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['pais'].errors.required">El pa&iacute;s es requerido</div>
@@ -147,13 +147,25 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Cesi&oacute;n de derechos*</label>
-                        <input class="form-control" type="file" accept="image/*" id="formFile">
+                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileCesionDerechos')">
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Carta de intenci&oacute;n*</label>
-                        <input class="form-control" type="file" accept="image/*" id="formFile">
+                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileCartaIntencion')">
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <br>
+
+        <p-card header="Material multimedia">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Cargue cualquier recurso multimedia relacionado con la nominaci&oacute;n aqu&iacute;, Este material multimedia se podr&aacute; visualizar publicamente.</label>
+                        <input class="form-control" type="file" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')">
                     </div>
                 </div>
             </div>
