@@ -89,7 +89,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="pais" class="form-label">Pa&iacute;s*</label>
-                        <p-dropdown [options]="paises" formControlName="pais" placeholder="Selecciona un pa&iacute;s" optionLabel="name" [showClear]="true" [ngClass]="submitted && nominacionForm.controls['pais'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : null"
+                        <p-dropdown [options]="paises" formControlName="pais" placeholder="Selecciona un pa&iacute;s" optionLabel="name.common" optionValue="name.common" [filter]="true" filterBy="name.common" [showClear]="true" [ngClass]="submitted && nominacionForm.controls['pais'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : null"
                             [style]="{'width':'100%'}"></p-dropdown>
                         <div *ngIf="submitted && nominacionForm.controls['pais'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['pais'].errors.required">El pa&iacute;s es requerido</div>

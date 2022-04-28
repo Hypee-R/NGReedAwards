@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { FirebaseStorage } from '@angular/fire/storage';
-import { ImageModel } from '../shared/models/img.model';
+import { FirebaseStorage, StorageReference } from '@angular/fire/storage';
+import { FileItem, ImageModel } from '../shared/models/img.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,29 +13,23 @@ export class CargaImagenesService {
   items: Observable<ImageModel[]>;
   constructor(
     private afs: AngularFirestore,
-    //private storage: FirebaseStorage,
+    //private storage: StorageReference,
   ) {
     this.itemsCollection = afs.collection<ImageModel>('items');
     this.items = this.itemsCollection.valueChanges();
   }
 
   addImage(img: ImageModel){
-    this.itemsCollection.add(img);
+    this.itemsCollection.add(img)
+    .then(docRef => console.log('El Documento se grabo con el ID: ', docRef.id))
+    .catch(error => console.log('El Documento no se grabo: ', error));
   }
-
-
-  // private guardarImagen(imagen: {nombre: string, url: string}){
-  //   console.log("log antes de guardar");
-  //   console.log(imagen);
-
-  //   this.afireStore.collection(`/${this.carpetaImagenes}`).add(imagen)
-  //   .then(docRef => console.log('El Documento se grabo con el ID: ', docRef.id))
-  //   .catch(error => console.log('El Documento no se grabo: ', error));
-  // }
 
   // cargarImagenesFirebase(imagenes: FileItem[]){
 
-  //   const storageRef = firebase.default.storage().ref();
+  //   this.storage.storage;
+  //   //const storageRef = firebase.default.storage().ref();
+  //   const storageRef = this.storage;
 
   //   for (const item of imagenes) {
 
