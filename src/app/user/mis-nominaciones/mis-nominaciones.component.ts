@@ -3,6 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { PaisesService } from '../../services/paises.service';
+import { CargaImagenesService } from '../../services/cargaImagenes.service';
+import { FileItem } from 'src/app/shared/models/img.model';
+import { ToastrService } from 'ngx-toastr';
+import { NominacionService } from '../../services/nominacion.service';
+import { VariablesService } from '../../services/variablesGL.service';
 
 @Component({
   selector: 'app-mis-nominaciones',
@@ -16,10 +21,15 @@ export class MisNominacionesComponent implements OnInit {
   categorias: any;
   paises: any;
   item$: Observable<any>;
+  archivos: FileItem[] = [];
   constructor(
     private fb: FormBuilder,
     private firestore: Firestore,
-    private paisesService: PaisesService
+    private toastr: ToastrService,
+    private paisesService: PaisesService,
+    private variablesGL: VariablesService,
+    private nominacionService: NominacionService,
+    private cargaImagenesFBService: CargaImagenesService,
   ) {
     this.getCategorias();
     this.getPaises();
@@ -52,7 +62,7 @@ export class MisNominacionesComponent implements OnInit {
       categoria: ['', [Validators.required]],
       nominado: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      fileLogoEmpresa: ['', [Validators.required]],
+      //fileLogoEmpresa: ['', []],
       organizacion: ['', [Validators.required]],
       responsable: ['', [Validators.required]],
       telefono: ['', [Validators.required]],
@@ -61,15 +71,88 @@ export class MisNominacionesComponent implements OnInit {
       rsTwitter: ['' ],
       rsFacebook: ['' ],
       rsYoutube: ['' ],
-      fileCesionDerechos: ['', [Validators.required]],
-      fileCartaIntencion: ['', [Validators.required]],
+      //fileCesionDerechos: ['', []],
+      //fileCartaIntencion: ['', []],
     })
   }
 
-  crearNominacion(){
+  async crearNominacion(){
     this.submitted = true;
     console.log('form data nominacion ', this.nominacionForm);
+    if(this.nominacionForm.valid){
+      this.cargaImagenesFBService.upload(this.archivos);
 
+      this.variablesGL.endProcess.subscribe(endProcessUpload => {
+
+        if(endProcessUpload){
+          let imgSave = this.cargaImagenesFBService.idsImageSave;
+          let imgError = this.cargaImagenesFBService.idsImageErr;
+          if(imgError.length && imgError.length > 0){
+            imgError.forEach(imgErr => {
+              this.toastr.error('Hubo un error al cargar este archivo! :('+imgErr.img.nombre, 'Error');
+            });
+            this.archivos = [];
+          }else{
+            this.toastr.success('Archivos cargados con exito!!', 'Success');
+            this.nominacionService.addNominacion({
+              titulo: this.nominacionForm.get('titulo').value,
+              categoria: this.nominacionForm.get('categoria').value,
+              nominado: this.nominacionForm.get('nominado').value,
+              descripcion: this.nominacionForm.get('descripcion').value,
+              idFileLogo: imgSave.find(x => x.fileMapped == 'FileLogoEmpresa').idDoc,
+              organizacion: this.nominacionForm.get('organizacion').value,
+              responsable: this.nominacionForm.get('responsable').value,
+              telefono: this.nominacionForm.get('telefono').value,
+              pais: this.nominacionForm.get('pais').value,
+              rsInstagram: this.nominacionForm.get('rsInstagram').value,
+              rsTwitter: this.nominacionForm.get('rsTwitter').value,
+              rsFacebook: this.nominacionForm.get('rsFacebook').value,
+              rsYoutube: this.nominacionForm.get('rsYoutube').value,
+              idFileCesionDerechos: imgSave.find(x => x.fileMapped == 'FileCesionDerechos').idDoc,
+              idFileCartaIntencion: imgSave.find(x => x.fileMapped == 'FileCartaIntencion').idDoc,
+              materialMultimedia: imgSave.filter(x => x.fileMapped == 'FileMaterialMultimedia').map(data => data.idDoc),
+              uid: JSON.parse(localStorage.d).uid
+            });
+
+            this.variablesGL.endProcessNominacion.subscribe(endProcessNominacion => {
+              if(endProcessNominacion != ''){
+                this.toastr.success('Nominación creada con exito!!', 'Success');
+                this.submitted = false;
+                this.nominacionForm.reset();
+                this.archivos = [];
+              }else if(endProcessNominacion == ''){
+                this.toastr.error('Hubo un error al guardar la nominacion! :(', 'Error');
+                this.submitted = false;
+              }
+            });
+          }
+        }
+      });
+    }
   }
+
+  onFileSelected(event: any, fileMapped: string){
+    if(event){
+        const archivosLista: FileList = event.target.files;
+        this._extraerArchivos(archivosLista, fileMapped);
+        console.log('lista archivos ', this.archivos);
+      }
+  }
+
+  private _extraerArchivos(archivosLista: FileList, fileMapped: string){
+    console.log(archivosLista);
+
+    for (const propiedad in Object.getOwnPropertyNames( archivosLista )) {
+      const archivoTemp = archivosLista[propiedad];
+
+      //if(this._archivoPuedeSerCargado(archivoTemp)){
+
+        const newArchivo = new FileItem(archivoTemp);
+        newArchivo.fileMapped = fileMapped;
+        this.archivos.push(newArchivo);
+
+      //}
+    }
+}
 
 }

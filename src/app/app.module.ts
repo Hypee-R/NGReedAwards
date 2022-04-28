@@ -5,21 +5,25 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
-
-import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { AuthModule } from './auth/auth.module';
 
 // RUTAS
 import { AppRoutingModule } from 'src/app/app-routing.module';
 
 //Configuracion Firebase
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment.prod';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideStorage, getStorage, StorageModule } from '@angular/fire/storage';
 
 // Idioma Español
 import { DatePipe, TitleCasePipe } from '@angular/common';
-import { AuthModule } from './auth/auth.module';
+import { CargaImagenesService } from './services/cargaImagenes.service';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 @NgModule({
   declarations: [
@@ -35,8 +39,14 @@ import { AuthModule } from './auth/auth.module';
     //Firebase
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
+    AngularFireModule,
+    AngularFirestoreModule,
+    StorageModule,
+    AngularFireAuthModule,
+
   ],
   providers: [DatePipe, TitleCasePipe],
   bootstrap: [AppComponent]

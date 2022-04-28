@@ -18,6 +18,8 @@ export class VariablesService {
   toast = new BehaviorSubject<Toast>(null);
   swal = new BehaviorSubject<SwalModel>(null);
   pagina = new BehaviorSubject<string>("");
+  endProcess = new BehaviorSubject<boolean>(null);
+  endProcessNominacion = new BehaviorSubject<string>(null);
 
   constructor(
     private router: Router

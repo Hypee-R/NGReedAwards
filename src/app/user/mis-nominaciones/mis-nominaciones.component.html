@@ -52,7 +52,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Imagen representativa o logo*</label>
-                        <input class="form-control" type="file" accept="image/*" id="formFile">
+                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileLogoEmpresa')">
                     </div>
                 </div>
             </div>
@@ -147,13 +147,25 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Cesi&oacute;n de derechos*</label>
-                        <input class="form-control" type="file" accept="image/*" id="formFile">
+                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileCesionDerechos')">
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Carta de intenci&oacute;n*</label>
-                        <input class="form-control" type="file" accept="image/*" id="formFile">
+                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileCartaIntencion')">
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <br>
+
+        <p-card header="Material multimedia">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Cargue cualquier recurso multimedia relacionado con la nominaci&oacute;n aqu&iacute;, Este material multimedia se podr&aacute; visualizar publicamente.</label>
+                        <input class="form-control" type="file" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')">
                     </div>
                 </div>
             </div>
