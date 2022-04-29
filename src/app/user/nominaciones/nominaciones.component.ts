@@ -9,12 +9,15 @@ import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 export class NominacionesComponent implements OnInit {
 
   nominaciones: any;
+  convocatorias: any;
   categorias: any;
   constructor(
     private firestore: Firestore
   ) {
     this.getNominaciones();
     this.getCategorias();
+    this.getConvocatorias();
+    
    }
 
   ngOnInit(): void {
@@ -38,4 +41,16 @@ export class NominacionesComponent implements OnInit {
       console.log('data categorias ', this.categorias);
     });
   }
+
+  async getConvocatorias(){
+    const convocatoriasCollection = collection(this.firestore, 'convocatorias');
+    collectionData(convocatoriasCollection).subscribe( (data) => {
+      this.convocatorias = data;
+      console.log('data convocatorias ', this.categorias);
+    });
+  }
+
+
+
+
 }
