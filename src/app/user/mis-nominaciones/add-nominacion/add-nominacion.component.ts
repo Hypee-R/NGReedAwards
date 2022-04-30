@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -9,12 +9,23 @@ import { VariablesService } from 'src/app/services/variablesGL.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
 
+declare var paypal;
+
 @Component({
   selector: 'app-add-nominacion',
   templateUrl: './add-nominacion.component.html',
   styleUrls: ['./add-nominacion.component.css']
 })
 export class AddNominacionComponent implements OnInit {
+
+  @ViewChild('paypal', { static: true }) paypalElement : ElementRef;
+
+  producto = {
+    descripcion : 'producto en venta',
+    precio      : 113.00
+  }
+  
+
 
   nominacionForm: FormGroup;
   submitted: boolean;
@@ -25,7 +36,8 @@ export class AddNominacionComponent implements OnInit {
   fileCDerechos: FileList;
   fileCIntencion: FileList;
   fileMMultimedia: FileList;
-
+  
+  
 
   constructor(
     private fb: FormBuilder,
@@ -38,11 +50,52 @@ export class AddNominacionComponent implements OnInit {
   ) {
     this.getCategorias();
     this.getPaises();
+   
+    
   }
 
   ngOnInit(): void {
     this.initForm();
+    paypal
+    .Buttons({
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [
+            {
+              description: this.producto.descripcion,
+              amount     :{
+                moneda: 'US',
+                value        : this.producto.precio
+              }
+            }
+          ]
+        })
+      },
+      onApprove: async (data, actions) => {
+        const order = await actions.order.capture();
+        console.log(order.id);
+        console.log(order.status);
+        console.log(order.purchase_units);
+        
+        
+        this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
+        this.nominacionForm.controls['idpago'].setValue(order.id);
+        
+        
+      },
+      onError: err =>{
+        this.nominacionForm.controls['statuspago'].setValue("");
+        this.nominacionForm.controls['idpago'].setValue("");
+      
+        console.log(err);
+        
+      }
+    })
+    .render( this.paypalElement.nativeElement );
   }
+
+
+ 
 
   getCategorias(){
     const categoriasCollection = collection(this.firestore, 'categorias');
@@ -81,6 +134,8 @@ export class AddNominacionComponent implements OnInit {
       fileCesionDerechos: ['', [Validators.required]],
       fileCartaIntencion: ['', [Validators.required]],
       fileMaterialMultimedia: ['', [Validators.required]],
+      statuspago: ['', [Validators.required]],
+      idpago: ['', [Validators.required]],
     })
   }
 
@@ -135,6 +190,9 @@ export class AddNominacionComponent implements OnInit {
           fileCesionDerechos: { idFile: imgSave.find(x => x.fileMapped == 'FileCesionDerechos').idDoc, url: imgSave.find(x => x.fileMapped == 'FileCesionDerechos').url },
           fileCartaIntencion: { idFile: imgSave.find(x => x.fileMapped == 'FileCartaIntencion').idDoc, url: imgSave.find(x => x.fileMapped == 'FileCartaIntencion').url },
           materialMultimedia: imgSave.filter(x => x.fileMapped == 'FileMaterialMultimedia').map( (data) => { return { idFile: data.idDoc, url: data.url }} ),
+          statuspago: this.nominacionForm.get('statuspago').value,
+          idpago: this.nominacionForm.get('idpago').value,
+          montopago: this.producto.precio.toString(),
           uid: JSON.parse(localStorage.d).uid
         });
 
@@ -243,5 +301,6 @@ export class AddNominacionComponent implements OnInit {
   private esImagen(tipoArchivo: string): boolean{
     return (tipoArchivo === '' || tipoArchivo === undefined) ? false : tipoArchivo.startsWith('image');
   }
+  
 
 }
