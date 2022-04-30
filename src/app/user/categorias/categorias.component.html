@@ -1,32 +1,36 @@
 <h1>categorias</h1>
-<tbody>
-  <tr *ngFor="let categoria of categorias">
-     <td>{{ categoria.payload.doc.data().nombre }}</td>
-     
-  </tr>
-  </tbody>
+<div class="row g-3">
+  <div class="col-sm-7">
+
+    <label for="categoria" class="mb-3 text-sm font-medium text-gray-900">Buscar</label>
+    <input type="text" class="form-control" placeholder="Buscar nominacion" aria-label="Buscar nominacion">
+  </div>
+  <div class="col-sm">
+    <label for="categoria" class="form-label">Convocatoria</label>
+    <p-dropdown [options]="convocatorias" placeholder="Selecciona una Convocatoria" optionLabel="titulo"
+      [style]="{'width':'100%'}"></p-dropdown>
+    <!-- <input type="text" class="form-control" placeholder="State" aria-label="State"> -->
+  </div>
+
+</div>
+<p class="mb-3 mr-1 text-sm font-bold text-gray-900">Filtrado por:</p>
 <div class="container">
     <div class="row justify-content-md-center">
-      <div class="col col-lg-2">
-      
-      </div>
-      <div class="col-md-auto">
-      
-      </div>
-      <div class="col col-lg-2">
-       
-      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+          </tr>
+        </thead>
+      <tbody>
+        <tr *ngFor="let categoria of categorias">
+          <th scope="row">{{ categoria['code'] }}</th>
+          <td colspan="2" class="table-active">{{ categoria['nombre'] }}</td>
+        </tr>
+      </tbody>
+    </table>
     </div>
-    <div class="row">
-      <div class="col">
-      
-      </div>
-      <div class="col-md-auto">
-      
-      </div>
-      <div class="col col-lg-2">
-       
-      </div>
-    </div>
-  </div>
+  
+  </div> 
   
