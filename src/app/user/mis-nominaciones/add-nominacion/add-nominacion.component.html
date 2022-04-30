@@ -1,0 +1,208 @@
+<div class="container mt-4 mb-lg-5">
+    <h4 class="text-bold text-center">Crear Nominaci&oacute;n</h4>
+    <hr>
+
+    <form [formGroup]="nominacionForm" (ngSubmit)="crearNominacion()">
+        <p-card header="Informaci&oacute;n de la pieza">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">T&iacute;tulo*</label>
+                        <input type="text" class="form-control" id="titulo" formControlName="titulo" [ngClass]="submitted && nominacionForm.controls['titulo'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['titulo'].valid ? 'is-valid' : submitted && nominacionForm.controls['titulo'].valid ? 'is-valid' : null">
+                        <div *ngIf="submitted && nominacionForm.controls['titulo'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['titulo'].errors.required">El titulo es requerido</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+
+                    <div class="mb-3">
+                        <label for="nominado" class="form-label">Nominado*</label>
+                        <input type="text" class="form-control" id="nominado" formControlName="nominado" [ngClass]="submitted && nominacionForm.controls['nominado'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['nominado'].valid ? 'is-valid' : submitted && nominacionForm.controls['nominado'].valid ? 'is-valid' : null">
+                        <div *ngIf="submitted && nominacionForm.controls['nominado'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['nominado'].errors.required">El nominado es requerido</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categor&iacute;a*</label>
+                        <!-- <select class="form-select" formControlName="categoria" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null">
+                          <option value="0">Selecciona una categor&iacute;a</option>
+                          <option [value]="item.nombre" *ngFor="let item of categorias">{{item.nombre}}</option>
+                        </select> -->
+                        <p-dropdown [options]="categorias" formControlName="categoria" placeholder="Selecciona una categor&iacute;a" optionLabel="nombre" optionValue="nombre" [filter]="true" filterBy="nombre" [showClear]="true" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null"
+                            [style]="{'width':'100%', 'overflow': 'visible'}"></p-dropdown>
+                        <div *ngIf="submitted && nominacionForm.controls['categoria'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['categoria'].errors.required">Seleccione una categoria</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripci&oacute;n*</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" formControlName="descripcion" [ngClass]="submitted && nominacionForm.controls['descripcion'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['descripcion'].valid ? 'is-valid' : submitted && nominacionForm.controls['descripcion'].valid ? 'is-valid' : null"></textarea>
+                        <div *ngIf="submitted && nominacionForm.controls['descripcion'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['descripcion'].errors.required">La descripci&oacute;n es requerida</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <br>
+        <p-card header="Informaci&oacute;n de la organizaci&oacute;n">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Imagen representativa o logo*</label>
+                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileLogoEmpresa')" [ngClass]="submitted && nominacionForm.controls['fileLogoEmpresa'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileLogoEmpresa'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileLogoEmpresa'].valid ? 'is-valid' : null">
+                        <div *ngIf="submitted && nominacionForm.controls['fileLogoEmpresa'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['fileLogoEmpresa'].errors.required">Por favor seleccione un archivo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="organizacion" class="form-label">Organizaci&oacute;n*</label>
+                        <input type="text" class="form-control" id="organizacion" formControlName="organizacion" [ngClass]="submitted && nominacionForm.controls['organizacion'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['organizacion'].valid ? 'is-valid' : submitted && nominacionForm.controls['organizacion'].valid ? 'is-valid' : null">
+                        <div *ngIf="submitted && nominacionForm.controls['organizacion'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['organizacion'].errors.required">El nombre de la organizacion es requerido</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="responsable" class="form-label">Responsable*</label>
+                        <input type="text" class="form-control" id="responsable" formControlName="responsable" [ngClass]="submitted && nominacionForm.controls['responsable'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['responsable'].valid ? 'is-valid' : submitted && nominacionForm.controls['responsable'].valid ? 'is-valid' : null">
+                        <div *ngIf="submitted && nominacionForm.controls['responsable'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['responsable'].errors.required">El nombre del responsable es requerido</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Tel&eacute;fono*</label>
+                        <input type="text" class="form-control" id="telefono" formControlName="telefono" [ngClass]="submitted && nominacionForm.controls['telefono'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['telefono'].valid ? 'is-valid' : submitted && nominacionForm.controls['telefono'].valid ? 'is-valid' : null">
+                        <div *ngIf="submitted && nominacionForm.controls['telefono'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['telefono'].errors.required">El telefono es requerido</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="pais" class="form-label">Pa&iacute;s*</label>
+                        <p-dropdown [options]="paises" formControlName="pais" placeholder="Selecciona un pa&iacute;s" optionLabel="name.common" optionValue="name.common" [filter]="true" filterBy="name.common" [showClear]="true" [ngClass]="submitted && nominacionForm.controls['pais'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : submitted && nominacionForm.controls['pais'].valid ? 'is-valid' : null"
+                            [style]="{'width':'100%'}"></p-dropdown>
+                        <div *ngIf="submitted && nominacionForm.controls['pais'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['pais'].errors.required">El pa&iacute;s es requerido</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <br>
+        <p-card header="Redes sociales">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Instagram*</label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fa-brands fa-instagram"></i></span>
+                            <input type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="rsInstagram" [ngClass]="submitted && nominacionForm.controls['rsInstagram'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['rsInstagram'].valid ? 'is-valid' : submitted && nominacionForm.controls['rsInstagram'].valid ? 'is-valid' : null">
+                        </div>
+                        <div *ngIf="submitted && nominacionForm.controls['rsInstagram'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['rsInstagram'].errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="responsable" class="form-label">Twitter*</label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fa-brands fa-twitter"></i></span>
+                            <input type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="rsTwitter" [ngClass]="submitted && nominacionForm.controls['rsTwitter'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['rsTwitter'].valid ? 'is-valid' : submitted && nominacionForm.controls['rsTwitter'].valid ? 'is-valid' : null">
+                        </div>
+                        <div *ngIf="submitted && nominacionForm.controls['rsTwitter'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['rsTwitter'].errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Facebook*</label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fa-brands fa-facebook"></i></span>
+                            <input type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="rsFacebook" [ngClass]="submitted && nominacionForm.controls['rsFacebook'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['rsFacebook'].valid ? 'is-valid' : submitted && nominacionForm.controls['rsFacebook'].valid ? 'is-valid' : null">
+                        </div>
+                        <div *ngIf="submitted && nominacionForm.controls['rsFacebook'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['rsFacebook'].errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="pais" class="form-label">YouTube*</label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fa-brands fa-youtube"></i></span>
+                            <input type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="rsYoutube" [ngClass]="submitted && nominacionForm.controls['rsYoutube'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['rsYoutube'].valid ? 'is-valid' : submitted && nominacionForm.controls['rsYoutube'].valid ? 'is-valid' : null">
+                        </div>
+                        <div *ngIf="submitted && nominacionForm.controls['rsYoutube'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['rsYoutube'].errors.required">Este campo es requerido</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <br>
+        <p-card header="Documentos requeridos">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Cesi&oacute;n de derechos*</label>
+                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileCesionDerechos')" [ngClass]="submitted && nominacionForm.controls['fileCesionDerechos'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : null">
+                        <div *ngIf="submitted && nominacionForm.controls['fileCesionDerechos'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['fileCesionDerechos'].errors.required">Por favor seleccione un archivo</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Carta de intenci&oacute;n*</label>
+                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileCartaIntencion')" [ngClass]="submitted && nominacionForm.controls['fileCartaIntencion'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : null">
+                        <div *ngIf="submitted && nominacionForm.controls['fileCartaIntencion'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['fileCartaIntencion'].errors.required">Por favor seleccione un archivo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+        <br>
+
+        <p-card header="Material multimedia">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Cargue cualquier recurso multimedia relacionado con la nominaci&oacute;n aqu&iacute;, Este material multimedia se podr&aacute; visualizar publicamente.</label>
+                        <input class="form-control" type="file" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')" [ngClass]="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : null">
+                        <div *ngIf="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors" class="text-danger">
+                            <div *ngIf="nominacionForm.controls['fileMaterialMultimedia'].errors.required">Por favor seleccione un archivo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+
+        <hr>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-primary" type="submit">Crear</button>
+        </div>
+    </form>
+</div>

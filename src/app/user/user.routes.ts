@@ -23,6 +23,7 @@ export const userRoutes: Routes = [
     { path: 'inicio', component: InicioComponent },
     { path: 'mi-informacion', component: MiInformacionComponent, canActivate: [AuthGuard] },
     { path: 'mis-nominaciones', component: MisNominacionesComponent, canActivate: [AuthGuard] },
+    { path: 'add-nominacion', component: MisNominacionesComponent, canActivate: [AuthGuard] },
     //{ path: 'not-found', component: NotFoundComponent },
     { path: '**', redirectTo: 'inicio' }
 ];

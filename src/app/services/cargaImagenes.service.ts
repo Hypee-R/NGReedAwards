@@ -14,42 +14,36 @@ export class CargaImagenesService {
   private carpetaImagenes = 'files';
   public idsImageSave: any[] = [];
   public idsImageErr: any[] = [];
-  public endProcess= false;
-  public endProcess2= false;
-  contador = 1;
-  contador2 = 1;
+  public archivosUpload: FileItem[] = []
   constructor(
     private afs: Firestore,
     private variablesGL: VariablesService,
   ) {}
-
-  addImage(img: ImageModel){
-    //this.itemsCollection.add(img)
-    addDoc(collection(this.afs,'img'), img)
-    .then(docRef => {
-      console.log('El Documento se grabo con el ID: ', docRef.id);
-      this.idsImageSave.push({ fileMapped: img.fileMapped, idDoc: docRef.id });
-      this.contador2++;
-      if(this.contador == this.contador2){
-        this.endProcess2 = true;
-        this.variablesGL.endProcess.next(this.endProcess2);
-      }
-    })
-    .catch(error => {
-      console.log('El Documento no se grabo: ', error);
-      this.idsImageErr.push({img: img, err: error});
-    });
-  }
 
   getImages(){
     const itemsCollection = collection(this.afs,'items');
     return collectionData(itemsCollection);
   }
 
+  addImage(img: ImageModel, file: FileItem){
+    //this.itemsCollection.add(img)
+    addDoc(collection(this.afs,'img'), img)
+    .then(docRef => {
+      console.log('El archivo se grabo con el ID: ', docRef.id);
+      this.idsImageSave.push({ fileMapped: img.fileMapped, idDoc: docRef.id, url: img.url });
+      file.subiendo = false;
+      this.validaEndUpload();
+    })
+    .catch(error => {
+      console.log('El archivo no se grabo: ', error);
+      this.idsImageErr.push({img: img, err: error});
+    });
+  }
+
   upload(files: FileItem[]){
     const firebaseApp = getApp();
     const storage = getStorage(firebaseApp, 'gs://rewards-latino.appspot.com');
-
+    this.archivosUpload = files;
     for(const file of files){
 
       file.subiendo = true;
@@ -83,7 +77,6 @@ export class CargaImagenesService {
         (error) => {
           // Handle unsuccessful uploads
           console.log("error en subir las imagenes");
-
         },
         () => {
           // Handle successful uploads on complete
@@ -91,21 +84,15 @@ export class CargaImagenesService {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             //console.log('File available at', downloadURL);
             file.url = downloadURL;
-            file.subiendo = false;
 
             this.addImage({
               nombre: file.nombreArchivo,
               url: file.url,
               fileMapped: file.fileMapped,
               uid: JSON.parse(localStorage.d).uid
-            });
-            this.contador++;
-            if(this.contador >= files.length){
-                if(this.contador2 == this.contador){
-                  this.endProcess = true;
-                  this.variablesGL.endProcess.next(this.endProcess);
-                }
-            }
+            }, file);
+
+            this.validaEndUpload();
 
           });
         }
@@ -113,46 +100,18 @@ export class CargaImagenesService {
     }
   }
 
-  // cargarImagenesFirebase(imagenes: FileItem[]){
+  validaEndUpload(){
+    let restantes = 0;
+    this.archivosUpload.forEach(file => {
+        if(file.subiendo == true){
+          restantes++;
+        }
+    });
 
-  //   this.storage.storage;
-  //   //const storageRef = firebase.default.storage().ref();
-  //   const storageRef = this.storage;
+    if(restantes == 0){
+        console.log('La carga de Archivos en Storage y en Store ha terminado...');
+        this.variablesGL.endProcessCargaCompleta.next(true);
+    }
 
-  //   for (const item of imagenes) {
-
-  //     item.subiendo = true;
-  //     if(item.progreso >= 100){
-  //       continue;
-  //     }
-
-  //     this.utask
-
-  //     const uploadTask: firebase.default.storage.UploadTask = storageRef.child(`${this.carpetaImagenes}/${item.nombreArchivo}`)
-  //                               .put( item.archivo );
-
-  //     uploadTask.on( firebase.default.storage.TaskEvent.STATE_CHANGED,
-  //                 (snapshot: firebase.default.storage.UploadTaskSnapshot) =>
-  //                             item.progreso = (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
-  //                 (err) => console.error("error al subir ", err),
-  //                 () => {
-
-  //                   console.log("Imagen cargada correctamente");
-  //                   uploadTask.snapshot.ref.getDownloadURL()
-  //                   .then((url) => {
-  //                     item.url = url;
-  //                     item.subiendo = false;
-
-  //                     this.guardarImagen({
-  //                       nombre: item.nombreArchivo,
-  //                       url: item.url
-  //                     });
-  //                   });
-
-  //                 });
-
-  //   }
-
-  // }
-
+  }
 }
