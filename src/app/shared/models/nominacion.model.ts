@@ -3,7 +3,7 @@ export class NominacionModel{
   categoria: string;
   nominado: string;
   descripcion: string;
-  idFileLogo: string;
+  fileLogoEmpresa: any;
   organizacion: string;
   responsable: string;
   telefono: string;
@@ -12,8 +12,8 @@ export class NominacionModel{
   rsTwitter?: string;
   rsFacebook?: string;
   rsYoutube?: string;
-  idFileCesionDerechos: string;
-  idFileCartaIntencion: string;
-  materialMultimedia: string[];
+  fileCesionDerechos: any;
+  fileCartaIntencion: any;
+  materialMultimedia: any[];
   uid: string;
 }

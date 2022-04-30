@@ -1,16 +1,46 @@
-button {
+p-card {
+    height: 30em;
+}
+
+.rotate {
+    animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+.content {
+    width: 700px;
+    height: 500px;
+    line-height: 500px;
+    margin: 0px auto;
+    text-align: center;
+    /* background-color: #CCCCCC; */
+}
+
+.content img {
+    vertical-align: middle;
+}
+
+.btn-primary {
     background: #5b4bad;
     border-color: #5b4bad;
 }
 
-button:hover {
+.btn-primary:hover {
     background: #3c3174;
     border-color: #3c3174;
 }
 
-button:active,
-button:visited,
-button:focus {
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
     background: #3c3174;
     border-color: #3c3174;
 }

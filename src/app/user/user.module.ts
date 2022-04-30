@@ -11,9 +11,9 @@ import { UserComponent } from './user.component';
 
 //PrimeNG
 import { ToastModule } from 'primeng/toast';
-import { FieldsetModule } from 'primeng/fieldset';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
+import {SidebarModule} from 'primeng/sidebar';
 
 import { CategoriasComponent } from './categorias/categorias.component';
 import { NominacionesComponent } from './nominaciones/nominaciones.component';
@@ -22,6 +22,7 @@ import { InicioComponent } from './inicio/inicio.component';
 import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
 import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.component';
 import { CargaImagenesService } from '../services/cargaImagenes.service';
+import { AddNominacionComponent } from './mis-nominaciones/add-nominacion/add-nominacion.component';
 
 @NgModule({
     imports: [
@@ -33,9 +34,9 @@ import { CargaImagenesService } from '../services/cargaImagenes.service';
         SharedModule,
         //PrimeNG
         ToastModule,
-        FieldsetModule,
         CardModule,
         DropdownModule,
+        SidebarModule
     ],
     declarations: [
         UserComponent,
@@ -44,7 +45,8 @@ import { CargaImagenesService } from '../services/cargaImagenes.service';
         ContactoComponent,
         InicioComponent,
         MiInformacionComponent,
-        MisNominacionesComponent
+        MisNominacionesComponent,
+        AddNominacionComponent
     ],
 })
 export class UserModule { }

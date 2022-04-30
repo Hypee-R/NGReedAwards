@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, addDoc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, addDoc, where } from '@angular/fire/firestore';
 import { NominacionModel } from '../shared/models/nominacion.model';
 import { VariablesService } from './variablesGL.service';
 
@@ -17,13 +17,19 @@ export class NominacionService {
   addNominacion(nominacion: NominacionModel){
     addDoc(collection(this.afs,'nominaciones'), nominacion)
     .then(docRef => {
-      console.log('El Documento se grabo con el ID: ', docRef.id);
+      console.log('La nominacion se grabo con el ID: ', docRef.id);
       this.variablesGL.endProcessNominacion.next(docRef.id);
     })
     .catch(error => {
-      console.log('El Documento no se grabo: ', error);
+      console.log('La nominacion no se grabo: ', error);
       //this.idsImageSaveErr.push({img: img, err: error});
       this.variablesGL.endProcessNominacion.next('');
     });
+  }
+
+  getNominaciones(){
+    let uid = JSON.parse(localStorage.d).uid;
+    const itemsCollection = collection(this.afs,'nominaciones'); //where('uid', '==', uid)
+    return collectionData(itemsCollection);
   }
 }
