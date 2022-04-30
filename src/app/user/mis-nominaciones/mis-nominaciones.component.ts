@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -9,12 +9,22 @@ import { ToastrService } from 'ngx-toastr';
 import { NominacionService } from '../../services/nominacion.service';
 import { VariablesService } from '../../services/variablesGL.service';
 
+
+declare var paypal;
+
 @Component({
   selector: 'app-mis-nominaciones',
   templateUrl: './mis-nominaciones.component.html',
   styleUrls: ['./mis-nominaciones.component.css']
 })
 export class MisNominacionesComponent implements OnInit {
+
+  @ViewChild('paypal',{static:true}) paypalElement:ElementRef;
+  Producto={
+    descripcion:'',
+    precio:599.99,
+    img:'Imagen de la compra'
+  }
 
   nominacionForm: FormGroup;
   submitted: boolean;
@@ -36,6 +46,33 @@ export class MisNominacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    paypal
+    .Buttons({
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [
+            {
+              description: this.Producto.descripcion,
+              amount     :{
+                moneda: 'us',
+                value        : this.Producto.precio
+              }
+            }
+          ]
+        })
+      },
+      onApprove: async (data, actions) => {
+        const order = await actions.order.capture();
+        console.log(order);
+        
+      },
+      onError: err =>{
+        console.log(err);
+        
+      }
+    })
+    .render( this.paypalElement.nativeElement );
+
     this.initForm();
   }
 
