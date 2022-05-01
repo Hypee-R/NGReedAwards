@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Auth, createUserWithEmailAndPassword, sendEmailVerification, getAuth  } from '@angular/fire/auth';
+import { addDoc, collection, deleteDoc, doc, getDoc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from 'src/app/services/error.service';
@@ -39,12 +40,26 @@ export class RegistroUserComponent implements OnInit {
   registerUser(value: any) {
     this.loading = true;
     createUserWithEmailAndPassword(this.auth, value.usuario, value.password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const auth = getAuth();
         sendEmailVerification(auth.currentUser);
         const user = userCredential.user;
-        this.toastr.success('Enviamos un correo electrónico para verificar su cuenta','Registrados correctamente');
+        this.toastr.success('Enviamos un correo electrónico para verificar su cuenta, por favor revise su coreo de spam o bandeja de entrada','Registrados correctamente');
         this.router.navigate(['/login']);
+        const db = getFirestore();
+
+
+        await setDoc(doc(db, 'usuarios', user.uid),{
+            uid: user.uid,
+            email: user.email,
+            firstName: '',
+            lastName: '',
+            displayName: '',
+            phone: '',
+            address: '',
+            photoURL: ''
+        });
+        
       })
       .catch((error) => {
         this.registerForm.reset();
