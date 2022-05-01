@@ -1,5 +1,9 @@
-p-card {
-    height: 30em;
+::ng-deep .p-vacio .p-card {
+    height: 25rem;
+}
+
+::ng-deep .p-vacio .p-card .p-card-body {
+    padding-top: 6rem;
 }
 
 .rotate {
@@ -17,8 +21,8 @@ p-card {
 
 .content {
     width: 700px;
-    height: 500px;
-    line-height: 500px;
+    height: 400px;
+    line-height: 400px;
     margin: 0px auto;
     text-align: center;
     /* background-color: #CCCCCC; */
@@ -43,4 +47,17 @@ p-card {
 .btn-primary:focus {
     background: #3c3174;
     border-color: #3c3174;
+}
+
+@media screen and (min-width: 1920px) {
+    .content {
+        height: 700px;
+        line-height: 700px;
+    }
+     ::ng-deep .p-vacio .p-card {
+        height: 50rem;
+    }
+     ::ng-deep .p-vacio .p-card .p-card-body {
+        padding-top: 20rem;
+    }
 }

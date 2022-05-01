@@ -6,14 +6,14 @@
     <div class="row" *ngIf="loading">
         <div class="content">
             <img class="rotate" src="assets/svg/logo.svg" alt="" style="width: 50%; height: 50%;">
-        </div>1
+        </div>
     </div>
 
     <div class="row" *ngIf="!listNominaciones && !loading">
-        <p-card>
+        <p-card class="p-vacio">
             <div class="text-center">
                 <h1>No tienes ninguna nominaci&oacute;n</h1>
-                <h4>Crea una nueva nominaci&oacute;n con el boton que se encuentra en la parte superior derecha de la pantalla</h4>
+                <h4>Crea una nueva nominaci&oacute;n con el boton que se encuentra en la parte superior izquierda de la pantalla</h4>
             </div>
         </p-card>
     </div>

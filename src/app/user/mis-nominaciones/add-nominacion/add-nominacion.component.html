@@ -167,7 +167,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Cesi&oacute;n de derechos*</label>
-                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileCesionDerechos')" [ngClass]="submitted && nominacionForm.controls['fileCesionDerechos'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : null">
+                        <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileCesionDerechos')" [ngClass]="submitted && nominacionForm.controls['fileCesionDerechos'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileCesionDerechos'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileCesionDerechos'].errors.required">Por favor seleccione un archivo</div>
                         </div>
@@ -176,7 +176,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Carta de intenci&oacute;n*</label>
-                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileCartaIntencion')" [ngClass]="submitted && nominacionForm.controls['fileCartaIntencion'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : null">
+                        <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileCartaIntencion')" [ngClass]="submitted && nominacionForm.controls['fileCartaIntencion'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileCartaIntencion'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileCartaIntencion'].errors.required">Por favor seleccione un archivo</div>
                         </div>

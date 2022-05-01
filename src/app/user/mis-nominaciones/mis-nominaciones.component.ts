@@ -26,7 +26,7 @@ export class MisNominacionesComponent implements OnInit {
   getNominaciones(){
     this.nominacionesService.getNominaciones().subscribe(data => {
         if(data){
-          console.log('data nominaciones ', data.filter(x => x?.uid == 'D7kwQZ3OPIaPq5FMHthNgNAgiZU2'));
+          //console.log('data nominaciones ', data.filter(x => x?.uid == 'D7kwQZ3OPIaPq5FMHthNgNAgiZU2'));
           let uid = JSON.parse(localStorage.d).uid;
           this.listNominaciones = data.filter(x => x?.uid == uid);
           this.loading = false;

@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { FileItem } from 'src/app/shared/models/img.model';
 import { ToastrService } from 'ngx-toastr';
+import { Component, OnInit } from '@angular/core';
+import { FileItem } from 'src/app/shared/models/img.model';
 import { PaisesService } from 'src/app/services/paises.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VariablesService } from 'src/app/services/variablesGL.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
+import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-add-nominacion',
@@ -25,8 +24,6 @@ export class AddNominacionComponent implements OnInit {
   fileCDerechos: FileList;
   fileCIntencion: FileList;
   fileMMultimedia: FileList;
-
-
   constructor(
     private fb: FormBuilder,
     private firestore: Firestore,
