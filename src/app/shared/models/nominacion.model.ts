@@ -15,5 +15,8 @@ export class NominacionModel{
   fileCesionDerechos: any;
   fileCartaIntencion: any;
   materialMultimedia: any[];
+  statuspago:string;
+  idpago:string;
+  montopago:string;
   uid: string;
 }

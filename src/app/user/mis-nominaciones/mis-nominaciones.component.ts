@@ -3,6 +3,9 @@ import { NominacionService } from 'src/app/services/nominacion.service';
 import { ToastrService } from 'ngx-toastr';
 
 
+
+declare var paypal;
+
 @Component({
   selector: 'app-mis-nominaciones',
   templateUrl: './mis-nominaciones.component.html',
