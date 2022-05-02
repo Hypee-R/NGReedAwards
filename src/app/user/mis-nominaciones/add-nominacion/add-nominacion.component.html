@@ -30,12 +30,12 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="categoria" class="form-label">Categor&iacute;a*</label>
-                        <!-- <select class="form-select" formControlName="categoria" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null">
-                          <option value="0">Selecciona una categor&iacute;a</option>
+                        <select class="form-select" formControlName="categoria" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null">
+                          <option value="">Selecciona una categor&iacute;a</option>
                           <option [value]="item.nombre" *ngFor="let item of categorias">{{item.nombre}}</option>
-                        </select> -->
-                        <p-dropdown [options]="categorias" formControlName="categoria" placeholder="Selecciona una categor&iacute;a" optionLabel="nombre" optionValue="nombre" [filter]="true" filterBy="nombre" [showClear]="true" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null"
-                            [style]="{'width':'100%', 'overflow': 'visible'}"></p-dropdown>
+                        </select>
+                        <!-- <p-dropdown [options]="categorias" formControlName="categoria" placeholder="Selecciona una categor&iacute;a" optionLabel="nombre" optionValue="nombre" [filter]="true" filterBy="nombre" [showClear]="true" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null"
+                            [style]="{'width':'100%', 'overflow': 'visible'}"></p-dropdown> -->
                         <div *ngIf="submitted && nominacionForm.controls['categoria'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['categoria'].errors.required">Seleccione una categoria
                             </div>

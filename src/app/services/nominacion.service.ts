@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, addDoc, updateDoc, getFirestore, getDoc, QuerySnapshot } from '@angular/fire/firestore';
-import { doc, getDocs, query, QueryDocumentSnapshot, where } from 'firebase/firestore';
+import { Firestore, collection, collectionData, addDoc, updateDoc, getFirestore } from '@angular/fire/firestore';
+import { doc, getDocs, query, where } from 'firebase/firestore';
 import { NominacionModel } from '../shared/models/nominacion.model';
 import { VariablesService } from './variablesGL.service';
 
