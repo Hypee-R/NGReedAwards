@@ -21,9 +21,8 @@ export class ContactoComponent implements OnInit {
 
   initForm(){
     this.contactoForm = this.fb.group({
-      titulo: ['', [Validators.required]],
-      categoria: ['', [Validators.required]],
-  
+      nombre: ['', [Validators.required]],
+     
     })
   }
 
