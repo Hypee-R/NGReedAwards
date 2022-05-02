@@ -33,8 +33,8 @@
 }
 
 .img-mini {
-    width: 25em;
-    height: 25em;
+    width: 18em;
+    height: 18em;
 }
 
 .btn-primary {
@@ -64,5 +64,9 @@
     }
      ::ng-deep .p-vacio .p-card .p-card-body {
         padding-top: 17rem;
+    }
+    .img-mini {
+        width: 25em;
+        height: 25em;
     }
 }
