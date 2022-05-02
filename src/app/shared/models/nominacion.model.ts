@@ -1,4 +1,5 @@
 export class NominacionModel{
+  id?: string;
   titulo: string;
   categoria: string;
   nominado: string;

@@ -32,6 +32,11 @@
     vertical-align: middle;
 }
 
+.img-mini {
+    width: 25em;
+    height: 25em;
+}
+
 .btn-primary {
     background: #5b4bad;
     border-color: #5b4bad;
@@ -55,9 +60,9 @@
         line-height: 700px;
     }
      ::ng-deep .p-vacio .p-card {
-        height: 50rem;
+        height: 45rem;
     }
      ::ng-deep .p-vacio .p-card .p-card-body {
-        padding-top: 20rem;
+        padding-top: 17rem;
     }
 }

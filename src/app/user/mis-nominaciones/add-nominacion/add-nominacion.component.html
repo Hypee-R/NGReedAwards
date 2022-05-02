@@ -1,5 +1,5 @@
 <div class="container mt-4 mb-lg-5">
-    <h4 class="text-bold text-center">Crear Nominaci&oacute;n</h4>
+    <h4 class="text-bold text-center">{{accion == 'agregar' ? 'Crear' : 'Actualizar'}} Nominaci&oacute;n</h4>
     <hr>
 
     <form [formGroup]="nominacionForm" (ngSubmit)="crearNominacion()">
@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
-                        <label for="titulo" class="form-label">T&iacute;tulo*</label>
+                        <label for="titulo" class="form-label">T&iacute;tulo de la pieza*</label>
                         <input type="text" class="form-control" id="titulo" formControlName="titulo" [ngClass]="submitted && nominacionForm.controls['titulo'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['titulo'].valid ? 'is-valid' : submitted && nominacionForm.controls['titulo'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['titulo'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['titulo'].errors.required">El titulo es requerido</div>
@@ -17,7 +17,7 @@
                 <div class="col-12 col-md-6">
 
                     <div class="mb-3">
-                        <label for="nominado" class="form-label">Nominado*</label>
+                        <label for="nominado" class="form-label">Nombre del nominado*</label>
                         <input type="text" class="form-control" id="nominado" formControlName="nominado" [ngClass]="submitted && nominacionForm.controls['nominado'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['nominado'].valid ? 'is-valid' : submitted && nominacionForm.controls['nominado'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['nominado'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['nominado'].errors.required">El nominado es requerido
@@ -59,11 +59,14 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Imagen representativa o logo*</label>
-                        <input class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileLogoEmpresa')" [ngClass]="submitted && nominacionForm.controls['fileLogoEmpresa'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileLogoEmpresa'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileLogoEmpresa'].valid ? 'is-valid' : null">
+                        <label *ngIf="agregarLogo" for="formFile" class="form-label">Imagen representativa o logo*</label>
+                        <input *ngIf="agregarLogo" class="form-control" type="file" accept="image/*" id="formFile" (change)="onFileSelected($event, 'FileLogoEmpresa')" [ngClass]="submitted && nominacionForm.controls['fileLogoEmpresa'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileLogoEmpresa'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileLogoEmpresa'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileLogoEmpresa'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileLogoEmpresa'].errors.required">Por favor seleccione un archivo</div>
                         </div>
+                        <label *ngIf="accion == 'editar' && !agregarLogo">
+                          <a target="blank" [href]="nominacionEditar?.fileLogoEmpresa?.url | safeurl : ''">Imagen representativa o logo</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileLogoEmpresa')">Cambiar</button>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -79,7 +82,7 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
-                        <label for="responsable" class="form-label">Responsable*</label>
+                        <label for="responsable" class="form-label">Responsable de quien sube la pieza*</label>
                         <input type="text" class="form-control" id="responsable" formControlName="responsable" [ngClass]="submitted && nominacionForm.controls['responsable'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['responsable'].valid ? 'is-valid' : submitted && nominacionForm.controls['responsable'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['responsable'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['responsable'].errors.required">El nombre del responsable es requerido</div>
@@ -179,20 +182,26 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Cesi&oacute;n de derechos*</label>
-                        <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileCesionDerechos')" [ngClass]="submitted && nominacionForm.controls['fileCesionDerechos'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : null">
+                        <label *ngIf="agregarFileCDerechos" for="formFile" class="form-label">Cesi&oacute;n de derechos*</label>
+                        <input *ngIf="agregarFileCDerechos" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileCesionDerechos')" [ngClass]="submitted && nominacionForm.controls['fileCesionDerechos'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileCesionDerechos'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileCesionDerechos'].errors.required">Por favor seleccione un archivo</div>
                         </div>
+                        <label *ngIf="accion == 'editar' && !agregarFileCDerechos">
+                          <a target="blank" [href]="nominacionEditar?.fileCesionDerechos?.url | safeurl : ''">Archivo Cesi&oacute;n de derechos</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileCesionDerechos')">Cambiar</button>
+                        </label>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Carta de intenci&oacute;n*</label>
-                        <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileCartaIntencion')" [ngClass]="submitted && nominacionForm.controls['fileCartaIntencion'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : null">
+                        <label *ngIf="agregarFileCIntencion" for="formFile" class="form-label">Carta de intenci&oacute;n*</label>
+                        <input *ngIf="agregarFileCIntencion" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileCartaIntencion')" [ngClass]="submitted && nominacionForm.controls['fileCartaIntencion'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileCartaIntencion'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileCartaIntencion'].errors.required">Por favor seleccione un archivo</div>
                         </div>
+                        <label *ngIf="accion == 'editar' && !agregarFileCIntencion">
+                          <a target="blank" [href]="nominacionEditar?.fileCartaIntencion?.url | safeurl : ''">Archivo Carta de intenci&oacute;n</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileCartaIntencion')">Cambiar</button>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -203,17 +212,24 @@
             <div class="row">
                 <div class="col-12">
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Cargue cualquier recurso multimedia relacionado con la
+                        <label *ngIf="agregarFilesMultimedia" for="formFile" class="form-label">Cargue cualquier recurso multimedia relacionado con la
                             nominaci&oacute;n aqu&iacute;, Este material multimedia se podr&aacute; visualizar
                             publicamente.</label>
-                        <input class="form-control" type="file" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')" [ngClass]="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : null">
+                        <input *ngIf="agregarFilesMultimedia" class="form-control" type="file" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')" [ngClass]="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileMaterialMultimedia'].errors.required">Por favor seleccione un archivo</div>
+                        </div>
+                        <div *ngIf="accion == 'editar' && !agregarFilesMultimedia">
+                            <div *ngFor="let item of nominacionEditar.materialMultimedia; let i=index">
+                                <label><a target="blank" [href]="item?.url | safeurl : ''">Material Multimedia {{i+1}}</a></label> &nbsp;
+                            </div>
+                            <button class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileMaterialMultimedia')">Cambiar</button>
                         </div>
                     </div>
                 </div>
             </div>
         </p-card>
+        <br>
         <p-card header="Informacion de pago">
             <div class="row">
                 <div class="col-12">
@@ -241,7 +257,7 @@
 
         <hr>
         <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-primary" type="submit">Crear</button>
+            <button class="btn btn-primary" type="submit">{{accion == 'agregar' ? 'Crear' : 'Actualizar'}}</button>
         </div>
     </form>
 </div>
