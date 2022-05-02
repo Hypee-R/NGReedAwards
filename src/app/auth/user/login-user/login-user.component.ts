@@ -4,6 +4,7 @@ import { Auth, signInWithEmailAndPassword,   } from '@angular/fire/auth';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from 'src/app/services/error.service';
 import { Router } from '@angular/router';
+import { ProfileUser } from 'src/app/models/user';
 
 
 
@@ -40,6 +41,7 @@ export class LoginUserComponent implements OnInit {
         if (userCredential.user?.emailVerified) {
           this.toastr.success('Bienvenido', 'Login correcto');
           localStorage.d = JSON.stringify(userCredential.user);
+          // this.setLocalStorage(userCredential.user);
           this.router.navigate(['/']);
         } else {
           this.toastr.error('El usuario no ha verificado su cuenta', 'Error');
@@ -54,6 +56,16 @@ export class LoginUserComponent implements OnInit {
         this.toastr.error(this._errorService.error(error.code),'Oops, error');
         this.loginForm.reset();
       })
+  }
+
+
+  setLocalStorage(user: any) {
+    const usuario: ProfileUser = {
+      uid: user.uid,
+      email: user.email
+    }
+
+    localStorage.setItem('user', JSON.stringify(usuario));
   }
 
 

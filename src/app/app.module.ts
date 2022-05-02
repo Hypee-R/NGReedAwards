@@ -17,13 +17,13 @@ import { environment } from '../environments/environment.prod';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideDatabase, getDatabase } from '@angular/fire/database';
 import { provideStorage, getStorage, StorageModule } from '@angular/fire/storage';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 // Idioma Español
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { CargaImagenesService } from './services/cargaImagenes.service';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 @NgModule({
   declarations: [
