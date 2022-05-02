@@ -7,6 +7,7 @@ import { VariablesService } from 'src/app/services/variablesGL.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
 import { Firestore, collectionData, collection, query, orderBy } from '@angular/fire/firestore';
+import { CategoriasService } from 'src/app/services/categorias.service';
 
 declare var paypal;
 
@@ -49,6 +50,7 @@ export class AddNominacionComponent implements OnInit {
     private paisesService: PaisesService,
     private variablesGL: VariablesService,
     private nominacionService: NominacionService,
+    private categoriasService: CategoriasService,
     private cargaImagenesFBService: CargaImagenesService,
   ) {
     this.getCategorias();
@@ -101,9 +103,7 @@ export class AddNominacionComponent implements OnInit {
 
 
   getCategorias(){
-    const categoriasCollection = collection(this.firestore, 'categorias');
-
-    collectionData(query(categoriasCollection, orderBy("nombre", "desc"))).subscribe( (data) => {
+    this.categoriasService.getCategorias().subscribe( (data) => {
       if(data.length > 0){
         this.categorias = data;
         //console.log('data categorias ', this.categorias);

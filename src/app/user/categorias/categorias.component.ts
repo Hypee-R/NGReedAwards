@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getFirestore, provideFirestore, orderBy } from '@angular/fire/firestore';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
+import { query } from 'firebase/firestore';
+import { ConvocatoriasService } from 'src/app/services/convocatoria.service';
 // import { CategoriasService } from "./shared/categorias.service";
+import { CategoriasService } from '../../services/categorias.service';
 // providers: [CategoriasService]
 
 @Component({
@@ -14,7 +17,8 @@ export class CategoriasComponent implements OnInit {
   categorias: any;
   convocatorias: any;
   constructor(
-    private firestore: Firestore
+    private categoriasService: CategoriasService,
+    private convocatoriasService: ConvocatoriasService
   ) {
     this.getCategorias();
     this.getConvocatorias();
@@ -24,16 +28,14 @@ export class CategoriasComponent implements OnInit {
   }
 
   async getCategorias(){
-    const categoriasCollection = collection(this.firestore, 'categorias');
-    collectionData(categoriasCollection).subscribe( (data) => {
+    this.categoriasService.getCategorias().subscribe( (data) => {
       this.categorias = data;
       console.log('data categorias ', this.categorias);
     });
   }
 
   async getConvocatorias(){
-    const convocatoriasCollection = collection(this.firestore, 'convocatorias');
-    collectionData(convocatoriasCollection).subscribe( (data) => {
+    this.convocatoriasService.getConvocatorias().subscribe( (data) => {
       this.convocatorias = data;
       console.log('data convocatorias ', this.categorias);
     });
