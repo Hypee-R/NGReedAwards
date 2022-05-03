@@ -57,7 +57,8 @@ export class RegistroUserComponent implements OnInit {
             displayName: '',
             phone: '',
             address: '',
-            photoURL: ''
+            photoURL: '',
+            rol: 'usuario'
         });
         
       })
