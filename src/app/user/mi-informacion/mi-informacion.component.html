@@ -10,8 +10,8 @@
         <div class="row">
             <div class="col-12 col-md-6">
                 <div class="mb-3">
-                    <label for="firstName" class="form-label">Nombre(s): {{user[0].firstName}}</label>
-                    <input [defaultValue]="user.firstName" type="text" class="form-control" id="firstName" formControlName="firstName" [ngClass]="submitedF1 && formMiInformacion.controls['firstName'].errors ? 'is-invalid' : null">
+                    <label for="firstName" class="form-label">Nombre(s): {{user[0]?.firstName}}</label>
+                    <input  type="text" class="form-control" id="firstName" formControlName="firstName" [ngClass]="submitedF1 && formMiInformacion.controls['firstName'].errors ? 'is-invalid' : null">
                     <div class="text-danger" *ngIf="formMiInformacion.invalid && submitedF1">
                         <div *ngIf="formMiInformacion.get('firstName')?.hasError('required')">
                             El campo es requerido
@@ -21,7 +21,7 @@
             </div>
             <div class="col-12 col-md-6">
                 <div class="mb-3">
-                    <label for="lastName" class="form-label">Apellidos: {{user[0].lastName}}</label>
+                    <label for="lastName" class="form-label">Apellidos: {{user[0]?.lastName}}</label>
                     <input type="text" class="form-control" id="lastName" formControlName="lastName" [ngClass]="submitedF1 && formMiInformacion.controls['lastName'].errors ? 'is-invalid' : null">
                     <div class="text-danger" *ngIf="formMiInformacion.invalid && submitedF1">
                         <div *ngIf="formMiInformacion.get('lastName')?.hasError('required')">
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-12 col-md-6">
                 <div class="mb-3">
-                    <label for="phone" class="form-label">Telefono: {{user[0].phone}}</label>
+                    <label for="phone" class="form-label">Telefono: {{user[0]?.phone}}</label>
                     <input type="tel" class="form-control" id="phone" formControlName="phone" placeholder="(999)-999-99-99" [ngClass]="submitedF1 && formMiInformacion.controls['phone'].errors ? 'is-invalid' : null">
                     <div class="text-danger" *ngIf="formMiInformacion.invalid && submitedF1">
                         <div *ngIf="formMiInformacion.get('phone')?.hasError('pattern')">
