@@ -39,10 +39,14 @@ export class AddNominacionComponent implements OnInit {
   fileCDerechos: FileList;
   fileCIntencion: FileList;
   fileMMultimedia: FileList;
+  fileBaucher: FileList;
+  //inicializa una variable fileAux vacía
+  fileAux: FileList = null;
   agregarLogo: boolean = true;
   agregarFileCDerechos: boolean = true;
   agregarFileCIntencion: boolean = true;
   agregarFilesMultimedia: boolean = true;
+  agregarFileBaucher: boolean = true;
   constructor(
     private fb: FormBuilder,
     private firestore: Firestore,
@@ -112,6 +116,7 @@ export class AddNominacionComponent implements OnInit {
           this.agregarFileCDerechos = false;
           this.agregarFileCIntencion = false;
           this.agregarFilesMultimedia = false;
+          this.agregarFileBaucher = false;
           this.setValueForm();
         }
       }
@@ -145,6 +150,8 @@ export class AddNominacionComponent implements OnInit {
       fileCesionDerechos: ['', [Validators.required]],
       fileCartaIntencion: ['', [Validators.required]],
       fileMaterialMultimedia: ['', [Validators.required]],
+      fileBaucher: ['', []],
+      pagarCon: ['paypal', [Validators.required]],
       statuspago: ['', []],
       idpago: ['', []],
     })
@@ -171,6 +178,8 @@ export class AddNominacionComponent implements OnInit {
       fileCesionDerechos: this.nominacionEditar?.fileCesionDerechos?.url ? 'ya cargo archivo' : '',
       fileCartaIntencion: this.nominacionEditar?.fileCartaIntencion?.url ? 'ya cargo archivo' : '',
       fileMaterialMultimedia: this.nominacionEditar.materialMultimedia,
+      fileBaucher: this.nominacionEditar?.fileBaucher?.url ? 'ya cargo archivo' : '',
+      pagarCon: this.nominacionEditar.pagarCon,
       statuspago: this.nominacionEditar.statuspago,
       idpago: this.nominacionEditar.idpago,
     });
@@ -188,13 +197,21 @@ export class AddNominacionComponent implements OnInit {
         this.setListaArchivos(this.fileCDerechos, "FileCesionDerechos");
         this.setListaArchivos(this.fileCIntencion, "FileCartaIntencion");
         this.setListaArchivos(this.fileMMultimedia, "FileMaterialMultimedia");
+        if (this.fileBaucher) {
+          this.setListaArchivos(this.fileBaucher, "FileBaucher");
+          console.log('file baucher ', this.fileBaucher);
+        } 
+        else {
+          this.setListaArchivos(this.fileMMultimedia, "NoFileBaucher");
+          this.toastr.warning('No seleccionaste un archivo de baucher', 'Atención');
+        }
         //Carga las imagenes solo si no se han cargado
         if(!this.variablesGL.endProcessCargaCompleta.value){
           this.cargaImagenesFBService.upload(this.archivos);
         }
       }else{
         //Si no desea modificar ningun archivo se salta el upload
-        if(!this.agregarLogo && !this.agregarFileCDerechos && !this.agregarFileCIntencion && !this.agregarFilesMultimedia){
+        if(!this.agregarLogo && !this.agregarFileCDerechos && !this.agregarFileCIntencion && !this.agregarFilesMultimedia && !this.agregarFileBaucher){
             this.variablesGL.endProcessCargaCompleta.next(true);
         }
         //Si desea modificar algun archivo lo carga
@@ -211,6 +228,12 @@ export class AddNominacionComponent implements OnInit {
             }
             if(this.agregarFilesMultimedia){
               this.setListaArchivos(this.fileMMultimedia, "FileMaterialMultimedia");
+            }
+            if(this.agregarFileBaucher){
+              this.setListaArchivos(this.fileBaucher, "FileBaucher");
+            } else {
+              this.setListaArchivos(this.fileMMultimedia, "NoFileBaucher");
+              this.toastr.warning('No seleccionaste un archivo de baucher', 'Atención');
             }
             //Carga las imagenes solo si no se han cargado
             if(!this.variablesGL.endProcessCargaCompleta.value){
@@ -267,6 +290,8 @@ export class AddNominacionComponent implements OnInit {
           fileCesionDerechos: { idFile: imgSave.find(x => x.fileMapped == 'FileCesionDerechos').idDoc, url: imgSave.find(x => x.fileMapped == 'FileCesionDerechos').url },
           fileCartaIntencion: { idFile: imgSave.find(x => x.fileMapped == 'FileCartaIntencion').idDoc, url: imgSave.find(x => x.fileMapped == 'FileCartaIntencion').url },
           materialMultimedia: imgSave.filter(x => x.fileMapped == 'FileMaterialMultimedia').map( (data) => { return { idFile: data.idDoc, url: data.url }} ),
+          fileBaucher: { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url },
+          pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value,
           montopago: this.producto.precio.toString(),
@@ -320,6 +345,8 @@ export class AddNominacionComponent implements OnInit {
           fileCesionDerechos: this.agregarFileCDerechos ? { idFile: imgSave.find(x => x.fileMapped == 'FileCesionDerechos').idDoc, url: imgSave.find(x => x.fileMapped == 'FileCesionDerechos').url } : this.nominacionEditar.fileCesionDerechos,
           fileCartaIntencion: this.agregarFileCIntencion ? { idFile: imgSave.find(x => x.fileMapped == 'FileCartaIntencion').idDoc, url: imgSave.find(x => x.fileMapped == 'FileCartaIntencion').url } : this.nominacionEditar.fileCartaIntencion,
           materialMultimedia: this.agregarFilesMultimedia ? imgSave.filter(x => x.fileMapped == 'FileMaterialMultimedia').map( (data) => { return { idFile: data.idDoc, url: data.url }} ) : this.nominacionEditar.materialMultimedia,
+          fileBaucher: this.agregarFileBaucher ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
+          pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value ? this.nominacionForm.get('idpago').value : Date.now().toString(),
           montopago: this.producto.precio.toString(),
@@ -385,6 +412,16 @@ export class AddNominacionComponent implements OnInit {
           this.nominacionForm.get('fileMaterialMultimedia').reset();
         }
         break;
+        case "FileBaucher":
+          if(event.target.files.length>0){
+            this.fileBaucher = event.target.files;
+            this.nominacionForm.get('fileBaucher').setValue("ya cargo archivo");
+          }else{
+            this.fileBaucher = null;
+            console.log("fileBaucher", this.fileBaucher);
+            this.nominacionForm.get('fileBaucher').reset();
+          }
+          break;
     }
   }
 
@@ -398,6 +435,11 @@ export class AddNominacionComponent implements OnInit {
 
     for (const propiedad in Object.getOwnPropertyNames( archivosLista )) {
       const archivoTemp = archivosLista[propiedad];
+      //si el archivo FileBaucher es vacio, no se carga
+      if (fileMapped == 'FileBaucher' && archivoTemp.name == '') {
+        continue; 
+        this.toastr.error("No se puede cargar un archivo vacio", "Error");
+      }
 
       if(fileMapped == "FileLogoEmpresa"){
         if(this._archivoPuedeSerCargado(archivoTemp)){
@@ -432,6 +474,10 @@ export class AddNominacionComponent implements OnInit {
       case 'FileMaterialMultimedia':
           this.agregarFilesMultimedia = true;
           this.nominacionForm.get('fileMaterialMultimedia').reset();
+        break;
+      case 'FileBaucher':
+          this.agregarFileBaucher = true;
+          this.nominacionForm.get('fileBaucher').reset();
         break;
     }
   }

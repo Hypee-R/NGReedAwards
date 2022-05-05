@@ -230,8 +230,37 @@
             </div>
         </p-card>
         <br>
-        <p-card header="Informacion de pago">
-            <div class="row">
+        <p-card header="Pagar con transferencia SWIFT">
+            <label >Selecciona un método de pago:</label>
+            <select id="objetivo" class="form-control text-center" formControlName="pagarCon">
+                <option default value="" disabled>Selecciona un metodo de pago</option>
+                <option value="swift">Transferencia SWIFT</option>
+                <option value="paypal">PayPal</option>
+            </select>
+            <div class="col-12" *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'" >
+                <div class="mb-3">
+                    <label *ngIf="agregarFileBaucher" for="formFile" class="form-label">Comprobante de pago*</label>
+                    <input *ngIf="agregarFileBaucher" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
+                    <div *ngIf="submitted && nominacionForm.controls['fileBaucher'].errors" class="text-danger">
+                        <!-- <div *ngIf="nominacionForm.controls['fileBaucher'].errors.required">Por favor seleccione un archivo</div> -->
+                    </div>
+                    <label *ngIf="accion == 'editar' && !agregarFileBaucher">
+                      <a target="_blank" [href]="nominacionEditar?.fileBaucher?.url | safeurl : ''">Archivo de comprobante de pago</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileBaucher')">Cambiar</button>
+                    </label>
+                </div>
+            </div>
+            
+        </p-card>
+        <p-card header="Pagar con Paypal"  >
+
+            <!-- <div class="select">
+                <label class="form-label">Tipo de pago</label>
+                <div *ngIf="submitted && nominacionForm.controls['tipoPago'].errors" class="text-danger">
+                    <div *ngIf="nominacionForm.controls['tipoPago'].errors.required">Este campo es requerido</div>
+                </div>
+            </div>  -->
+            <!-- if pagarCon === paypal -->
+            <div class="row"  >
                 <div class="col-12">
                     <input type="text" class="form-control" id="statuspago" formControlName="statuspago" [ngClass]="submitted && nominacionForm.controls['statuspago'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['statuspago'].valid ? 'is-valid' : submitted && nominacionForm.controls['statuspago'].valid ? 'is-valid' : null"
                         disabled>
@@ -247,9 +276,15 @@
                     <input type="text" class="form-control" id="idpago" formControlName="idpago" disabled>
                     <input type="text" class="form-control" id="descriptionpago" formControlName="descriptionpago" disabled value="Pago ">
                     <input type="text" class="form-control" id="valuecost" formControlName="valuecost" disabled value="108"> -->
-                    <br>
-                    <div class="mb-3">
-                        <div #paypal></div>
+                    <br> 
+                    <!-- container show only if paypal option is selected -->
+                    
+                    <div class="container" >
+                        <div class="mb-3" >
+            <label >*SI SELECCIONÓ TRANSFERENCIA SWIFT SOLO IGNORE ESTE CAMPO*</label>
+
+                            <div #paypal ></div>
+                        </div>
                     </div>
                 </div>
             </div>
