@@ -45,7 +45,7 @@ export class LoginUserComponent implements OnInit {
           this.router.navigate(['/']);
         } else {
           this.toastr.error('El usuario no ha verificado su cuenta', 'Error');
-          this.router.navigate(['/verificarCorreo']);
+          this.router.navigate(['/portal/verificarCorreo']);
         }
         this.loading = false;
       })

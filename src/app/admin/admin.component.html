@@ -1,7 +1,7 @@
-<div id="contenedor" class="container-fluid contenedor animate__animated animate__backInRight">
+<div id="contenedor" class="container-fluid contenedor">
     <div class="row">
         <!-- <app-menu id="menu" class="sideBar"></app-menu> -->
-        <app-nav-bar id="sidenav" class="sideNav" [type]="'admin'" style="padding: 0;"></app-nav-bar>
+        <app-nav-bar id="sidenav" class="sideNav" [type]="'admin'" style="padding: 0;" *ngIf="configService.Usuario"></app-nav-bar>
         <div id="Contenido" class="contenidoNormal">
             <div id="carta" class="contenido-outled">
                 <p-toast [style]="{marginTop: '80px'}" position="top-right" key="toast"></p-toast>

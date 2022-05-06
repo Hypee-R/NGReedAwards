@@ -34,7 +34,7 @@ export class RecuperarPasswordComponent implements OnInit {
     sendPasswordResetEmail(auth, correo)
       .then(() => {
         this.toastr.info('Enviamos un correo electrónico para reestablecer su contraseña', 'Recuperar contraseña');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/portal/login']);
       }
       )
       .catch((error) => {

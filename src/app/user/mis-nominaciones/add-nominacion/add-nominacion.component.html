@@ -231,13 +231,13 @@
         </p-card>
         <br>
         <p-card header="Pagar con transferencia SWIFT">
-            <label >Selecciona un método de pago:</label>
+            <label>Selecciona un método de pago:</label>
             <select id="objetivo" class="form-control text-center" formControlName="pagarCon">
                 <option default value="" disabled>Selecciona un metodo de pago</option>
                 <option value="swift">Transferencia SWIFT</option>
                 <option value="paypal">PayPal</option>
             </select>
-            <div class="col-12" *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'" >
+            <div class="col-12" *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'">
                 <div class="mb-3">
                     <label *ngIf="agregarFileBaucher" for="formFile" class="form-label">Comprobante de pago*</label>
                     <input *ngIf="agregarFileBaucher" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
@@ -249,9 +249,10 @@
                     </label>
                 </div>
             </div>
-            
+
         </p-card>
-        <p-card header="Pagar con Paypal"  >
+        <br>
+        <p-card header="Pagar con Paypal" *ngIf="nominacionForm.controls['pagarCon'].value === 'paypal'">
 
             <!-- <div class="select">
                 <label class="form-label">Tipo de pago</label>
@@ -260,7 +261,7 @@
                 </div>
             </div>  -->
             <!-- if pagarCon === paypal -->
-            <div class="row"  >
+            <div class="row">
                 <div class="col-12">
                     <input type="text" class="form-control" id="statuspago" formControlName="statuspago" [ngClass]="submitted && nominacionForm.controls['statuspago'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['statuspago'].valid ? 'is-valid' : submitted && nominacionForm.controls['statuspago'].valid ? 'is-valid' : null"
                         disabled>
@@ -276,14 +277,14 @@
                     <input type="text" class="form-control" id="idpago" formControlName="idpago" disabled>
                     <input type="text" class="form-control" id="descriptionpago" formControlName="descriptionpago" disabled value="Pago ">
                     <input type="text" class="form-control" id="valuecost" formControlName="valuecost" disabled value="108"> -->
-                    <br> 
+                    <br>
                     <!-- container show only if paypal option is selected -->
-                    
-                    <div class="container" >
-                        <div class="mb-3" >
-            <label >*SI SELECCIONÓ TRANSFERENCIA SWIFT SOLO IGNORE ESTE CAMPO*</label>
 
-                            <div #paypal ></div>
+                    <div class="container">
+                        <div class="mb-3">
+                            <label>*SI SELECCIONÓ TRANSFERENCIA SWIFT SOLO IGNORE ESTE CAMPO*</label>
+
+                            <div #paypal></div>
                         </div>
                     </div>
                 </div>

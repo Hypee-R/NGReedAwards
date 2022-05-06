@@ -6,18 +6,18 @@ import { LoginAdminComponent } from './auth/admin/login-admin/login-admin.compon
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'portal',
     loadChildren: () => import('./user/user.module').then(m => m.UserModule),
     //canLoad: [AuthGuard]
   },
-  { path: 'admin/login', component: LoginAdminComponent },
+  //{ path: 'admin/login', component: LoginAdminComponent },
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-    canLoad: [AuthGuard]
+    //canLoad: [AuthGuard]
   },
   { path: 'not-found', component: NotFoundComponent },
-  { path: '**', redirectTo: 'not-found' }
+  { path: '**', redirectTo: 'portal' }
 ];
 
 @NgModule({

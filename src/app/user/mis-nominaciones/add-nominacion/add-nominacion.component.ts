@@ -159,7 +159,7 @@ export class AddNominacionComponent implements OnInit {
 
   setValueForm(){
     let searchCat = this.categorias.find(x => x.nombre == this.nominacionEditar.categoria);
-    console.log('CATEGORIA ENCONTRADA ', searchCat, this.nominacionEditar.categoria, this.categorias.length);
+    //console.log('CATEGORIA ENCONTRADA ', searchCat, this.nominacionEditar.categoria, this.categorias.length);
 
     this.nominacionForm.patchValue({
       titulo: this.nominacionEditar.titulo,
@@ -197,13 +197,15 @@ export class AddNominacionComponent implements OnInit {
         this.setListaArchivos(this.fileCDerechos, "FileCesionDerechos");
         this.setListaArchivos(this.fileCIntencion, "FileCartaIntencion");
         this.setListaArchivos(this.fileMMultimedia, "FileMaterialMultimedia");
+
         if (this.fileBaucher) {
           this.setListaArchivos(this.fileBaucher, "FileBaucher");
           console.log('file baucher ', this.fileBaucher);
-        } 
+        }
         else {
-          this.setListaArchivos(this.fileMMultimedia, "NoFileBaucher");
+          //this.setListaArchivos(this.fileBaucher, "NoFileBaucher");
           this.toastr.warning('No seleccionaste un archivo de baucher', 'Atención');
+          return;
         }
         //Carga las imagenes solo si no se han cargado
         if(!this.variablesGL.endProcessCargaCompleta.value){
@@ -437,7 +439,7 @@ export class AddNominacionComponent implements OnInit {
       const archivoTemp = archivosLista[propiedad];
       //si el archivo FileBaucher es vacio, no se carga
       if (fileMapped == 'FileBaucher' && archivoTemp.name == '') {
-        continue; 
+        continue;
         this.toastr.error("No se puede cargar un archivo vacio", "Error");
       }
 

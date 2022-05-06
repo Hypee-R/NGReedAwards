@@ -45,7 +45,7 @@ export class RegistroUserComponent implements OnInit {
         sendEmailVerification(auth.currentUser);
         const user = userCredential.user;
         this.toastr.success('Enviamos un correo electrónico para verificar su cuenta, por favor revise su coreo de spam o bandeja de entrada','Registrados correctamente');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/portal/login']);
         const db = getFirestore();
 
 
@@ -59,7 +59,7 @@ export class RegistroUserComponent implements OnInit {
             address: '',
             photoURL: ''
         });
-        
+
       })
       .catch((error) => {
         this.registerForm.reset();

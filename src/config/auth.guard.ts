@@ -19,8 +19,12 @@ export class AuthGuard implements CanLoad, CanActivate {
       return true;
     }else {
       localStorage.clear();
-      //console.log("No autenticado");
-      this.router.navigate(['/login'], { replaceUrl: true });
+      console.log("No autenticado ");
+      if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'){
+        this.router.navigate(['/portal/login'], { replaceUrl: true });
+      }else{
+        this.router.navigate(['/admin/login'], { replaceUrl: true });
+      }
       return false;
     }
   }
@@ -32,7 +36,7 @@ export class AuthGuard implements CanLoad, CanActivate {
     }else {
       localStorage.clear();
       //console.log("No autenticado");
-      this.router.navigate(['/login'], { replaceUrl: true });
+      this.router.navigate(['/portal/login'], { replaceUrl: true });
       return false;
     }
   }

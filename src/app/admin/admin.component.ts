@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { ConfigService } from 'src/config/config.service';
 import { VariablesService } from '../services/variablesGL.service';
 import { SwalModel } from '../shared/models/swal.model';
 import { Toast } from '../shared/models/toast.model';
@@ -16,6 +17,7 @@ export class AdminComponent implements OnInit {
   toastSubcripcion: Subscription = new Subscription();
   swalSubcripcion: Subscription = new Subscription();
   constructor(
+    public configService: ConfigService,
     private messageService: MessageService,
     private variablesService: VariablesService
   ) { }
