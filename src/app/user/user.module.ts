@@ -24,6 +24,7 @@ import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.co
 import { CargaImagenesService } from '../services/cargaImagenes.service';
 import { AddNominacionComponent } from './mis-nominaciones/add-nominacion/add-nominacion.component';
 import { SafeurlPipe } from '../pipes/url-sanitazer.pipe';
+import { InfoSwiftComponent } from './info-swift/info-swift.component';
 
 @NgModule({
     imports: [
@@ -48,7 +49,8 @@ import { SafeurlPipe } from '../pipes/url-sanitazer.pipe';
         MiInformacionComponent,
         MisNominacionesComponent,
         AddNominacionComponent,
-        SafeurlPipe
+        SafeurlPipe,
+        InfoSwiftComponent
     ],
 })
 export class UserModule { }

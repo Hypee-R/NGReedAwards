@@ -238,7 +238,11 @@
                 <option value="paypal">PayPal</option>
             </select>
             <div class="col-12" *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'">
+                <a target="_blank" class="nav-link" aria-current="page" routerLink="/portal/info-transferencia" routerLinkActive="active">Información para hacer tu transferencia por SWIFT</a>
                 <div class="mb-3">
+                    <p>Ingresa el baucher con la transferencia por <strong>USD: {{producto.precio}}</strong>
+
+                    </p>
                     <label *ngIf="agregarFileBaucher" for="formFile" class="form-label">Comprobante de pago*</label>
                     <input *ngIf="agregarFileBaucher" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
                     <div *ngIf="submitted && nominacionForm.controls['fileBaucher'].errors" class="text-danger">
@@ -282,9 +286,9 @@
 
                     <div class="container">
                         <div class="mb-3">
-                            <label>*SI SELECCIONÓ TRANSFERENCIA SWIFT SOLO IGNORE ESTE CAMPO*</label>
+                            <label>*SI SELECCIONÓ TRANSFERENCIA SWIFT SOLO IGNORE ESTE CAMPO Y DE CLIK EN EL BOTON CREAR O ACTUALIZAR*</label>
 
-                            <div #paypal></div>
+                            <div #paypal class="mt-3"></div>
                         </div>
                     </div>
                 </div>
