@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProfileUser } from 'src/app/models/user';
 import { ErrorService } from 'src/app/services/error.service';
+import { ConfigService } from 'src/config/config.service';
 
 @Component({
   selector: 'app-login-admin',
@@ -20,11 +21,16 @@ export class LoginAdminComponent implements OnInit {
               private auth: Auth,
               private toastr: ToastrService,
               private _errorService: ErrorService,
-              private router: Router) {
+              private router: Router,
+              private configService: ConfigService) {
     this.loginForm = this.fb.group({
       usuario: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     })
+    if(configService.Usuario){
+      router.navigate(["/admin/home"]);
+    }
+
   }
 
   ngOnInit(): void {
