@@ -24,21 +24,25 @@
             <div class="col">
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Nombre *</label>
-                    <input type="text" class="form-control" placeholder="Nombre" type="text" id="nombre" formControlName="nombre" [ngClass]="submitted && contactoForm.controls['nombre'].errors ? 'is-invalid' : !submitted && contactoForm.controls['nombre'].valid ? 'is-valid' : submitted && contactoForm.controls['nombre'].valid ? 'is-valid' : null">
+                    <input type="text" class="form-control" placeholder="nombre" type="text" id="nombre" formControlName="nombre" [ngClass]="submitted && contactoForm.controls['nombre'].errors ? 'is-invalid' : !submitted && contactoForm.controls['nombre'].valid ? 'is-valid' : submitted && contactoForm.controls['nombre'].valid ? 'is-valid' : null">
                 </div>
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">Correo Electronico *</label>
-                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                    <input type="email" class="form-control" placeholder="correo" type="text" id="correo" formControlName="correo" [ngClass]="submitted && contactoForm.controls['correo'].errors ? 'is-invalid' : !submitted && contactoForm.controls['correo'].valid ? 'is-valid' : submitted && contactoForm.controls['correo'].valid ? 'is-valid' : null">
                 </div>
+         
                 <div class="mb-3">
                     <label for="exampleFormControlTextarea1" class="form-label">Mensaje *</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <textarea class="form-control"  rows="3" placeholder="mensaje" type="text" id="mensaje" formControlName="mensaje" [ngClass]="submitted && contactoForm.controls['mensaje'].errors ? 'is-invalid' : !submitted && contactoForm.controls['mensaje'].valid ? 'is-valid' : submitted && contactoForm.controls['mensaje'].valid ? 'is-valid' : null"></textarea>
+                    
                 </div>
 
 
                 <div class="mb-3">
-                    <button type="button" class="btn btn-primary" style="background-color:#4c3f91;">Enviar</button>
+                    <button type="button" class="btn btn-primary" style="background-color:#4c3f91;" type="submit">{{accion == 'agregar' ? 'Crear' : 'Actualizar'}}  >Enviar</button>
+               
                 </div>
+              
             </div>
         </form>
     </div>
