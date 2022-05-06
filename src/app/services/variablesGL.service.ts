@@ -20,6 +20,7 @@ export class VariablesService {
   pagina = new BehaviorSubject<string>("");
   endProcessCargaCompleta = new BehaviorSubject<boolean>(false);
   endProcessNominacion = new BehaviorSubject<string>(null);
+  endProcessContacto = new BehaviorSubject<string>(null);
 
   constructor(
     private router: Router
