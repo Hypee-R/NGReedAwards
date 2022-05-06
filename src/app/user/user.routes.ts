@@ -11,7 +11,6 @@ import { InicioComponent } from './inicio/inicio.component';
 import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
 import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.component';
 import { AuthGuard } from '../../config/auth.guard';
-import { InfoSwiftComponent } from './info-swift/info-swift.component';
 
 export const userRoutes: Routes = [
     { path: 'login', component: LoginUserComponent },
@@ -22,7 +21,6 @@ export const userRoutes: Routes = [
     { path: 'nominaciones', component: NominacionesComponent },
     { path: 'contacto', component: ContactoComponent },
     { path: 'inicio', component: InicioComponent },
-    { path: 'info-transferencia', component: InfoSwiftComponent },
     { path: 'mi-informacion', component: MiInformacionComponent, canActivate: [AuthGuard] },
     { path: 'mis-nominaciones', component: MisNominacionesComponent, canActivate: [AuthGuard] },
     //{ path: 'not-found', component: NotFoundComponent },
