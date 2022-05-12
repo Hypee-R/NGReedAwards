@@ -11,9 +11,8 @@ import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 })
 export class CategoriasComponent implements OnInit {
   categoria = {
-    titulo: '',
-    fechaInicio: '',
-    fechaFin: ''
+    id: '',
+    nombre: ''
   }
 
   categoriaCollectiondata: { id: string, titulo: string, fechaInicio: Date, fechaFin: Date }[] | any = [];
@@ -35,9 +34,9 @@ export class CategoriasComponent implements OnInit {
 
   initForm(){
     this.categoriaForm = this.fb.group({
-      titulo: ['', [Validators.required]],
-      fechaInicio: ['', [Validators.required]],
-      fechaFin: ['', [Validators.required]],
+      id: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+
 
     })
   }
@@ -47,11 +46,11 @@ export class CategoriasComponent implements OnInit {
 
     if(this.categoriaForm.valid){
 
-   const { titulo, fechaInicio,fechaFin } = this.categoria;
-    await this.firebaseService.addcategoria(titulo, fechaInicio,fechaFin);
-    this.categoria.titulo = "";
-    this.categoria.fechaInicio = "";
-    this.categoria.fechaFin = "";
+   const { id, nombre} = this.categoria;
+    await this.firebaseService.addcategoria(id, nombre);
+    this.categoria.id = "";
+    this.categoria.nombre = "";
+
     }else{
 
       this.toastr.info('Todos los Campos son requeridos!!', 'Espera');
@@ -78,7 +77,7 @@ export class CategoriasComponent implements OnInit {
     await this.firebaseService.deletecategoria(docId);
   }
 
-  async update(docId: string, titulo: HTMLInputElement, fechaInicio: HTMLInputElement,fechaFin: HTMLInputElement) {
-    await this.firebaseService.updatecategoria(docId, titulo.value, fechaInicio.value,fechaFin.value);
+  async update(docId: string, nombre: HTMLInputElement) {
+    await this.firebaseService.updatecategoria(docId, nombre.value);
   }
 }

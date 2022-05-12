@@ -2,46 +2,42 @@
 
 <div class="container">
     <div class="row">
-      <div class="col">
-       
-<h1>Agregar Nueva</h1>
-<form class="add" [formGroup]="categoriaForm"  (ngSubmit)="add()">
-    <label for="name">Titulo</label>
-    <input type="text" name="titulo" class="text-white bg-dark" [(ngModel)]="categoria.titulo" formControlName="titulo" [ngClass]="submitted && categoriaForm.controls['titulo'].errors ? 'is-invalid' : !submitted && categoriaForm.controls['titulo'].valid ? 'is-valid' : submitted && categoriaForm.controls['titulo'].valid ? 'is-valid' : null">
-    <!-- <div *ngIf="submitted && categoriaForm.controls['titulo'].errors" class="text-danger">
+        <div class="col">
+
+            <h1>Agregar Nueva</h1>
+            <form class="add" [formGroup]="categoriaForm" (ngSubmit)="add()">
+                <label for="id">ID</label>
+                <input type="text" name="id" class="text-white bg-dark" [(ngModel)]="categoria.id"
+                    formControlName="id"
+                    [ngClass]="submitted && categoriaForm.controls['id'].errors ? 'is-invalid' : !submitted && categoriaForm.controls['id'].valid ? 'is-valid' : submitted && categoriaForm.controls['id'].valid ? 'is-valid' : null">
+                <!-- <div *ngIf="submitted && categoriaForm.controls['titulo'].errors" class="text-danger">
         <div *ngIf="categoriaForm.controls['titulo'].errors.required">El titulo es requerido</div>
     </div> -->
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" class="text-white bg-dark" required
+                    [(ngModel)]="categoria.nombre" formControlName="nombre" required />
+                <button type="button" class="btn btn-primary" type="submit">Agregar</button>
+            </form>
+            <br>
+            <br>
 
-    <label for="age">Fecha Inicio</label>
-    <input type="text" name="fechaInicio" class="text-white bg-dark" required  [(ngModel)]="categoria.fechaInicio" formControlName="fechaInicio" required/>
-
-    <label for="age">Fecha Fin</label>
-    <input type="text" name="fechaFin" class="text-white bg-dark" required  [(ngModel)]="categoria.fechaFin"  formControlName="fechaFin" required/>
-
-
-    <button type="button" class="btn btn-primary"  type="submit" >Agregar</button>
-</form>
-<br>
-<br>
-
-<h1>Lista de Categorias</h1>
-<div class="show">
-    <ng-container *ngFor="let categoria of categoriaCollectiondata">
-        <div>
-            <label for="titulo-show">Nombre:</label>
-            <input type="text" class="text-white bg-dark col-8" name="titulo-show"   [value]="categoria.nombre" required #titulo>
-
-           
-
-            <button type="button"  class="btn btn-danger"  (click)="delete(categoria.id)">Eliminar</button>
-            <!-- <button type="button" class="btn btn-warning" (click)="update(categoria.id, nombre,'ss','s')">Actualizar</button> -->
+            <h1>Lista de Categorias</h1>
+            <div class="show">
+                <ng-container *ngFor="let categoria of categoriaCollectiondata">
+                    <div>
+                        <label for="nombre-show">ID:</label>
+                        <input type="text" class="text-white bg-dark col-2" name="id-show" [value]="categoria.id"  required #id>
+                        <label for="nombre-show">Nombre:</label>
+                        <input type="text" class="text-white bg-dark col-7" name="nombre-show"
+                            [value]="categoria.nombre" required #nombre>
+                        <button type="button" class="btn btn-danger" (click)="delete(categoria.id)">Eliminar</button>
+                        <button type="button" class="btn btn-warning"
+                            (click)="update(categoria.id, nombre)">Actualizar</button>
+                    </div>
+                    <br>
+                </ng-container>
+            </div>
         </div>
-        <br>
-    </ng-container>
-</div>
-      </div>
-   
-    </div>
-  </div>
 
-  
+    </div>
+</div>
