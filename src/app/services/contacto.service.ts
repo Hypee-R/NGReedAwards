@@ -1,15 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, addDoc, updateDoc, getFirestore } from '@angular/fire/firestore';
-import { doc, getDocs, query, where } from 'firebase/firestore';
+import { Firestore, collectionData } from '@angular/fire/firestore';
+import {  collection, addDoc,  deleteDoc, doc, updateDoc, DocumentData, CollectionReference,  QuerySnapshot,  } from 'firebase/firestore';
 import { ContactoModel } from '../shared/models/contacto.model';
 import { VariablesService } from './variablesGL.service';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactoService {
+
+  db: Firestore;
+  contactoCol: CollectionReference<DocumentData>;
+  private updatedSnapshot = new Subject<QuerySnapshot<DocumentData>>();
+  obsr_UpdatedSnapshot = this.updatedSnapshot.asObservable();
+  
   listaNominaciones: ContactoModel[] = [];
+
   constructor(
+    private toastr: ToastrService,
+    private firestore: Firestore,
     private afs: Firestore,
     private variablesGL: VariablesService,
   ){
@@ -27,78 +38,34 @@ export class ContactoService {
     });
   }
 
-
-  // async updateNominacion(updateNominacion: ContactoModel){
-  //   const db = getFirestore();
-  //   // const cityRef = doc(db, 'nominaciones', 'updateNominacion.id');
-  //   // setDoc(cityRef, { capital: true }, { merge: true });
-
-  //   const washingtonRef = doc(db, "nominaciones", updateNominacion.id);
-    //console.log('datatatata ', getDoc(washingtonRef));
-
-  //   await updateDoc(washingtonRef, {
-  //     titulo: updateNominacion.titulo,
-  //     categoria: updateNominacion.categoria,
-  //     nominado: updateNominacion.nominado,
-  //     descripcion: updateNominacion.descripcion,
-  //     fileLogoEmpresa: updateNominacion.fileLogoEmpresa,
-  //     organizacion:updateNominacion.organizacion,
-  //     responsable:updateNominacion.responsable,
-  //     telefono:updateNominacion.telefono,
-  //     pais:updateNominacion.pais,
-  //     rsInstagram: updateNominacion.rsInstagram,
-  //     rsTwitter: updateNominacion.rsTwitter,
-  //     rsFacebook: updateNominacion.rsFacebook,
-  //     rsYoutube: updateNominacion.rsYoutube,
-  //     fileCesionDerechos: updateNominacion.fileCesionDerechos,
-  //     fileCartaIntencion: updateNominacion.fileCartaIntencion,
-  //     materialMultimedia: updateNominacion.materialMultimedia,
-  //     fileBaucher: updateNominacion.fileBaucher,
-  //     pagarCon:updateNominacion.pagarCon,
-  //     statuspago:updateNominacion.statuspago,
-  //     idpago:updateNominacion.idpago,
-  //     montopago:updateNominacion.montopago,
-  //     uid:updateNominacion.uid
-  //   });
-  // }
-
-  // async getNominaciones(){
-  //   this.listaNominaciones = [];
-  //   let uid = JSON.parse(localStorage.d).uid;
-  //   const itemsCollection = collection(this.afs,'nominaciones'); //where('uid', '==', uid)
-  //   // return collectionData(query(itemsCollection, where("uid", "==", uid)));
-  //   const q = query(itemsCollection, where("uid", "==", uid));
-  //   const querySnapshot = await getDocs(q);
-  //   querySnapshot.forEach((doc) => {
-  //       // doc.data() is never undefined for query doc snapshots
-  //       this.listaNominaciones.push({
-  //           id: doc.id,
-  //           titulo: doc.data().titulo,
-  //           categoria: doc.data().categoria,
-  //           nominado: doc.data().nominado,
-  //           descripcion: doc.data().descripcion,
-  //           fileLogoEmpresa: doc.data().fileLogoEmpresa,
-  //           organizacion:doc.data().organizacion,
-  //           responsable:doc.data().responsable,
-  //           telefono:doc.data().telefono,
-  //           pais:doc.data().pais,
-  //           rsInstagram: doc.data().rsInstagram,
-  //           rsTwitter: doc.data().rsTwitter,
-  //           rsFacebook: doc.data().rsFacebook,
-  //           rsYoutube: doc.data().rsYoutube,
-  //           fileCesionDerechos: doc.data().fileCesionDerechos,
-  //           fileCartaIntencion: doc.data().fileCartaIntencion,
-  //           materialMultimedia: doc.data().materialMultimedia,
-  //           fileBaucher: doc.data().fileBaucher,
-  //           pagarCon:doc.data().pagarCon,
-  //           statuspago:doc.data().statuspago,
-  //           idpago:doc.data().idpago,
-  //           montopago:doc.data().montopago,
-  //           uid:doc.data().uid
-  //       });
-  //       //console.log(doc.id, " => ", doc.data());
-  //   });
-  //   return this.listaNominaciones;
-  // }
-
-}
+  async addcontacto(id: string, nombre: string) {
+    await addDoc(this.contactoCol, {
+      id,
+      nombre
+    })
+    return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
+  }
+  
+  async deletecontacto(docId: string) {
+    const docRef = doc(this.db, 'contactos', docId)
+    await deleteDoc(docRef);
+    return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
+  }
+  
+  async updatecontacto(docId: string, nombre: string) {
+    const docRef = doc(this.db, 'contactos', docId);
+    await updateDoc(docRef, { nombre })
+    return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
+  }
+  
+  
+    getcontactos(){
+      const contactosCollection = collection(this.firestore, 'contactos');
+      return collectionData(contactosCollection);
+    }
+  
+  
+    
+  
+  }
+  

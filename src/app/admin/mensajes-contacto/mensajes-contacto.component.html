@@ -1,1 +1,43 @@
-<p>mensajes-contacto works!</p>
+<h1>Mensajes de Contacto</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <h1>Agregar Nueva</h1>
+            <form class="add" [formGroup]="contactoForm" (ngSubmit)="add()">
+                <label for="id">ID</label>
+                <input type="text" name="id" class="text-white bg-dark" [(ngModel)]="contacto.id"
+                    formControlName="id"
+                    [ngClass]="submitted && contactoForm.controls['id'].errors ? 'is-invalid' : !submitted && contactoForm.controls['id'].valid ? 'is-valid' : submitted && contactoForm.controls['id'].valid ? 'is-valid' : null">
+                <!-- <div *ngIf="submitted && contactoForm.controls['titulo'].errors" class="text-danger">
+        <div *ngIf="contactoForm.controls['titulo'].errors.required">El titulo es requerido</div>
+    </div> -->
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" class="text-white bg-dark" required
+                    [(ngModel)]="contacto.nombre" formControlName="nombre" required />
+                <button type="button" class="btn btn-primary" type="submit">Agregar</button>
+            </form>
+            <br>
+            <br>
+
+            <h1>Lista de Mensajes</h1>
+            <div class="show">
+                <ng-container *ngFor="let contacto of contactoCollectiondata">
+                    <div>
+                        <label for="nombre-show">ID:</label>
+                        <input type="text" class="text-white bg-dark col-2" name="id-show" [value]="contacto.id"  required #id>
+                        <label for="nombre-show">Nombre:</label>
+                        <input type="text" class="text-white bg-dark col-7" name="nombre-show"
+                            [value]="contacto.nombre" required #nombre>
+                        <button type="button" class="btn btn-danger" (click)="delete(contacto.id)">Eliminar</button>
+                        <button type="button" class="btn btn-warning"
+                            (click)="update(contacto.id, nombre)">Actualizar</button>
+                    </div>
+                    <br>
+                </ng-container>
+            </div>
+        </div>
+
+    </div>
+</div>

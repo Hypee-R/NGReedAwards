@@ -1,13 +1,13 @@
 import { ToastrService } from 'ngx-toastr';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FileItem } from 'src/app/shared/models/img.model';
 import { PaisesService } from 'src/app/services/paises.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VariablesService } from 'src/app/services/variablesGL.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
-import { Firestore, collectionData, collection, query, orderBy } from '@angular/fire/firestore';
 import { CategoriasService } from 'src/app/services/categorias.service';
+import { CategoriaModel } from '../../../shared/models/categoria.model';
 
 declare var paypal;
 
@@ -16,7 +16,7 @@ declare var paypal;
   templateUrl: './add-nominacion.component.html',
   styleUrls: ['./add-nominacion.component.css']
 })
-export class AddNominacionComponent implements OnInit {
+export class AddNominacionComponent implements OnInit, OnDestroy {
 
   @ViewChild('paypal', { static: true }) paypalElement : ElementRef;
   @Input() accion: string;
@@ -47,9 +47,9 @@ export class AddNominacionComponent implements OnInit {
   agregarFileCIntencion: boolean = true;
   agregarFilesMultimedia: boolean = true;
   agregarFileBaucher: boolean = true;
+  preloadCategoria: CategoriaModel;
   constructor(
     private fb: FormBuilder,
-    private firestore: Firestore,
     private toastr: ToastrService,
     private paisesService: PaisesService,
     private variablesGL: VariablesService,
@@ -59,8 +59,6 @@ export class AddNominacionComponent implements OnInit {
   ) {
     this.getCategorias();
     this.getPaises();
-
-
   }
 
   ngOnInit(): void {
@@ -103,13 +101,20 @@ export class AddNominacionComponent implements OnInit {
     .render( this.paypalElement.nativeElement );
   }
 
-
-
+  ngOnDestroy(): void {
+      this.variablesGL.preloadCategoria.next(null);
+  }
 
   getCategorias(){
     this.categoriasService.getCategorias().subscribe( (data) => {
       if(data.length > 0){
         this.categorias = data;
+        this.preloadCategoria = this.variablesGL.preloadCategoria.getValue();
+        if(this.preloadCategoria){
+          this.nominacionForm.patchValue({
+            categoria: this.preloadCategoria.nombre,
+          });
+        }
         //console.log('data categorias ', this.categorias);
         if(this.accion == 'editar'){
           this.agregarLogo = false;

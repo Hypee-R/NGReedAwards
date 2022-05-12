@@ -1,36 +1,40 @@
-<h1>categorias</h1>
-<div class="row g-3">
-  <div class="col-sm-7">
-
-    <label for="categoria" class="mb-3 text-sm font-medium text-gray-900">Buscar</label>
-    <input type="text" class="form-control" placeholder="Buscar nominacion" aria-label="Buscar nominacion">
-  </div>
-  <div class="col-sm">
-    <label for="categoria" class="form-label">Convocatoria</label>
-    <p-dropdown [options]="convocatorias" placeholder="Selecciona una Convocatoria" optionLabel="titulo"
-      [style]="{'width':'100%'}"></p-dropdown>
-    <!-- <input type="text" class="form-control" placeholder="State" aria-label="State"> -->
-  </div>
-
+<div class="container mt-3 mb-5">
+    <h3>Categorias</h3>
+    <!-- <div class="row g-3">
+        <div class="col-sm">
+            <label for="categoria" class="form-label">Convocatoria</label>
+            <p-dropdown [options]="convocatorias" placeholder="Selecciona una Convocatoria" optionLabel="titulo" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+    </div> -->
+    <hr>
+    <p-table #tableCategorias [value]="categorias" selectionMode="single" [(selection)]="selectedCategoria" (onRowSelect)="addNominacion($event)" dataKey="nombre" [loading]="loading" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} categorias" [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-striped" [globalFilterFields]="['nombre','categoria.nombre']">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(tableCategorias)"></button> &nbsp; &nbsp;
+                <span class="p-input-icon-left ml-auto" style="width: 89%;">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="tableCategorias.filterGlobal($event.target.value, 'contains')" placeholder="Buscar categoria" [style]="{ width: '100%' }"/>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Categoria</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-categoria>
+            <tr [pSelectableRowDblClick]="categoria">
+                <td>
+                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="Doble click para agregar una nominación con ésta categoria">
+                        {{categoria.nombre}}
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>
-<p class="mb-3 mr-1 text-sm font-bold text-gray-900">Filtrado por:</p>
-<div class="container">
-    <div class="row justify-content-md-center">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Codigo</th>
-            <th scope="col">Nombre</th>
-          </tr>
-        </thead>
-      <tbody>
-        <tr *ngFor="let categoria of categorias">
-          <th scope="row">{{ categoria['code'] }}</th>
-          <td colspan="2" class="table-active">{{ categoria['nombre'] }}</td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
-  
-  </div> 
-  
+
+<p-sidebar [(visible)]="visibleSide" position="right" [baseZIndex]="2" [style]="{ 'width': '60%'}">
+    <app-add-nominacion *ngIf="visibleSide" [accion]="accion" (fetchNominaciones)="fetchNominacion()"></app-add-nominacion>
+</p-sidebar>

@@ -13,7 +13,9 @@ import { UserComponent } from './user.component';
 import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
-import {SidebarModule} from 'primeng/sidebar';
+import { SidebarModule } from 'primeng/sidebar';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 
 import { CategoriasComponent } from './categorias/categorias.component';
 import { NominacionesComponent } from './nominaciones/nominaciones.component';
@@ -21,9 +23,11 @@ import { ContactoComponent } from './contacto/contacto.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
 import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.component';
-import { CargaImagenesService } from '../services/cargaImagenes.service';
 import { AddNominacionComponent } from './mis-nominaciones/add-nominacion/add-nominacion.component';
+
+//Pipes
 import { SafeurlPipe } from '../pipes/url-sanitazer.pipe';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
     imports: [
@@ -37,7 +41,10 @@ import { SafeurlPipe } from '../pipes/url-sanitazer.pipe';
         ToastModule,
         CardModule,
         DropdownModule,
-        SidebarModule
+        SidebarModule,
+        TableModule,
+        ButtonModule,
+        InputTextModule
     ],
     declarations: [
         UserComponent,

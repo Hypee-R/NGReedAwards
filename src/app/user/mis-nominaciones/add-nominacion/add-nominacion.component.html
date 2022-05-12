@@ -30,7 +30,8 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="categoria" class="form-label">Categor&iacute;a*</label>
-                        <select class="form-select" formControlName="categoria" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null">
+                        <select class="form-select" formControlName="categoria" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null"
+                            [disabled]="preloadCategoria != null ? 'true' : 'false'">
                           <option value="">Selecciona una categor&iacute;a</option>
                           <option [value]="item.nombre" *ngFor="let item of categorias">{{item.nombre}}</option>
                         </select>
@@ -240,11 +241,11 @@
         </p-card>
         <br>
         <p-card *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'" header="Pagar con transferencia SWIFT ">
-            <div class="col-12" >
-            
+            <div class="col-12">
+
                 <div class="mb-3">
                     <p>Ingresa el baucher con la transferencia por <strong>USD: {{producto.precio}}</strong>
-                        <br>Los datos para realizar tu transferencia se encuentran en la página de 
+                        <br>Los datos para realizar tu transferencia se encuentran en la página de
                         <a target="_blank" href="">Inicio</a>
                     </p>
                     <label *ngIf="agregarFileBaucher" for="formFile" class="form-label">Comprobante de pago*</label>
@@ -259,7 +260,7 @@
             </div>
         </p-card>
         <br>
-        <p-card [hidden]="nominacionForm.controls['pagarCon'].value === 'swift'" header="Pagar con Paypal" >
+        <p-card [hidden]="nominacionForm.controls['pagarCon'].value === 'swift'" header="Pagar con Paypal">
 
             <!-- <div class="select">
                 <label class="form-label">Tipo de pago</label>
@@ -268,7 +269,7 @@
                 </div>
             </div>  -->
             <!-- if pagarCon === paypal -->
-            <div  class="row">
+            <div class="row">
                 <div class="col-12">
                     <input type="text" class="form-control" id="statuspago" formControlName="statuspago" [ngClass]="submitted && nominacionForm.controls['statuspago'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['statuspago'].valid ? 'is-valid' : submitted && nominacionForm.controls['statuspago'].valid ? 'is-valid' : null"
                         disabled>
@@ -285,11 +286,11 @@
                     <input type="text" class="form-control" id="descriptionpago" formControlName="descriptionpago" disabled value="Pago ">
                     <input type="text" class="form-control" id="valuecost" formControlName="valuecost" disabled value="108"> -->
                     <br>
-                    
 
-                    <div  class="container">
+
+                    <div class="container">
                         <div class="mb-3">
-                            <div #paypal ></div>
+                            <div #paypal></div>
                         </div>
                     </div>
                 </div>
