@@ -35,11 +35,10 @@ export class CategoriasService {
   //Ya estaba
 
 
-  async addcategoria(titulo: string, fechaInicio: string, fechaFin: string) {
+  async addcategoria(id: string, nombre: string) {
     await addDoc(this.categoriaCol, {
-      titulo,
-      fechaInicio,
-      fechaFin
+      id,
+      nombre
     })
     return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
   }
@@ -50,9 +49,9 @@ export class CategoriasService {
     return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
   }
   
-  async updatecategoria(docId: string, titulo: string, fechaInicio: string,fechaFin: string) {
+  async updatecategoria(docId: string, nombre: string) {
     const docRef = doc(this.db, 'categorias', docId);
-    await updateDoc(docRef, { titulo, fechaInicio,fechaFin })
+    await updateDoc(docRef, { nombre })
     return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
   }
   
