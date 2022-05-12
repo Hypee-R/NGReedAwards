@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Toast } from '../shared/models/toast.model';
 import { SwalModel } from 'src/app/shared/models/swal.model';
 import { FormGroup } from '@angular/forms';
+import { CategoriaModel } from '../shared/models/categoria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class VariablesService {
   endProcessCargaCompleta = new BehaviorSubject<boolean>(false);
   endProcessNominacion = new BehaviorSubject<string>(null);
   endProcessContacto = new BehaviorSubject<string>(null);
+  preloadCategoria = new BehaviorSubject<CategoriaModel>(null);
 
   constructor(
     private router: Router

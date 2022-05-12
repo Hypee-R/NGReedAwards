@@ -6,8 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VariablesService } from 'src/app/services/variablesGL.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
-import { Firestore, collectionData, collection, query, orderBy } from '@angular/fire/firestore';
 import { CategoriasService } from 'src/app/services/categorias.service';
+import { CategoriaModel } from '../../../shared/models/categoria.model';
 
 declare var paypal;
 
@@ -47,9 +47,9 @@ export class AddNominacionComponent implements OnInit {
   agregarFileCIntencion: boolean = true;
   agregarFilesMultimedia: boolean = true;
   agregarFileBaucher: boolean = true;
+  preloadCategoria: CategoriaModel;
   constructor(
     private fb: FormBuilder,
-    private firestore: Firestore,
     private toastr: ToastrService,
     private paisesService: PaisesService,
     private variablesGL: VariablesService,
@@ -59,8 +59,6 @@ export class AddNominacionComponent implements OnInit {
   ) {
     this.getCategorias();
     this.getPaises();
-
-
   }
 
   ngOnInit(): void {
@@ -103,13 +101,16 @@ export class AddNominacionComponent implements OnInit {
     .render( this.paypalElement.nativeElement );
   }
 
-
-
-
   getCategorias(){
     this.categoriasService.getCategorias().subscribe( (data) => {
       if(data.length > 0){
         this.categorias = data;
+        this.preloadCategoria = this.variablesGL.preloadCategoria.getValue();
+        if(this.preloadCategoria){
+          this.nominacionForm.patchValue({
+            categoria: this.preloadCategoria.nombre,
+          });
+        }
         //console.log('data categorias ', this.categorias);
         if(this.accion == 'editar'){
           this.agregarLogo = false;
