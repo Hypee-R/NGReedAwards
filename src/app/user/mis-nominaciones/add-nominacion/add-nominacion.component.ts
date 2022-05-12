@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FileItem } from 'src/app/shared/models/img.model';
 import { PaisesService } from 'src/app/services/paises.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -16,7 +16,7 @@ declare var paypal;
   templateUrl: './add-nominacion.component.html',
   styleUrls: ['./add-nominacion.component.css']
 })
-export class AddNominacionComponent implements OnInit {
+export class AddNominacionComponent implements OnInit, OnDestroy {
 
   @ViewChild('paypal', { static: true }) paypalElement : ElementRef;
   @Input() accion: string;
@@ -99,6 +99,10 @@ export class AddNominacionComponent implements OnInit {
       }
     })
     .render( this.paypalElement.nativeElement );
+  }
+
+  ngOnDestroy(): void {
+      this.variablesGL.preloadCategoria.next(null);
   }
 
   getCategorias(){
