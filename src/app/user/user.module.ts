@@ -24,9 +24,6 @@ import { InicioComponent } from './inicio/inicio.component';
 import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
 import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.component';
 import { AddNominacionComponent } from './mis-nominaciones/add-nominacion/add-nominacion.component';
-
-//Pipes
-import { SafeurlPipe } from '../pipes/url-sanitazer.pipe';
 import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
@@ -55,7 +52,6 @@ import { InputTextModule } from 'primeng/inputtext';
         MiInformacionComponent,
         MisNominacionesComponent,
         AddNominacionComponent,
-        SafeurlPipe,
     ],
 })
 export class UserModule { }

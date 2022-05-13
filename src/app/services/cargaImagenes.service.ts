@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, collectionData, collection, addDoc } from '@angular/fire/firestore';
 //import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 //import { uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { FileItem, ImageModel } from '../shared/models/img.model';
+import { FileItem, ImageModel } from '../models/img.model';
 import { getApp } from '@angular/fire/app';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { VariablesService } from './variablesGL.service';

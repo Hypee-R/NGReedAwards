@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { ToastrService } from 'ngx-toastr';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
-import { NominacionModel } from 'src/app/shared/models/nominacion.model';
+import { NominacionModel } from 'src/app/models/nominacion.model';
 
 
 

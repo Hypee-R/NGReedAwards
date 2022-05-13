@@ -1,1 +1,76 @@
-<p>nominaciones works!</p>
+<div class="contenedor mt-4 mb-lg-5">
+    <h3 class="text-bold text-center">Nominaciones</h3>
+    <hr>
+
+    <div class="row" *ngIf="loading">
+        <div class="content">
+            <img class="rotate" src="assets/svg/logo.svg" alt="" style="width: 50%; height: 50%;">
+        </div>
+    </div>
+
+    <div class="row" *ngIf="!listNominaciones !loading">
+        <p-card class="p-vacio">
+            <div class="text-center">
+                <h1>No hay ninguna nominaci&oacute;n registrada</h1>
+            </div>
+        </p-card>
+    </div>
+
+    <div class="row" *ngIf="listNominaciones && listNominaciones.length && listNominaciones.length > 0 && !loading">
+        <div class="col-12 col-md-3" *ngFor="let nominacion of listNominaciones">
+            <p-card [header]="nominacion.titulo" [subheader]="nominacion.categoria" [style]="{ 'width': '100%', 'margin-bottom': '2em'}" class="p-card-shadow">
+                <ng-template pTemplate="header">
+                    <div class="text-center">
+                        <img class="img-mini" alt="Card" [src]="nominacion?.fileLogoEmpresa?.url" *ngIf="nominacion?.fileLogoEmpresa?.url">
+                        <img class="img-mini" alt="Card" src="assets/svg/logo.svg" *ngIf="!nominacion?.fileLogoEmpresa?.url">
+                    </div>
+                </ng-template>
+                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p> -->
+                <div *ngIf="nominacion.mostrarMas">
+                    <label>Nominado: {{nominacion.nominado}}</label><br>
+                    <label>Descripcion: {{nominacion.descripcion}}</label><br>
+                    <label>Organizacion: {{nominacion.organizacion}}</label><br>
+                    <label>Responsable: {{nominacion.responsable}}</label><br>
+                    <label>Telefono: {{nominacion.telefono}}</label><br>
+                    <label>Pais: {{nominacion.pais}}</label><br>
+                    <label *ngIf="nominacion.statuspago == 'Pago Realizado'">
+                      Estatus del Pago:
+                        <span class="badge bg-success" *ngIf="!nominacion.fileBaucher">{{nominacion.statuspago}}</span>
+                        <p-splitButton *ngIf="nominacion.fileBaucher" [label]="nominacion.statuspago" (click)="setNominacionUpdate(nominacion)" icon="pi pi-check-circle" [model]="items" styleClass="p-button-success mb-2"></p-splitButton>
+                    </label>
+                    <label *ngIf="nominacion.statuspago == 'Pago Pendiente'">
+                      Estatus del Pago:
+                      <span class="badge bg-warning text-dark" *ngIf="!nominacion.fileBaucher">{{nominacion.statuspago}}</span>
+                      <p-splitButton *ngIf="nominacion.fileBaucher" [label]="nominacion.statuspago" (click)="setNominacionUpdate(nominacion)" icon="pi pi-info-circle" [model]="items" styleClass="p-button-warning mb-2"></p-splitButton>
+                    </label>
+                    <label *ngIf="nominacion.statuspago == 'Pago Rechazado'">
+                      Estatus del Pago:
+                      <span class="badge bg-danger" *ngIf="!nominacion.fileBaucher">{{nominacion.statuspago}}</span>
+                      <p-splitButton *ngIf="nominacion.fileBaucher" [label]="nominacion.statuspago" (click)="setNominacionUpdate(nominacion)" icon="pi pi-times-circle" [model]="items" styleClass="p-button-danger mb-2"></p-splitButton>
+                    </label>
+                    <label *ngIf="nominacion.statuspago == '' || nominacion.statuspago == 'Pago No Realizado'">
+                      Estatus del Pago:
+                      <span class="badge bg-danger" *ngIf="!nominacion.fileBaucher">Pago No Realizado</span>
+                      <p-splitButton *ngIf="nominacion.fileBaucher" label="Pago No Realizado" (click)="setNominacionUpdate(nominacion)" icon="pi pi-stop-circle" [model]="items" styleClass="p-button-danger mb-2"></p-splitButton>
+                    </label>
+                    <div *ngIf="nominacion.fileBaucher">
+                        <br><label><a target="blank" [href]="nominacion?.fileBaucher?.url | safeurl : ''">Documento de Pago</a></label> &nbsp;
+                    </div>
+                    <br><label><a target="blank" [href]="nominacion?.fileCartaIntencion?.url | safeurl : ''">Archivo Carta Intencion</a></label> &nbsp;
+                    <label><a target="blank" [href]="nominacion?.fileCesionDerechos?.url | safeurl : ''">Archivo Cesion Derechos</a></label><br>
+                    <div *ngFor="let item of nominacion.materialMultimedia; let i=index">
+                        <label><a target="blank" [href]="item?.url | safeurl : ''">Material Multimedia {{i+1}}</a></label> &nbsp;
+                    </div>
+                    <label><i class="fa-brands fa-instagram"></i> &nbsp; <a target="blank" [href]="nominacion.rsInstagram | safeurl : ''">{{nominacion.rsInstagram}}</a></label>
+                    <label><i class="fa-brands fa-twitter"></i> &nbsp; <a target="blank" [href]="nominacion.rsTwitter | safeurl : ''">{{nominacion.rsTwitter}}</a></label>
+                    <label><i class="fa-brands fa-facebook"></i> &nbsp; <a target="blank" [href]="nominacion.rsFacebook | safeurl : ''">{{nominacion.rsFacebook}}</a></label>
+                    <label><i class="fa-brands fa-youtube"></i> &nbsp; <a target="blank" [href]="nominacion.rsYoutube | safeurl : ''">{{nominacion.rsYoutube}}</a></label>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button class="btn btn-primary" (click)="vistaPrevia(nominacion)"><i [ngClass]="nominacion.mostrarMas ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i> {{ nominacion.mostrarMas ? 'Mostrar menos' : 'Vista Previa' }}</button>
+                </ng-template>
+            </p-card>
+        </div>
+    </div>
+
+</div>

@@ -8,6 +8,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import {MenubarModule} from 'primeng/menubar';
+import { SafeurlPipe } from './pipes/url-sanitazer.pipe';
 
 
 @NgModule({
@@ -23,11 +24,14 @@ import {MenubarModule} from 'primeng/menubar';
         NavBarComponent,
         MenuBarComponent,
         SpinnerComponent,
+        //Pipes
+        SafeurlPipe,
     ],
     exports: [
         NavBarComponent,
         MenuBarComponent,
-        SpinnerComponent
+        SpinnerComponent,
+        SafeurlPipe,
     ]
 })
 export class SharedModule { }

@@ -2,7 +2,7 @@
     width: 100vw;
     height: 100vh;
     margin-left: 0;
-    /* overflow: auto; */
+    overflow: auto;
     position: fixed;
     /* z-index: 99; */
     background-color: #181a1e;

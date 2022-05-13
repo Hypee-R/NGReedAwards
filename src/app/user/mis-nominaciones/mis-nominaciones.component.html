@@ -20,7 +20,7 @@
 
     <div class="row" *ngIf="listNominaciones && listNominaciones.length && listNominaciones.length > 0 && !loading">
         <div class="col-12 col-md-3" *ngFor="let nominacion of listNominaciones">
-            <p-card [header]="nominacion.titulo" [subheader]="nominacion.categoria" [style]="{width: '100%'}" styleClass="p-card-shadow">
+            <p-card [header]="nominacion.titulo" [subheader]="nominacion.categoria" [style]="{ 'width': '100%', 'margin-bottom': '2em'}" styleClass="p-card-shadow">
                 <ng-template pTemplate="header">
                     <div class="text-center">
                         <img class="img-mini" alt="Card" [src]="nominacion?.fileLogoEmpresa?.url" *ngIf="nominacion?.fileLogoEmpresa?.url">
@@ -39,6 +39,9 @@
                     <label *ngIf="nominacion.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{nominacion.statuspago}}</span></label>
                     <label *ngIf="nominacion.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{nominacion.statuspago}}</span></label>
                     <label *ngIf="nominacion.statuspago == ''">Estatus del Pago: <span class="badge bg-danger" >Pago No Realizado</span></label>
+                    <div *ngIf="nominacion.fileBaucher">
+                        <br><label><a target="blank" [href]="nominacion?.fileBaucher?.url | safeurl : ''">Documento de Pago</a></label> &nbsp;
+                    </div>
                     <br><label><a target="blank" [href]="nominacion?.fileCartaIntencion?.url | safeurl : ''">Archivo Carta Intencion</a></label> &nbsp;
                     <label><a target="blank" [href]="nominacion?.fileCesionDerechos?.url | safeurl : ''">Archivo Cesion Derechos</a></label><br>
                     <div *ngFor="let item of nominacion.materialMultimedia; let i=index">

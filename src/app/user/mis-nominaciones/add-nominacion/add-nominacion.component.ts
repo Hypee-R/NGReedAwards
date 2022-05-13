@@ -1,13 +1,13 @@
 import { ToastrService } from 'ngx-toastr';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FileItem } from 'src/app/shared/models/img.model';
+import { FileItem } from 'src/app/models/img.model';
 import { PaisesService } from 'src/app/services/paises.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VariablesService } from 'src/app/services/variablesGL.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
 import { CategoriasService } from 'src/app/services/categorias.service';
-import { CategoriaModel } from '../../../shared/models/categoria.model';
+import { CategoriaModel } from '../../../models/categoria.model';
 
 declare var paypal;
 

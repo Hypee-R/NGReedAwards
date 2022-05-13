@@ -6,9 +6,10 @@ import { Table } from 'primeng/table';
 import { ConvocatoriasService } from 'src/app/services/convocatoria.service';
 // import { CategoriasService } from "./shared/categorias.service";
 import { CategoriasService } from '../../services/categorias.service';
-import { CategoriaModel } from '../../shared/models/categoria.model';
+import { CategoriaModel } from '../../models/categoria.model';
 import { Router } from '@angular/router';
 import { VariablesService } from '../../services/variablesGL.service';
+import { ConfigService } from 'src/config/config.service';
 // providers: [CategoriasService]
 
 @Component({
@@ -26,6 +27,7 @@ export class CategoriasComponent implements OnInit {
   accion: string = "";
   constructor(
     private router: Router,
+    public configService: ConfigService,
     private variablesGL: VariablesService,
     private categoriasService: CategoriasService,
     private convocatoriasService: ConvocatoriasService,
@@ -60,10 +62,14 @@ export class CategoriasComponent implements OnInit {
   }
 
   addNominacion(event){
-    console.log('add nominacion event ', event, this.selectedCategoria);
-    this.variablesGL.preloadCategoria.next(this.selectedCategoria);
-    this.accion = 'agregar';
-    this.visibleSide = true;
+    //console.log('add nominacion event ', event, this.selectedCategoria);
+    if(this.configService.Usuario){
+      this.variablesGL.preloadCategoria.next(this.selectedCategoria);
+      this.accion = 'agregar';
+      this.visibleSide = true;
+    }else{
+      this.router.navigate(["/portal/login"])
+    }
   }
 
   fetchNominacion(){

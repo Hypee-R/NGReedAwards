@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, addDoc, updateDoc, getFirestore } from '@angular/fire/firestore';
 import { doc, getDocs, query, where } from 'firebase/firestore';
-import { NominacionModel } from '../shared/models/nominacion.model';
+import { NominacionModel } from '../models/nominacion.model';
 import { VariablesService } from './variablesGL.service';
 
 @Injectable({
@@ -32,10 +32,10 @@ export class NominacionService {
     // const cityRef = doc(db, 'nominaciones', 'updateNominacion.id');
     // setDoc(cityRef, { capital: true }, { merge: true });
 
-    const washingtonRef = doc(db, "nominaciones", updateNominacion.id);
+    const nominacionesRef = doc(db, "nominaciones", updateNominacion.id);
     //console.log('datatatata ', getDoc(washingtonRef));
 
-    await updateDoc(washingtonRef, {
+    await updateDoc(nominacionesRef, {
       titulo: updateNominacion.titulo,
       categoria: updateNominacion.categoria,
       nominado: updateNominacion.nominado,
@@ -61,12 +61,64 @@ export class NominacionService {
     });
   }
 
+  async updateStatusPagoNominacion(updateNominacion: NominacionModel){
+    const db = getFirestore();
+    // const cityRef = doc(db, 'nominaciones', 'updateNominacion.id');
+    // setDoc(cityRef, { capital: true }, { merge: true });
+
+    const nominacionesRef = doc(db, "nominaciones", updateNominacion.id);
+    //console.log('datatatata ', getDoc(washingtonRef));
+
+    await updateDoc(nominacionesRef, {
+      statuspago:updateNominacion.statuspago,
+    });
+  }
+
   async getNominaciones(){
     this.listaNominaciones = [];
     let uid = JSON.parse(localStorage.d).uid;
     const itemsCollection = collection(this.afs,'nominaciones'); //where('uid', '==', uid)
     // return collectionData(query(itemsCollection, where("uid", "==", uid)));
     const q = query(itemsCollection, where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        this.listaNominaciones.push({
+            id: doc.id,
+            titulo: doc.data().titulo,
+            categoria: doc.data().categoria,
+            nominado: doc.data().nominado,
+            descripcion: doc.data().descripcion,
+            fileLogoEmpresa: doc.data().fileLogoEmpresa,
+            organizacion:doc.data().organizacion,
+            responsable:doc.data().responsable,
+            telefono:doc.data().telefono,
+            pais:doc.data().pais,
+            rsInstagram: doc.data().rsInstagram,
+            rsTwitter: doc.data().rsTwitter,
+            rsFacebook: doc.data().rsFacebook,
+            rsYoutube: doc.data().rsYoutube,
+            fileCesionDerechos: doc.data().fileCesionDerechos,
+            fileCartaIntencion: doc.data().fileCartaIntencion,
+            materialMultimedia: doc.data().materialMultimedia,
+            fileBaucher: doc.data().fileBaucher,
+            pagarCon:doc.data().pagarCon,
+            statuspago:doc.data().statuspago,
+            idpago:doc.data().idpago,
+            montopago:doc.data().montopago,
+            uid:doc.data().uid
+        });
+        //console.log(doc.id, " => ", doc.data());
+    });
+    return this.listaNominaciones;
+  }
+
+  async getAllNominaciones(){
+    this.listaNominaciones = [];
+    let uid = JSON.parse(localStorage.d).uid;
+    const itemsCollection = collection(this.afs,'nominaciones'); //where('uid', '==', uid)
+    // return collectionData(query(itemsCollection, where("uid", "==", uid)));
+    const q = query(itemsCollection);
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots

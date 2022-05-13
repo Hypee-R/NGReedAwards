@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Toast } from '../shared/models/toast.model';
 import { SwalModel } from 'src/app/shared/models/swal.model';
 import { FormGroup } from '@angular/forms';
-import { CategoriaModel } from '../shared/models/categoria.model';
+import { CategoriaModel } from '../models/categoria.model';
 
 @Injectable({
   providedIn: 'root'
