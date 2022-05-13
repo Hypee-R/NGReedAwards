@@ -35,7 +35,7 @@
                     <label>Responsable: {{nominacion.responsable}}</label><br>
                     <label>Telefono: {{nominacion.telefono}}</label><br>
                     <label>Pais: {{nominacion.pais}}</label><br>
-                    <br><label>Metodo de Pago: <i [class]="nominacion.pagarCon == 'paypal' ? 'fa-brands fa-cc-paypal fa-xl' : 'fa-solid fa-money-bill-transfer fa-xl'"></i></label>
+                    <label>Metodo de Pago: <i [class]="nominacion.pagarCon == 'paypal' ? 'fa-brands fa-cc-paypal fa-xl' : 'fa-solid fa-money-bill-transfer fa-xl'"></i></label><br>
                     <label *ngIf="nominacion.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{nominacion.statuspago}}</span></label>
                     <label *ngIf="nominacion.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{nominacion.statuspago}}</span></label>
                     <label *ngIf="nominacion.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{nominacion.statuspago}}</span></label>
