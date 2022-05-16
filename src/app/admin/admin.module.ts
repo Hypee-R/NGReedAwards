@@ -10,6 +10,9 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home/home.component';
+import { SidebarModule } from 'primeng/sidebar';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { ConvocatoriasComponent } from './convocatorias/convocatorias.component';
 import { JuecesComponent } from './jueces/jueces.component';
@@ -23,6 +26,8 @@ import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import {SplitButtonModule} from 'primeng/splitbutton';
 
+import { InputTextModule } from 'primeng/inputtext';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -35,6 +40,10 @@ import {SplitButtonModule} from 'primeng/splitbutton';
         ToastModule,
         CardModule,
         SplitButtonModule,
+        SidebarModule,
+        TableModule,
+        ButtonModule,
+        InputTextModule
     ],
     declarations: [
         AdminComponent,

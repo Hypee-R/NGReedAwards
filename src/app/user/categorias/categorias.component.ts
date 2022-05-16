@@ -19,6 +19,12 @@ import { ConfigService } from 'src/config/config.service';
 })
 export class CategoriasComponent implements OnInit {
 
+  categoria = {
+    id: '',
+    nombre: ''
+  }
+
+
   categorias: any;
   convocatorias: any;
   loading: boolean = true;
@@ -37,6 +43,8 @@ export class CategoriasComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.getCategorias();
+
   }
 
   async getCategorias(){

@@ -3,6 +3,10 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { Table } from 'primeng/table';
+// import { CategoriasService } from "./shared/categorias.service";
+import { CategoriaModel } from '../../models/categoria.model';
+
 
 @Component({
   selector: 'app-categorias',
@@ -15,11 +19,16 @@ export class CategoriasComponent implements OnInit {
     nombre: ''
   }
 
+  categorias: any;
+  loading: boolean = true;
   categoriaCollectiondata: { id: string, titulo: string, fechaInicio: Date, fechaFin: Date }[] | any = [];
   categoriaForm: FormGroup;
   submitted: boolean;
-  constructor(private firebaseService: CategoriasService,private fb: FormBuilder, private toastr: ToastrService,) {
-    
+
+  selectedCategoria: CategoriaModel;
+  constructor(private firebaseService: CategoriasService,private fb: FormBuilder, private toastr: ToastrService,)
+   {
+    this.get();
    }
 
 
@@ -27,9 +36,9 @@ export class CategoriasComponent implements OnInit {
     this.initForm();
     
     this.get();
-    this.firebaseService.obsr_UpdatedSnapshot.subscribe((snapshot) => {
-      this.updatecategoriaCollection(snapshot);
-    })
+    // this.firebaseService.obsr_UpdatedSnapshot.subscribe((snapshot) => {
+    //   this.updatecategoriaCollection(snapshot);
+    // })
   }
 
   initForm(){
@@ -61,8 +70,17 @@ export class CategoriasComponent implements OnInit {
 
   }
 
+  
+
   async get() {
-    const snapshot = await this.firebaseService.getCategorias();
+    this.firebaseService.getCategorias().subscribe( (data) => {
+      this.categorias = data;
+      console.log('data categorias ', this.categoria);
+      this.loading = false;
+    }, err => {
+      this.categorias = [];
+      this.loading = false;
+    });
     //this.updatecategoriaCollection(snapshot);
   }
 
@@ -80,4 +98,11 @@ export class CategoriasComponent implements OnInit {
   async update(docId: string, nombre: HTMLInputElement) {
     await this.firebaseService.updatecategoria(docId, nombre.value);
   }
+
+
+    clear(table: Table) {
+    table.clear();
+  }
+
+
 }
