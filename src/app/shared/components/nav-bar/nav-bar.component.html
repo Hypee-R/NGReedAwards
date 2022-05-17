@@ -20,6 +20,11 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" routerLink="/portal/contacto" routerLinkActive="active">Contacto</a>
                 </li>
+                <div >
+                    <li *ngIf="currentUser == 'admin'" class="nav-item">
+                        <a class="nav-link" aria-current="page" routerLink="/admin" routerLinkActive="active">Dashboard</a>
+                    </li>
+                </div>
             </ul>
             <div class="d-flex">
                 <a class="nav-link" style="cursor: pointer;" routerLink="/portal/registro" *ngIf="!configService.Usuario">Registrate</a>
