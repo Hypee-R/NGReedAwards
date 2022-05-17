@@ -81,14 +81,23 @@ export class MiInformacionComponent implements OnInit {
       if(this.formMiInformacion.valid){
         let uid = JSON.parse(localStorage.d).uid;
         const db = getFirestore();
+        //get current user email
+        const user = await getAuth().currentUser;
+        const userEmail = user.email;
+        //get user role from this.userData
+        const userRole = this.userData[0].rol;
+        console.log('userRole', userRole);
+        
         await setDoc(doc(db, 'usuarios', uid),{
             uid: uid,
+            email: userEmail,
             firstName: value.firstName,
             lastName: value.lastName,
             displayName: value.firstName,
             phone: value.phone,
             address: '',
-            photoURL: ''
+            photoURL: '',
+            rol: userRole,
         });
         this.toastr.success('Información actualizada correctamente','Éxito')
         this.loading = false;

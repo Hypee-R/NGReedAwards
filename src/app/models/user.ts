@@ -17,4 +17,5 @@ export interface ProfileUser {
     phone?: string;
     address?: string;
     photoURL?: string;
+    rol?: string;
   }

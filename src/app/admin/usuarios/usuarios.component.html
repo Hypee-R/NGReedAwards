@@ -1,1 +1,48 @@
-<p>usuarios works!</p>
+<h1>Usuarios</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <!-- <form class="add" [formGroup]="usuarioForm" (ngSubmit)="add()">
+                <label for="id">ID</label>
+                <input type="text" name="id" class="text-white bg-dark" [(ngModel)]="usuario.id"
+                    formControlName="id"
+                    [ngClass]="submitted && usuarioForm.controls['id'].errors ? 'is-invalid' : !submitted && usuarioForm.controls['id'].valid ? 'is-valid' : submitted && usuarioForm.controls['id'].valid ? 'is-valid' : null"> -->
+                <!-- <div *ngIf="submitted && categoriaForm.controls['titulo'].errors" class="text-danger">
+        <div *ngIf="categoriaForm.controls['titulo'].errors.required">El titulo es requerido</div>
+    </div> -->
+                <!-- <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" class="text-white bg-dark" required
+                    [(ngModel)]="usuario.nombre" formControlName="nombre" required />
+                <button type="button" class="btn btn-primary" type="submit">Agregar</button>
+            </form> -->
+            <br>
+            <br>
+
+            <h1>Lista de Usuarios</h1>
+            <div class="show">
+                <ng-container *ngFor="let usuario of usuarioCollectionData">
+                    <div>
+                        <hr>
+                        <label for="nombre-show">UID:</label>
+                        <input type="text" class="text-white bg-dark col-2" name="id-show" [value]="usuario.uid"  required #uid>
+                        <label for="nombre-show">Nombre:</label>
+                        <input type="text" class="text-white bg-dark col-7" name="nombre-show"
+                            [value]="usuario.email" required #email>
+                        <label for="nombre-show">Rol:</label>
+                        <input type="text" class="text-white bg-dark col-7" name="apellido-show"
+                            [value]="usuario.rol" required #rol>
+                        
+                        <!-- <button type="button" class="btn btn-danger" (click)="delete(usuario.uid)">Eliminar</button> -->
+
+                        <button type="button" class="btn btn-warning"
+                            (click)="update(usuario.uid, usuario.firstName, usuario.lastName, usuario.displayName, email, usuario.phone, usuario.address, usuario.photoURL, rol )">Actualizar</button>
+                    </div>
+                    <br>
+                </ng-container>
+            </div>
+        </div>
+
+    </div>
+</div>
