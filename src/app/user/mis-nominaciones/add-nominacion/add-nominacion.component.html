@@ -8,6 +8,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label for="titulo" class="form-label">T&iacute;tulo de la pieza*</label>
+                        <h6>"con ese titulo saldrán nominados"</h6>
                         <input type="text" class="form-control" id="titulo" formControlName="titulo" [ngClass]="submitted && nominacionForm.controls['titulo'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['titulo'].valid ? 'is-valid' : submitted && nominacionForm.controls['titulo'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['titulo'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['titulo'].errors.required">El titulo es requerido</div>
@@ -18,6 +19,7 @@
 
                     <div class="mb-3">
                         <label for="nominado" class="form-label">Nombre del nominado*</label>
+                        <h6>"con ese nombre saldrá nominado"</h6>
                         <input type="text" class="form-control" id="nominado" formControlName="nominado" [ngClass]="submitted && nominacionForm.controls['nominado'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['nominado'].valid ? 'is-valid' : submitted && nominacionForm.controls['nominado'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['nominado'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['nominado'].errors.required">El nominado es requerido

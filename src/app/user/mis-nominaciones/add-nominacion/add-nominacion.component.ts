@@ -25,7 +25,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
 
   producto = {
     descripcion : 'producto en venta',
-    precio      : 113.00
+    precio      : 120.75
   }
 
 
