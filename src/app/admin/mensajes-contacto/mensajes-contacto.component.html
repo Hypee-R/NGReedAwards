@@ -1,43 +1,104 @@
-<h1>Mensajes de Contacto </h1>
+<p-toast></p-toast>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
+<div class="card">
+    <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success mr-2"
+                (click)="openNew()"></button>
+            
+        </ng-template>
 
-            <h1>Agregar Nueva</h1>
-            <form class="add" [formGroup]="contactoForm" (ngSubmit)="add()">
-                <label for="id">ID</label>
-                <input type="text" name="id" class="text-white bg-dark" [(ngModel)]="contacto.id"
-                    formControlName="id"
-                    [ngClass]="submitted && contactoForm.controls['id'].errors ? 'is-invalid' : !submitted && contactoForm.controls['id'].valid ? 'is-valid' : submitted && contactoForm.controls['id'].valid ? 'is-valid' : null">
-                <!-- <div *ngIf="submitted && contactoForm.controls['titulo'].errors" class="text-danger">
-        <div *ngIf="contactoForm.controls['titulo'].errors.required">El titulo es requerido</div>
-    </div> -->
-                <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" class="text-white bg-dark" required
-                    [(ngModel)]="contacto.nombre" formControlName="nombre" required />
-                <button type="button" class="btn btn-primary" type="submit">Agregar</button>
-            </form>
-            <br>
-            <br>
+        <ng-template pTemplate="right">
+            <p-fileUpload mode="basic" accept="correo/*" [maxFileSize]="1000000" label="Import" chooseLabel="Importar"
+                class="mr-2 inline-block"></p-fileUpload>
+            <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help"></button>
+        </ng-template>
+    </p-toolbar>
 
-            <h1>Lista de Mensajes</h1>
-            <div class="show">
-                <ng-container *ngFor="let contacto of contactoCollectiondata">
-                    <div>
-                        <label for="nombre-show">ID:</label>
-                        <input type="text" class="text-white bg-dark col-2" name="id-show" [value]="contacto.id"  required #id>
-                        <label for="nombre-show">Nombre:</label>
-                        <input type="text" class="text-white bg-dark col-7" name="nombre-show"
-                            [value]="contacto.nombre" required #nombre>
-                        <button type="button" class="btn btn-danger" (click)="delete(contacto.id)">Eliminar</button>
-                        <button type="button" class="btn btn-warning"
-                            (click)="update(contacto.id, nombre)">Actualizar</button>
-                    </div>
-                    <br>
-                </ng-container>
+    <p-table #dt [value]="ContactoModels" [rows]="10" [paginator]="true"
+        [globalFilterFields]="['nombre','country.nombre','representative.nombre','status']" responsiveLayout="scroll"
+        [(selection)]="selectedContactoModels" [rowHover]="true" dataKey="id"
+        currentPageReportTemplate="Mostrando   {first}hasta  {last} de {totalRecords} mensajes"
+        [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Mensajes de Contacto</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Search..." />
+                </span>
             </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <!-- <th pSortableColumn="id">id <p-sortIcon field="id"></p-sortIcon>
+                </th> -->
+                <th pSortableColumn="nombre">nombre <p-sortIcon field="nombre"></p-sortIcon>
+                </th>
+                <th pSortableColumn="correo">correo <p-sortIcon field="correo"></p-sortIcon>
+                </th>
+                <th pSortableColumn="mensaje">mensaje <p-sortIcon field="mensaje"></p-sortIcon>
+                </th>
+                <!-- <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th> -->
+                <!-- <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-ContactoModel>
+            <tr>
+                <!-- <td>{{ContactoModel.id}}</td> -->
+                <td>{{ContactoModel.nombre}}</td>
+                <td>{{ContactoModel.correo}}</td>
+                <td>{{ContactoModel.mensaje}}</td>
+                <td><span
+                        [class]="'ContactoModel-badge status-' + (ContactoModel.inventoryStatus ? ContactoModel.inventoryStatus.toLowerCase() : '')">{{ContactoModel.inventoryStatus}}</span>
+                </td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                        (click)="editContactoModel(ContactoModel)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                        (click)="deleteContactoModel(ContactoModel)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                En total son {{ContactoModels ? ContactoModels.length : 0 }} Mensajes.
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="ContactoModelDialog" [style]="{width: '450px'}" header="Detalles del mensaje" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+
+        <div class="field">
+            <label for="nombre">contacto</label>
+            <input type="text" pInputText id="correo" [(ngModel)]="ContactoModel.correo" required autofocus />
+            <small class="p-error" *ngIf="submitted && !ContactoModel.correo">correo is required.</small>
+        </div>
+        <div class="field">
+            <label for="nombre">Nombre</label>
+            <input type="text" pInputText id="nombre" [(ngModel)]="ContactoModel.nombre" required autofocus />
+            <small class="p-error" *ngIf="submitted && !ContactoModel.nombre">nombre is required.</small>
+        </div>
+        <div class="field">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" pInputTextarea [(ngModel)]="ContactoModel.mensaje" required rows="3"
+                cols="20"></textarea>
         </div>
 
-    </div>
-</div>
+
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
+            (click)="saveContactoModel()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

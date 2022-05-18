@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collectionData } from '@angular/fire/firestore';
-import {  collection, addDoc,  deleteDoc, doc, updateDoc, DocumentData, CollectionReference,  QuerySnapshot,  } from 'firebase/firestore';
+import {  collection, addDoc,  deleteDoc, doc, updateDoc, DocumentData, CollectionReference,  QuerySnapshot, getDocs, getFirestore, onSnapshot,  } from 'firebase/firestore';
 import { ContactoModel } from '../models/contacto.model';
 import { VariablesService } from './variablesGL.service';
 import { ToastrService } from 'ngx-toastr';
@@ -24,6 +24,14 @@ export class ContactoService {
     private afs: Firestore,
     private variablesGL: VariablesService,
   ){
+    this.db = getFirestore();
+    this.contactoCol = collection(this.db, 'mensajesContacto');
+   // Get Realtime Data
+   onSnapshot(this.contactoCol, (snapshot) => {
+    this.updatedSnapshot.next(snapshot);
+  }, (err) => {
+    console.log(err);
+  })
   }
 
   async addNominacion(contacto: ContactoModel){
@@ -38,33 +46,38 @@ export class ContactoService {
     });
   }
 
-  async addcontacto(id: string, nombre: string) {
+  async addcontacto(correo: string,mensaje: string,nombre: string) {
     await addDoc(this.contactoCol, {
-      id,
-      nombre
+      correo,
+      mensaje,
+      nombre,
+
     })
     return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
   }
 
   async deletecontacto(docId: string) {
-    const docRef = doc(this.db, 'contactos', docId)
-    await deleteDoc(docRef);
-    return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
+    const docRef = doc(this.db, 'mensajesContacto', docId)
+   await deleteDoc(docRef);
+   // return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
   }
 
-  async updatecontacto(docId: string, nombre: string) {
-    const docRef = doc(this.db, 'contactos', docId);
-    await updateDoc(docRef, { nombre })
-    return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
+  async updatecontacto(docId: string, correo: string,mensaje: string,nombre: string) {
+    const docRef = doc(this.db, 'mensajesContacto', docId);
+    await updateDoc(docRef, { correo,mensaje,nombre })
+  //  return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
   }
 
 
     getcontactos(){
-      const contactosCollection = collection(this.firestore, 'contactos');
+      const contactosCollection = collection(this.firestore, 'mensajesContacto');
       return collectionData(contactosCollection);
     }
 
-
-
+    async getContactos() {
+      const snapshot = await getDocs(this.contactoCol);
+      return snapshot;
+    }
+    
 
   }

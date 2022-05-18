@@ -1,6 +1,7 @@
-export class ContactoModel{
+export interface ContactoModel{
+  id?:string;
   nombre: string;
   correo: string;
   mensaje: string;
-  uid: string;
+ 
 }
