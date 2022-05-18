@@ -12,14 +12,19 @@ import { NominacionService } from 'src/app/services/nominacion.service';
 })
 export class NominacionesComponent implements OnInit {
 
+  visibleSide: boolean;
+  accion: string = '';
+  nominacionEditar: NominacionModel;
   items: MenuItem[];
   loading: boolean = true;
   listNominaciones: NominacionModel[] = [];
   nominacionUpdate: NominacionModel;
+  body:any;
   constructor(
     private toastr: ToastrService,
     private nominacionesService: NominacionService
   ) {
+    this.body = document.body;
     this.items = [
       { label: 'Pago Realizado', icon: 'pi pi-check-circle', command: () => {
           this.updateEstatusPagoNominacion('Pago Realizado');
@@ -84,6 +89,38 @@ export class NominacionesComponent implements OnInit {
       }
     });
 
+  }
+
+  async eliminarNominacion(nominacion: NominacionModel){
+    Swal.fire({
+      title: 'Desea Eliminar Ésta Nominación?',
+      text: "Ésta accion no se podrá revertir ni cambiar",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3c3174',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+      denyButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.nominacionesService.deleteNominacion(nominacion);
+        this.toastr.success('Nominación eliminada!!', 'Success');
+        this.getNominaciones();
+      }
+    });
+  }
+
+  editarNominacion(nominacion: NominacionModel){
+    this.accion = 'editar';
+    this.nominacionEditar = nominacion;
+    this.visibleSide = true;
+  }
+
+  async fetchNominacion(){
+    await this.getNominaciones();
+    this.visibleSide = false;
+    this.accion = null;
+    this.nominacionEditar = null;
   }
 
 

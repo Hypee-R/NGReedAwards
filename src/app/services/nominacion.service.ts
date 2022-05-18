@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, addDoc, updateDoc, getFirestore } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, addDoc, updateDoc, deleteDoc, getFirestore } from '@angular/fire/firestore';
 import { doc, getDocs, query, where } from 'firebase/firestore';
 import { NominacionModel } from '../models/nominacion.model';
 import { VariablesService } from './variablesGL.service';
@@ -72,6 +72,14 @@ export class NominacionService {
     await updateDoc(nominacionesRef, {
       statuspago:updateNominacion.statuspago,
     });
+  }
+
+  async deleteNominacion(deleteNominacion: NominacionModel){
+
+    const db = getFirestore();
+    const nominacionRef = doc(db, "nominaciones", deleteNominacion.id);
+
+    await deleteDoc(nominacionRef);
   }
 
   async getNominaciones(){
