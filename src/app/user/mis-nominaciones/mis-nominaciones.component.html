@@ -63,6 +63,6 @@
 
 </div>
 
-<p-sidebar [(visible)]="visibleSide" position="right" [baseZIndex]="2" [style]="{ 'width': '60%'}">
+<p-sidebar [(visible)]="visibleSide" position="right" [blockScroll]="true" [baseZIndex]="2" [style]="{ 'width': '60%'}">
     <app-add-nominacion *ngIf="visibleSide" [accion]="accion" [nominacionEditar]="nominacionEditar" (fetchNominaciones)="fetchNominacion()"></app-add-nominacion>
 </p-sidebar>

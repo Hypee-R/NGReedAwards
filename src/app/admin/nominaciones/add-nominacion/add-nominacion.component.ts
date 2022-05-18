@@ -12,11 +12,11 @@ import { CategoriaModel } from '../../../models/categoria.model';
 declare var paypal;
 
 @Component({
-  selector: 'app-add-nominacion',
+  selector: 'app-add-nominacion-admin',
   templateUrl: './add-nominacion.component.html',
   styleUrls: ['./add-nominacion.component.css']
 })
-export class AddNominacionComponent implements OnInit, OnDestroy {
+export class AddNominacionAdminComponent implements OnInit, OnDestroy {
 
   @ViewChild('paypal', { static: true }) paypalElement : ElementRef;
   @Input() accion: string;
@@ -209,9 +209,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
         }
         else {
           //this.setListaArchivos(this.fileBaucher, "NoFileBaucher");
-          if(this.nominacionForm.get('pagarCon').value != 'paypal'){
-            this.toastr.warning('No seleccionaste un archivo de baucher', 'Atención');
-          }
+          this.toastr.warning('No seleccionaste un archivo de baucher', 'Atención');
           //return;
         }
         //Carga las imagenes solo si no se han cargado
@@ -362,7 +360,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value ? this.nominacionForm.get('idpago').value : Date.now().toString(),
           montopago: this.producto.precio.toString(),
-          uid: JSON.parse(localStorage.d).uid
+          uid: this.nominacionEditar.uid
         });
 
         this.toastr.success('Nominación actualizada con exito!!', 'Success');

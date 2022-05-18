@@ -25,8 +25,10 @@ import { MensajesContactoComponent } from './mensajes-contacto/mensajes-contacto
 import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import {SplitButtonModule} from 'primeng/splitbutton';
-
+import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+
+import { AddNominacionAdminComponent } from './nominaciones/add-nominacion/add-nominacion.component';
 
 @NgModule({
     imports: [
@@ -39,6 +41,7 @@ import { InputTextModule } from 'primeng/inputtext';
         //PrimeNG
         ToastModule,
         CardModule,
+        DropdownModule,
         SplitButtonModule,
         SidebarModule,
         TableModule,
@@ -55,6 +58,7 @@ import { InputTextModule } from 'primeng/inputtext';
         UsuariosComponent,
         EvaluacionNominacionesComponent,
         MensajesContactoComponent,
+        AddNominacionAdminComponent,
     ]
 })
 export class AdminModule { }
