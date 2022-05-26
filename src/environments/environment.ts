@@ -25,6 +25,7 @@ export const environment = {
 //   firebase:{
 //     apiKey: "AIzaSyDEXM5FS5qanVsE2TG6Tx1XeGxwExfu1IM",
 //   authDomain: "angular-28bfc.firebaseapp.com",
+//   databaseURL: "https://angular-28bfc-default-rtdb.firebaseio.com",
 //   projectId: "angular-28bfc",
 //   storageBucket: "angular-28bfc.appspot.com",
 //   messagingSenderId: "820041282268",

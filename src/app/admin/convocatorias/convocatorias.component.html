@@ -125,13 +125,13 @@
             </div>
             <div class="field">
                 <label for="fechaInicio">Fecha de Inicio:</label>
-                <input type="text" name="fechaInicio" class="" pInputText required [(ngModel)]="convocatoriaModel.fechaInicio" formControlName="fechaInicio" required/>
+                <input type="date" name="fechaInicio" class="" pInputText required [(ngModel)]="convocatoriaModel.fechaInicio" formControlName="fechaInicio" required/>
                 <small class="p-error" *ngIf="submitted && !convocatoriaModel.fechaInicio">nombre is required.</small>
 
             </div>
             <div class="field">
                 <label for="fechaFin">Fecha Fin:</label>
-                <input type="text" name="fechaFin" class="" pInputText required [(ngModel)]="convocatoriaModel.fechaFin" formControlName="fechaFin" required/>
+                <input type="date" name="fechaFin" class="" pInputText required [(ngModel)]="convocatoriaModel.fechaFin" formControlName="fechaFin" required/>
                 <small class="p-error" *ngIf="submitted && !convocatoriaModel.fechaFin">nombre is required.</small>
             </div>
 

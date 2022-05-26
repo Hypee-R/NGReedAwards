@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoriasService } from 'src/app/services/categorias.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import { Table } from 'primeng/table';
-// import { CategoriasService } from "./shared/categorias.service";
-import { CategoriaModel } from '../../models/categoria.model';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import * as XLSX from 'xlsx';
+import { ExcelService } from 'src/app/services/excel.service';
 
 
 @Component({
@@ -15,79 +14,103 @@ import { CategoriaModel } from '../../models/categoria.model';
 })
 export class CategoriasComponent implements OnInit {
   categoria = {
-    id: '',
-    nombre: ''
+    titulo: '',
+    fechaInicio: '',
+    fechaFin: ''
   }
-  categorias: any;
-  loading: boolean = true;
-  categoriaCollectiondata: { id: string, titulo: string, fechaInicio: Date, fechaFin: Date }[] | any = [];
+
+  categoriaCollectiondata: { id: any, nombre:any }[] | any = [];
   categoriaForm: FormGroup;
   submitted: boolean;
 
-  selectedCategoria: CategoriaModel;
+  visible: boolean;
+  categoriaModelDialog: boolean;
+  categoriaModel: any;
+  idModel: any;
+  constructor(
 
-
-
-  visible:Boolean = false
-  constructor(private firebaseService: CategoriasService,private fb: FormBuilder, private toastr: ToastrService,)
-   {
-    this.get();
-    
-   }
+    private firebaseService: CategoriasService,
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private exporExcel: ExcelService
+    ) {
+firebaseService.getid().subscribe(data =>{
+  console.log(data);
+  
+})
+  }
 
 
   ngOnInit(): void {
     this.initForm();
-    
+this.getid();
     this.get();
-    // this.firebaseService.obsr_UpdatedSnapshot.subscribe((snapshot) => {
-    //   this.updatecategoriaCollection(snapshot);
-    // })
+    
+    this.firebaseService.obsr_UpdatedSnapshot.subscribe((snapshot) => {
+      this.updatecategoriaCollection(snapshot);
+    })
   }
 
-  initForm(){
+  initForm() {
     this.categoriaForm = this.fb.group({
       id: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
-
+      // fechaFin: ['', [Validators.required]],
 
     })
   }
-  
+
   async add() {
     this.submitted = true;
+    // this.visible = false
+    // if (this.categoriaForm.valid) {
+      if (this.categoriaModel.nombre.trim()) {
+        if (this.categoriaModel.id) {
+          // this.firebaseService.updatecategoria( this.categoriaModel.nombre, this.categoriaModel.id)
+          this.visible = false
+          console.log('ss');
+          
+          
+        } else {
+          const { id, nombre } = this.categoriaModel;
+          console.log(id);
+          
+          // await this.firebaseService.addcategoria(id, nombre);
+          // this.categoria.titulo = "";
+          // this.categoria.fechaInicio = "";
+          // this.categoria.fechaFin = "";
+this.visible = false
 
-    if(this.categoriaForm.valid){
+          
+        }
+      }
 
-   const { id, nombre} = this.categoria;
-    await this.firebaseService.addcategoria(id, nombre);
-    this.categoria.id = "";
-    this.categoria.nombre = "";
+    // } else {
 
-    }else{
-
-      this.toastr.info('Todos los Campos son requeridos!!', 'Espera');
-
-    }
-
-
+    //   this.toastr.info('Todos los Campos son requeridos!!', 'Espera');
+    //   this.visible = true
+    //   this.categoriaCollectiondata.reset()
+    // }
+    // this.categoriaModelDialog = false;
+    // this.categoriaModel;
 
   }
 
-  
-
+  // async get() {
+  //   const snapshot = await this.firebaseService.getCategorias();
+  //   // this.updatecategoriaCollection(snapshot);
+    
+  // }
   async get() {
     this.firebaseService.getCategorias().subscribe( (data) => {
-      this.categorias = data;
-      // console.log('data categorias ', this.categorias);
-      this.loading = false;
-    }
-    // , err => {
-    //   this.categorias = [];
-    //   this.loading = false;
-    // }
-    );
+      this.categoriaCollectiondata = data;
+      console.log('data categorias ', this.categoriaCollectiondata);
+      // this.loading = false;
+    });
     //this.updatecategoriaCollection(snapshot);
+  }
+  getid(){
+    this.firebaseService.getid()
   }
 
   updatecategoriaCollection(snapshot: QuerySnapshot<DocumentData>) {
@@ -98,33 +121,43 @@ export class CategoriasComponent implements OnInit {
   }
 
   async delete(docId: string) {
+    // console.log(this.categoriaModel.id);
+    // console.log(this.categoriaModel.id);
+    
     await this.firebaseService.deletecategoria(docId);
   }
 
-  async update(docId: string, nombre: HTMLInputElement) {
-    await this.firebaseService.updatecategoria(docId, nombre.value);
+  // async update(docId: string, titulo: HTMLInputElement, fechaInicio: HTMLInputElement,fechaFin: HTMLInputElement) {
+  //   await this.firebaseService.updatecategoria(docId, titulo.value, fechaInicio.value,fechaFin.value);
+  // }
+  edit: boolean = false;
+  editar(categoria: any) {
+    // this.visible = true
+    this.categoriaModel = { ...categoria }
+console.log(this.categoriaModel);
+// console.log(this.id.id);
+
+
+  }
+  update(id: any) {
+
   }
 
 
-    clear(table: Table) {
-    table.clear();
+
+  Excel() {
+    this.exporExcel.convoc(this.categoriaCollectiondata)
+
   }
 
-// -------
-
-
-Excel(){
-
-}
-
-openNew(){
-this.visible= true
-}
-
-editar(categori: any){
-
-}
-hideDialog(){
-
-}
+  openNew() {
+    this.categoriaModel = { id:'', nombre:'' }
+    this.visible = true;
+    
+  }
+  hideDialog() {
+    // this.ContactoModelDialog = false;
+    this.visible = false;
+    this.submitted = false;
+  }
 }

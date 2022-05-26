@@ -83,8 +83,8 @@ this.visible = false
     //   this.visible = true
     //   this.convocatoriaCollectiondata.reset()
     // }
-    this.convocatoriaModelDialog = false;
-    this.convocatoriaModel;
+    // this.convocatoriaModelDialog = false;
+    // this.convocatoriaModel;
 
   }
 
