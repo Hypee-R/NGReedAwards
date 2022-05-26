@@ -18,7 +18,6 @@ export class CategoriasComponent implements OnInit {
     id: '',
     nombre: ''
   }
-
   categorias: any;
   loading: boolean = true;
   categoriaCollectiondata: { id: string, titulo: string, fechaInicio: Date, fechaFin: Date }[] | any = [];
@@ -26,9 +25,14 @@ export class CategoriasComponent implements OnInit {
   submitted: boolean;
 
   selectedCategoria: CategoriaModel;
+
+
+
+  visible:Boolean = false
   constructor(private firebaseService: CategoriasService,private fb: FormBuilder, private toastr: ToastrService,)
    {
     this.get();
+    
    }
 
 
@@ -75,12 +79,14 @@ export class CategoriasComponent implements OnInit {
   async get() {
     this.firebaseService.getCategorias().subscribe( (data) => {
       this.categorias = data;
-      console.log('data categorias ', this.categoria);
+      // console.log('data categorias ', this.categorias);
       this.loading = false;
-    }, err => {
-      this.categorias = [];
-      this.loading = false;
-    });
+    }
+    // , err => {
+    //   this.categorias = [];
+    //   this.loading = false;
+    // }
+    );
     //this.updatecategoriaCollection(snapshot);
   }
 
@@ -104,5 +110,21 @@ export class CategoriasComponent implements OnInit {
     table.clear();
   }
 
+// -------
 
+
+Excel(){
+
+}
+
+openNew(){
+this.visible= true
+}
+
+editar(categori: any){
+
+}
+hideDialog(){
+
+}
 }

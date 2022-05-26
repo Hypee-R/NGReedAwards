@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-jueces',
@@ -6,10 +10,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./jueces.component.css']
 })
 export class JuecesComponent implements OnInit {
+jueses: any;
+  constructor(
+    
+  ) { 
 
-  constructor() { }
+  }
 
   ngOnInit(): void {
   }
-
+  
 }

@@ -14,8 +14,24 @@ export const environment = {
     authDomain: 'rewards-latino.firebaseapp.com',
     messagingSenderId: '415683183727',
     measurementId: 'G-82P6Z9PXH7',
-  }
+  },
+  
 };
+
+
+// export const environment = {
+//   production: false,
+//     apiService: '',
+//   firebase:{
+//     apiKey: "AIzaSyDEXM5FS5qanVsE2TG6Tx1XeGxwExfu1IM",
+//   authDomain: "angular-28bfc.firebaseapp.com",
+//   projectId: "angular-28bfc",
+//   storageBucket: "angular-28bfc.appspot.com",
+//   messagingSenderId: "820041282268",
+//   appId: "1:820041282268:web:cbbe63301e116e91667a19",
+//   measurementId: "G-RNBSY7G6PG"
+//   }
+// };
 
 /*
  * For easier debugging in development mode, you can import the following file

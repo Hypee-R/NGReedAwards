@@ -11,24 +11,24 @@ export class CategoriasService {
   categoriaCol: CollectionReference<DocumentData>;
   private updatedSnapshot = new Subject<QuerySnapshot<DocumentData>>();
   obsr_UpdatedSnapshot = this.updatedSnapshot.asObservable();
-  
+
   constructor(
     private toastr: ToastrService,
     private firestore: Firestore
-  ){
-   
+  ) {
+
     this.db = getFirestore();
     this.categoriaCol = collection(this.db, 'categorias');
-   // Get Realtime Data
-   onSnapshot(this.categoriaCol, (snapshot) => {
-    this.updatedSnapshot.next(snapshot);
-  }, (err) => {
-    console.log(err);
-  })
-}
+    // Get Realtime Data
+    onSnapshot(this.categoriaCol, (snapshot) => {
+      this.updatedSnapshot.next(snapshot);
+    }, (err) => {
+      console.log(err);
+    })
+  }
 
   //Ya estaba
-  getCategorias(){
+  getCategorias() {
     const categoriasCollection = collection(this.firestore, 'categorias');
     return collectionData(query(categoriasCollection, orderBy("id", "asc")));
   }
@@ -42,28 +42,28 @@ export class CategoriasService {
     })
     return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
   }
-  
+
   async deletecategoria(docId: string) {
     const docRef = doc(this.db, 'categorias', docId)
     await deleteDoc(docRef);
-    return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
+    return this.toastr.error('Registro Eliminado con exito!!', 'Advertencia');
   }
-  
+
   async updatecategoria(docId: string, nombre: string) {
     const docRef = doc(this.db, 'categorias', docId);
     await updateDoc(docRef, { nombre })
-    return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
+    return this.toastr.warning('Registro Actualizado con exito!!', 'Actualizacion');
   }
-  
-  
-    getcategorias(){
-      const categoriasCollection = collection(this.firestore, 'categorias');
-      return collectionData(categoriasCollection);
-    }
-  
-  
-    
-  
+
+
+  getcategorias() {
+    const categoriasCollection = collection(this.firestore, 'categorias');
+    return collectionData(categoriasCollection);
   }
-  
+
+
+
+
+}
+
 

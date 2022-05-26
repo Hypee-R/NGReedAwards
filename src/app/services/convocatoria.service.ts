@@ -20,6 +20,8 @@ export class ConvocatoriasService {
     this.db = getFirestore();
     this.convocatoriaCol = collection(this.db, 'convocatorias');
    // Get Realtime Data
+   console.log(this.convocatoriaCol);
+   
    onSnapshot(this.convocatoriaCol, (snapshot) => {
     this.updatedSnapshot.next(snapshot);
   }, (err) => {
@@ -48,10 +50,10 @@ async deleteConvocatoria(docId: string) {
   return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
 }
 
-async updateConvocatoria(docId: string, titulo: string, fechaInicio: string,fechaFin: string) {
-  const docRef = doc(this.db, 'convocatorias', docId);
+async updateConvocatoria( titulo: string, fechaInicio: string,fechaFin: string,id:string) {
+  const docRef = doc(this.db, 'convocatorias', id);
   await updateDoc(docRef, { titulo, fechaInicio,fechaFin })
-  return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
+  return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');  
 }
 
 

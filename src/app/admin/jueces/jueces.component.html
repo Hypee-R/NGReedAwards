@@ -1,1 +1,24 @@
-<p>jueces works!</p>
+<div class="container">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <h3 class="text-dark">Jueses
+            </h3>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton pRipple label="Nuevo jues" icon="pi pi-plus" class="p-button-success"></button>
+
+        </ng-template>
+    </p-toolbar>
+    <p-table [value]="jueses">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nombre</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-jues>
+            <tr>
+                <td>{{jues.nombre}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
