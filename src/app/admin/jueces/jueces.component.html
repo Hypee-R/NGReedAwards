@@ -5,7 +5,7 @@
             </h3>
         </ng-template>
         <ng-template pTemplate="right">
-            <button pButton pRipple label="Nuevo jues" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
+            <button pButton pRipple label="Nuevo juez" icon="pi pi-plus" class="p-button-success" (click)="openNew()"></button>
 
         </ng-template>
     </p-toolbar>
@@ -40,17 +40,7 @@
                 <small class="p-error" *ngIf="submitted && !juesModel.name">nombre is required.</small>
 
             </div>
-            <!-- <div class="field">
-                <label for="fechaInicio">Fecha de Inicio:</label>
-                <input type="text" name="fechaInicio" class="" pInputText required [(ngModel)]="juesModel.fechaInicio" formControlName="fechaInicio" required/>
-                <small class="p-error" *ngIf="submitted && !juesModel.fechaInicio">nombre is required.</small>
 
-            </div>
-            <div class="field">
-                <label for="fechaFin">Fecha Fin:</label>
-                <input type="text" name="fechaFin" class="" pInputText required [(ngModel)]="juesModel.fechaFin" formControlName="fechaFin" required/>
-                <small class="p-error" *ngIf="submitted && !juesModel.fechaFin">nombre is required.</small>
-            </div> -->
 
 
         </form>
@@ -64,6 +54,4 @@
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="add()"></button>
     </ng-template>
 </p-dialog>
-
-
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
