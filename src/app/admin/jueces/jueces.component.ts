@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
 import { JuesesService } from 'src/app/services/jueses.service';
 import { ExcelService } from 'src/app/services/excel.service';
+import { NgStyle } from '@angular/common';
+import { ConfirmationService } from 'primeng/api';
 
 
 @Component({
@@ -20,11 +22,15 @@ export class JuecesComponent implements OnInit {
 
   submitted: boolean = false
   visible: boolean = false
+
+  visibleDe:boolean = false;
+  id:any;
   constructor(
     private firestore: JuesesService,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private exporExcel: ExcelService
+    private exporExcel: ExcelService,
+    private confirmationService: ConfirmationService
   ) {
 
   }
@@ -63,6 +69,7 @@ export class JuecesComponent implements OnInit {
         // this.convocatoria.fechaInicio = "";
         // this.convocatoria.fechaFin = "";
         this.visible = false
+        this.juesForm.reset()
 
 
       }
@@ -78,8 +85,17 @@ export class JuecesComponent implements OnInit {
     // this.convocatoriaModel;
 
   }
-  async delete(docId: string) {
-    await this.firestore.deletejueses(docId);
+  async delete(docId: any) {
+    this.confirmationService.confirm({
+      message: '¿Está seguro de que desea eliminar jues  '+ docId.name + '?',
+      header: 'Confirmacion',
+      icon: 'pi pi-exclamation-triangle',
+      
+      accept: () => {
+        
+          this.firestore.deletejueses(docId.id);
+      }
+  });
   }
   updatejuesesCollection(snapshot: QuerySnapshot<DocumentData>) {
     this.juesesCollectiondata = [];
@@ -95,10 +111,11 @@ export class JuecesComponent implements OnInit {
   openNew() {
     this.juesModel = { name: '' }
     this.visible = true;
+    this.submitted = false
 
   }
   hideDialog() {
-    // this.ContactoModelDialog = false;
+    this.visibleDe = false;
     this.visible = false;
     this.submitted = false;
   }

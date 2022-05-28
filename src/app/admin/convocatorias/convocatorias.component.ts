@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import * as XLSX from 'xlsx';
 import { ExcelService } from 'src/app/services/excel.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 @Component({
   selector: 'app-convocatorias',
   templateUrl: './convocatorias.component.html',
@@ -26,13 +27,14 @@ export class ConvocatoriasComponent implements OnInit {
   convocatoriaModelDialog: boolean;
   convocatoriaModel: any;
 
-
-
+visibleDe:boolean = false
+id: any;
   constructor(
     private firebaseService: ConvocatoriasService,
     private fb: FormBuilder,
     private toastr: ToastrService,
-    private exporExcel: ExcelService
+    private exporExcel: ExcelService,
+    private confirmationService: ConfirmationService,
     ) {
 
   }
@@ -60,18 +62,19 @@ export class ConvocatoriasComponent implements OnInit {
     this.submitted = true;
     // this.visible = false
     // if (this.convocatoriaForm.valid) {
-      if (this.convocatoriaModel.titulo.trim()) {
+      if (this.convocatoriaModel.titulo.trim() && this.convocatoriaModel.fechaFin.trim() && this.convocatoriaModel.fechaInicio.trim()) {
         if (this.convocatoriaModel.id) {
           this.firebaseService.updateConvocatoria(this.convocatoriaModel.titulo, this.convocatoriaModel.fechaInicio, this.convocatoriaModel.fechaFin, this.convocatoriaModel.id)
           this.visible = false
+         
           
         } else {
+          
           const { titulo, fechaInicio, fechaFin } = this.convocatoriaModel;
           await this.firebaseService.addConvocatoria(titulo, fechaInicio, fechaFin);
-          // this.convocatoria.titulo = "";
-          // this.convocatoria.fechaInicio = "";
-          // this.convocatoria.fechaFin = "";
+          this.convocatoriaForm.reset()
 this.visible = false
+this.submitted = false
 
           
         }
@@ -100,13 +103,17 @@ this.visible = false
     })
   }
 
-  async delete(docId: string) {
-    await this.firebaseService.deleteConvocatoria(docId);
+  async delete(docId: any) {
+    this.confirmationService.confirm({
+      message: '¿Está seguro de que desea eliminar la convocatoria  '+ docId.titulo + '?',
+      header: 'Confirmacion',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+          this.firebaseService.deleteConvocatoria(docId.id);
+      }
+  });
   }
 
-  // async update(docId: string, titulo: HTMLInputElement, fechaInicio: HTMLInputElement,fechaFin: HTMLInputElement) {
-  //   await this.firebaseService.updateConvocatoria(docId, titulo.value, fechaInicio.value,fechaFin.value);
-  // }
   edit: boolean = false;
   editar(convocatoria: any) {
     this.visible = true
@@ -130,7 +137,7 @@ this.visible = false
     
   }
   hideDialog() {
-    // this.ContactoModelDialog = false;
+    this.visibleDe = false;
     this.visible = false;
     this.submitted = false;
   }

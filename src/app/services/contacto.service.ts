@@ -59,13 +59,13 @@ export class ContactoService {
   async deletecontacto(docId: string) {
     const docRef = doc(this.db, 'mensajesContacto', docId)
    await deleteDoc(docRef);
-   // return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
+   return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
   }
 
   async updatecontacto(docId: string, correo: string,mensaje: string,nombre: string) {
     const docRef = doc(this.db, 'mensajesContacto', docId);
     await updateDoc(docRef, { correo,mensaje,nombre })
-  //  return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
+   return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
   }
 
 

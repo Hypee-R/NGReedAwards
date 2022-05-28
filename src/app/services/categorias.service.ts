@@ -32,15 +32,6 @@ export class CategoriasService {
 
   
 }
-getid(){
-    const categoriasCollection = collection(this.firestore, 'categorias');
-    // console.log(categoriasCollection);
-    
-    return collectionData(categoriasCollection);
-    
-    
-    
-  }
   
   //Ya estaba ---Nominaciones
   getCategorias(){
@@ -48,41 +39,35 @@ getid(){
     return collectionData(query(categoriasCollection, orderBy("id", "asc")));
   }
   //Ya estaba---Nominaciones
-
+  getexcel(exc: any){
+    // await addDoc(this.categoriaCol, {id, nombre})
+  }
   
-  async addcategoria( nombre: string) {
+  async addcategoria(id:number, nombre: string) {
     await addDoc(this.categoriaCol, {
+      id,
       nombre
     })
     return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
   }
   
-  async deletecategoria(docId: string) {
-    // const docRef = collection(this.db, 'categorias')
-    
-    //  const snap = collectionData(query(docRef, where('id', '==', docId)))
-    //  deleteDoc(s)
-    
-    // const snap = await deleteDoc(doc(this.db, 'categorias/'+ docId))
-    // console.log(docId);
-    const querySnapshot = await getDocs(query(collection(this.db, "users"), where('id', '==', docId)));
-    // querySnapshot.forEach
+  async deletecategoria(id: string) {
+    const querySnapshot = await getDocs(query(collection(this.db, "categorias/"), where("id", "==", id)));
 querySnapshot.forEach((doc) => {
-  where('id', '==', docId)
-  console.log();
-  
-  console.log(`${doc.id} => ${doc.data()}`);
+  this.id = doc.id
 })
-
-  
-  
+const docRef = doc(this.db, 'categorias/'+ this.id)
+  deleteDoc(docRef)
   return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
   }
   
-  async updatecategoria(docId: any, nombre: any) {
-    const docRef = doc(this.db, 'convocatorias/'+ docId);
-  await updateDoc( docRef, {  nombre:nombre })
-  // const snap = await updateDoc(doc(this.db, 'categoria/'+docId))
+  async updatecategoria(id: number, nombre: any) {
+    const querySnapshot = await getDocs(query(collection(this.db, "categorias/"), where("id", "==", id)));
+querySnapshot.forEach((doc) => {
+  this.id = doc.id
+})
+    const docRef = doc(this.db, 'categorias/'+ this.id);
+  await updateDoc( docRef, { id, nombre })
   return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion'); 
   }
   

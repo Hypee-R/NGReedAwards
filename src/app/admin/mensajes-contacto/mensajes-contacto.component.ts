@@ -148,7 +148,7 @@ deleteContactoModel(ContactoModel: ContactoModel) {
             this.ContactoModels = this.ContactoModels.filter(val => val.id !== ContactoModel.id);
             this.ContactoModel;
             this.firebaseService.deletecontacto(ContactoModel.id);
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Mensaje Eliminado', life: 3000});
+            // this.messageService.add({severity:'success', summary: 'Successful', detail: 'Mensaje Eliminado', life: 3000});
         }
     });
 }
@@ -163,14 +163,14 @@ saveContactoModel() {
 
     if (this.ContactoModel.nombre.trim()) {
         if (this.ContactoModel.id) {
-            this.ContactoModels[this.findIndexById(this.ContactoModel.id)] = this.ContactoModel;                
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'Mensaje Actualizado', life: 3000});
+            // this.ContactoModels[this.findIndexById(this.ContactoModel.id)] = this.ContactoModel;                
+            // this.messageService.add({severity:'success', summary: 'Successful', detail: 'Mensaje Actualizado', life: 3000});
             this.firebaseService.updatecontacto(this.ContactoModel.id,this.ContactoModel.correo,this.ContactoModel.mensaje,this.ContactoModel.nombre);
         }
         else {
            
-            this.ContactoModels.push(this.ContactoModel);
-            this.messageService.add({severity:'success', summary: 'Successful', detail: 'ContactoModel Created', life: 3000});
+            // this.ContactoModels.push(this.ContactoModel);
+            // this.messageService.add({severity:'success', summary: 'Successful', detail: 'ContactoModel Created', life: 3000});
             this.firebaseService.addcontacto(this.ContactoModel.correo,this.ContactoModel.mensaje,this.ContactoModel.nombre);
         }
 
