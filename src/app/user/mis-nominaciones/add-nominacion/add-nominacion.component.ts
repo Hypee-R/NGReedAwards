@@ -159,35 +159,41 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
       pagarCon: ['paypal', [Validators.required]],
       statuspago: ['', []],
       idpago: ['', []],
-    })
+    });
   }
 
   setValueForm(){
     let searchCat = this.categorias.find(x => x.nombre == this.nominacionEditar.categoria);
-    //console.log('CATEGORIA ENCONTRADA ', searchCat, this.nominacionEditar.categoria, this.categorias.length);
+    console.log('CATEGORIA ENCONTRADA ', searchCat, this.nominacionEditar.categoria, this.categorias.length);
 
-    this.nominacionForm.patchValue({
-      titulo: this.nominacionEditar.titulo,
-      categoria: searchCat.nombre,
-      nominado: this.nominacionEditar.nominado,
-      descripcion: this.nominacionEditar.descripcion,
-      fileLogoEmpresa: this.nominacionEditar?.fileLogoEmpresa?.url ? 'ya cargo archivo' : '',
-      organizacion: this.nominacionEditar.organizacion,
-      responsable: this.nominacionEditar.responsable,
-      telefono: this.nominacionEditar.telefono,
-      pais: this.nominacionEditar.pais,
-      rsInstagram: this.nominacionEditar.rsInstagram,
-      rsTwitter: this.nominacionEditar.rsTwitter,
-      rsFacebook: this.nominacionEditar.rsFacebook,
-      rsYoutube: this.nominacionEditar.rsYoutube,
-      fileCesionDerechos: this.nominacionEditar?.fileCesionDerechos?.url ? 'ya cargo archivo' : '',
-      fileCartaIntencion: this.nominacionEditar?.fileCartaIntencion?.url ? 'ya cargo archivo' : '',
-      fileMaterialMultimedia: this.nominacionEditar.materialMultimedia,
-      fileBaucher: this.nominacionEditar?.fileBaucher?.url ? 'ya cargo archivo' : '',
-      pagarCon: this.nominacionEditar.pagarCon,
-      statuspago: this.nominacionEditar.statuspago,
-      idpago: this.nominacionEditar.idpago,
-    });
+    setTimeout(() => {
+      this.nominacionForm.patchValue({
+        titulo: this.nominacionEditar.titulo,
+        categoria: searchCat.nombre,
+        nominado: this.nominacionEditar.nominado,
+        descripcion: this.nominacionEditar.descripcion,
+        fileLogoEmpresa: this.nominacionEditar?.fileLogoEmpresa?.url ? 'ya cargo archivo' : '',
+        organizacion: this.nominacionEditar.organizacion,
+        responsable: this.nominacionEditar.responsable,
+        telefono: this.nominacionEditar.telefono,
+        pais: this.nominacionEditar.pais,
+        rsInstagram: this.nominacionEditar.rsInstagram,
+        rsTwitter: this.nominacionEditar.rsTwitter,
+        rsFacebook: this.nominacionEditar.rsFacebook,
+        rsYoutube: this.nominacionEditar.rsYoutube,
+        fileCesionDerechos: this.nominacionEditar?.fileCesionDerechos?.url ? 'ya cargo archivo' : '',
+        fileCartaIntencion: this.nominacionEditar?.fileCartaIntencion?.url ? 'ya cargo archivo' : '',
+        fileMaterialMultimedia: this.nominacionEditar.materialMultimedia,
+        fileBaucher: this.nominacionEditar?.fileBaucher?.url ? 'ya cargo archivo' : '',
+        pagarCon: this.nominacionEditar.pagarCon,
+        statuspago: this.nominacionEditar.statuspago,
+        idpago: this.nominacionEditar.idpago,
+      });
+    }, 100);
+    if(this.nominacionEditar.fileBaucher == "" && this.accion == 'editar'){
+      this.cambiarArchivo('FileBaucher')
+      //console.log('agregar file baucher true');
+    }
   }
 
   crearNominacion(){
@@ -239,16 +245,18 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
               this.setListaArchivos(this.fileMMultimedia, "FileMaterialMultimedia");
             }
             if(this.agregarFileBaucher){
-              this.setListaArchivos(this.fileBaucher, "FileBaucher");
-            } else {
-              this.setListaArchivos(this.fileMMultimedia, "NoFileBaucher");
-              this.toastr.warning('No seleccionaste un archivo de baucher', 'Atención');
+              if(this.fileBaucher){
+                this.setListaArchivos(this.fileBaucher, "FileBaucher");
+              }
             }
             //Carga las imagenes solo si no se han cargado
             if(!this.variablesGL.endProcessCargaCompleta.value){
-              this.cargaImagenesFBService.upload(this.archivos);
-              console.log("Entro a cargar los archivos al actualizar");
-
+              if(this.archivos.length > 0){
+                this.cargaImagenesFBService.upload(this.archivos);
+                //console.log("Entro a cargar los archivos al actualizar ", this.archivos.length);
+              }else{
+                this.variablesGL.endProcessCargaCompleta.next(true);
+              }
             }
         }
       }
@@ -256,7 +264,9 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
       this.variablesGL.endProcessCargaCompleta.subscribe(endProcessUpload => {
         //Aqui ya terminó de subir los archivos al storage y agregar las url a firestore
         if(endProcessUpload){
-          this.toastr.success('Archivos cargados con exito!!', 'Success');
+          if(this.archivos.length > 0){
+            this.toastr.success('Archivos cargados con exito!!', 'Success');
+          }
           if(this.accion == 'agregar'){
             this.saveDataNominacion();
             console.log("ACCION AGREGAR");
@@ -447,12 +457,6 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
 
     for (const propiedad in Object.getOwnPropertyNames( archivosLista )) {
       const archivoTemp = archivosLista[propiedad];
-      //si el archivo FileBaucher es vacio, no se carga
-      if (fileMapped == 'FileBaucher' && archivoTemp.name == '') {
-        continue;
-        this.toastr.error("No se puede cargar un archivo vacio", "Error");
-      }
-
       if(fileMapped == "FileLogoEmpresa"){
         if(this._archivoPuedeSerCargado(archivoTemp)){
           const newArchivo = new FileItem(archivoTemp);

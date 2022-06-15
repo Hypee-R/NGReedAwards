@@ -21,7 +21,6 @@ export class MisNominacionesComponent implements OnInit {
   accion: string = '';
   nominacionEditar: any;
   constructor(
-    private toastr: ToastrService,
     private nominacionesService: NominacionService
   ) {
     this.getNominaciones();

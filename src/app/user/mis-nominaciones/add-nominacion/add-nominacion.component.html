@@ -34,11 +34,11 @@
                         <label for="categoria" class="form-label">Categor&iacute;a*</label>
                         <select class="form-select" formControlName="categoria" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null"
                             [disabled]="preloadCategoria != null ? 'true' : 'false'">
-                          <option value="">Selecciona una categor&iacute;a</option>
-                          <option [value]="item.nombre" *ngFor="let item of categorias">{{item.nombre}}</option>
-                        </select>
+                      <option value="">Selecciona una categor&iacute;a</option>
+                      <option [value]="item.nombre" *ngFor="let item of categorias">{{item.nombre}}</option>
+                    </select>
                         <!-- <p-dropdown [options]="categorias" formControlName="categoria" placeholder="Selecciona una categor&iacute;a" optionLabel="nombre" optionValue="nombre" [filter]="true" filterBy="nombre" [showClear]="true" [ngClass]="submitted && nominacionForm.controls['categoria'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : submitted && nominacionForm.controls['categoria'].valid ? 'is-valid' : null"
-                            [style]="{'width':'100%', 'overflow': 'visible'}"></p-dropdown> -->
+                        [style]="{'width':'100%', 'overflow': 'visible'}"></p-dropdown> -->
                         <div *ngIf="submitted && nominacionForm.controls['categoria'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['categoria'].errors.required">Seleccione una categoria
                             </div>
@@ -68,8 +68,8 @@
                             <div *ngIf="nominacionForm.controls['fileLogoEmpresa'].errors.required">Por favor seleccione un archivo</div>
                         </div>
                         <label *ngIf="accion == 'editar' && !agregarLogo">
-                          <a target="blank" [href]="nominacionEditar?.fileLogoEmpresa?.url | safeurl : ''">Imagen representativa o logo</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileLogoEmpresa')">Cambiar</button>
-                        </label>
+                      <a target="blank" [href]="nominacionEditar?.fileLogoEmpresa?.url | safeurl : ''">Imagen representativa o logo</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileLogoEmpresa')">Cambiar</button>
+                    </label>
                     </div>
                 </div>
             </div>
@@ -125,7 +125,7 @@
                         <label class="form-label">Instagram*</label>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping"><i
-                                    class="fa-brands fa-instagram"></i></span>
+                                class="fa-brands fa-instagram"></i></span>
                             <input type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="rsInstagram" [ngClass]="submitted && nominacionForm.controls['rsInstagram'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['rsInstagram'].valid ? 'is-valid' : submitted && nominacionForm.controls['rsInstagram'].valid ? 'is-valid' : null">
                         </div>
                         <div *ngIf="submitted && nominacionForm.controls['rsInstagram'].errors" class="text-danger">
@@ -139,7 +139,7 @@
                         <label for="responsable" class="form-label">Twitter*</label>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping"><i
-                                    class="fa-brands fa-twitter"></i></span>
+                                class="fa-brands fa-twitter"></i></span>
                             <input type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="rsTwitter" [ngClass]="submitted && nominacionForm.controls['rsTwitter'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['rsTwitter'].valid ? 'is-valid' : submitted && nominacionForm.controls['rsTwitter'].valid ? 'is-valid' : null">
                         </div>
                         <div *ngIf="submitted && nominacionForm.controls['rsTwitter'].errors" class="text-danger">
@@ -155,7 +155,7 @@
                         <label for="telefono" class="form-label">Facebook*</label>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping"><i
-                                    class="fa-brands fa-facebook"></i></span>
+                                class="fa-brands fa-facebook"></i></span>
                             <input type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="rsFacebook" [ngClass]="submitted && nominacionForm.controls['rsFacebook'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['rsFacebook'].valid ? 'is-valid' : submitted && nominacionForm.controls['rsFacebook'].valid ? 'is-valid' : null">
                         </div>
                         <div *ngIf="submitted && nominacionForm.controls['rsFacebook'].errors" class="text-danger">
@@ -169,7 +169,7 @@
                         <label for="pais" class="form-label">YouTube*</label>
                         <div class="input-group flex-nowrap">
                             <span class="input-group-text" id="addon-wrapping"><i
-                                    class="fa-brands fa-youtube"></i></span>
+                                class="fa-brands fa-youtube"></i></span>
                             <input type="text" class="form-control" aria-describedby="addon-wrapping" formControlName="rsYoutube" [ngClass]="submitted && nominacionForm.controls['rsYoutube'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['rsYoutube'].valid ? 'is-valid' : submitted && nominacionForm.controls['rsYoutube'].valid ? 'is-valid' : null">
                         </div>
                         <div *ngIf="submitted && nominacionForm.controls['rsYoutube'].errors" class="text-danger">
@@ -191,8 +191,8 @@
                             <div *ngIf="nominacionForm.controls['fileCesionDerechos'].errors.required">Por favor seleccione un archivo</div>
                         </div>
                         <label *ngIf="accion == 'editar' && !agregarFileCDerechos">
-                          <a target="blank" [href]="nominacionEditar?.fileCesionDerechos?.url | safeurl : ''">Archivo Cesi&oacute;n de derechos</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileCesionDerechos')">Cambiar</button>
-                        </label>
+                      <a target="blank" [href]="nominacionEditar?.fileCesionDerechos?.url | safeurl : ''">Archivo Cesi&oacute;n de derechos</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileCesionDerechos')">Cambiar</button>
+                    </label>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
@@ -203,8 +203,8 @@
                             <div *ngIf="nominacionForm.controls['fileCartaIntencion'].errors.required">Por favor seleccione un archivo</div>
                         </div>
                         <label *ngIf="accion == 'editar' && !agregarFileCIntencion">
-                          <a target="blank" [href]="nominacionEditar?.fileCartaIntencion?.url | safeurl : ''">Archivo Carta de intenci&oacute;n</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileCartaIntencion')">Cambiar</button>
-                        </label>
+                      <a target="blank" [href]="nominacionEditar?.fileCartaIntencion?.url | safeurl : ''">Archivo Carta de intenci&oacute;n</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileCartaIntencion')">Cambiar</button>
+                    </label>
                     </div>
                 </div>
             </div>
@@ -216,8 +216,8 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label *ngIf="agregarFilesMultimedia" for="formFile" class="form-label">Cargue cualquier recurso multimedia relacionado con la
-                            nominaci&oacute;n aqu&iacute;, Este material multimedia se podr&aacute; visualizar
-                            publicamente.</label>
+                        nominaci&oacute;n aqu&iacute;, Este material multimedia se podr&aacute; visualizar
+                        publicamente.</label>
                         <input *ngIf="agregarFilesMultimedia" class="form-control" type="file" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')" [ngClass]="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileMaterialMultimedia'].errors.required">Por favor seleccione un archivo</div>
@@ -233,15 +233,15 @@
             </div>
         </p-card>
         <br>
-        <p-card header="Pagar con:">
+        <p-card header="Pagar con:" *ngIf="this.nominacionEditar.statuspago != 'Pago Realizado'">
             <label>Selecciona un método de pago:</label>
             <select id="objetivo" class="form-control text-center" formControlName="pagarCon">
-                <option default value="" disabled>Selecciona un metodo de pago</option>
-                <option value="swift">Transferencia SWIFT</option>
-                <option value="paypal">PayPal</option>
-            </select>
+            <option default value="" disabled>Selecciona un metodo de pago</option>
+            <option value="swift">Transferencia SWIFT</option>
+            <option value="paypal">PayPal</option>
+        </select>
         </p-card>
-        <br>
+        <br *ngIf="this.nominacionEditar.statuspago != 'Pago Realizado'">
         <p-card *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'" header="Pagar con transferencia SWIFT ">
             <div class="col-12">
 
@@ -255,21 +255,21 @@
                     <div *ngIf="submitted && nominacionForm.controls['fileBaucher'].errors" class="text-danger">
                         <!-- <div *ngIf="nominacionForm.controls['fileBaucher'].errors.required">Por favor seleccione un archivo</div> -->
                     </div>
-                    <label *ngIf="accion == 'editar' && !agregarFileBaucher">
-                      <a target="_blank" [href]="nominacionEditar?.fileBaucher?.url | safeurl : ''">Archivo de comprobante de pago</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileBaucher')">Cambiar</button>
-                    </label>
+                    <label *ngIf="accion == 'editar' && !agregarFileBaucher && nominacionEditar.fileBaucher">
+                  <a target="_blank" [href]="nominacionEditar?.fileBaucher?.url | safeurl : ''">Archivo de comprobante de pago</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileBaucher')">Cambiar</button>
+                </label>
                 </div>
             </div>
         </p-card>
-        <br>
+        <br *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'">
         <p-card [hidden]="nominacionForm.controls['pagarCon'].value === 'swift'" header="Pagar con Paypal">
 
             <!-- <div class="select">
-                <label class="form-label">Tipo de pago</label>
-                <div *ngIf="submitted && nominacionForm.controls['tipoPago'].errors" class="text-danger">
-                    <div *ngIf="nominacionForm.controls['tipoPago'].errors.required">Este campo es requerido</div>
-                </div>
-            </div>  -->
+            <label class="form-label">Tipo de pago</label>
+            <div *ngIf="submitted && nominacionForm.controls['tipoPago'].errors" class="text-danger">
+                <div *ngIf="nominacionForm.controls['tipoPago'].errors.required">Este campo es requerido</div>
+            </div>
+        </div>  -->
             <!-- if pagarCon === paypal -->
             <div class="row">
                 <div class="col-12">
@@ -284,9 +284,9 @@
 
 
                     <!-- <input type="text" class="form-control" id="createtime"  formControlName="createtime" disabled>
-                    <input type="text" class="form-control" id="idpago" formControlName="idpago" disabled>
-                    <input type="text" class="form-control" id="descriptionpago" formControlName="descriptionpago" disabled value="Pago ">
-                    <input type="text" class="form-control" id="valuecost" formControlName="valuecost" disabled value="108"> -->
+                <input type="text" class="form-control" id="idpago" formControlName="idpago" disabled>
+                <input type="text" class="form-control" id="descriptionpago" formControlName="descriptionpago" disabled value="Pago ">
+                <input type="text" class="form-control" id="valuecost" formControlName="valuecost" disabled value="108"> -->
                     <br>
 
 
