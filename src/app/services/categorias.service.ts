@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, DocumentData, CollectionReference, onSnapshot, QuerySnapshot, query, orderBy } from 'firebase/firestore';
-import { collectionData, Firestore } from '@angular/fire/firestore';
+import { getFirestore, collection, addDoc, getDoc, deleteDoc, doc, updateDoc, DocumentData, CollectionReference, onSnapshot, QuerySnapshot, query, orderBy, where, DocumentReference, getDocs } from 'firebase/firestore';
+import { collectionChanges, collectionData, Firestore } from '@angular/fire/firestore';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+
+import { initializeApp } from "firebase/app";
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +14,7 @@ export class CategoriasService {
   private updatedSnapshot = new Subject<QuerySnapshot<DocumentData>>();
   obsr_UpdatedSnapshot = this.updatedSnapshot.asObservable();
   
+ id:any
   constructor(
     private toastr: ToastrService,
     private firestore: Firestore
@@ -25,17 +28,22 @@ export class CategoriasService {
   }, (err) => {
     console.log(err);
   })
-}
 
-  //Ya estaba
+
+  
+}
+  
+  //Ya estaba ---Nominaciones
   getCategorias(){
     const categoriasCollection = collection(this.firestore, 'categorias');
     return collectionData(query(categoriasCollection, orderBy("id", "asc")));
   }
-  //Ya estaba
-
-
-  async addcategoria(id: string, nombre: string) {
+  //Ya estaba---Nominaciones
+  getexcel(exc: any){
+    // await addDoc(this.categoriaCol, {id, nombre})
+  }
+  
+  async addcategoria(id:number, nombre: string) {
     await addDoc(this.categoriaCol, {
       id,
       nombre
@@ -43,23 +51,28 @@ export class CategoriasService {
     return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
   }
   
-  async deletecategoria(docId: string) {
-    const docRef = doc(this.db, 'categorias', docId)
-    await deleteDoc(docRef);
-    return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
+  async deletecategoria(id: string) {
+    const querySnapshot = await getDocs(query(collection(this.db, "categorias/"), where("id", "==", id)));
+querySnapshot.forEach((doc) => {
+  this.id = doc.id
+})
+const docRef = doc(this.db, 'categorias/'+ this.id)
+  deleteDoc(docRef)
+  return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
   }
   
-  async updatecategoria(docId: string, nombre: string) {
-    const docRef = doc(this.db, 'categorias', docId);
-    await updateDoc(docRef, { nombre })
-    return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
+  async updatecategoria(id: number, nombre: any) {
+    const querySnapshot = await getDocs(query(collection(this.db, "categorias/"), where("id", "==", id)));
+querySnapshot.forEach((doc) => {
+  this.id = doc.id
+})
+    const docRef = doc(this.db, 'categorias/'+ this.id);
+  await updateDoc( docRef, { id, nombre })
+  return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion'); 
   }
   
   
-    getcategorias(){
-      const categoriasCollection = collection(this.firestore, 'categorias');
-      return collectionData(categoriasCollection);
-    }
+    
   
   
     

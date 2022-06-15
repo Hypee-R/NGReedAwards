@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { collectionData, DocumentData, getDocs, QuerySnapshot } from '@angular/fire/firestore';
-import { collection, doc, Firestore, getDoc, getFirestore, setDoc } from "@angular/fire/firestore";
+import { DocumentData,  QuerySnapshot } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmationService } from 'primeng/api';
 import { ProfileUser } from 'src/app/models/user';
+import { ExcelService } from 'src/app/services/excel.service';
 import { UsuarioService } from 'src/app/services/usuarios.service';
 
 @Component({
@@ -13,79 +14,95 @@ import { UsuarioService } from 'src/app/services/usuarios.service';
 })
 export class UsuariosComponent implements OnInit {
 
-  users: ProfileUser [] = [];
+  users: ProfileUser[] = [];
   usuario: any;
   //categoriaCollectiondata: { id: string, titulo: string, fechaInicio: Date, fechaFin: Date }[] | any = [];
-  
-  
-  usuarioCollectionData: {uid: string, email: string, firstName: string, lastName: string, displayName: string, phone: string, address: string, photoURL: string, rol: string }[] | any = [];
+
+
+  usuarioCollectionData: { address: string, email: string, displayName: string, firstName: string, lastName: string, phone: string, photoURL: string, rol: string, uid: string }[] | any = [];
   usuarioForm: FormGroup;
-  submitted: boolean;
+  submitted: boolean =  false;
+  loading:boolean = true
 
+  usuarioModel: any;
+  visible: boolean = false
 
+  visibleDe:boolean= false;
+  uid: any;
   constructor(
     private firebaseService: UsuarioService,
     private toastr: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private Excel: ExcelService,
+    private confirmationService: ConfirmationService
   ) {
-    
+
   }
 
   ngOnInit(): void {
     this.initForm();
-    
+
     this.get();
     this.firebaseService.obsr_UpdatedSnapshot.subscribe((snapshot) => {
       this.updateUsuarioCollection(snapshot);
     })
   }
 
-  initForm(){
+  initForm() {
     this.usuarioForm = this.fb.group({
-      fistName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      displayName: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      photoURL: ['', [Validators.required]],
+      address: [''],
+      email: [''],
+      displayName: [''],
+      firstName: [''],
+      lastName: [''],
+      phone: [''],
+      photoURL: [''],
       rol: ['', [Validators.required]],
+      uid: ['', [Validators.required]],
     })
   }
 
   async add() {
-    this.submitted = true;
-
-    if(this.usuarioForm.valid){
-
-   const { 
-      uid,
-      fistName,
-      lastName,
-      displayName,
-      email,
-      phone,
-      address,
-      photoURL,
-      rol
-   } = this.usuario;
-    await this.firebaseService.addUsuario(uid,fistName, lastName, displayName, email, phone, address, photoURL, rol);
-    // this.usuario.id = "";
-    this.usuario.fistName = "";
-
-    }else{
-
-      this.toastr.info('Todos los Campos son requeridos!!', 'Espera');
-
+    this.submitted = true
+    if (this.usuarioModel.displayName.trim()) {
+      if (this.usuarioModel.id) {
+        await this.firebaseService.updateUsuario(
+          this.usuarioModel.uid,
+          this.usuarioModel.email,
+          this.usuarioModel.firstName,
+          this.usuarioModel.lastName,
+          this.usuarioModel.displayName,
+          this.usuarioModel.phone,
+          this.usuarioModel.address,
+          this.usuarioModel.photoURL,
+          this.usuarioModel.rol,
+        )
+        this.visible = false
+      } else {
+        const {
+          address,
+          email,
+          firstName,
+          lastName,
+          displayName,
+          phone,
+          photoURL,
+          rol,
+          uid
+        } = this.usuarioModel;
+        await this.firebaseService.addUsuario(address, email, displayName, firstName, lastName, phone, photoURL, rol, uid);
+        this.visible = false
+        this.usuarioForm.reset()
+      }
     }
-
-
 
   }
 
   async get() {
-    const snapshot = await this.firebaseService.getUsuarios();
-    //this.updatecategoriaCollection(snapshot);
+    this.firebaseService.getusuarios().subscribe(data =>{
+      this.usuarioCollectionData = data
+      this.loading = false
+    })
   }
 
   updateUsuarioCollection(snapshot: QuerySnapshot<DocumentData>) {
@@ -93,14 +110,24 @@ export class UsuariosComponent implements OnInit {
     snapshot.docs.forEach((element) => {
       this.usuarioCollectionData.push({ ...element.data(), id: element.id });
     })
+    this.loading = false
   }
 
-  async delete(docId: string) {
-    await this.firebaseService.deleteUsuario(docId);
+  async delete(docId: any) {
+    this.confirmationService.confirm({
+      message: '¿Está seguro de que desea eliminar la cueta  '+ docId.displayName + '?',
+      header: 'Confirmacion',
+      icon: 'pi pi-exclamation-triangle',
+      
+      accept: () => {
+        
+          this.firebaseService.deleteUsuario(docId.uid);
+      }
+  });
   }
 
   async update(docId: string, firstName: string, lastName: string, displayName: string, email: HTMLInputElement, phone: string, address: string, photoURL: string, rol: HTMLInputElement) {
-    await this.firebaseService.updateUsuario( docId, firstName, lastName, displayName, email.value, phone, address, photoURL, rol.value);
+    await this.firebaseService.updateUsuario(docId, firstName, lastName, displayName, email.value, phone, address, photoURL, rol.value);
   }
 
   //TODO: get users list from firebase
@@ -114,7 +141,7 @@ export class UsuariosComponent implements OnInit {
   //       const user = doc.data() as ProfileUser;
   //       //add to users array
   //       this.users.push(user);
-        
+
   //     }
   //   )
 
@@ -134,4 +161,23 @@ export class UsuariosComponent implements OnInit {
   // }
 
 
+excel(){
+  this.Excel.usuarios(this.usuarioCollectionData)
+}
+
+  openNew() {
+    this.usuarioModel = { uid: '', firstName: '', lastName: '', displayName: '', email: '', phone: '', address: '', photoURL: '', rol: '' }
+    this.visible = true;
+
+  }
+  hideDialog() {
+    this.visibleDe = false;
+    this.visible = false;
+    this.submitted = false;
+  }
+
+  editar(usuario) {
+    this.usuarioModel = { ...usuario }
+    this.visible = true
+  }
 }

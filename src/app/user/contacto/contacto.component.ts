@@ -40,7 +40,6 @@ export class ContactoComponent implements OnInit {
       nombre: name,
       correo: correo,
       mensaje: mensaje,
-      uid: JSON.parse(localStorage.d).uid
     });
     this.toastr.success('Alguien Se pondra en contacto!', 'Success');
   }

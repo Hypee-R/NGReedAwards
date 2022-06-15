@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, DocumentData, CollectionReference, onSnapshot, QuerySnapshot, query, orderBy } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, DocumentData, CollectionReference, onSnapshot, QuerySnapshot, query, orderBy, where } from 'firebase/firestore';
 import { collectionData, Firestore } from '@angular/fire/firestore';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -11,7 +11,7 @@ export class UsuarioService {
   usuarioCol: CollectionReference<DocumentData>;
   private updatedSnapshot = new Subject<QuerySnapshot<DocumentData>>();
   obsr_UpdatedSnapshot = this.updatedSnapshot.asObservable();
-  
+  Uid:any;
   constructor(
     private toastr: ToastrService,
     private firestore: Firestore
@@ -35,29 +35,43 @@ export class UsuarioService {
   //Ya estaba
 
 
-  async addUsuario(uid: string, email: string, firstName: string, lastName: string, displayName: string, phone: string, address: string, photoURL: string, rol: string) {
+  async addUsuario(address: string, email: string, displayName: string, firstName: string, lastName: string, phone: string,  photoURL: string, rol: string, uid:string) {
     await addDoc(this.usuarioCol, {
-      uid,
+      address,
+      displayName,
       email,
       firstName,
       lastName,
-      displayName,
       phone,
-      address,
       photoURL,
-      rol
+      rol,
+      uid
     })
+    
+    
+    
     return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
   }
   
   async deleteUsuario(docId: string) {
-    const docRef = doc(this.db, 'usuarios', docId)
+    const querySnapshot = await getDocs(query(collection(this.db, "usuarios/"), where("uid", "==", docId)));
+querySnapshot.forEach((doc) => {
+  this.Uid = doc.id
+})
+    const docRef = doc(this.db, 'usuarios', this.Uid)
     await deleteDoc(docRef);
     return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
   }
   
-  async updateUsuario(uid: string, email: string, firstName: string, lastName: string, displayName: string, phone: string, address: string, photoURL: string, rol: string) {
-    const docRef = doc(this.db, 'usuarios', uid);
+  async updateUsuario(uid: any, email: string, firstName: string, lastName: string, displayName: string, phone: string, address: string, photoURL: string, rol: string) {
+    
+    const querySnapshot = await getDocs(query(collection(this.db, "usuarios/"), where("uid", "==", uid)));
+querySnapshot.forEach((doc) => {
+  this.Uid = doc.id
+})
+console.log(this.Uid);
+
+    const docRef = doc(this.db, 'usuarios', this.Uid);
     await updateDoc(docRef, { 
       uid,
       email,
@@ -67,7 +81,8 @@ export class UsuarioService {
       phone,
       address,
       photoURL,
-      rol
+      rol,
+      
      })
     return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
   }

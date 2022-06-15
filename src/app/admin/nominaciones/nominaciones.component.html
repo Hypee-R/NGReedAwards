@@ -80,4 +80,5 @@
 
 <p-sidebar [(visible)]="visibleSide" position="right" [appendTo]="body" [baseZIndex]="2" [style]="{ 'width': '60%'}">
     <app-add-nominacion-admin *ngIf="visibleSide" [accion]="accion" [nominacionEditar]="nominacionEditar" (fetchNominaciones)="fetchNominacion()"></app-add-nominacion-admin>
+
 </p-sidebar>

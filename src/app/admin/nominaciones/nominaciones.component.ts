@@ -4,7 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { NominacionModel } from 'src/app/models/nominacion.model';
 import { NominacionService } from 'src/app/services/nominacion.service';
-
+import * as XLSX from 'xlsx';
+import { ExcelService } from 'src/app/services/excel.service';
 @Component({
   selector: 'app-nominaciones',
   templateUrl: './nominaciones.component.html',
@@ -22,7 +23,8 @@ export class NominacionesComponent implements OnInit {
   body:any;
   constructor(
     private toastr: ToastrService,
-    private nominacionesService: NominacionService
+    private nominacionesService: NominacionService,
+    private exportExcel: ExcelService
   ) {
     this.body = document.body;
     this.items = [
@@ -124,5 +126,8 @@ export class NominacionesComponent implements OnInit {
   }
 
 
-
+excel(){
+  
+    this.exportExcel.nomina(this.listNominaciones)
+}
 }

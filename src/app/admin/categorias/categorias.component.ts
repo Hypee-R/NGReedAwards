@@ -1,88 +1,110 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CategoriasService } from 'src/app/services/categorias.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import { Table } from 'primeng/table';
-// import { CategoriasService } from "./shared/categorias.service";
-import { CategoriaModel } from '../../models/categoria.model';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import * as XLSX from 'xlsx';
+import { ExcelService } from 'src/app/services/excel.service';
+import { ConfirmationService } from 'primeng/api';
 
-
+// import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'app-categorias',
   templateUrl: './categorias.component.html',
   styleUrls: ['./categorias.component.css']
 })
 export class CategoriasComponent implements OnInit {
-  categoria = {
-    id: '',
-    nombre: ''
-  }
+  
 
-  categorias: any;
-  loading: boolean = true;
-  categoriaCollectiondata: { id: string, titulo: string, fechaInicio: Date, fechaFin: Date }[] | any = [];
+  categoriaCollectiondata: any = [
+    {id:'', nombre:''}
+  ];
   categoriaForm: FormGroup;
   submitted: boolean;
+  loading: boolean =true
 
-  selectedCategoria: CategoriaModel;
-  constructor(private firebaseService: CategoriasService,private fb: FormBuilder, private toastr: ToastrService,)
-   {
-    this.get();
-   }
+  visible: boolean;
+  categoriaModelDialog: boolean;
+  categoriaModel: any;
+  idModel: any = [
+    {id:'', nombre:''}
+  ];;
+
+  excel:any;
+
+
+
+  visibleDe:boolean= false;
+  id: any;
+
+
+
+ 
+  constructor(
+
+    private firebaseService: CategoriasService,
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private exporExcel: ExcelService,
+    private confirmationService: ConfirmationService
+  ) {
+    
+  }
 
 
   ngOnInit(): void {
     this.initForm();
-    
     this.get();
-    // this.firebaseService.obsr_UpdatedSnapshot.subscribe((snapshot) => {
-    //   this.updatecategoriaCollection(snapshot);
-    // })
+
+    this.firebaseService.obsr_UpdatedSnapshot.subscribe((snapshot) => {
+      this.updatecategoriaCollection(snapshot);
+    })
   }
 
-  initForm(){
+  initForm() {
     this.categoriaForm = this.fb.group({
       id: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
-
+      // fechaFin: ['', [Validators.required]],
 
     })
   }
-  
+
   async add() {
     this.submitted = true;
+    // this.visible = false
+    if (this.categoriaForm.valid) {
+      
+          const { id,nombre} = this.categoriaModel;
+          await this.firebaseService.addcategoria(id ,nombre);
+          console.log('dd');
+          this.categoriaForm.reset()
+          // this.categoria.titulo = "";
+          // this.categoria.fechaInicio = "";
+          // this.categoria.fechaFin = "";
+this.visible = false
 
-    if(this.categoriaForm.valid){
 
-   const { id, nombre} = this.categoria;
-    await this.firebaseService.addcategoria(id, nombre);
-    this.categoria.id = "";
-    this.categoria.nombre = "";
-
-    }else{
+    } else {
 
       this.toastr.info('Todos los Campos son requeridos!!', 'Espera');
-
+      this.visible = true
+      // this.categoriaCollectiondata.reset()
     }
-
-
-
+    // this.convocatoriaModelDialog = false;
+    // this.convocatoriaModel;
+this.submitted = false
   }
 
-  
 
   async get() {
-    this.firebaseService.getCategorias().subscribe( (data) => {
-      this.categorias = data;
-      console.log('data categorias ', this.categoria);
-      this.loading = false;
-    }, err => {
-      this.categorias = [];
-      this.loading = false;
+    this.firebaseService.getCategorias().subscribe((data) => {
+      this.categoriaCollectiondata = data;
+      this.loading= false
     });
     //this.updatecategoriaCollection(snapshot);
   }
+ 
 
   updatecategoriaCollection(snapshot: QuerySnapshot<DocumentData>) {
     this.categoriaCollectiondata = [];
@@ -91,18 +113,66 @@ export class CategoriasComponent implements OnInit {
     })
   }
 
-  async delete(docId: string) {
-    await this.firebaseService.deletecategoria(docId);
+  async delete(docId: any) {
+    this.confirmationService.confirm({
+      message: '¿Está seguro de que desea eliminar la ctegoria  '+ docId.nombre + '?',
+      header: 'Confirmacion',
+      icon: 'pi pi-exclamation-triangle',
+      
+      accept: () => {
+        
+          this.firebaseService.deletecategoria(docId.id);
+      }
+  });
+  }
+edit: boolean = false
+  editar(categoria: any) {
+    this.categoriaModel = { ...categoria }
+    this.edit = true
+
+
+    // console.log(this.categoriaModel);
+    // console.log(this.id.id);
+
+
+  }
+  update() {
+this.firebaseService.updatecategoria(this.categoriaModel.id, this.categoriaModel.nombre);
+this.edit= false
   }
 
-  async update(docId: string, nombre: HTMLInputElement) {
-    await this.firebaseService.updatecategoria(docId, nombre.value);
+
+
+  Excel() {
+   
+    this.exporExcel.categoria(this.categoriaCollectiondata)
+    ;
+    
+
+  }
+
+  openNew() {
+    this.categoriaModel = { id: '', nombre: ''}
+    this.visible = true;
+    this.submitted = false;
+    this.categoriaForm.reset()
+    
+  }
+  hideDialog() {
+    this.visibleDe = false;
+    this.visible = false;
+    this.edit = false
+    this.submitted = false;
   }
 
 
-    clear(table: Table) {
-    table.clear();
+
+
+
+ 
+  import(key:any){
+    //  this.firebaseService.addcategoria(this.keys);
+    console.log(key);
+    
   }
-
-
 }
