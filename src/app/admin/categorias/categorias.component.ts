@@ -14,7 +14,7 @@ import { ConfirmationService } from 'primeng/api';
   styleUrls: ['./categorias.component.css']
 })
 export class CategoriasComponent implements OnInit {
-  
+
 
   categoriaCollectiondata: any = [
     {id:'', nombre:''}
@@ -39,7 +39,7 @@ export class CategoriasComponent implements OnInit {
 
 
 
- 
+
   constructor(
 
     private firebaseService: CategoriasService,
@@ -48,14 +48,13 @@ export class CategoriasComponent implements OnInit {
     private exporExcel: ExcelService,
     private confirmationService: ConfirmationService
   ) {
-    
+
   }
 
 
   ngOnInit(): void {
     this.initForm();
     this.get();
-
     this.firebaseService.obsr_UpdatedSnapshot.subscribe((snapshot) => {
       this.updatecategoriaCollection(snapshot);
     })
@@ -74,7 +73,7 @@ export class CategoriasComponent implements OnInit {
     this.submitted = true;
     // this.visible = false
     if (this.categoriaForm.valid) {
-      
+
           const { id,nombre} = this.categoriaModel;
           await this.firebaseService.addcategoria(id ,nombre);
           console.log('dd');
@@ -104,7 +103,7 @@ this.submitted = false
     });
     //this.updatecategoriaCollection(snapshot);
   }
- 
+
 
   updatecategoriaCollection(snapshot: QuerySnapshot<DocumentData>) {
     this.categoriaCollectiondata = [];
@@ -118,9 +117,9 @@ this.submitted = false
       message: '¿Está seguro de que desea eliminar la ctegoria  '+ docId.nombre + '?',
       header: 'Confirmacion',
       icon: 'pi pi-exclamation-triangle',
-      
+
       accept: () => {
-        
+
           this.firebaseService.deletecategoria(docId.id);
       }
   });
@@ -144,10 +143,10 @@ this.edit= false
 
 
   Excel() {
-   
+
     this.exporExcel.categoria(this.categoriaCollectiondata)
     ;
-    
+
 
   }
 
@@ -156,7 +155,7 @@ this.edit= false
     this.visible = true;
     this.submitted = false;
     this.categoriaForm.reset()
-    
+
   }
   hideDialog() {
     this.visibleDe = false;
@@ -169,10 +168,10 @@ this.edit= false
 
 
 
- 
+
   import(key:any){
     //  this.firebaseService.addcategoria(this.keys);
     console.log(key);
-    
+
   }
 }

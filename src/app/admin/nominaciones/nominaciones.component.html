@@ -17,7 +17,7 @@
     </div>
 
     <div class="row" *ngIf="listNominaciones && listNominaciones.length && listNominaciones.length > 0 && !loading">
-        <div class="col-12 col-md-3" *ngFor="let nominacion of listNominaciones">
+        <!-- <div class="col-12 col-md-3" *ngFor="let nominacion of listNominaciones">
             <p-card [header]="nominacion.titulo" [subheader]="nominacion.categoria" [style]="{ 'width': '100%', 'margin-bottom': '2em'}" class="p-card-shadow">
                 <ng-template pTemplate="header">
                     <div class="text-center">
@@ -25,7 +25,6 @@
                         <img class="img-mini" alt="Card" src="assets/svg/logo.svg" *ngIf="!nominacion?.fileLogoEmpresa?.url">
                     </div>
                 </ng-template>
-                <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p> -->
                 <div *ngIf="nominacion.mostrarMas">
                     <label>Nominado: {{nominacion.nominado}}</label><br>
                     <label>Descripcion: {{nominacion.descripcion}}</label><br>
@@ -73,7 +72,53 @@
                     <button class="btn btn-danger" (click)="eliminarNominacion(nominacion)" [style]="{'margin-left': '.5em'}"><i class="fa-solid fa-trash"></i></button>
                 </ng-template>
             </p-card>
-        </div>
+        </div> -->
+
+        <p-table #tableNominaciones [value]="listNominaciones" [columns]="cols" selectionMode="single" [(selection)]="selectedNominacion" dataKey="id" [loading]="loading" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} nominaciones" [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-striped" [globalFilterFields]="['titulo','nominacion.titulo']">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="tableNominaciones.clear()"></button> &nbsp; &nbsp;
+                    <span class="p-input-icon-left ml-auto" style="width: 89%;">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="tableNominaciones.filterGlobal($event.target.value, 'contains')" placeholder="Buscar nominación por titulo" [style]="{ width: '100%' }"/>
+                      </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th>Acciones</th>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        <div class="flex justify-content-center align-items-center">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th *ngFor="let col of columns">
+                        <div class="flex justify-content-center align-items-center">
+                            <p-columnFilter type="text" [field]="col.field"></p-columnFilter>
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td>
+                        <i data-bs-toggle="tooltip" data-bs-placement="top" title="Editar" class="fa-solid fa-pen" (click)="editarNominacion(rowData)"></i>
+                        <i data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar" class="fa-solid fa-trash" (click)="eliminarNominacion(rowData)" style="margin-left: 1em;"></i>
+                    </td>
+                    <td *ngFor="let col of columns">
+                        <div class="text-overflow">
+                            {{ rowData[col.field] }}
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
     </div>
 
 </div>

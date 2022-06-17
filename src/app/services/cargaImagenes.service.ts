@@ -92,7 +92,7 @@ export class CargaImagenesService {
               uid: JSON.parse(localStorage.d).uid
             }, file);
 
-            this.validaEndUpload();
+            //this.validaEndUpload();
 
           });
         }

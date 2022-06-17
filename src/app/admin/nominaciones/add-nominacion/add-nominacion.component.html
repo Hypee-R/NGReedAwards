@@ -68,7 +68,7 @@
                             <div *ngIf="nominacionForm.controls['fileLogoEmpresa'].errors.required">Por favor seleccione un archivo</div>
                         </div>
                         <label *ngIf="accion == 'editar' && !agregarLogo">
-                        <a target="blank" [href]="nominacionEditar?.fileLogoEmpresa?.url | safeurl : ''">Imagen representativa o logo</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileLogoEmpresa')">Cambiar</button>
+                        <a target="blank" [href]="nominacionEditar?.fileLogoEmpresa?.url | safeurl : ''">Imagen representativa o logo</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="setTypeArchivo('FileLogoEmpresa')">Cambiar</button>
                       </label>
                     </div>
                 </div>
@@ -191,7 +191,7 @@
                             <div *ngIf="nominacionForm.controls['fileCesionDerechos'].errors.required">Por favor seleccione un archivo</div>
                         </div>
                         <label *ngIf="accion == 'editar' && !agregarFileCDerechos">
-                        <a target="blank" [href]="nominacionEditar?.fileCesionDerechos?.url | safeurl : ''">Archivo Cesi&oacute;n de derechos</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileCesionDerechos')">Cambiar</button>
+                        <a target="blank" [href]="nominacionEditar?.fileCesionDerechos?.url | safeurl : ''">Archivo Cesi&oacute;n de derechos</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="setTypeArchivo('FileCesionDerechos')">Cambiar</button>
                       </label>
                     </div>
                 </div>
@@ -203,7 +203,7 @@
                             <div *ngIf="nominacionForm.controls['fileCartaIntencion'].errors.required">Por favor seleccione un archivo</div>
                         </div>
                         <label *ngIf="accion == 'editar' && !agregarFileCIntencion">
-                        <a target="blank" [href]="nominacionEditar?.fileCartaIntencion?.url | safeurl : ''">Archivo Carta de intenci&oacute;n</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileCartaIntencion')">Cambiar</button>
+                        <a target="blank" [href]="nominacionEditar?.fileCartaIntencion?.url | safeurl : ''">Archivo Carta de intenci&oacute;n</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="setTypeArchivo('FileCartaIntencion')">Cambiar</button>
                       </label>
                     </div>
                 </div>
@@ -233,13 +233,44 @@
             </div>
         </p-card>
         <br>
+        <p-card header="Cambiar Estatus de Pago">
+            <label *ngIf="nominacionEditar.statuspago == 'Pago Realizado'">
+            Estatus del Pago:
+              <span class="badge bg-success" *ngIf="!nominacionEditar.fileBaucher">{{nominacionEditar.statuspago}}</span>
+              <br>
+              <br>
+              <p-splitButton *ngIf="nominacionEditar.fileBaucher || nominacionEditar.pagarCon == 'swift'" [label]="nominacionEditar.statuspago" (click)="setNominacionUpdate(nominacionEditar)" icon="pi pi-check-circle" [model]="items" styleClass="p-button-success mb-2"></p-splitButton>
+          </label>
+            <label *ngIf="nominacionEditar.statuspago == 'Pago Pendiente'">
+            Estatus del Pago:
+            <span class="badge bg-warning text-dark" *ngIf="!nominacionEditar.fileBaucher">{{nominacionEditar.statuspago}}</span>
+            <br>
+            <br>
+            <p-splitButton *ngIf="nominacionEditar.fileBaucher || nominacionEditar.pagarCon == 'swift'" [label]="nominacionEditar.statuspago" (click)="setNominacionUpdate(nominacionEditar)" icon="pi pi-info-circle" [model]="items" styleClass="p-button-warning mb-2"></p-splitButton>
+          </label>
+            <label *ngIf="nominacionEditar.statuspago == 'Pago Rechazado'">
+            Estatus del Pago:
+            <span class="badge bg-danger" *ngIf="!nominacionEditar.fileBaucher">{{nominacionEditar.statuspago}}</span>
+            <br>
+            <br>
+            <p-splitButton *ngIf="nominacionEditar.fileBaucher || nominacionEditar.pagarCon == 'swift'" [label]="nominacionEditar.statuspago" (click)="setNominacionUpdate(nominacionEditar)" icon="pi pi-times-circle" [model]="items" styleClass="p-button-danger mb-2"></p-splitButton>
+          </label>
+            <label *ngIf="nominacionEditar.statuspago == '' || nominacionEditar.statuspago == 'Pago No Realizado'">
+            Estatus del Pago:
+            <span class="badge bg-danger" *ngIf="!nominacionEditar.fileBaucher">Pago No Realizado</span>
+            <br>
+            <br>
+            <p-splitButton *ngIf="nominacionEditar.fileBaucher || nominacionEditar.pagarCon == 'swift'" label="Pago No Realizado" (click)="setNominacionUpdate(nominacionEditar)" icon="pi pi-stop-circle" [model]="items" styleClass="p-button-danger mb-2"></p-splitButton>
+          </label>
+        </p-card>
+        <br>
         <p-card header="Pagar con:" *ngIf="this.nominacionEditar.statuspago != 'Pago Realizado'">
             <label>Selecciona un método de pago:</label>
             <select id="objetivo" class="form-control text-center" formControlName="pagarCon">
               <option default value="" disabled>Selecciona un metodo de pago</option>
               <option value="swift">Transferencia SWIFT</option>
               <option value="paypal">PayPal</option>
-          </select>
+            </select>
         </p-card>
         <br *ngIf="this.nominacionEditar.statuspago != 'Pago Realizado'">
         <p-card *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'" header="Pagar con transferencia SWIFT ">
@@ -250,13 +281,13 @@
                         <br>Los datos para realizar tu transferencia se encuentran en la página de
                         <a target="_blank" href="">Inicio</a>
                     </p>
-                    <label *ngIf="agregarFileBaucher" for="formFile" class="form-label">Comprobante de pago*</label>
-                    <input *ngIf="agregarFileBaucher" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
+                    <label *ngIf="nominacionForm.controls['pagarCon'].value === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" for="formFile" class="form-label">Comprobante de pago*</label>
+                    <input *ngIf="nominacionForm.controls['pagarCon'].value === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
                     <div *ngIf="submitted && nominacionForm.controls['fileBaucher'].errors" class="text-danger">
                         <!-- <div *ngIf="nominacionForm.controls['fileBaucher'].errors.required">Por favor seleccione un archivo</div> -->
                     </div>
                     <label *ngIf="accion == 'editar' && !agregarFileBaucher && nominacionEditar.fileBaucher">
-                    <a target="_blank" [href]="nominacionEditar?.fileBaucher?.url | safeurl : ''">Archivo de comprobante de pago</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="cambiarArchivo('FileBaucher')">Cambiar</button>
+                    <a target="_blank" [href]="nominacionEditar?.fileBaucher?.url | safeurl : ''">Archivo de comprobante de pago</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="setTypeArchivo('FileBaucher')">Cambiar</button>
                   </label>
                 </div>
             </div>
@@ -301,7 +332,7 @@
 
         <hr>
         <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-primary" type="submit" [disabled]="submitted">{{accion == 'agregar' ? 'Crear' : 'Actualizar'}}</button>
+            <button class="btn btn-primary" type="submit" [disabled]="submitted && guardando">{{accion == 'agregar' ? 'Crear' : 'Actualizar'}}</button>
         </div>
     </form>
 </div>

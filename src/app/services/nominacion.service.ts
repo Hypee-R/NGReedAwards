@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, addDoc, updateDoc, deleteDoc, getFirestore } from '@angular/fire/firestore';
 import { doc, getDocs, query, where } from 'firebase/firestore';
@@ -9,6 +10,7 @@ import { VariablesService } from './variablesGL.service';
 })
 export class NominacionService {
   listaNominaciones: NominacionModel[] = [];
+  pipe = new DatePipe('en-US');
   constructor(
     private afs: Firestore,
     private variablesGL: VariablesService,
@@ -16,6 +18,7 @@ export class NominacionService {
   }
 
   async addNominacion(nominacion: NominacionModel){
+    nominacion.fechaCreacion = this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a');
     await addDoc(collection(this.afs,'nominaciones'), nominacion)
     .then(docRef => {
       console.log('La nominacion se grabo con el ID: ', docRef.id);
@@ -57,7 +60,9 @@ export class NominacionService {
       statuspago:updateNominacion.statuspago,
       idpago:updateNominacion.idpago,
       montopago:updateNominacion.montopago,
-      uid:updateNominacion.uid
+      uid:updateNominacion.uid,
+      fechaCreacion: updateNominacion.fechaCreacion,
+      fechaActualizacion: this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a')
     });
   }
 
@@ -114,7 +119,9 @@ export class NominacionService {
             statuspago:doc.data().statuspago,
             idpago:doc.data().idpago,
             montopago:doc.data().montopago,
-            uid:doc.data().uid
+            uid:doc.data().uid,
+            fechaCreacion:doc.data().fechaCreacion,
+            fechaActualizacion: doc.data().fechaActualizacion
         });
         //console.log(doc.id, " => ", doc.data());
     });
@@ -153,7 +160,9 @@ export class NominacionService {
             statuspago:doc.data().statuspago,
             idpago:doc.data().idpago,
             montopago:doc.data().montopago,
-            uid:doc.data().uid
+            uid:doc.data().uid,
+            fechaCreacion: doc.data().fechaCreacion,
+            fechaActualizacion: doc.data().fechaActualizacion
         });
         //console.log(doc.id, " => ", doc.data());
     });

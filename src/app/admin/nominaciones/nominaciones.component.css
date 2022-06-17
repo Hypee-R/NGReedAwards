@@ -4,6 +4,14 @@
     color: #edeffd;
 }
 
+.text-overflow {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 ::ng-deep .p-vacio .p-card .p-card-body {
     padding-top: 6rem;
     background: #202528;

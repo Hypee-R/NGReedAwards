@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2'
-import { MenuItem } from 'primeng/api';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { NominacionModel } from 'src/app/models/nominacion.model';
@@ -16,31 +15,26 @@ export class NominacionesComponent implements OnInit {
   visibleSide: boolean;
   accion: string = '';
   nominacionEditar: NominacionModel;
-  items: MenuItem[];
+  selectedNominacion: NominacionModel;
   loading: boolean = true;
   listNominaciones: NominacionModel[] = [];
-  nominacionUpdate: NominacionModel;
   body:any;
+  cols: any;
   constructor(
     private toastr: ToastrService,
     private nominacionesService: NominacionService,
     private exportExcel: ExcelService
   ) {
     this.body = document.body;
-    this.items = [
-      { label: 'Pago Realizado', icon: 'pi pi-check-circle', command: () => {
-          this.updateEstatusPagoNominacion('Pago Realizado');
-      }},
-      { label: 'Pago Pendiente', icon: 'pi pi-info-circle', command: () => {
-          this.updateEstatusPagoNominacion('Pago Pendiente');
-      }},
-      {label: 'Pago Rechazado', icon: 'pi pi-times-circle', command: () => {
-          this.updateEstatusPagoNominacion('Pago Rechazado');
-      }},
-      {label: 'Pago No Realizado', icon: 'pi pi-stop-circle', command: () => {
-          this.updateEstatusPagoNominacion('Pago No Realizado');
-      }},
-  ];
+    this.cols = [
+      { field: 'titulo', header: 'Titulo' },
+      { field: 'nominado', header: 'Nominado' },
+      { field: 'categoria', header: 'Categoría' },
+      //{ field: 'organizacion', header: 'Organización' },
+      { field: 'fechaCreacion', header: 'Fecha Creación' },
+      { field: 'fechaActualizacion', header: 'Fecha Actualización' }
+    ];
+
   }
 
   ngOnInit(): void {
@@ -56,6 +50,8 @@ export class NominacionesComponent implements OnInit {
       this.listNominaciones = null;
     }
     this.loading = false;
+    console.log('data ', this.listNominaciones);
+
   }
 
   vistaPrevia(nominacion){
@@ -64,33 +60,6 @@ export class NominacionesComponent implements OnInit {
     }else{
        nominacion.mostrarMas = true;
     }
-  }
-
-  setNominacionUpdate(nominacion: NominacionModel){
-    this.nominacionUpdate = nominacion;
-    console.log('set nominacion update ', this.nominacionUpdate);
-  }
-
-  updateEstatusPagoNominacion(estatus: string){
-    Swal.fire({
-      title: 'Actualizar Estatus de Pago?',
-      text: "Se cambiará el estatus de pago a: "+estatus,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3c3174',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Actualizar!',
-      denyButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.nominacionUpdate.statuspago = estatus;
-        console.log('UPDATE ESTATUS PAGO ', this.nominacionUpdate);
-        this.nominacionesService.updateStatusPagoNominacion(this.nominacionUpdate);
-        this.toastr.success('Nominación actualizada con exito!!', 'Success');
-        this.getNominaciones();
-      }
-    });
-
   }
 
   async eliminarNominacion(nominacion: NominacionModel){
@@ -127,7 +96,7 @@ export class NominacionesComponent implements OnInit {
 
 
 excel(){
-  
+
     this.exportExcel.nomina(this.listNominaciones)
 }
 }

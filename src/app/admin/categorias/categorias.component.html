@@ -31,7 +31,7 @@
                         <button type="button" class="btn btn-warning"
                             (click)="update(categoria.id, nombre)">Actualizar</button>
                     </div>
-                 
+
                 </ng-container>
             </div> -->
 <!-- <hr>
@@ -83,7 +83,7 @@
         </ng-template>
     </p-toolbar>
 
-    <p-table [value]="categoriaCollectiondata" [rows]="10" [paginator]="true" [loading]="loading">
+    <p-table [value]="categoriaCollectiondata" [rows]="20" [paginator]="true" [loading]="loading" [rowsPerPageOptions]="[20,35,50]">
         <ng-template pTemplate="header">
             <tr>
                 <th>

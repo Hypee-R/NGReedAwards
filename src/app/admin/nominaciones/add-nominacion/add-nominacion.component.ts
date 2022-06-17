@@ -1,5 +1,7 @@
+import Swal from 'sweetalert2'
 import { ToastrService } from 'ngx-toastr';
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter,
+  Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FileItem } from 'src/app/models/img.model';
 import { PaisesService } from 'src/app/services/paises.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,6 +10,8 @@ import { NominacionService } from 'src/app/services/nominacion.service';
 import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
 import { CategoriasService } from 'src/app/services/categorias.service';
 import { CategoriaModel } from '../../../models/categoria.model';
+import { MenuItem } from 'primeng/api';
+import { NominacionModel } from 'src/app/models/nominacion.model';
 
 declare var paypal;
 
@@ -32,22 +36,25 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
 
   nominacionForm: FormGroup;
   submitted: boolean;
+  guardando: boolean = false;
   categorias: any[] = [];
   paises: any[] = [];
+  filesSave: any[] = [];
   archivos: FileItem[] = [];
   fileLogo: FileList;
   fileCDerechos: FileList;
   fileCIntencion: FileList;
   fileMMultimedia: FileList;
+  addOnlyOneFileMultimedia: boolean = false;
   fileBaucher: FileList;
-  //inicializa una variable fileAux vacía
-  fileAux: FileList = null;
   agregarLogo: boolean = true;
   agregarFileCDerechos: boolean = true;
   agregarFileCIntencion: boolean = true;
   agregarFilesMultimedia: boolean = true;
   agregarFileBaucher: boolean = true;
   preloadCategoria: CategoriaModel;
+  items: MenuItem[];
+  nominacionUpdate: NominacionModel;
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -59,6 +66,20 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
   ) {
     this.getCategorias();
     this.getPaises();
+    this.items = [
+      { label: 'Pago Realizado', icon: 'pi pi-check-circle', command: () => {
+          this.updateEstatusPagoNominacion('Pago Realizado');
+      }},
+      { label: 'Pago Pendiente', icon: 'pi pi-info-circle', command: () => {
+          this.updateEstatusPagoNominacion('Pago Pendiente');
+      }},
+      {label: 'Pago Rechazado', icon: 'pi pi-times-circle', command: () => {
+          this.updateEstatusPagoNominacion('Pago Rechazado');
+      }},
+      {label: 'Pago No Realizado', icon: 'pi pi-stop-circle', command: () => {
+          this.updateEstatusPagoNominacion('Pago No Realizado');
+      }},
+    ];
   }
 
   ngOnInit(): void {
@@ -164,7 +185,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
 
   setValueForm(){
     let searchCat = this.categorias.find(x => x.nombre == this.nominacionEditar.categoria);
-    console.log('CATEGORIA ENCONTRADA ', searchCat, this.nominacionEditar.categoria, this.categorias.length);
+    //console.log('CATEGORIA ENCONTRADA ', searchCat, this.nominacionEditar.categoria, this.categorias.length);
 
     setTimeout(() => {
       this.nominacionForm.patchValue({
@@ -190,10 +211,6 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
         idpago: this.nominacionEditar.idpago,
       });
     }, 100);
-    if(this.nominacionEditar.fileBaucher == "" && this.accion == 'editar'){
-      this.cambiarArchivo('FileBaucher')
-      //console.log('agregar file baucher true');
-    }
   }
 
   crearNominacion(){
@@ -201,6 +218,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
     //console.log('form data nominacion ', this.nominacionForm);
     if(this.nominacionForm.valid){
       this.toastr.info('Espera un momento, se está guardando la información!!', 'Espera');
+      this.guardando = true;
 
       if(this.accion == 'agregar'){
         this.archivos = [];
@@ -250,14 +268,13 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
               }
             }
             //Carga las imagenes solo si no se han cargado
-            if(!this.variablesGL.endProcessCargaCompleta.value){
-              if(this.archivos.length > 0){
-                this.cargaImagenesFBService.upload(this.archivos);
-                //console.log("Entro a cargar los archivos al actualizar ", this.archivos.length);
-              }else{
-                this.variablesGL.endProcessCargaCompleta.next(true);
-              }
+            if(this.archivos.length > 0){
+              this.cargaImagenesFBService.upload(this.archivos);
+              //console.log("Entro a cargar los archivos al actualizar ", this.archivos.length);
+            }else{
+              this.variablesGL.endProcessCargaCompleta.next(true);
             }
+
         }
       }
 
@@ -269,12 +286,10 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           }
           if(this.accion == 'agregar'){
             this.saveDataNominacion();
-            console.log("ACCION AGREGAR");
-
+            //console.log("ACCION AGREGAR");
           }else{
             this.updateDataNominacion();
-            console.log("ACCION EDITAR");
-
+            //console.log("ACCION EDITAR");
           }
         }
       });
@@ -315,13 +330,16 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value,
           montopago: this.producto.precio.toString(),
-          uid: JSON.parse(localStorage.d).uid
+          uid: JSON.parse(localStorage.d).uid,
+          fechaCreacion: "",
+          fechaActualizacion: ""
         });
 
         this.variablesGL.endProcessNominacion.subscribe(endProcessNominacion => {
           if(endProcessNominacion != '' && endProcessNominacion != null){
             this.toastr.success('Nominación creada con exito!!', 'Success');
             this.submitted = false;
+            this.guardando = false;
             this.nominacionForm.reset();
             this.archivos = [];
             console.log("END PROCESS CREATE");
@@ -332,13 +350,15 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           }else if(endProcessNominacion == ''){
             this.toastr.error('Hubo un error al guardar la nominacion!', 'Error');
             this.submitted = false;
+            this.guardando = false;
           }
         });
       }
   }
 
   async updateDataNominacion(){
-      let imgSave = this.cargaImagenesFBService.idsImageSave;
+      this.filesSave = [];
+      this.filesSave = this.cargaImagenesFBService.idsImageSave;
       let imgError = this.cargaImagenesFBService.idsImageErr;
       if(imgError.length && imgError.length > 0){
         imgError.forEach(imgErr => {
@@ -347,13 +367,13 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
         this.archivos = [];
         this.variablesGL.endProcessCargaCompleta.next(false);
       }else{
-        await this.nominacionService.updateNominacion({
+        let dataNominacion = {
           id: this.nominacionEditar.id,
           titulo: this.nominacionForm.get('titulo').value,
           categoria: this.nominacionForm.get('categoria').value,
           nominado: this.nominacionForm.get('nominado').value,
           descripcion: this.nominacionForm.get('descripcion').value,
-          fileLogoEmpresa: this.agregarLogo ? { idFile: imgSave.find(x => x.fileMapped == 'FileLogoEmpresa').idDoc, url: imgSave.find(x => x.fileMapped == 'FileLogoEmpresa').url } : this.nominacionEditar.fileLogoEmpresa,
+          fileLogoEmpresa: this.agregarLogo ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileLogoEmpresa').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileLogoEmpresa').url } : this.nominacionEditar.fileLogoEmpresa,
           organizacion: this.nominacionForm.get('organizacion').value,
           responsable: this.nominacionForm.get('responsable').value,
           telefono: this.nominacionForm.get('telefono').value,
@@ -362,21 +382,25 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           rsTwitter: this.nominacionForm.get('rsTwitter').value,
           rsFacebook: this.nominacionForm.get('rsFacebook').value,
           rsYoutube: this.nominacionForm.get('rsYoutube').value,
-          fileCesionDerechos: this.agregarFileCDerechos ? { idFile: imgSave.find(x => x.fileMapped == 'FileCesionDerechos').idDoc, url: imgSave.find(x => x.fileMapped == 'FileCesionDerechos').url } : this.nominacionEditar.fileCesionDerechos,
-          fileCartaIntencion: this.agregarFileCIntencion ? { idFile: imgSave.find(x => x.fileMapped == 'FileCartaIntencion').idDoc, url: imgSave.find(x => x.fileMapped == 'FileCartaIntencion').url } : this.nominacionEditar.fileCartaIntencion,
-          materialMultimedia: this.agregarFilesMultimedia ? imgSave.filter(x => x.fileMapped == 'FileMaterialMultimedia').map( (data) => { return { idFile: data.idDoc, url: data.url }} ) : this.nominacionEditar.materialMultimedia,
-         // fileBaucher: this.agregarFileBaucher ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
-        // fileBaucher: imgSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : '',
-        fileBaucher: imgSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
-        pagarCon: this.nominacionForm.get('pagarCon').value,
+          fileCesionDerechos: this.agregarFileCDerechos ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileCesionDerechos').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileCesionDerechos').url } : this.nominacionEditar.fileCesionDerechos,
+          fileCartaIntencion: this.agregarFileCIntencion ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileCartaIntencion').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileCartaIntencion').url } : this.nominacionEditar.fileCartaIntencion,
+          materialMultimedia: this.agregarFilesMultimedia ? this.setFilesMultimedia() : this.nominacionEditar.materialMultimedia,
+          // fileBaucher: this.agregarFileBaucher ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
+          // fileBaucher: imgSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : '',
+          fileBaucher: this.filesSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
+          pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value ? this.nominacionForm.get('idpago').value : Date.now().toString(),
           montopago: this.producto.precio.toString(),
-          uid: JSON.parse(localStorage.d).uid
-        });
+          uid: JSON.parse(localStorage.d).uid,
+          fechaCreacion: this.nominacionEditar.fechaCreacion,
+          fechaActualizacion: ""
+        }
 
+        await this.nominacionService.updateNominacion(dataNominacion);
         this.toastr.success('Nominación actualizada con exito!!', 'Success');
         this.submitted = false;
+        this.guardando = false;
         this.nominacionForm.reset();
         this.archivos = [];
         console.log("END PROCESS UPDATE");
@@ -449,11 +473,11 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
 
   setListaArchivos(archivosLista: FileList, fileMapped){
     this._extraerArchivos(archivosLista, fileMapped);
-    console.log('lista archivos ', this.archivos);
+    //console.log('lista archivos ', this.archivos);
   }
 
   private _extraerArchivos(archivosLista: FileList, fileMapped: string){
-    console.log(archivosLista);
+    //console.log(archivosLista);
 
     for (const propiedad in Object.getOwnPropertyNames( archivosLista )) {
       const archivoTemp = archivosLista[propiedad];
@@ -474,6 +498,11 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
   }
 
   cambiarArchivo(fileMapped: string){
+    this.addandSetArchivosAlert();
+    this.setTypeArchivo(fileMapped);
+  }
+
+  setTypeArchivo(fileMapped: string){
     switch(fileMapped){
       case 'FileLogoEmpresa':
           this.agregarLogo = true;
@@ -508,6 +537,73 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
 
   private esImagen(tipoArchivo: string): boolean{
     return (tipoArchivo === '' || tipoArchivo === undefined) ? false : tipoArchivo.startsWith('image');
+  }
+
+  addandSetArchivosAlert(){
+    Swal.fire({
+      title: 'Agregar uno o Cargar todos?',
+      text: `Agregar uno: Agregará los archivos que selecciones a los ya cargados.
+       Cargar todos: Eliminará los archivos ya cargados por los que selecciones.`,
+      allowOutsideClick: false,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3c3174',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Agregar Uno!',
+      cancelButtonText: 'Cargar Todos!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('Agregar Uno');
+        this.addOnlyOneFileMultimedia = true;
+      }else{
+        console.log('Cargar Todos');
+        this.addOnlyOneFileMultimedia = false;
+      }
+    });
+  }
+
+  setFilesMultimedia(){
+    let archivos: any[];
+
+    if(this.addOnlyOneFileMultimedia){//Agregará los archivos que selecciones a los ya cargados
+        archivos = this.nominacionEditar.materialMultimedia;
+        this.filesSave.filter(x => x.fileMapped == 'FileMaterialMultimedia').forEach( (data) => {
+          if(!archivos.find(z => z.idFile == data.idDoc)){
+            archivos.push({ idFile: data.idDoc, url: data.url });
+          }
+        });
+    }else{//Eliminará los archivos ya cargados por los que selecciones.
+        archivos = this.filesSave.filter(x => x.fileMapped == 'FileMaterialMultimedia').map( (data) => { return { idFile: data.idDoc, url: data.url }} );
+    }
+    return archivos;
+
+  }
+
+  setNominacionUpdate(nominacion: NominacionModel){
+    this.nominacionUpdate = nominacion;
+    console.log('set nominacion update ', this.nominacionUpdate);
+  }
+
+  updateEstatusPagoNominacion(estatus: string){
+    Swal.fire({
+      title: 'Actualizar Estatus de Pago?',
+      text: "Se cambiará el estatus de pago a: "+estatus,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3c3174',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Actualizar!',
+      denyButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.nominacionUpdate.statuspago = estatus;
+        this.nominacionEditar.statuspago = this.nominacionUpdate.statuspago;
+        console.log('UPDATE ESTATUS PAGO ', this.nominacionUpdate);
+        this.nominacionService.updateStatusPagoNominacion(this.nominacionUpdate);
+        this.toastr.success('Nominación actualizada con exito!!', 'Success');
+      }
+    });
+
   }
 
 

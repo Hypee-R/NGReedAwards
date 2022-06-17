@@ -22,4 +22,6 @@ export class NominacionModel{
   idpago:string;
   montopago:string;
   uid: string;
+  fechaCreacion: string;
+  fechaActualizacion: string;
 }
