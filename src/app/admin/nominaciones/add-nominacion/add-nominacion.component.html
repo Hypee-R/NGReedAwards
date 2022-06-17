@@ -264,7 +264,7 @@
           </label>
         </p-card>
         <br>
-        <p-card header="Pagar con:" *ngIf="this.nominacionEditar.statuspago != 'Pago Realizado'">
+        <p-card header="Pagar con:" *ngIf="nominacionForm.controls['statuspago'].value != 'Pago Realizado'">
             <label>Selecciona un método de pago:</label>
             <select id="objetivo" class="form-control text-center" formControlName="pagarCon">
               <option default value="" disabled>Selecciona un metodo de pago</option>
@@ -272,7 +272,7 @@
               <option value="paypal">PayPal</option>
             </select>
         </p-card>
-        <br *ngIf="this.nominacionEditar.statuspago != 'Pago Realizado'">
+        <br *ngIf="nominacionForm.controls['statuspago'].value != 'Pago Realizado'">
         <p-card *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'" header="Pagar con transferencia SWIFT ">
             <div class="col-12">
 

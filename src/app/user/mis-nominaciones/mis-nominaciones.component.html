@@ -39,7 +39,7 @@
                     <label *ngIf="nominacion.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{nominacion.statuspago}}</span></label>
                     <label *ngIf="nominacion.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{nominacion.statuspago}}</span></label>
                     <label *ngIf="nominacion.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{nominacion.statuspago}}</span></label>
-                    <label *ngIf="nominacion.statuspago == ''">Estatus del Pago: <span class="badge bg-danger" >Pago No Realizado</span></label>
+                    <label *ngIf="nominacion.statuspago == '' || nominacion.statuspago == 'Pago No Realizado'">Estatus del Pago: <span class="badge bg-danger" >Pago No Realizado</span></label>
                     <div *ngIf="nominacion.fileBaucher">
                         <br><label><a target="blank" [href]="nominacion?.fileBaucher?.url | safeurl : ''">Documento de Pago</a></label> &nbsp;
                     </div>
