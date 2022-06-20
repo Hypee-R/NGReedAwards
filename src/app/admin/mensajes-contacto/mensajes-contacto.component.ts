@@ -114,7 +114,7 @@ export class MensajesContactoComponent implements OnInit {
 
 
   openNew() {
-    this.ContactoModel={nombre:'',correo:'',mensaje:''};
+    this.ContactoModel={nombre:'',correo:'',telefono:'',mensaje:''};
     this.submitted = false;
     this.ContactoModelDialog = true;
 }

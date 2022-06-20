@@ -27,27 +27,29 @@
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <!-- <th pSortableColumn="id">id <p-sortIcon field="id"></p-sortIcon>
-                </th> -->
+              
                 <th pSortableColumn="nombre">nombre
                     <p-sortIcon field="nombre"></p-sortIcon>
                 </th>
                 <th pSortableColumn="correo">correo
                     <p-sortIcon field="correo"></p-sortIcon>
                 </th>
+                <th pSortableColumn="telefono">telefono
+                    <p-sortIcon field="telefono"></p-sortIcon>
+                </th>
                 <th pSortableColumn="mensaje">mensaje
                     <p-sortIcon field="mensaje"></p-sortIcon>
                 </th>
-                <!-- <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th> -->
-                <!-- <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th> -->
+               
                 <th></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-ContactoModel>
             <tr>
-                <!-- <td>{{ContactoModel.id}}</td> -->
+              
                 <td>{{ContactoModel.nombre}}</td>
                 <td>{{ContactoModel.correo}}</td>
+                <td>{{ContactoModel.telefono}}</td>
                 <td>{{ContactoModel.mensaje}}</td>
                 <td> </td>
                 <td><span [class]="'ContactoModel-badge status-' + (ContactoModel.inventoryStatus ? ContactoModel.inventoryStatus.toLowerCase() : '')">{{ContactoModel.inventoryStatus}}</span>

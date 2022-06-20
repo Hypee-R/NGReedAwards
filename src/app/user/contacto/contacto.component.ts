@@ -20,7 +20,8 @@ export class ContactoComponent implements OnInit {
   contactomodel = {
     name: '',
     correo: '',
-    mensaje:''
+    mensaje:'',
+    telefono:''
   }
 
   constructor(
@@ -35,10 +36,11 @@ export class ContactoComponent implements OnInit {
 
 
   async add() {
-    const { name, correo,mensaje } = this.contactomodel;
+    const { name, correo,telefono,mensaje } = this.contactomodel;
     await   this.contactoService.addNominacion({
       nombre: name,
       correo: correo,
+      telefono: telefono,
       mensaje: mensaje,
     });
     this.toastr.success('Alguien Se pondra en contacto!', 'Success');
