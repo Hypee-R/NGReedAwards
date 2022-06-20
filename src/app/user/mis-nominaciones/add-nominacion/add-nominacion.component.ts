@@ -199,7 +199,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
     this.submitted = true;
     if(this.nominacionForm.valid){
 
-      this.toastr.info('Espera un momento, se está guardando la información!!', 'Espera');
+      //this.toastr.info('Espera un momento, se está guardando la información!!', 'Espera');
       this.guardando = true;
 
       if(this.accion == 'agregar'){
@@ -377,14 +377,18 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           fechaActualizacion: ""
         }
 
-        await this.nominacionService.updateNominacion(dataNominacion);
-        this.toastr.success('Nominación actualizada con exito!!', 'Success');
+        if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
+          await this.nominacionService.updateNominacion(dataNominacion);
+          this.toastr.success('Nominación actualizada con exito!!', 'Success');
+          console.log("END PROCESS UPDATE");
+          this.fetchNominaciones.emit(true);
+        }else{
+          console.log('********** datos vacios, que no deberian ir... ******************');
+        }
         this.submitted = false;
         this.guardando = false;
         this.nominacionForm.reset();
         this.archivos = [];
-        console.log("END PROCESS UPDATE");
-        this.fetchNominaciones.emit(true);
 
         this.variablesGL.endProcessCargaCompleta.next(null);
         this.variablesGL.endProcessNominacion.next(null);
@@ -439,6 +443,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
         }
         break;
         case "FileBaucher":
+          this.agregarFileBaucher = true;
           if(event.target.files.length>0){
             this.fileBaucher = event.target.files;
             this.nominacionForm.get('fileBaucher').setValue("ya cargo archivo");
@@ -502,7 +507,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
         break;
       case 'FileBaucher':
           this.agregarFileBaucher = true;
-          this.nominacionForm.get('fileBaucher').reset();
+          this.nominacionForm.get('fileBaucher').setValue('');
         break;
     }
   }
