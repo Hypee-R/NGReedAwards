@@ -107,8 +107,10 @@
             <ng-template pTemplate="body" let-rowData let-columns="columns">
                 <tr [pSelectableRow]="rowData">
                     <td>
-                        <i data-bs-toggle="tooltip" data-bs-placement="top" title="Editar" class="fa-solid fa-pen" (click)="editarNominacion(rowData)"></i>
-                        <i data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar" class="fa-solid fa-trash" (click)="eliminarNominacion(rowData)" style="margin-left: 1em;"></i>
+                        <!-- <i data-bs-toggle="tooltip" data-bs-placement="top" title="Editar" class="fa-solid fa-pen" (click)="editarNominacion(rowData)"></i>
+                        <i data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar" class="fa-solid fa-trash" (click)="eliminarNominacion(rowData)" style="margin-left: 1em;"></i> -->
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="eliminarNominacion(rowData)"></button>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editarNominacion(rowData)"></button>
                     </td>
                     <td *ngFor="let col of columns">
                         <div class="text-overflow">

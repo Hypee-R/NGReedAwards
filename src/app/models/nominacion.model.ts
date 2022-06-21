@@ -21,7 +21,6 @@ export class NominacionModel{
   statuspago:string;
   idpago:string;
   montopago:string;
-  fechaCreacion?:string;
   uid: string;
   fechaCreacion: string;
   fechaActualizacion: string;
