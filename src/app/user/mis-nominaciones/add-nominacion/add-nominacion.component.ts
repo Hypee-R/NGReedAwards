@@ -30,7 +30,26 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
     precio      : 141.75
   }
 
-
+  codigosDescuento = [
+    { codigo: 'REED20ANAC', descuento: 20 },
+    { codigo: 'REED20QROEDO', descuento: 20 },
+    { codigo: 'REED20QROMPIO', descuento: 20 },
+    { codigo: 'REED20CORMPIO', descuento: 20 },
+    { codigo: 'REED20PUEEDO', descuento: 20 },
+    { codigo: 'REED20PUEMPIO', descuento: 20 },
+    { codigo: 'REED20NLEDO', descuento: 20 },
+    { codigo: 'REED20CHIEDO', descuento: 20 },
+    { codigo: 'REED20ATIZMPIO', descuento: 20 },
+    { codigo: 'REED20HUIXMPIO', descuento: 20 },
+    { codigo: 'REED20GTOEDO', descuento: 20 },
+    { codigo: 'REED20LEONMPIO', descuento: 20 },
+    { codigo: 'REED20NAUMPIO', descuento: 20 },
+    { codigo: 'REED20BUAPEDU', descuento: 20 },
+    { codigo: 'REED20QROOEDO', descuento: 20 },
+    { codigo: 'REED20TAMEDO', descuento: 20 },
+  ];
+  codigoDesc: string = '';
+  descuentoAplicado: boolean = false;
 
   nominacionForm: FormGroup;
   submitted: boolean;
@@ -567,6 +586,24 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
     }
     return archivos;
 
+  }
+
+  aplicarDescuento(){
+    if(this.codigoDesc){
+      let existeCodigoDesc = this.codigosDescuento.find(x => x.codigo == this.codigoDesc);
+      console.log('codigo de descuento aplicado ', existeCodigoDesc);
+      console.log('Precio normal ', this.producto);
+
+      if(existeCodigoDesc){
+        this.producto.precio = (this.producto.precio * .80);
+        console.log('nuevo precio ', this.producto);
+        this.toastr.success('Descuento aplicado de 20%', 'Exito!');
+        this.descuentoAplicado = true;
+      }else{
+        this.toastr.error('Codigo de descuento no valido', 'Error!');
+        this.codigoDesc = '';
+      }
+    }
   }
 
 

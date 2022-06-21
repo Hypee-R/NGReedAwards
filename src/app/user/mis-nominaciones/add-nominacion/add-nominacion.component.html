@@ -236,10 +236,20 @@
         <p-card header="Pagar con:" *ngIf="nominacionForm.controls['statuspago'].value != 'Pago Realizado'">
             <label>Selecciona un método de pago:</label>
             <select id="objetivo" class="form-control text-center" formControlName="pagarCon">
-            <option default value="" disabled>Selecciona un metodo de pago</option>
-            <option value="swift">Transferencia SWIFT</option>
-            <option value="paypal">PayPal</option>
-        </select>
+              <option default value="" disabled>Selecciona un metodo de pago</option>
+              <option value="swift">Transferencia SWIFT</option>
+              <option value="paypal">PayPal</option>
+            </select>
+            <br>
+            <div class="row" *ngIf="accion == 'agregar'">
+                <div class="col-8">
+                    <label>Aplicar codigo de descuento</label>
+                    <input type="text" class="form-control" [(ngModel)]="codigoDesc" [ngModelOptions]="{standalone: true}" [disabled]="descuentoAplicado">
+                </div>
+                <div class="col-4" style="margin-top: 1.6em;">
+                    <button class="btn btn-primary btn-sm" type="button" (click)="aplicarDescuento()" [disabled]="descuentoAplicado">Aplicar Descuento</button>
+                </div>
+            </div>
         </p-card>
         <br *ngIf="nominacionForm.controls['statuspago'].value != 'Pago Realizado'">
         <p-card *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'" header="Pagar con transferencia SWIFT ">
