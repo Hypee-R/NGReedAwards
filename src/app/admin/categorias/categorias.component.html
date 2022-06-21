@@ -78,7 +78,9 @@
             <h3 class="text-dark">categorias</h3>
         </ng-template>
         <ng-template pTemplate="right">
-            <button pButton pRipple class="p-button-info mr-2" (click)="Excel()" label="Exportar Excel" icon="pi pi-upload"> </button>
+
+          <button pButton pRipple class="p-button-info mr-2" (click)="GenereteReportMasterExcel()" label="Exportar Reporte" icon="pi pi-upload"> </button>
+
             <button pButton pRipple label="Nueva categoria" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
         </ng-template>
     </p-toolbar>
