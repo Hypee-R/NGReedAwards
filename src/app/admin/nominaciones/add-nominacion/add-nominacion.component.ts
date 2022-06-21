@@ -282,7 +282,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
         //Aqui ya terminó de subir los archivos al storage y agregar las url a firestore
         if(endProcessUpload){
           if(this.archivos.length > 0){
-            this.toastr.success('Archivos cargados con exito!!', 'Success');
+            this.toastr.success(this.archivos.length+' Archivos cargados con exito!!', 'Success');
           }
           if(this.accion == 'agregar'){
             this.saveDataNominacion();
@@ -306,7 +306,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
         this.archivos = [];
         this.variablesGL.endProcessCargaCompleta.next(false);
       }else{
-        this.nominacionService.addNominacion({
+        const dataNominacion: NominacionModel = {
           id: Date.now().toString(),
           titulo: this.nominacionForm.get('titulo').value,
           categoria: this.nominacionForm.get('categoria').value,
@@ -333,7 +333,11 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: "",
           fechaActualizacion: ""
-        });
+        }
+
+        if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
+          this.nominacionService.addNominacion(dataNominacion);
+        }
 
         this.variablesGL.endProcessNominacion.subscribe(endProcessNominacion => {
           if(endProcessNominacion != '' && endProcessNominacion != null){

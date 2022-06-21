@@ -9,6 +9,7 @@ import { NominacionService } from 'src/app/services/nominacion.service';
 import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
 import { CategoriasService } from 'src/app/services/categorias.service';
 import { CategoriaModel } from '../../../models/categoria.model';
+import { NominacionModel } from '../../../models/nominacion.model';
 
 declare var paypal;
 
@@ -263,7 +264,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
         //Aqui ya terminó de subir los archivos al storage y agregar las url a firestore
         if(endProcessUpload){
           if(this.archivos.length > 0){
-            this.toastr.success('Archivos cargados con exito!!', 'Success');
+            this.toastr.success(this.archivos.length+' Archivos cargados con exito!!', 'Success');
           }
           if(this.accion == 'agregar'){
             this.saveDataNominacion();
@@ -287,7 +288,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
         this.archivos = [];
         this.variablesGL.endProcessCargaCompleta.next(false);
       }else{
-        this.nominacionService.addNominacion({
+        const dataNominacion: NominacionModel = {
           id: Date.now().toString(),
           titulo: this.nominacionForm.get('titulo').value,
           categoria: this.nominacionForm.get('categoria').value,
@@ -314,7 +315,11 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: "",
           fechaActualizacion: ""
-        });
+        };
+
+        if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
+          this.nominacionService.addNominacion(dataNominacion);
+        }
 
         this.variablesGL.endProcessNominacion.subscribe(endProcessNominacion => {
           if(endProcessNominacion != '' && endProcessNominacion != null){

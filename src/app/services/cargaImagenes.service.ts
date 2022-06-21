@@ -41,6 +41,8 @@ export class CargaImagenesService {
   }
 
   upload(files: FileItem[]){
+    this.idsImageSave = [];
+    this.idsImageErr = [];
     const firebaseApp = getApp();
     const storage = getStorage(firebaseApp, 'gs://rewards-latino.appspot.com');
     this.archivosUpload = files;

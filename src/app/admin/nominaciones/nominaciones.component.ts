@@ -50,7 +50,7 @@ export class NominacionesComponent implements OnInit {
       this.listNominaciones = null;
     }
     this.loading = false;
-    //console.log('data ', this.listNominaciones);
+    console.log('data ', this.listNominaciones);
 
   }
 
