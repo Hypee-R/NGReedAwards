@@ -131,7 +131,7 @@ export class NominacionService {
     querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         this.listaNominaciones.push({
-            id: doc.id,
+            id: doc.data().id,
             titulo: doc.data().titulo,
             categoria: doc.data().categoria,
             nominado: doc.data().nominado,
@@ -153,6 +153,7 @@ export class NominacionService {
             statuspago:doc.data().statuspago,
             idpago:doc.data().idpago,
             montopago:doc.data().montopago,
+            fechaCreacion:doc.data().fechaCreacion,
             uid:doc.data().uid
         });
         //console.log(doc.id, " => ", doc.data());
