@@ -2,12 +2,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CategoriasService } from 'src/app/services/categorias.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { UsuarioService } from 'src/app/services/usuarios.service';
-import { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { doc, DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
 import { ExcelService } from 'src/app/services/excel.service';
 import { ConfirmationService } from 'primeng/api';
+import { elementAt } from 'rxjs';
 
 // import { Subject } from 'rxjs/Subject';
 @Component({
@@ -239,11 +240,32 @@ this.edit= false
   ExcelPiezasInscritas(usuarios, nominaciones) {
     var piezasInscritas = [];
     nominaciones.forEach((nominacion, index) => {
-      usuarios.forEach((usuario) => {
-        if (nominacion.uid == usuario.uid) {
-          console.log(nominacion);
+      var materialMultimedia = nominacion.materialMultimedia;
+      var valor = materialMultimedia.map(function(data){
+    return data
+      })
+      let video = valor.filter(e => e.url.includes('.mp4'))
+      let png = valor.filter( e => e.url.includes('.png'))
+      let jpg = valor.filter( e => e.url.includes('.jpg'))
+      let doc = valor.filter(e => e.url.includes('.pdf'))
+      let audio = valor.filter(e => e.url.includes('.mp3'))
+      
+var idCat = this.categoriaCollectiondata.map(function(data){
+  return data
+})
 
-          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, "NUM_VIDEO": 0,"NUM_IMAGENES": 0, "NUM_AUDIO": 0, "NUM_DOCS": 0, "NOMBRE_CATEGORIA": 0}));
+let idCa = idCat.filter(e => e.nombre.includes(nominacion.categoria))
+var idCategoria = idCa.map(function(data){
+  return data.id
+  
+})
+      
+      usuarios.forEach((usuario) => {
+        
+        if (nominacion.uid == usuario.uid) {
+          // console.log(nominacion);
+          
+          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": doc.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria}));
         }
       });
     })
@@ -257,7 +279,7 @@ this.edit= false
       var num_nominaciones = 0;
         nominaciones.forEach((nominacion) => {
         if (nominacion.uid == usuario.uid) {
-          console.log(nominacion);
+          // console.log(nominacion);
 
          if (num_nominaciones == 0) {
           piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion}));

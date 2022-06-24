@@ -107,6 +107,7 @@ ws['!cols'] = [
     XLSX.utils.book_append_sheet(wb, wsOrdenesPagadas, 'ORDENES PAGADAS');
     XLSX.utils.book_append_sheet(wb, wsOrdenesNoPagadas, 'ORDENES NO PAGADAS');
     XLSX.writeFile(wb, 'ReporteAppWebReedAwards.xlsx')
+    
     return this.toastr.success('Exportado con exito!!', 'Exito');
   }
 }
