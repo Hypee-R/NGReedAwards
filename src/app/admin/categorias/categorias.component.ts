@@ -210,10 +210,9 @@ this.edit= false
         var countPagadas = 0
         nominaciones.forEach((nominacion) => {
           if (nominacion.categoria == category.nombre) {
-            console.log("-----------" );
             countCategories++;
 
-            if (nominacion.pagado == "Pago Realizado" || nominacion.pagado == "pagado") {
+            if (nominacion.statuspago == "Pago Realizado" || nominacion.pagado == "pagado") {
               countPagadas++;
             }
           }
@@ -248,14 +247,14 @@ this.edit= false
       let pdf = '0'
       let audio = '0'
       if(typeof materialMultimedia == 'undefined'){
-        
-        
+
+
       }else{
        var valor = materialMultimedia.map(function(data){
     return data
-    
-      }) 
-      
+
+      })
+
        video = valor.filter(e => e.url.includes('.mp4'))
        png = valor.filter( e => e.url.includes('.png'))
        jpg = valor.filter( e => e.url.includes('.jpg'))
@@ -265,17 +264,17 @@ this.edit= false
       }
       console.log(video.length, png.length, jpg.length, jpeg.length, pdf.length, audio.length);
       console.log(valor);
-      
+
       // console.log(video);
       // console.log(png);
       // console.log(jpg);
       // console.log(pdf);
       // console.log(audio);
-      
-      
-      
-      
-      
+
+
+
+
+
 var idCat = this.categoriaCollectiondata.map(function(data){
   return data
 })
@@ -283,14 +282,14 @@ var idCat = this.categoriaCollectiondata.map(function(data){
 let idCa = idCat.filter(e => e.nombre.includes(nominacion.categoria))
 var idCategoria = idCa.map(function(data){
   return data.id
-  
+
 })
-      
+
       usuarios.forEach((usuario) => {
-        
+
         if (nominacion.uid == usuario.uid) {
           // console.log(nominacion);
-          
+
           piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length+jpeg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": pdf.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria}));
         }
       });
@@ -308,7 +307,7 @@ var idCategoria = idCa.map(function(data){
           // console.log(nominacion);
 
          if (num_nominaciones == 0) {
-          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion}));
+          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"FECHA_DE_REGISTRO": nominacion.fechaCreacion}));
          }
           num_nominaciones++;
         }
@@ -316,8 +315,8 @@ var idCategoria = idCa.map(function(data){
     })
     return piezasInscritas;
   }
-
-  ExcelUsuariosSinPiezasInscritas(usuarios, nominaciones) {
+  ExcelUsuariosSinPiezasInscritas(usuarios
+, nominaciones) {
     var piezasInscritas = [];
 
       usuarios.forEach((usuario,index) => {
@@ -328,7 +327,7 @@ var idCategoria = idCa.map(function(data){
         }
       });
       if(num_nominaciones == 0){
-        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"FECHA_DE_NOMINACIÓN": ""}));
+        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"FECHA_DE_REGISTRO": ""}));
       }
     })
     return piezasInscritas;
@@ -349,7 +348,7 @@ var idCategoria = idCa.map(function(data){
         }
       });
       if(num_nominaciones > 0){
-        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":"","NUM_PIEZAS":num_nominaciones, "TOTAL_USD":"","COIN":"","TOTAL_MXM":"$" +total_pagado,"COIN_2":"MXM", "FECHA_DE_PAGO": "","DATA":"","MEDIO_DE_PAGO":lastMethodPay}));
+        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":"Pagada","NUM_PIEZAS":num_nominaciones, "TOTAL_USD":"","COIN":"","TOTAL_MXM":"$" +total_pagado,"COIN_2":"MXM", "FECHA_DE_PAGO": "","DATA":"","MEDIO_DE_PAGO":lastMethodPay}));
       }
     })
     return piezasInscritas;

@@ -67,10 +67,10 @@ ws['!cols'] = [
   piezasPorCategoria(piezasPorCategoria:any, piezasInscritas:any, usuariosConPiezasInscritas:any,usuariosSinPiezasInscritas:any, ordenesPagadas:any, ordenesNoPagadas:any){
 
     let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(piezasPorCategoria, {header:['id', 'nombre', 'pago', 'total']});
-    let wsPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(piezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','PAGO','ID_PIEZA','NOMBRE_DE_LA_PIEZA','EMPRESA','FECHA_DE_NOMINACIÓN','NUM','NUM_VIDEO','NUM_IMAGENES','NUM_DOCS','CATEGORIA','NOMBRE_CATEGORIA']});
-    let wsUsuariosConPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(usuariosConPiezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','FECHA_DE_NOMINACIÓN']});
-    let wsUsuariosSinPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(usuariosSinPiezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','FECHA_DE_NOMINACIÓN']});
-    let wsOrdenesPagadas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(ordenesPagadas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','ESTADO','NUM_PIEZAS','TOTAL_USD','COIN',,'TOTAL_MXM','COIN_2','FECHA_DE_PAGO','DATA','MEDIO_DE_PAGO','EARLY_BIRD']});
+    let wsPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(piezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','PAGO','ID_PIEZA','NOMBRE_DE_LA_PIEZA','EMPRESA','FECHA_DE_NOMINACIÓN','NUM_AUDIO','NUM_VIDEO','NUM_IMAGENES','NUM_DOCS','CATEGORIA','NOMBRE_CATEGORIA']});
+    let wsUsuariosConPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(usuariosConPiezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','FECHA_DE_REGISTRO']});
+    let wsUsuariosSinPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(usuariosSinPiezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','FECHA_DE_REGISTRO']});
+    let wsOrdenesPagadas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(ordenesPagadas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','ESTADO','NUM_PIEZAS','TOTAL_USD','COIN','TOTAL_MXM','COIN_2','FECHA_DE_PAGO','DATA','MEDIO_DE_PAGO','EARLY_BIRD']});
     let wsOrdenesNoPagadas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(ordenesNoPagadas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','ESTADO','NUM_PIEZAS','TOTAL']});
 
     let objectMaxLength = [];
