@@ -241,14 +241,40 @@ this.edit= false
     var piezasInscritas = [];
     nominaciones.forEach((nominacion, index) => {
       var materialMultimedia = nominacion.materialMultimedia;
-      var valor = materialMultimedia.map(function(data){
+      let video = '0'
+      let png = '0'
+      let jpg = '0'
+      let jpeg = '0'
+      let pdf = '0'
+      let audio = '0'
+      if(typeof materialMultimedia == 'undefined'){
+        
+        
+      }else{
+       var valor = materialMultimedia.map(function(data){
     return data
-      })
-      let video = valor.filter(e => e.url.includes('.mp4'))
-      let png = valor.filter( e => e.url.includes('.png'))
-      let jpg = valor.filter( e => e.url.includes('.jpg'))
-      let doc = valor.filter(e => e.url.includes('.pdf'))
-      let audio = valor.filter(e => e.url.includes('.mp3'))
+    
+      }) 
+      
+       video = valor.filter(e => e.url.includes('.mp4'))
+       png = valor.filter( e => e.url.includes('.png'))
+       jpg = valor.filter( e => e.url.includes('.jpg'))
+       pdf = valor.filter(e => e.url.includes('.pdf'))
+       jpeg = valor.filter(e => e.url.includes('.jpeg'))
+       audio = valor.filter(e => e.url.includes('.mp3'))
+      }
+      console.log(video.length, png.length, jpg.length, jpeg.length, pdf.length, audio.length);
+      console.log(valor);
+      
+      // console.log(video);
+      // console.log(png);
+      // console.log(jpg);
+      // console.log(pdf);
+      // console.log(audio);
+      
+      
+      
+      
       
 var idCat = this.categoriaCollectiondata.map(function(data){
   return data
@@ -265,7 +291,7 @@ var idCategoria = idCa.map(function(data){
         if (nominacion.uid == usuario.uid) {
           // console.log(nominacion);
           
-          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": doc.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria}));
+          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length+jpeg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": pdf.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria}));
         }
       });
     })
