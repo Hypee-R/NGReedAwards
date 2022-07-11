@@ -18,6 +18,8 @@ export class MiInformacionComponent implements OnInit {
   formContrasena: FormGroup;
   submitedF2: boolean;
   loading: boolean = false;
+  phoneNational = '^((\\+52-?)|0)?[0-9]{10}$';
+  phoneInternational = /^[\(]?[\+]?(\d{2}|\d{3})[\)]?[\s]?((\d{6}|\d{8})|(\d{3}[\*\.\-\s]){3}|(\d{2}[\*\.\-\s]){4}|(\d{4}[\*\.\-\s]){2})|\d{8}|\d{10}|\d{12}$/;
   // formMiInformacion = new FormGroup({
   //   uid: new FormControl(''),
   //   firstName: new FormControl(''),
@@ -63,7 +65,7 @@ export class MiInformacionComponent implements OnInit {
     this.formMiInformacion = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      phone: ['', [Validators.required, Validators.pattern('^((\\+52-?)|0)?[0-9]{10}$')]],
+      phone: ['', [Validators.required, Validators.pattern(this.phoneInternational)]],
       // address: ['', [Validators.required]],
     })
 
@@ -87,7 +89,7 @@ export class MiInformacionComponent implements OnInit {
         //get user role from this.userData
         const userRole = this.userData[0].rol;
         console.log('userRole', userRole);
-        
+
         await setDoc(doc(db, 'usuarios', uid),{
             uid: uid,
             email: userEmail,
