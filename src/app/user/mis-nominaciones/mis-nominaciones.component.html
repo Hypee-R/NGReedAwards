@@ -55,7 +55,8 @@
                 </div>
                 <ng-template pTemplate="footer">
                     <button class="btn btn-primary" (click)="vistaPrevia(nominacion)"><i [ngClass]="nominacion.mostrarMas ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i> {{ nominacion.mostrarMas ? 'Mostrar menos' : 'Vista Previa' }}</button>
-                    <button class="btn btn-secondary" (click)="editarNominacion(nominacion)" [style]="{'margin-left': '.5em'}"><i class="fa-solid fa-pen"></i> Editar</button>
+                    <button class="btn btn-secondary" (click)="editarNominacion(nominacion)" [style]="{'margin-left': '.5em'}"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-danger" (click)="eliminarNominacion(nominacion)" [style]="{'margin-left': '.5em'}"><i class="fa-solid fa-trash"></i></button>
                 </ng-template>
             </p-card>
         </div>

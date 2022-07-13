@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { ToastrService } from 'ngx-toastr';
@@ -21,6 +22,7 @@ export class MisNominacionesComponent implements OnInit {
   accion: string = '';
   nominacionEditar: any;
   constructor(
+    private toastr: ToastrService,
     private nominacionesService: NominacionService
   ) {
     this.getNominaciones();
@@ -68,6 +70,25 @@ export class MisNominacionesComponent implements OnInit {
     this.accion = 'editar';
     this.nominacionEditar = nominacion;
     this.visibleSide = true;
+  }
+
+  async eliminarNominacion(nominacion: NominacionModel){
+    Swal.fire({
+      title: 'Desea Eliminar Ésta Nominación?',
+      text: "Ésta accion no se podrá revertir ni cambiar",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3c3174',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+      denyButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.nominacionesService.deleteNominacion(nominacion);
+        this.toastr.success('Nominación eliminada!!', 'Success');
+        this.getNominaciones();
+      }
+    });
   }
 
   vistaPrevia(nominacion){
