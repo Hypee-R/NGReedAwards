@@ -240,6 +240,14 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
     this.submitted = true;
     if(this.nominacionForm.valid){
 
+      Swal.fire({
+        title: 'Por favor espera...',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
       //this.toastr.info('Espera un momento, se está guardando la información!!', 'Espera');
       this.guardando = true;
 
@@ -372,7 +380,9 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
             this.variablesGL.endProcessCargaCompleta.next(null);
             this.variablesGL.endProcessNominacion.next(null);
             this.fetchNominaciones.emit(true);
+            Swal.close();
           }else if(endProcessNominacion == ''){
+            Swal.close();
             this.toastr.error('Hubo un error al guardar la nominacion!', 'Error');
             this.submitted = false;
             this.guardando = false;
@@ -434,6 +444,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
         this.guardando = false;
         this.nominacionForm.reset();
         this.archivos = [];
+        Swal.close();
 
         this.variablesGL.endProcessCargaCompleta.next(null);
         this.variablesGL.endProcessNominacion.next(null);
