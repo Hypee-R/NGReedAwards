@@ -19,6 +19,7 @@ export class NominacionesComponent implements OnInit {
   selectedNominacion: NominacionModel;
   loading: boolean = true;
   listNominaciones: any[] = [];
+  usuarios: any[] = [];
   body:any;
   cols: any;
   constructor(
@@ -27,35 +28,35 @@ export class NominacionesComponent implements OnInit {
     private usuariosService: UsuarioService,
     private exportExcel: ExcelService
   ) {
+    this.usuariosService.getusuarios().subscribe(data => {
+      this.usuarios = data;
+      //console.log('usuarios ', this.usuarios);
+      this.getNominaciones();
+    });
     this.body = document.body;
     this.cols = [
-      { field: 'titulo', header: 'Titulo' },
-      { field: 'nominado', header: 'Nominado' },
-      { field: 'categoria', header: 'Categoría' },
-      //{ field: 'organizacion', header: 'Organización' },
-      { field: 'fechaCreacion', header: 'Fecha Creación' },
-      { field: 'fechaActualizacion', header: 'Fecha Actualización' }
+      { field: 'titulo', header: 'Titulo' , filter: 'titulo'},
+      { field: 'nominado', header: 'Nominado' , filter: 'nominado'},
+      { field: 'categoria', header: 'Categoría' , filter: 'categoria'},
+      { field: 'fechaCreacion', header: 'Fecha Creación' , filter: 'fechaCreacion'},
+      { field: 'fechaActualizacion', header: 'Fecha Actualización' , filter: 'fechaActualizacion'},
+      // { field: 'displayName', header: 'Usuario Nombre', filter: 'usuario.displayName'},
+      { field: 'email', header: 'Usuario Correo', filter: 'usuario.email' }
     ];
 
   }
 
   ngOnInit(): void {
-    this.getNominaciones();
   }
 
   async getNominaciones(){
-    let usuarios: any[] = [];
     this.listNominaciones = await this.nominacionesService.getAllNominaciones();
-    await this.usuariosService.getusuarios().subscribe(data => {
-      usuarios = data;
-    });
     if(this.listNominaciones.length > 0){
         this.listNominaciones = this.listNominaciones.filter(x => x.titulo && x.nominado && x.descripcion);
-        console.log('usuarios ', usuarios);
-
-        // this.listNominaciones.forEach(item => {
-        //     let usuario = usuarios.find(x => x.);
-        // });
+        this.listNominaciones.forEach(item => {
+            let usuario = this.usuarios.find(x => x.uid == item.uid);
+            item.usuario = usuario;
+        });
     }
     if(this.listNominaciones.length == 0){
       this.listNominaciones = null;
