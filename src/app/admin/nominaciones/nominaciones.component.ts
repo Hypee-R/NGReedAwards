@@ -5,6 +5,7 @@ import { NominacionModel } from 'src/app/models/nominacion.model';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import * as XLSX from 'xlsx';
 import { ExcelService } from 'src/app/services/excel.service';
+import { UsuarioService } from '../../services/usuarios.service';
 @Component({
   selector: 'app-nominaciones',
   templateUrl: './nominaciones.component.html',
@@ -17,12 +18,13 @@ export class NominacionesComponent implements OnInit {
   nominacionEditar: NominacionModel;
   selectedNominacion: NominacionModel;
   loading: boolean = true;
-  listNominaciones: NominacionModel[] = [];
+  listNominaciones: any[] = [];
   body:any;
   cols: any;
   constructor(
     private toastr: ToastrService,
     private nominacionesService: NominacionService,
+    private usuariosService: UsuarioService,
     private exportExcel: ExcelService
   ) {
     this.body = document.body;
@@ -42,9 +44,18 @@ export class NominacionesComponent implements OnInit {
   }
 
   async getNominaciones(){
+    let usuarios: any[] = [];
     this.listNominaciones = await this.nominacionesService.getAllNominaciones();
+    await this.usuariosService.getusuarios().subscribe(data => {
+      usuarios = data;
+    });
     if(this.listNominaciones.length > 0){
         this.listNominaciones = this.listNominaciones.filter(x => x.titulo && x.nominado && x.descripcion);
+        console.log('usuarios ', usuarios);
+
+        // this.listNominaciones.forEach(item => {
+        //     let usuario = usuarios.find(x => x.);
+        // });
     }
     if(this.listNominaciones.length == 0){
       this.listNominaciones = null;
