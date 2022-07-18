@@ -396,7 +396,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value ? this.nominacionForm.get('idpago').value : Date.now().toString(),
           montopago: this.producto.precio.toString(),
-          uid: JSON.parse(localStorage.d).uid,
+          uid: this.nominacionEditar.uid,
           fechaCreacion: this.nominacionEditar.fechaCreacion,
           fechaActualizacion: ""
         }
