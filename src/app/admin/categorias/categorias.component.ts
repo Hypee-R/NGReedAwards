@@ -211,7 +211,7 @@ this.edit= false
             console.log("-----------" );
             countCategories++;
 
-            if (nominacion.pagado == "Pago Realizado" || nominacion.pagado == "pagado") {
+            if (nominacion.statuspago == "Pago Realizado" || nominacion.statuspago == "pagado") {
               countPagadas++;
             }
           }
@@ -238,11 +238,46 @@ this.edit= false
   ExcelPiezasInscritas(usuarios, nominaciones) {
     var piezasInscritas = [];
     nominaciones.forEach((nominacion, index) => {
+      var materialMultimedia = nominacion.materialMultimedia;
+      let video
+      let png
+      let jpg
+      let jpeg
+      let pdf
+      let audio
+      if(typeof materialMultimedia == 'undefined'){
+        
+        
+
+
+      }else{
+       var valor = materialMultimedia.map(function(data){
+    return data
+    
+      })
+
+       video = valor.filter(e => e.url.includes('.mp4'))
+       png = valor.filter( e => e.url.includes('.png'))
+       jpg = valor.filter( e => e.url.includes('.jpg'))
+       pdf = valor.filter(e => e.url.includes('.pdf'))
+       jpeg = valor.filter(e => e.url.includes('.jpeg'))
+       audio = valor.filter(e => e.url.includes('.mp3'))
+      }
+      var idCat = this.categoriaCollectiondata.map(function(data){
+        return data
+      })
+      
+      let idCa = idCat.filter(e => e.nombre.includes(nominacion.categoria))
+      var idCategoria = idCa.map(function(data){
+        return data.id
+        
+      
+      })
       usuarios.forEach((usuario) => {
         if (nominacion.uid == usuario.uid) {
-          console.log(nominacion);
+          // console.log(nominacion);
 
-          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, "NUM_VIDEO": 0,"NUM_IMAGENES": 0, "NUM_AUDIO": 0, "NUM_DOCS": 0, "NOMBRE_CATEGORIA": 0}));
+          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length+jpeg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": pdf.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria}));
         }
       });
     })
@@ -256,7 +291,7 @@ this.edit= false
       var num_nominaciones = 0;
         nominaciones.forEach((nominacion) => {
         if (nominacion.uid == usuario.uid) {
-          console.log(nominacion);
+          // console.log(nominacion);
 
          if (num_nominaciones == 0) {
           piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion}));
@@ -292,15 +327,32 @@ this.edit= false
       var num_nominaciones = 0;
       var total_pagado = 0;
       var lastMethodPay = "";
+      var estadoPago = ""
+      var Vaoucher = "Vaoucher"
+      var cat = ''
+      // console.log(usuario.uid);
         nominaciones.forEach((nominacion) => {
         if (nominacion.uid == usuario.uid && (nominacion.statuspago == "Pago Realizado" || nominacion.statuspago == "pagado")) {
+          console.log(nominacion.uid);
+          
           num_nominaciones++;
           total_pagado += parseInt(nominacion.montopago);
           lastMethodPay = nominacion.pagarCon;
+          estadoPago = nominacion.statuspago
+          // if(nominacion.fileBaucher > '' && (nominacion.statuspago == "Pago Realizado" || nominacion.statuspago == "pagado" )){
+          //   estadoPago = nominacion.statuspago + '('+Vaoucher+')'
+          // }
+          // if((nominacion.fileBaucher < ''|| nominacion.statuspago == "")){
+          //   estadoPago = Vaoucher
+          // }
+          
+        }else{
+
+          // console.log(nominacion.uid, usuario.uid);
         }
       });
       if(num_nominaciones > 0){
-        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":"","NUM_PIEZAS":num_nominaciones, "TOTAL_USD":"","COIN":"","TOTAL_MXM":"$" +total_pagado,"COIN_2":"MXM", "FECHA_DE_PAGO": "","DATA":"","MEDIO_DE_PAGO":lastMethodPay}));
+        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":estadoPago,"NUM_PIEZAS":num_nominaciones, "TOTAL_USD":"","COIN":"","TOTAL_MXM":"$" +total_pagado,"COIN_2":"MXM", "FECHA_DE_PAGO": "","DATA":"","MEDIO_DE_PAGO":lastMethodPay}));
       }
     })
     return piezasInscritas;
@@ -313,15 +365,19 @@ this.edit= false
       var num_nominaciones = 0;
       var total_pagado = 0;
       var lastState = "";
+      var estadoPago = ""
         nominaciones.forEach((nominacion) => {
-        if (nominacion.uid == usuario.uid && (nominacion.statuspago != "Pago Realizado" || nominacion.statuspago != "pagado")) {
+        if (nominacion.uid == usuario.uid && (nominacion.statuspago == "" || nominacion.statuspago == "" )) {
+          // nominacion.uid == usuario.uid && (nominacion.statuspago != "Pago Realizado" || nominacion.statuspago != "pagado"
           num_nominaciones++;
           total_pagado += parseInt(nominacion.montopago);
           lastState = nominacion.statuspago;
+          estadoPago = nominacion.statuspago
+          
         }
       });
       if(num_nominaciones > 0){
-        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":"","NUM_PIEZAS":num_nominaciones, "TOTAL":"$" +total_pagado}));
+        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":estadoPago,"NUM_PIEZAS":num_nominaciones, "TOTAL":"$" +total_pagado}));
       }
     })
     return piezasInscritas;

@@ -65,6 +65,8 @@ ws['!cols'] = [
     return this.toastr.success('Exportado con exito!!', 'Exito');
   }
   piezasPorCategoria(piezasPorCategoria:any, piezasInscritas:any, usuariosConPiezasInscritas:any,usuariosSinPiezasInscritas:any, ordenesPagadas:any, ordenesNoPagadas:any){
+// console.log('pago', ordenesPagadas);
+// console.log('no', ordenesNoPagadas);
 
     let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(piezasPorCategoria, {header:['id', 'nombre', 'pago', 'total']});
     let wsPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(piezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','PAGO','ID_PIEZA','NOMBRE_DE_LA_PIEZA','EMPRESA','FECHA_DE_NOMINACIÓN','NUM','NUM_VIDEO','NUM_IMAGENES','NUM_DOCS','CATEGORIA','NOMBRE_CATEGORIA']});
