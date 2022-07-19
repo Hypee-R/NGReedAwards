@@ -89,7 +89,7 @@
                 <tr>
                     <th>Acciones</th>
                     <th *ngFor="let col of columns" [pSortableColumn]="col.filter">
-                        <div class="flex justify-content-center align-items-center">
+                        <div class="flex justify-content-center align-items-center" style="width: 13em;">
                             {{col.header}}
                             <p-sortIcon [field]="col.filter"></p-sortIcon>
                         </div>
@@ -98,8 +98,8 @@
                 <tr>
                     <th></th>
                     <th *ngFor="let col of columns">
-                        <div class="flex justify-content-center align-items-center">
-                            <p-columnFilter type="text" [field]="col.filter"></p-columnFilter>
+                        <div class="flex justify-content-center align-items-center" style="width: 16em;">
+                            <p-columnFilter type="text" [field]="col.filter" hideOnClear="true" [style]="{'width':'100%'}"></p-columnFilter>
                         </div>
                     </th>
                 </tr>

@@ -4,3 +4,8 @@
     margin-left: 2%;
     margin-right: 2%;
 }
+
+:root {
+    --color-white: #202528;
+    --color-dark: #edeffd;
+}
