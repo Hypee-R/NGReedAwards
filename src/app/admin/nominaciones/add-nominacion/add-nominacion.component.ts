@@ -371,6 +371,11 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
         this.archivos = [];
         this.variablesGL.endProcessCargaCompleta.next(false);
       }else{
+      //  var  statuspagoBecada = this.nominacionForm.get('statuspago').value;
+        // if(this.nominacionForm.get('pagarCon').value == 'becado'){
+        //   statuspagoBecada = 'Pago Realizado'
+          // alert(this.filesSave.find(x => x.fileMapped == 'FileBaucher').url )
+        // }
         let dataNominacion = {
           id: this.nominacionEditar.id,
           titulo: this.nominacionForm.get('titulo').value,
@@ -393,7 +398,8 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           // fileBaucher: imgSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : '',
           fileBaucher: this.filesSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
           pagarCon: this.nominacionForm.get('pagarCon').value,
-          statuspago: this.nominacionForm.get('statuspago').value,
+          // statuspago: this.nominacionForm.get('statuspago').value,
+          statuspago: this.nominacionEditar.statuspago,
           idpago: this.nominacionForm.get('idpago').value ? this.nominacionForm.get('idpago').value : Date.now().toString(),
           montopago: this.producto.precio.toString(),
           uid: this.nominacionEditar.uid,
@@ -590,6 +596,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
 
   setNominacionUpdate(nominacion: NominacionModel){
     this.nominacionUpdate = nominacion;
+    this.nominacionEditar = nominacion;
     console.log('set nominacion update ', this.nominacionUpdate);
   }
 
@@ -613,6 +620,16 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
       }
     });
 
+  }
+
+  setBecado(value){
+    if(value === 'becado'){
+this.nominacionEditar.statuspago = 'Pago Realizado'
+this.nominacionUpdate.statuspago = 'Pago Realizado'
+//  this.nominacionForm.statuspago = 'Pago Realizado'
+this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
+    }
+    
   }
 
 
