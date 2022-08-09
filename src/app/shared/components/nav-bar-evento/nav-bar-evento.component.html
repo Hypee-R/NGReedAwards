@@ -9,16 +9,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/portal/home" routerLinkActive="active">Inicio</a>
+                    <a class="nav-link" aria-current="page" routerLink="/reedevento/home" routerLinkActive="active">Inicio</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/portal/categorias" routerLinkActive="active">Categorías</a>
-                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/reedevento/categorias" routerLinkActive="active">Categorías</a>
+                </li> -->
                 <!-- <li class="nav-item">
                     <a class="nav-link" aria-current="page" routerLink="/nominaciones" routerLinkActive="active">Nominaciones</a>
                 </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/portal/contacto" routerLinkActive="active">Contacto</a>
+                    <a class="nav-link" aria-current="page" routerLink="/reedevento/contacto" routerLinkActive="active">Contacto</a>
                 </li>
                 <div >
                     <li *ngIf="currentUser == 'admin'" class="nav-item">
@@ -27,16 +27,16 @@
                 </div>
             </ul>
             <div class="d-flex">
-                <a class="nav-link" style="cursor: pointer;" routerLink="/portal/registro" *ngIf="!configService.Usuario">Registrate</a>
-                <a class="nav-link" style="cursor: pointer;" routerLink="/portal/login" *ngIf="!configService.Usuario">Iniciar Sesión</a>
+                <a class="nav-link" style="cursor: pointer;" routerLink="/reedevento/registro" *ngIf="!configService.Usuario">Registrate</a>
+                <a class="nav-link" style="cursor: pointer;" routerLink="/reedevento/login" *ngIf="!configService.Usuario">Iniciar Sesión</a>
 
                 <div *ngIf="configService.Usuario">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Mi Cuenta
                   </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="left: unset;">
-                        <li><a class="dropdown-item" routerLink="/portal/mi-informacion">Mi Informaci&oacute;n</a></li>
-                        <li><a class="dropdown-item" routerLink="/portal/mis-nominaciones">Mis Nominaciones</a></li>
+                        <li><a class="dropdown-item" routerLink="/reedevento/mi-informacion">Mi Informaci&oacute;n</a></li>
+                        <li><a class="dropdown-item" routerLink="/reedevento/mis-nominaciones">Mis Nominaciones</a></li>
                     </ul>
                 </div>
                 <a class="nav-link" style="cursor: pointer;" (click)="logout()" *ngIf="configService.Usuario">Cerrar Sesión</a>

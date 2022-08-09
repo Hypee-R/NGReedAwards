@@ -1,0 +1,95 @@
+<div class="container mt-4">
+    <h5  class="text-center">Evento</h5>
+    <h4 class="text-center">Actualizaci&oacute;n de Informaci&oacute;n </h4>
+    <hr>
+    <div *ngIf="loading" class="d-flex justify-content-center mt-5">
+      <app-spinner></app-spinner>
+  </div>
+    <form [formGroup]="formMiInformacion"
+    *ngIf="!loading && userData as user "
+    (ngSubmit)="updateInfo(formMiInformacion.value)">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="mb-3">
+                    <label for="firstName" class="form-label">Nombre(s): {{user[0]?.firstName}}</label>
+                    <input  type="text" class="form-control" id="firstName" formControlName="firstName" [ngClass]="submitedF1 && formMiInformacion.controls['firstName'].errors ? 'is-invalid' : null">
+                    <div class="text-danger" *ngIf="formMiInformacion.invalid && submitedF1">
+                        <div *ngIf="formMiInformacion.get('firstName')?.hasError('required')">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Apellidos: {{user[0]?.lastName}}</label>
+                    <input type="text" class="form-control" id="lastName" formControlName="lastName" [ngClass]="submitedF1 && formMiInformacion.controls['lastName'].errors ? 'is-invalid' : null">
+                    <div class="text-danger" *ngIf="formMiInformacion.invalid && submitedF1">
+                        <div *ngIf="formMiInformacion.get('lastName')?.hasError('required')">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Telefono: {{user[0]?.phone}}</label>
+                    <input type="tel" class="form-control" id="phone" formControlName="phone" placeholder="(999)-999-99-99" [ngClass]="submitedF1 && formMiInformacion.controls['phone'].errors ? 'is-invalid' : null">
+                    <div class="text-danger" *ngIf="formMiInformacion.invalid && submitedF1">
+                        <div *ngIf="formMiInformacion.get('phone')?.hasError('pattern')">
+                            N&uacute;mero telefon&iacute;co no valido
+                        </div>
+                        <div *ngIf="formMiInformacion.get('phone')?.hasError('required')">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-primary" type="submit">Actualizar</button>
+        </div>
+    </form>
+
+    <h4 class="text-center mt-5">Cambio de Contraseña</h4>
+    <hr>
+    <form [formGroup]="formContrasena" (ngSubmit)="updatePassword()">
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="current-password" class="form-label">Contraseña Actual</label>
+                    <input type="password" class="form-control" id="current-password" name="current-password" autocomplete="false" formControlName="contrasenaActual" [ngClass]="submitedF2 && formContrasena.controls['contrasenaActual'].errors ? 'is-invalid' : null">
+                    <div class="text-danger" *ngIf="formContrasena.invalid && submitedF2">
+                        <div *ngIf="formContrasena.get('contrasenaActual')?.hasError('required')">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="mb-3">
+                    <label for="new-password" class="form-label">Nueva Contraseña</label>
+                    <input type="password" class="form-control" id="new-password" name="new-password" autocomplete="false" formControlName="password" [ngClass]="submitedF2 && formContrasena.controls['password'].errors ? 'is-invalid' : null">
+                    <div class="text-danger" *ngIf="formContrasena.invalid && submitedF2">
+                        <div *ngIf="formContrasena.get('password')?.hasError('required')">
+                            El campo es requerido
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="mb-3">
+                    <label for="repetir-password" class="form-label">Repetir Contraseña Nueva</label>
+                    <input type="password" class="form-control" id="repetir-password" name="repetir-password" autocomplete="false" formControlName="repetirPassword">
+                </div>
+            </div>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-primary" type="submit">Actualizar</button>
+        </div>
+    </form>
+</div>

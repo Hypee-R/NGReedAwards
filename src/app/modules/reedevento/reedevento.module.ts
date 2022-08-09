@@ -11,6 +11,8 @@ import { ConfirmationService } from 'primeng/api';
 import { ReedEventoComponent } from './reedevento.component';
 import { HomeComponent } from './home/home.component';
 
+import { MisLugaresComponent } from './mis-lugares/mis-lugares.component';
+import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
 import { ToastModule } from 'primeng/toast';
 
 @NgModule({
@@ -27,6 +29,8 @@ import { ToastModule } from 'primeng/toast';
     declarations: [
         ReedEventoComponent,
         HomeComponent,
+        MiInformacionComponent,
+        MisLugaresComponent,
     ]
 })
 export class ReedEventoModule { }

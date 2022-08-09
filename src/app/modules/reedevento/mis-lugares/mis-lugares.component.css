@@ -1,0 +1,72 @@
+::ng-deep .p-vacio .p-card {
+    height: 25rem;
+}
+
+::ng-deep .p-vacio .p-card .p-card-body {
+    padding-top: 6rem;
+}
+
+.rotate {
+    animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+.content {
+    width: 700px;
+    height: 400px;
+    line-height: 400px;
+    margin: 0px auto;
+    text-align: center;
+    /* background-color: #CCCCCC; */
+}
+
+.content img {
+    vertical-align: middle;
+}
+
+.img-mini {
+    width: 18em;
+    height: 18em;
+}
+
+.btn-primary {
+    background: #5b4bad;
+    border-color: #5b4bad;
+}
+
+.btn-primary:hover {
+    background: #3c3174;
+    border-color: #3c3174;
+}
+
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    background: #3c3174;
+    border-color: #3c3174;
+}
+
+@media screen and (min-width: 1920px) {
+    .content {
+        height: 700px;
+        line-height: 700px;
+    }
+     ::ng-deep .p-vacio .p-card {
+        height: 45rem;
+    }
+     ::ng-deep .p-vacio .p-card .p-card-body {
+        padding-top: 17rem;
+    }
+    .img-mini {
+        width: 25em;
+        height: 25em;
+    }
+}

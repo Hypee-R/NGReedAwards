@@ -1,0 +1,69 @@
+<div class="contenedor mt-4 mb-lg-5">
+    <h3 class="text-bold text-center">Mis lugares</h3>
+    <button type="button" class="btn btn-primary">Nueva Nominación</button>
+    <hr>
+
+    <div class="row" *ngIf="loading">
+        <div class="content">
+            <img class="rotate" src="assets/svg/logo.svg" alt="" style="width: 50%; height: 50%;">
+        </div>
+    </div>
+
+    <div class="row" *ngIf="!listlugares !loading">
+        <!-- <p-card class="p-vacio">
+            <div class="text-center">
+                <h1>No tienes ninguna nominaci&oacute;n</h1>
+                <h4>Crea una nueva nominaci&oacute;n con el boton que se encuentra en la parte superior izquierda de la pantalla</h4>
+            </div>
+        </p-card> -->
+    </div>
+
+    <div class="row" *ngIf="listlugares && listlugares.length && listlugares.length > 0 && !loading">
+        <div class="col-12 col-md-3" *ngFor="let lugar of listlugares">
+            <!-- <p-card [header]="lugar.titulo" [subheader]="lugar.categoria" [style]="{ 'width': '100%', 'margin-bottom': '2em'}" styleClass="p-card-shadow">
+                <ng-template pTemplate="header">
+                    <div class="text-center">
+                        <img class="img-mini" alt="Card" [src]="lugar?.fileLogoEmpresa?.url" *ngIf="lugar?.fileLogoEmpresa?.url">
+                        <img class="img-mini" alt="Card" src="assets/svg/logo.svg" *ngIf="!lugar?.fileLogoEmpresa?.url">
+                    </div>
+                </ng-template>
+             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p> 
+                <div *ngIf="lugar.mostrarMas">
+                    <label>Nominado: {{lugar.nominado}}</label><br>
+                    <label>Descripcion: {{lugar.descripcion}}</label><br>
+                    <label>Organizacion: {{lugar.organizacion}}</label><br>
+                    <label>Responsable: {{lugar.responsable}}</label><br>
+                    <label>Telefono: {{lugar.telefono}}</label><br>
+                    <label>Pais: {{lugar.pais}}</label><br>
+                    <label>Metodo de Pago: <i [class]="lugar.pagarCon == 'paypal' ? 'fa-brands fa-cc-paypal fa-xl' : 'fa-solid fa-money-bill-transfer fa-xl'"></i></label><br>
+                    <label *ngIf="lugar.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{lugar.statuspago}}</span></label>
+                    <label *ngIf="lugar.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{lugar.statuspago}}</span></label>
+                    <label *ngIf="lugar.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{lugar.statuspago}}</span></label>
+                    <label *ngIf="lugar.statuspago == '' || lugar.statuspago == 'Pago No Realizado'">Estatus del Pago: <span class="badge bg-danger" >Pago No Realizado</span></label>
+                    <div *ngIf="lugar.fileBaucher">
+                        <br><label><a target="blank" [href]="lugar?.fileBaucher?.url | safeurl : ''">Documento de Pago</a></label> &nbsp;
+                    </div>
+                    <br><label><a target="blank" [href]="lugar?.fileCartaIntencion?.url | safeurl : ''">Archivo Carta Intencion</a></label> &nbsp;
+                    <label><a target="blank" [href]="lugar?.fileCesionDerechos?.url | safeurl : ''">Archivo Cesion Derechos</a></label><br>
+                    <div *ngFor="let item of lugar.materialMultimedia; let i=index">
+                        <label><a target="blank" [href]="item?.url | safeurl : ''">Material Multimedia {{i+1}}</a></label> &nbsp;
+                    </div>
+                    <label><i class="fa-brands fa-instagram"></i> &nbsp; <a target="blank" [href]="lugar.rsInstagram | safeurl : ''">{{lugar.rsInstagram}}</a></label>
+                    <label><i class="fa-brands fa-twitter"></i> &nbsp; <a target="blank" [href]="lugar.rsTwitter | safeurl : ''">{{lugar.rsTwitter}}</a></label>
+                    <label><i class="fa-brands fa-facebook"></i> &nbsp; <a target="blank" [href]="lugar.rsFacebook | safeurl : ''">{{lugar.rsFacebook}}</a></label>
+                    <label><i class="fa-brands fa-youtube"></i> &nbsp; <a target="blank" [href]="lugar.rsYoutube | safeurl : ''">{{lugar.rsYoutube}}</a></label>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button class="btn btn-primary" (click)="vistaPrevia(lugar)"><i [ngClass]="lugar.mostrarMas ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i> {{ lugar.mostrarMas ? 'Mostrar menos' : 'Vista Previa' }}</button>
+                    <button class="btn btn-secondary" (click)="editarlugar(lugar)" [style]="{'margin-left': '.5em'}"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-danger" (click)="eliminarlugar(lugar)" [style]="{'margin-left': '.5em'}"><i class="fa-solid fa-trash"></i></button>
+                </ng-template>
+            </p-card> -->
+        </div>
+    </div>
+
+</div>
+
+<!-- <p-sidebar [(visible)]="visibleSide" position="right" [blockScroll]="true" [baseZIndex]="2" [style]="{ 'width': '60%'}">
+    <app-add-lugar *ngIf="visibleSide" [accion]="accion" [lugarEditar]="lugarEditar" (fetchlugares)="fetchlugar()"></app-add-lugar>
+</p-sidebar> -->

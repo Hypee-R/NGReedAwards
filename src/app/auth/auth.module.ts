@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { LoginAdminComponent } from './admin/login-admin/login-admin.component';
 import { LoginUserComponent } from './user/login-user/login-user.component';
+import { LoginUserEventoComponent } from './userEvento/login-user/login-user.component';
 import { RegistroUserComponent } from './user/registro-user/registro-user.component';
 import { RegistroAdminComponent } from './admin/registro-admin/registro-admin.component';
 import { RecuperarPasswordComponent } from './user/recuperar-password/recuperar-password.component';
@@ -17,6 +18,7 @@ import { VerificarCorreoComponent } from './user/verificar-correo/verificar-corr
   declarations: [
     LoginAdminComponent,
     LoginUserComponent,
+    LoginUserEventoComponent,
     RegistroUserComponent,
     RegistroAdminComponent,
     RecuperarPasswordComponent,
