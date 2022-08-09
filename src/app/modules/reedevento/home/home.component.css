@@ -1,4 +1,6 @@
 /* Styles: */
+
+
 .card {
     background-color: rgb(217, 222, 224);
   }
@@ -20,6 +22,10 @@
 
 
 }
+.grid2{
+    display: grid;
+    grid-template-columns: 40% 10% 40%;
+}
 
 .zonaGeneral{
     border: 8px solid lightblue;
@@ -40,7 +46,7 @@
     text-align: center;
     font-size: 2.75em;
     font-weight: bold;
-    transition: 0.24s 0.2s;
+    
   }
 
   .iconVIP{
@@ -58,13 +64,12 @@
     font-weight: bold;
     transition: 1.0s 0.s;
   }
-  .iconVIP:hover {
-    background: rgba(190, 196, 108, 0.75);
+  .iconVIP:hover{
+    background:  rgb(211, 202, 26);
+    
   }
   
-  .icon:hover {
-    background: rgba(190, 196, 108, 0.75);
-  }
+  
   
   .menu {
     position: absolute;
@@ -74,7 +79,6 @@
     cursor: default;
     border-radius: 50%;
     transform: scale(0);
-    transition: transform 1.4s 0.07s;
     z-index: -5;
   }
   
@@ -83,8 +87,10 @@
     top: -100px;
     left: -100px;
     transform-origin: 100px 100px;
-    transition: all 0.5s 0.1s;
+    cursor: pointer;
+   
   }
+  
   
   
   .spreadVIP {
@@ -93,97 +99,98 @@
     left: -100px;
     transform-origin: 100px 100px;
     transition: all 0.5s 0.1s;
+    
   }
 
-  .icon:hover {
+  .icon::content {
     /* Where all the MAGIC happens: */
   }
-  .icon:hover .menu {
+  .icon::content .menu {
     transition: transform 0.4s 0.08s, z-index 0s 0.5s;
     transform: scale(.7);
     z-index: 5;
   }
-  .icon:hover .spread,
-  .icon:hover .unit {
+  .icon::content .spread,
+  .icon::content .unit {
     transition: all 0.6s;
   }
-  .icon:hover .spread:nth-child(1) {
+  .icon::content .spread:nth-child(1) {
     transition-delay: 0.02s;
     transform: rotate(80deg);
   }
-  .icon:hover .spread:nth-child(1) .unit {
+  .icon::content .spread:nth-child(1) .unit {
     transition-delay: 0.04s;
     transform: rotate(635deg);
   }
-  .icon:hover .spread:nth-child(2) {
+  .icon::content .spread:nth-child(2) {
     transition-delay: 0.04s;
     transform: rotate(116deg);
   }
-  .icon:hover .spread:nth-child(2) .unit {
+  .icon::content .spread:nth-child(2) .unit {
     transition-delay: 0.08s;
     transform: rotate(595deg);
   }
-  .icon:hover .spread:nth-child(3) {
+  .icon::content .spread:nth-child(3) {
     transition-delay: 0.06s;
     transform: rotate(152deg);
   }
-  .icon:hover .spread:nth-child(3) .unit {
+  .icon::content .spread:nth-child(3) .unit {
     transition-delay: 0.12s;
     transform: rotate(555deg);
   }
-  .icon:hover .spread:nth-child(4) {
+  .icon::content .spread:nth-child(4) {
     transition-delay: 0.12s;
     transform: rotate(188deg);
   }
-  .icon:hover .spread:nth-child(4) .unit {
+  .icon::content .spread:nth-child(4) .unit {
     transition-delay: 0.16s;
     transform: rotate(515deg);
   }
-  .icon:hover .spread:nth-child(5) {
+  .icon::content .spread:nth-child(5) {
     transition-delay: 0.1s;
     transform: rotate(224deg);
   }
-  .icon:hover .spread:nth-child(5) .unit {
+  .icon::content .spread:nth-child(5) .unit {
     transition-delay: 0.2s;
     transform: rotate(475deg);
   }
-  .icon:hover .spread:nth-child(6) {
+  .icon::content .spread:nth-child(6) {
     transition-delay: 0.12s;
     transform: rotate(260deg);
   }
-  .icon:hover .spread:nth-child(6) .unit {
+  .icon::content .spread:nth-child(6) .unit {
     transition-delay: 0.24s;
     transform: rotate(435deg);
   }
-  .icon:hover .spread:nth-child(7) {
+  .icon::content .spread:nth-child(7) {
     transition-delay: 0.14s;
     transform: rotate(296deg);
   }
-  .icon:hover .spread:nth-child(7) .unit {
+  .icon::content .spread:nth-child(7) .unit {
     transition-delay: 0.28s;
     transform: rotate(410deg);
   }
-  .icon:hover .spread:nth-child(8) {
+  .icon::content .spread:nth-child(8) {
     transition-delay: 0.16s;
     transform: rotate(332deg);
   }
-  .icon:hover .spread:nth-child(8) .unit {
+  .icon::content .spread:nth-child(8) .unit {
     transition-delay: 0.32s;
     transform: rotate(390deg);
   }
-  .icon:hover .spread:nth-child(9) {
+  .icon::content .spread:nth-child(9) {
     transition-delay: 0.18s;
     transform: rotate(368deg);
   }
-  .icon:hover .spread:nth-child(9) .unit {
+  .icon::content .spread:nth-child(9) .unit {
     transition-delay: 0.36s;
     transform: rotate(340deg);
   }
-  .icon:hover .spread:nth-child(10) {
+  .icon::content .spread:nth-child(10) {
     transition-delay: 0.18s;
     transform: rotate(404deg);
   }
-  .icon:hover .spread:nth-child(10) .unit {
+  .icon::content .spread:nth-child(10) .unit {
     transition-delay: 0.18s;
     transform: rotate(320deg);
   }
@@ -203,7 +210,7 @@
   }
   .unit:hover {
     position: absolute;
-    background: rgb(143, 191, 22);
+    background: rgb(211, 202, 26);
     font-size: 60%;
     text-decoration: none;
     width: 50px;
@@ -216,7 +223,7 @@
 
   .unitVIP {
     position: absolute;
-    background: rgb(143, 191, 22);
+    background:rgb(171, 90, 90);
     font-size: 60%;
     text-decoration: none;
     width: 50px;
@@ -226,6 +233,7 @@
     border-radius: 50%;
     transition: 0.6s;
   }
+  
   /* Just CodePen layout stuff: */
   body,
   a,
@@ -255,95 +263,98 @@
   }
 
 
-  .iconVIP:hover {
+  .iconVIP::content {
     /* Where all the MAGIC happens: */
   }
-  .iconVIP:hover .menu {
+  .iconVIP::content .menu {
     transition: transform 0.4s 0.08s, z-index 0s 0.5s;
     transform: scale(.8);
     z-index: 5;
   }
-  .iconVIP:hover .spread,
-  .iconVIP:hover .unitVIP {
+  .iconVIP::content .spreadVIP,
+  .iconVIP::content .unitVIP {
     transition: all 0.0s;
   }
-  .iconVIP:hover .spread:nth-child(1) {
+  .iconVIP::content .spreadVIP:nth-child(1) {
     transition-delay: 0.02s;
     transform: rotate(80deg);
   }
-  .iconVIP:hover .spread:nth-child(1) .unitVIP {
+  .iconVIP::content .spreadVIP:nth-child(1) .unitVIP {
     transition-delay: 0.04s;
     transform: rotate(635deg);
   }
-  .iconVIP:hover .spread:nth-child(2) {
+  .iconVIP::content .spreadVIP:nth-child(2) {
     transition-delay: 0.04s;
     transform: rotate(116deg);
   }
-  .iconVIP:hover .spread:nth-child(2) .unitVIP {
+  .iconVIP::content .spreadVIP:nth-child(2) .unitVIP {
     transition-delay: 0.08s;
     transform: rotate(595deg);
   }
-  .iconVIP:hover .spread:nth-child(3) {
+  .iconVIP::content .spreadVIP:nth-child(3) {
     transition-delay: 0.06s;
     transform: rotate(152deg);
   }
-  .iconVIP:hover .spread:nth-child(3) .unitVIP {
+  .iconVIP::content .spreadVIP:nth-child(3) .unitVIP {
     transition-delay: 0.12s;
     transform: rotate(555deg);
   }
-  .iconVIP:hover .spread:nth-child(4) {
+  .iconVIP::content .spreadVIP:nth-child(4) {
     transition-delay: 0.12s;
     transform: rotate(188deg);
   }
-  .iconVIP:hover .spread:nth-child(4) .unitVIP {
+  .iconVIP::content .spreadVIP:nth-child(4) .unitVIP {
     transition-delay: 0.16s;
     transform: rotate(515deg);
   }
-  .iconVIP:hover .spread:nth-child(5) {
+  .iconVIP::content .spreadVIP:nth-child(5) {
     transition-delay: 0.1s;
     transform: rotate(224deg);
   }
-  .iconVIP:hover .spread:nth-child(5) .unitVIP {
+  .iconVIP::content .spreadVIP:nth-child(5) .unitVIP {
     transition-delay: 0.2s;
     transform: rotate(140deg);
   }
-  .iconVIP:hover .spread:nth-child(6) {
+  .iconVIP::content .spreadVIP:nth-child(6) {
     transition-delay: 0.12s;
     transform: rotate(260deg);
   }
-  .iconVIP:hover .spread:nth-child(6) .unitVIP{
+  .iconVIP::content .spreadVIP:nth-child(6) .unitVIP{
     transition-delay: 0.24s;
     transform: rotate(435deg);
   }
-  .iconVIP:hover .spread:nth-child(7) {
+  .iconVIP::content .spreadVIP:nth-child(7) {
     transition-delay: 0.14s;
     transform: rotate(296deg);
   }
-  .iconVIP:hover .spread:nth-child(7) .unitVIP {
+  .iconVIP::content .spreadVIP:nth-child(7) .unitVIP {
     transition-delay: 0.28s;
     transform: rotate(410deg);
   }
-  .iconVIP:hover .spread:nth-child(8) {
+  .iconVIP::content .spreadVIP:nth-child(8) {
     transition-delay: 0.16s;
     transform: rotate(332deg);
   }
-  .iconVIP:hover .spread:nth-child(8) .unitVIP {
+  .iconVIP::content .spreadVIP:nth-child(8) .unitVIP {
     transition-delay: 0.32s;
     transform: rotate(390deg);
   }
-  .iconVIP:hover .spread:nth-child(9) {
+  .iconVIP::content .spreadVIP:nth-child(9) {
     transition-delay: 0.18s;
     transform: rotate(368deg);
   }
-  .iconVIP:hover .spread:nth-child(9) .unitVIP {
+  .iconVIP::content .spreadVIP:nth-child(9) .unitVIP {
     transition-delay: 0.36s;
     transform: rotate(340deg);
   }
-  .iconVIP:hover .spread:nth-child(10) {
+  .iconVIP::content .spreadVIP:nth-child(10) {
     transition-delay: 0.18s;
     transform: rotate(404deg);
   }
-  .iconVIP:hover .spread:nth-child(10) .unitVIP {
+  .iconVIP::content .spreadVIP:nth-child(10) .unitVIP {
     transition-delay: 0.18s;
     transform: rotate(320deg);
   }
+
+  
+  

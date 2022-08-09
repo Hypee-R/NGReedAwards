@@ -1,5 +1,17 @@
 
 <p-card header="Selecciona un lugar" align="center" [style]="styleOBJ" >
+  <div class="container-fluid">
+    <div class="grid2">
+      <button class="btn btn-danger"(click)="cancelarCompra()" >Cancelar</button>
+      <br>
+      <button class="btn btn-primary"(click)="realizarCompra()">Siguiente</button>
+    </div>
+  
+  </div>
+  
+  <br>
+  <br>
+
 
 <div class="container-fluid"> 
 <div class="container">
@@ -14,7 +26,7 @@
         O
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'O'+name" class="unit" (click)="selectedAsiento('O'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -22,7 +34,7 @@
         N
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'N'+name" class="unit" (click)="selectedAsiento('N'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -30,11 +42,12 @@
         M
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'R'+name" class="unit" (click)="selectedAsiento('R'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
     </div>
+    <br>
     <br>
     <br>
     <br>
@@ -46,7 +59,7 @@
         L
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'L'+name" class="unit" (click)="selectedAsiento('L'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -54,7 +67,7 @@
         K
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'K'+name" class="unit" (click)="selectedAsiento('K'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -62,7 +75,7 @@
         J
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'J'+name" class="unit" (click)="selectedAsiento('J'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -70,7 +83,7 @@
         I
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'I'+name" class="unit" (click)="selectedAsiento('I'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -81,14 +94,15 @@
     <br>
     <br>
     <br>
-
+    <br>
+    <br>
     
     <div class="grid4">
       <div class="icon">
         H
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'H'+name" class="unit" (click)="selectedAsiento('H'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -96,7 +110,7 @@
         G
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'G'+name" class="unit" (click)="selectedAsiento('G'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -104,7 +118,7 @@
         F
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'F'+name" class="unit" (click)="selectedAsiento('F'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -112,7 +126,7 @@
         E
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" href="#">{{name}}</a>
+                <a #MyRef [id]="'E'+name" class="unit" (click)="selectedAsiento('E'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -131,38 +145,40 @@
     <br>
     <br>
     <div class="grid4">
-      <div class="iconVIP">
+      <div class="iconVIP" #MyRef [id]="'D'" (click)="comprarMesa('D')">
         D
         <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a class="unitVIP" href="#">{{name}}</a>
+          <li class="spreadVIP" *ngFor="let name of mesas">
+                <a #MyRef [id]="'D'+name" class="unitVIP">{{name}}</a>
           </li>
         </ul>
       </div>
-      <div class="iconVIP">
+      <div class="iconVIP"  #MyRef [id]="'C'" (click)="comprarMesa('C')">
         C
         <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a class="unitVIP" href="#">{{name}}</a>
+          <li class="spreadVIP" *ngFor="let name of mesas">
+                <a class="unitVIP" #MyRef [id]="'C'+name" >{{name}}</a>
           </li>
         </ul>
       </div>
-      <div class="iconVIP">
+      <div class="iconVIP"  #MyRef [id]="'B'" (click)="comprarMesa('B')">
         B
         <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a class="unitVIP" href="#">{{name}}</a>
+          <li class="spreadVIP" *ngFor="let name of mesas">
+                <a class="unitVIP" #MyRef [id]="'B'+name" >{{name}}</a>
           </li>
         </ul>
       </div>
-      <div class="iconVIP">
+      
+      <div class="iconVIP"  #MyRef [id]="'A'" (click)="comprarMesa('A')">
         A
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a class="unitVIP" href="#">{{name}}</a>
+        <ul class="menu"  >  
+          <li class="spreadVIP" *ngFor="let name of mesas">
+                <a class="unitVIP" #MyRef [id]="'A'+name">{{name}}</a>
           </li>
         </ul>
       </div>
+    
     </div>
     <br>
     <br>
