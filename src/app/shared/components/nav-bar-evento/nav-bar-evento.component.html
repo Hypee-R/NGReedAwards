@@ -1,0 +1,90 @@
+<!-- Nav bar usuario -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="type == 'user'">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/reedevento/home">
+            <a class="navbar-brand" routerLink="reedevento/home">
+                <img src="https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/logo%2FLogo-REED-LATINO%20(3).png?alt=media&token=205e1fc6-cb93-4d20-863a-c87d4af3bcdc" alt="" width="35" height="29">
+            </a>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/portal/home" routerLinkActive="active">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/portal/categorias" routerLinkActive="active">Categorías</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/nominaciones" routerLinkActive="active">Nominaciones</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/portal/contacto" routerLinkActive="active">Contacto</a>
+                </li>
+                <div >
+                    <li *ngIf="currentUser == 'admin'" class="nav-item">
+                        <a class="nav-link" aria-current="page" routerLink="/admin" routerLinkActive="active">Dashboard</a>
+                    </li>
+                </div>
+            </ul>
+            <div class="d-flex">
+                <a class="nav-link" style="cursor: pointer;" routerLink="/portal/registro" *ngIf="!configService.Usuario">Registrate</a>
+                <a class="nav-link" style="cursor: pointer;" routerLink="/portal/login" *ngIf="!configService.Usuario">Iniciar Sesión</a>
+
+                <div *ngIf="configService.Usuario">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Mi Cuenta
+                  </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="left: unset;">
+                        <li><a class="dropdown-item" routerLink="/portal/mi-informacion">Mi Informaci&oacute;n</a></li>
+                        <li><a class="dropdown-item" routerLink="/portal/mis-nominaciones">Mis Nominaciones</a></li>
+                    </ul>
+                </div>
+                <a class="nav-link" style="cursor: pointer;" (click)="logout()" *ngIf="configService.Usuario">Cerrar Sesión</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Nav bar Admin -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="type != 'user'">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="reedevento/home">
+            <a class="navbar-brand" routerLink="reedevento/home">
+                <img src="https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/logo%2FLogo-REED-LATINO%20(3).png?alt=media&token=205e1fc6-cb93-4d20-863a-c87d4af3bcdc" alt="" width="40" height="34">
+            </a>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/admin/categorias" routerLinkActive="active">Categor&iacute;as</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/admin/convocatorias" routerLinkActive="active">Convocatorias</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/admin/evaluacion-nominaciones" routerLinkActive="active">Evaluaci&oacute;n de Nominaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/admin/jueces" routerLinkActive="active">Jueces</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/admin/nominaciones" routerLinkActive="active">Nominaciones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/admin/mensajes-contacto" routerLinkActive="active">Mensajes de Contacto</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/admin/usuarios" routerLinkActive="active">Usuarios</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a class="nav-link" style="cursor: pointer;" (click)="logoutAdmin()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
