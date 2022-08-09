@@ -14,6 +14,11 @@ import { HomeComponent } from './home/home.component';
 import { MisLugaresComponent } from './mis-lugares/mis-lugares.component';
 import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
 import { ToastModule } from 'primeng/toast';
+import { TableModule } from 'primeng/table';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ButtonModule } from 'primeng/button';
+import { PanelModule } from "primeng/panel";
+import { CardModule } from 'primeng/card';
 
 @NgModule({
     imports: [
@@ -21,9 +26,17 @@ import { ToastModule } from 'primeng/toast';
         FormsModule,
         ReactiveFormsModule,
         ReedEventoRoutingModule,
-        SharedModule,
+        SharedModule,   
         //PrimeNG
-        ToastModule
+        ToastModule,
+        TableModule,
+        ToolbarModule,
+        ButtonModule,
+        PanelModule,
+        CardModule,
+    
+       
+        
     ],
     providers: [ConfirmationService],
     declarations: [
