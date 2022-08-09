@@ -7,13 +7,22 @@ import { LoginAdminComponent } from './auth/admin/login-admin/login-admin.compon
 const routes: Routes = [
   {
     path: 'portal',
-    loadChildren: () => import('./user/user.module').then(m => m.UserModule),
+    loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
     //canLoad: [AuthGuard]
   },
-  //{ path: 'admin/login', component: LoginAdminComponent },
   {
     path: 'admin',
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule),
+    //canLoad: [AuthGuard]
+  },
+  {
+    path: 'reedevento',
+    loadChildren: () => import('./modules/reedevento/reedevento.module').then(m => m.ReedEventoModule),
+    //canLoad: [AuthGuard]
+  },
+  {
+    path: 'reedeventoadmin',
+    loadChildren: () => import('./modules/reedeventoadmin/reedeventoadmin.module').then(m => m.ReedEventoAdminModule),
     //canLoad: [AuthGuard]
   },
   { path: 'not-found', component: NotFoundComponent },
