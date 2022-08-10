@@ -25,8 +25,9 @@
       <div class="icon">
         O
         <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'O'+name" class="unit" (click)="selectedAsiento('O'+name)">{{name}}</a>
+          <li class="spread" *ngFor="let name of mesas" >
+                <a #MyRef [id]="'O'+name" class="unit"
+                (click)="selectedAsiento('O'+name)" [pTooltip]="'Asiento: O'+name+'\n Precio: 575 USD' ">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -34,7 +35,9 @@
         N
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'N'+name" class="unit" (click)="selectedAsiento('N'+name)">{{name}}</a>
+                <a #MyRef [id]="'N'+name" class="unit"
+                [pTooltip]="'Asiento: N'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('N'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -42,7 +45,9 @@
         M
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'R'+name" class="unit" (click)="selectedAsiento('R'+name)">{{name}}</a>
+                <a #MyRef [id]="'M'+name" class="unit"
+                [pTooltip]="'Asiento: M'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('M'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -59,7 +64,9 @@
         L
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'L'+name" class="unit" (click)="selectedAsiento('L'+name)">{{name}}</a>
+                <a #MyRef [id]="'L'+name" class="unit"
+                [pTooltip]="'Asiento: L'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('L'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -67,7 +74,9 @@
         K
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'K'+name" class="unit" (click)="selectedAsiento('K'+name)">{{name}}</a>
+                <a #MyRef [id]="'K'+name" class="unit" 
+                [pTooltip]="'Asiento: K'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('K'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -75,7 +84,9 @@
         J
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'J'+name" class="unit" (click)="selectedAsiento('J'+name)">{{name}}</a>
+                <a #MyRef [id]="'J'+name" class="unit" 
+                [pTooltip]="'Asiento: J'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('J'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -83,7 +94,9 @@
         I
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'I'+name" class="unit" (click)="selectedAsiento('I'+name)">{{name}}</a>
+                <a #MyRef [id]="'I'+name" class="unit"
+                [pTooltip]="'Asiento: I'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('I'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -102,7 +115,9 @@
         H
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'H'+name" class="unit" (click)="selectedAsiento('H'+name)">{{name}}</a>
+                <a #MyRef [id]="'H'+name" class="unit" 
+                [pTooltip]="'Asiento: H'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('H'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -110,7 +125,9 @@
         G
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'G'+name" class="unit" (click)="selectedAsiento('G'+name)">{{name}}</a>
+                <a #MyRef [id]="'G'+name" class="unit" 
+                [pTooltip]="'Asiento: G'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('G'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -118,7 +135,9 @@
         F
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'F'+name" class="unit" (click)="selectedAsiento('F'+name)">{{name}}</a>
+                <a #MyRef [id]="'F'+name" class="unit" 
+                [pTooltip]="'Asiento: F'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('F'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -126,7 +145,9 @@
         E
         <ul class="menu" >  
           <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'E'+name" class="unit" (click)="selectedAsiento('E'+name)">{{name}}</a>
+                <a #MyRef [id]="'E'+name" class="unit" 
+                [pTooltip]="'Asiento: E'+name+'\n Precio: 575 USD'"
+                (click)="selectedAsiento('E'+name)">{{name}}</a>
           </li>
         </ul>
       </div>
@@ -145,7 +166,7 @@
     <br>
     <br>
     <div class="grid4">
-      <div class="iconVIP" #MyRef [id]="'D'" (click)="comprarMesa('D')">
+      <div class="iconVIP" #MyRef [id]="'D'" (click)="comprarMesa('D') " [pTooltip]="'Mesa: D'+'\n Precio: 5750 USD'">
         D
         <ul class="menu" >  
           <li class="spreadVIP" *ngFor="let name of mesas">
@@ -153,7 +174,7 @@
           </li>
         </ul>
       </div>
-      <div class="iconVIP"  #MyRef [id]="'C'" (click)="comprarMesa('C')">
+      <div class="iconVIP"  #MyRef [id]="'C'" (click)="comprarMesa('C')" [pTooltip]="'Mesa: C'+'\n Precio: 5750 USD'">
         C
         <ul class="menu" >  
           <li class="spreadVIP" *ngFor="let name of mesas">
@@ -161,7 +182,7 @@
           </li>
         </ul>
       </div>
-      <div class="iconVIP"  #MyRef [id]="'B'" (click)="comprarMesa('B')">
+      <div class="iconVIP"  #MyRef [id]="'B'" (click)="comprarMesa('B')" [pTooltip]="'Mesa: B'+'\n Precio: 5750 USD'">
         B
         <ul class="menu" >  
           <li class="spreadVIP" *ngFor="let name of mesas">
@@ -170,15 +191,14 @@
         </ul>
       </div>
       
-      <div class="iconVIP"  #MyRef [id]="'A'" (click)="comprarMesa('A')">
+      <div class="iconVIP"  #MyRef [id]="'A'" (click)="comprarMesa('A')" [pTooltip]="'Mesa: A'+'\n Precio: 5750 USD'">
         A
         <ul class="menu"  >  
           <li class="spreadVIP" *ngFor="let name of mesas">
                 <a class="unitVIP" #MyRef [id]="'A'+name">{{name}}</a>
           </li>
         </ul>
-      </div>
-    
+      </div> 
     </div>
     <br>
     <br>
@@ -194,3 +214,14 @@
   </div>
 </div>
 </p-card>
+
+<p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000">
+  <app-pago *ngIf="visibleSidebar2" [boletosSeleccionados]="boletosSeleccionados" (fetchNominaciones)="unseled()"></app-pago>
+</p-sidebar>
+
+<p-dialog  header="Error" [(visible)]="displayBasic" [style]="{width: '20vw'}" [baseZIndex]="1000">
+  <p> Debes Seleccionar un lugar</p>
+  <ng-template pTemplate="footer">
+      <p-button icon="pi pi-times" (click)="displayBasic=false" label="Aceptar  " ></p-button>
+  </ng-template>
+</p-dialog>

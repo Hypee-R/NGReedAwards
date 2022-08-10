@@ -1,0 +1,29 @@
+<div class="container mt-4 mb-lg-5">
+    <h4 class="text-bold text-center">Realizar pago</h4>
+
+    
+<p-table [columns]="cols" [value]="boletos">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+              {{col.header}}
+          </th>         
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+          <td *ngFor="let col of columns">
+                  {{rowData[col.field]}}
+          </td>
+      </tr>
+    </ng-template>
+  </p-table>
+ 
+<br>
+
+
+  <h5>Total: {{total}} USD</h5>
+  <br>
+<p-button type="button"  label="Aceptar" styleClass="p-button-success" (onClick)="vaciarDatos()"></p-button>
+<p-button type="button"   label="Cancelar" styleClass="p-button-secondary" (onClick)="vaciarDatos()"></p-button>
+</div>
