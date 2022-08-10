@@ -9,21 +9,13 @@ import { PrintingService } from 'src/app/services/Print.service';
 
 export class boleto {
   idLugar: String;
-  precio: string;
-  constructor() {
+  precio: String;
+  disponible:Boolean;
+    constructor(){
     this.idLugar = "";
     this.precio = '';
-
-  }
-}
-
-export class tiket {
-  TotalTiket: number;
-  LugaresTiket: boleto[] = [];;
-  constructor() {
-    this.TotalTiket = 0;
-    this.LugaresTiket = [];
-
+    this.disponible=false;
+  
   }
 }
 
@@ -41,8 +33,8 @@ export class PagoComponent implements OnInit {
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   cols: any[];
-  boletos: boleto[] = [];
-  boleto: boleto = { idLugar: "A1", precio: "547 USD" }
+  boletos: boleto[]=[];
+  boleto:boleto={idLugar:"A1",precio:"547 USD",disponible:true}
   public grabber = false;
   constructor(    private printingService: PrintingService) { }
   total = 0
@@ -50,7 +42,6 @@ export class PagoComponent implements OnInit {
   public myAngularxQrCode: string = "";
   public qrCodeDownloadLink: SafeUrl = "";
 
-  tiket: tiket = { TotalTiket: this.total, LugaresTiket: this.boletos }
 
   dataToString = 'Datos';
 
