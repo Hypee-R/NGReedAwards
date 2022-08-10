@@ -7,10 +7,12 @@ import { FileItem } from 'src/app/models/img.model';
 
 export class boleto{
   idLugar: String;
-  precio: string;
+  precio: String;
+  disponible:Boolean;
     constructor(){
     this.idLugar = "";
     this.precio = '';
+    this.disponible=false;
   
   }
 }
@@ -26,7 +28,7 @@ export class PagoComponent implements OnInit {
   
   cols: any[];
   boletos: boleto[]=[];
-  boleto:boleto={idLugar:"A1",precio:"547 USD"}
+  boleto:boleto={idLugar:"A1",precio:"547 USD",disponible:true}
   public grabber = false;
   constructor() { }
   total=0
