@@ -1,0 +1,145 @@
+<div class="conatiner">
+    <p-toolbar>
+        <ng-template pTemplate="left">
+            <h3 class="text-dark">Usuarios</h3>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <button pButton pRipple class="p-button-info mr-2" label="Exportar Excel" icon="pi pi-upload" (click)="excel()"> </button>
+            <button pButton pRipple label="Nuevo usuario" icon="pi pi-plus" (click)="openNew()" class="p-button-success mr-2"></button>
+        </ng-template>
+    </p-toolbar>
+
+    <p-table [value]="usuarioCollectionData" [rows]="10" [paginator]="true" [loading]="loading">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="address">
+                    Address
+                    <p-sortIcon field="address"></p-sortIcon>
+                </th>
+                <th pSortableColumn="displayName">
+                    Display Name
+                    <p-sortIcon field="displayName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="email">
+                    Email
+                    <p-sortIcon field="email"></p-sortIcon>
+                </th>
+                <th pSortableColumn="firstName">
+                    First Name
+                    <p-sortIcon field="firstName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="lastName">
+                    Last Name
+                    <p-sortIcon field="lastName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="phone">
+                    Phone
+                    <p-sortIcon field="phone"></p-sortIcon>
+                </th>
+                <th pSortableColumn="photoURL">
+                    PhotoUrl
+                    <p-sortIcon field="photoURL"></p-sortIcon>
+                </th>
+                <th pSortableColumn="rol">
+                    Rol
+                    <p-sortIcon field="rol"></p-sortIcon>
+                </th>
+                <th pSortableColumn="uid">
+                    UID
+                    <p-sortIcon field="uid"></p-sortIcon>
+                </th>
+                <th> </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-usuario>
+            <tr>
+                <td>{{usuario.address}}</td>
+                <td>{{usuario.displayName}}</td>
+                <td>{{usuario.email}}</td>
+                <td>{{usuario.firstName}}</td>
+                <td>{{usuario.lastName}}</td>
+                <td>{{usuario.phone}}</td>
+                <td>{{usuario.PhotoUrl}}</td>
+                <td>{{usuario.rol}}</td>
+                <td>{{usuario.uid}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="delete(usuario)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editar(usuario)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+
+
+<p-dialog [(visible)]="visible" [style]="{width: '600px'}" header="Detalles del mensaje" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+
+        <form [formGroup]="usuarioForm">
+
+            <div class="field">
+                <label for="address"> Address:</label>
+                <input type="text" pInputText name="address" class="" [(ngModel)]="usuarioModel.address" formControlName="address">
+                <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.address">nombre is required.</small> -->
+
+            </div>
+            <div class="field mt-2">
+                <label for="email">Email:</label>
+                <input type="text" name="email" class="" pInputText required [(ngModel)]="usuarioModel.email" formControlName="email" />
+                <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.email">nombre is required.</small> -->
+            </div>
+            <div class="field mt-2">
+                <label for="displayName">Display Name:</label>
+                <input type="text" name="displayName" class="" pInputText [(ngModel)]="usuarioModel.displayName" formControlName="displayName" />
+                <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.displayName">nombre is required.</small> -->
+
+            </div>
+            <div class="field mt-2">
+                <label for="firstName">First Name:</label>
+                <input type="text" name="firstName" class="" pInputText required [(ngModel)]="usuarioModel.firstName" formControlName="firstName" />
+                <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.firstName">nombre is required.</small> -->
+            </div>
+            <div class="field mt-2">
+                <label for="lastName">Last Name:</label>
+                <input type="text" name="lastName" class="" pInputText required [(ngModel)]="usuarioModel.lastName" formControlName="lastName" />
+                <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.lastName">nombre is required.</small> -->
+            </div>
+            <div class="field mt-2">
+                <label for="phone">Phone:</label>
+                <input type="text" name="phone" class="" pInputText required [(ngModel)]="usuarioModel.phone" formControlName="phone" />
+                <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.phone">nombre is required.</small> -->
+            </div>
+            <div class="field mt-2">
+                <label for="photoURL">Photo Url:</label>
+                <input type="text" name="photoURL" class="" pInputText required [(ngModel)]="usuarioModel.photoURL" formControlName="photoURL" />
+                <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.photoURL">nombre is required.</small> -->
+            </div>
+            <div class="field mt-2">
+                <label for="rol">Rol:</label>
+                <input type="text" name="rol" class="" pInputText required [(ngModel)]="usuarioModel.rol" formControlName="rol" />
+                <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.rol"></small> -->
+            </div>
+            <div class="field">
+                <label for="uid">UID:</label>
+                <input type="text" name="uid" class="" pInputText required [(ngModel)]="usuarioModel.uid" formControlName="uid" />
+                <small class="p-error" *ngIf="submitted && !usuarioModel.uid">Es obligtori</small>
+            </div>
+
+
+        </form>
+
+
+
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="add()"></button>
+    </ng-template>
+</p-dialog>
+
+
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

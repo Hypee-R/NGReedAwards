@@ -1,5 +1,5 @@
 <!-- Nav bar usuario -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="type == 'user'">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="type == 'user'">
     <div class="container-fluid">
         <a class="navbar-brand" routerLink="/reedevento/home">
             <a class="navbar-brand" routerLink="reedevento/home">
@@ -36,7 +36,7 @@
                   </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="left: unset;">
                         <li><a class="dropdown-item" routerLink="/reedevento/mi-informacion">Mi Informaci&oacute;n</a></li>
-                        <li><a class="dropdown-item" routerLink="/reedevento/mis-nominaciones">Mis Nominaciones</a></li>
+                        <li><a class="dropdown-item" routerLink="/reedevento/mis-lugares">Mis Lugares</a></li>
                     </ul>
                 </div>
                 <a class="nav-link" style="cursor: pointer;" (click)="logout()" *ngIf="configService.Usuario">Cerrar Sesión</a>
@@ -58,26 +58,26 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/admin/categorias" routerLinkActive="active">Categor&iacute;as</a>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/reedevento/categorias" routerLinkActive="active">Categor&iacute;as</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/admin/convocatorias" routerLinkActive="active">Convocatorias</a>
+                    <a class="nav-link" aria-current="page" routerLink="/reedevento/convocatorias" routerLinkActive="active">Convocatorias</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/admin/evaluacion-nominaciones" routerLinkActive="active">Evaluaci&oacute;n de Nominaciones</a>
+                    <a class="nav-link" aria-current="page" routerLink="/reedevento/evaluacion-nominaciones" routerLinkActive="active">Evaluaci&oacute;n de Nominaciones</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/admin/jueces" routerLinkActive="active">Jueces</a>
+                    <a class="nav-link" aria-current="page" routerLink="/reedevento/jueces" routerLinkActive="active">Jueces</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/admin/nominaciones" routerLinkActive="active">Nominaciones</a>
+                    <a class="nav-link" aria-current="page" routerLink="/reedevento/nominaciones" routerLinkActive="active">Nominaciones</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/reedeventoadmin/mensajes-contacto" routerLinkActive="active">Mensajes de Contacto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/admin/mensajes-contacto" routerLinkActive="active">Mensajes de Contacto</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" routerLink="/admin/usuarios" routerLinkActive="active">Usuarios</a>
+                    <a class="nav-link" aria-current="page" routerLink="/reedeventoadmin/usuarios" routerLinkActive="active">Usuarios</a>
                 </li>
             </ul>
             <div class="d-flex">

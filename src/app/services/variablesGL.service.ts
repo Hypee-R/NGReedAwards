@@ -51,6 +51,13 @@ export class VariablesService {
     this.router.navigate(['/admin/login'], { replaceUrl: true });
   }
 
+  removeCredentialAdminEvento() {
+    localStorage.d = "";
+    localStorage.clear();
+    location.reload();
+    this.router.navigate(['/reedeventoadmin/login'], { replaceUrl: true });
+  }
+
   getDataTable(data: any): any {
     let arregloCols: any[] = [];
     let headers = Object.keys(data[0]);

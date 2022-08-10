@@ -20,11 +20,17 @@ export class AuthGuard implements CanLoad, CanActivate {
     }else {
       localStorage.clear();
       console.log("No autenticado ");
-      if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'){
+      if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'|| route.url[0].path == 'mis-lugares'){
         this.router.navigate(['/portal/login'], { replaceUrl: true });
       }else{
         this.router.navigate(['/admin/login'], { replaceUrl: true });
       }
+      if( route.url[0].path == 'mis-lugares'){
+        this.router.navigate(['/reedevento/login'], { replaceUrl: true });
+      }else{
+        this.router.navigate(['/reedeventoadmin/login'], { replaceUrl: true });
+      }
+      
       return false;
     }
   }

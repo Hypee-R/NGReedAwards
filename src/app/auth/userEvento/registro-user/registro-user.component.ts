@@ -12,7 +12,7 @@ import { VariablesService } from '../../../services/variablesGL.service';
   templateUrl: './registro-user.component.html',
   styleUrls: ['./registro-user.component.css']
 })
-export class RegistroUserComponent implements OnInit {
+export class RegistroUserEventoComponent implements OnInit {
   registerForm: FormGroup;
   loading = false;
 

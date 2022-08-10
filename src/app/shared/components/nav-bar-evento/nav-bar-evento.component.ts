@@ -73,7 +73,7 @@ export class NavBarEventoComponent implements OnInit {
   }
 
   logoutAdmin(){
-      this.variablesGL.removeCredentialAdmin();
+      this.variablesGL.removeCredentialAdminEvento();
   }
 
 }

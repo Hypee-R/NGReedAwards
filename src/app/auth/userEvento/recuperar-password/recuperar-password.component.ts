@@ -10,7 +10,7 @@ import { ErrorService } from 'src/app/services/error.service';
   templateUrl: './recuperar-password.component.html',
   styleUrls: ['./recuperar-password.component.css']
 })
-export class RecuperarPasswordComponent implements OnInit {
+export class RecuperarPasswordEventoComponent implements OnInit {
   recuperarForm: FormGroup;
   loading = false;
 

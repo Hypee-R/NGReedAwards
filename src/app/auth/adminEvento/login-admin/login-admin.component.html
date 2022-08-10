@@ -1,0 +1,54 @@
+<div class="container mt-5">
+    <div *ngIf="loading" class="d-flex justify-content-center mt-5">
+        <app-spinner></app-spinner>
+    </div>
+    <div *ngIf="!loading" class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="card-body text-white bg-dark">
+
+                <div class="text-center">
+                    <img src="assets/svg/logo.svg" alt="Logo" width="100" height="100">
+                </div>
+                <h2 class="text-center">Login</h2>
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <div class="mb-3">
+                        <h6>Correo electrónico</h6>
+                        <input type="text" formControlName="usuario" class="form-control form-control-lg text-white bg-dark" placeholder="Correo electrónico">
+                        <span class="text-danger" *ngIf="loginForm.get('usuario')?.hasError('required') && loginForm.get('usuario')?.touched">
+                              El correo <strong>es requerido</strong>
+                          </span>
+                        <span class="text-danger" *ngIf="loginForm.get('usuario')?.hasError('email') && loginForm.get('usuario')?.touched">
+                              Correo <strong>invalido</strong>
+                          </span>
+                    </div>
+                    <div class="mb-3">
+                        <h6>Contraseña</h6>
+                        <input type="password" formControlName="password" class="form-control form-control-lg text-white bg-dark" placeholder="Contraseña">
+                        <span class="text-danger" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+                              Contraseña <strong>requerida</strong>
+                          </span>
+                    </div>
+
+                    <div class="row justify-content-between">
+                        <div class="custom-control checkbox col">
+                            <input type="checkbox" class="form-check-input" id="customCheck1" value="">
+                            <label class="form-check-label" for="customCheck1">&nbsp;&nbsp;Recuérdame</label>
+                        </div>
+
+                        <div class="ml-auto col">
+                            <a routerLink="/reedevento/recuperarPassword" class="text-muted">¿Olvidaste tu contraseña?</a>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around mt-3">
+                        <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary btn-lg p-2 flex-fill bd-highlight">
+                              <i class="fas fa-lock"></i>
+                              &nbsp;Iniciar sesión
+                          </button>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@ import { ConfirmationService } from 'primeng/api';
 import { ReedEventoComponent } from './reedevento.component';
 import { HomeComponent } from './home/home.component';
 
+import { ContactoComponent } from './contacto/contacto.component';
 import { MisLugaresComponent } from './mis-lugares/mis-lugares.component';
 import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
 import { ToastModule } from 'primeng/toast';
@@ -44,6 +45,7 @@ import { CardModule } from 'primeng/card';
         HomeComponent,
         MiInformacionComponent,
         MisLugaresComponent,
+        ContactoComponent,
     ]
 })
 export class ReedEventoModule { }

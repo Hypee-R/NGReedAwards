@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <br>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header" style="background-color:#4c3f91;">
+
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title"> Información de Contacto</h5>
+                    <p class="card-text">En caso de problemas, sugerencia o preguntas. Favor de comunicarse ha alguno de los siguientes medios</p>
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>
+                <a href="tel:+522221361005" target="_blank">+52 222 136 1005</a>
+                <a href="mailto:isaac969@gmail.com?Subject=Reed%20Latino%20Contacto" target="_blank">isaac969@gmail.com</a>
+                <div class="card-footer text-muted">
+
+                </div>
+            </div>
+        </div>
+        <form class="add">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Nombre *</label>
+                    <input type="text" class="form-control" placeholder="nombre" type="text" id="nombre" name="name" required [(ngModel)]="contactomodel.name" >
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Correo Electronico *</label>
+                    <input type="email" class="form-control" placeholder="correo" type="text" id="correo" name="correo" required [(ngModel)]="contactomodel.correo">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Telefono *</label>
+                    <input type="telefono" class="form-control" placeholder="telefono" id="telefono" name="telefono" required [(ngModel)]="contactomodel.telefono">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Mensaje *</label>
+                    <textarea class="form-control"  rows="3" placeholder="mensaje" type="text" id="mensaje" name="mensaje" required [(ngModel)]="contactomodel.mensaje" ></textarea>
+                    
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" style="background-color:#4c3f91;" type="submit"  (click)="add()">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>
