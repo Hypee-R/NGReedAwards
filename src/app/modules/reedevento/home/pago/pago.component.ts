@@ -42,8 +42,15 @@ export class PagoComponent implements OnInit {
   public myAngularxQrCode: string = "";
   public qrCodeDownloadLink: SafeUrl = "";
 
+  data = [
+    'Todal de la compra:' + this.boletos.toString,
+    'Total de la compra:'+   this.total.toString,
+    'email: john@doe.com',
+    'hobby: coding',
+  ]
 
-  dataToString = 'Datos';
+  dataToString = JSON.stringify(this.data);
+
 
 
   ngOnInit(): void { paypal
