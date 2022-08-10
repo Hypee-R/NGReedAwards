@@ -1,61 +1,128 @@
 import { Serializer } from '@angular/compiler';
-import { Component, Input,Output, OnInit,EventEmitter, HostListener } from '@angular/core';
+
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CategoriaModel } from 'src/app/models/categoria.model';
 import { FileItem } from 'src/app/models/img.model';
+import { SafeUrl } from "@angular/platform-browser"
+import { PrintingService } from 'src/app/services/Print.service';
 
-
-export class boleto{
+export class boleto {
   idLugar: String;
   precio: string;
-    constructor(){
+  constructor() {
     this.idLugar = "";
     this.precio = '';
-  
+
   }
 }
 
+export class tiket {
+  TotalTiket: number;
+  LugaresTiket: boleto[] = [];;
+  constructor() {
+    this.TotalTiket = 0;
+    this.LugaresTiket = [];
+
+  }
+}
+
+declare var paypal;
 @Component({
   selector: 'app-pago',
   templateUrl: './pago.component.html',
   styleUrls: ['./pago.component.css']
 })
 export class PagoComponent implements OnInit {
+  @ViewChild('paypal', { static: true }) paypalElement: ElementRef;
+  @ViewChild('printEl') printEl: ElementRef;
+
   @Input() boletosSeleccionados: any;
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
-  
-  cols: any[];
-  boletos: boleto[]=[];
-  boleto:boleto={idLugar:"A1",precio:"547 USD"}
-  public grabber = false;
-  constructor() { }
-  total=0
 
-  ngOnInit(): void {
+  cols: any[];
+  boletos: boleto[] = [];
+  boleto: boleto = { idLugar: "A1", precio: "547 USD" }
+  public grabber = false;
+  constructor(    private printingService: PrintingService) { }
+  total = 0
+  //QR
+  public myAngularxQrCode: string = "";
+  public qrCodeDownloadLink: SafeUrl = "";
+
+  tiket: tiket = { TotalTiket: this.total, LugaresTiket: this.boletos }
+
+  dataToString = 'Datos';
+
+
+  ngOnInit(): void { paypal
+    .Buttons({
+      createOrder: (data, actions) => {
+        return actions.order.create({
+          purchase_units: [
+            {
+              description: 'Reservacion ReedAwards 2022',
+              amount     :{
+                moneda: 'US',
+                value        : this.total
+              }
+            }
+          ]
+        })
+      },
+      onApprove: async (data, actions) => {
+        console.log(data)
+        const order = await actions.order.capture();
+        console.log(order.id);
+        console.log(order.status);
+        console.log(order.purchase_units);
+
+
+        // this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
+        // this.nominacionForm.controls['idpago'].setValue(order.id);
+
+
+      },
+      onError: err =>{
+        // this.nominacionForm.controls['statuspago'].setValue("");
+        // this.nominacionForm.controls['idpago'].setValue("");
+
+        console.log(err);
+
+      }
+    })
+    .render( this.paypalElement.nativeElement );
+  
+
     console.log(this.boletosSeleccionados)
     this.llenarTabla()
     this.cols = [
-      {field: 'idLugar', header: 'Lugar' },
+      { field: 'idLugar', header: 'Lugar' },
       { field: 'precio', header: 'Precio' },
-  ];
+    ];
   }
+
   ngOnDestroy() {
-   console.log("sali")
-   this.fetchNominaciones.emit(true)       
+    console.log("sali")
+    this.fetchNominaciones.emit(true)
   }
-  llenarTabla(){
+  llenarTabla() {
 
-    this.boletos=this.boletosSeleccionados
-    this.total=this.boletos.length*575
+    this.boletos = this.boletosSeleccionados
+    this.total = this.boletos.length * 575
 
-    
+
   }
-  vaciarDatos(){  
-   
+  vaciarDatos() {
+
   }
-  fetchNominacion(){
-   
+  fetchNominacion() {
+
     console.log("actualizar")
   }
 
+   // Re-enable, when a method to download images has been implemented
+   onChangeURL(url: SafeUrl) {
+    this.qrCodeDownloadLink = url;
+  }
 }

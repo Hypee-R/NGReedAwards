@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ReedEventoRoutingModule } from './reedevento-routing.module';
-
 //MODULOS PERZONALIZADOS
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -24,6 +23,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { PagoComponent } from './home/pago/pago.component';
 import { SidebarModule } from 'primeng/sidebar';
 import { DialogModule } from 'primeng/dialog';
+//QR
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
     imports: [
@@ -41,10 +42,9 @@ import { DialogModule } from 'primeng/dialog';
         CardModule,
         TooltipModule,
         SidebarModule,
-        DialogModule
-    
+        DialogModule,
+        QRCodeModule,
        
-        
     ],
     providers: [ConfirmationService],
     declarations: [

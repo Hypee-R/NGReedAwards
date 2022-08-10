@@ -20,10 +20,12 @@ import { provideStorage, getStorage, StorageModule } from '@angular/fire/storage
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { QRCodeModule } from 'angularx-qrcode';
 
 // Idioma Español
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { CargaImagenesService } from './services/cargaImagenes.service';
+
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { CargaImagenesService } from './services/cargaImagenes.service';
     AngularFirestoreModule,
     StorageModule,
     AngularFireAuthModule,
+    //QR
+    QRCodeModule,
 
   ],
   providers: [DatePipe, TitleCasePipe],
