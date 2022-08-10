@@ -19,6 +19,10 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from "primeng/panel";
 import { CardModule } from 'primeng/card';
+import { TooltipModule } from 'primeng/tooltip';
+import { PagoComponent } from './home/pago/pago.component';
+import { SidebarModule } from 'primeng/sidebar';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
     imports: [
@@ -34,6 +38,9 @@ import { CardModule } from 'primeng/card';
         ButtonModule,
         PanelModule,
         CardModule,
+        TooltipModule,
+        SidebarModule,
+        DialogModule
     
        
         
@@ -44,6 +51,8 @@ import { CardModule } from 'primeng/card';
         HomeComponent,
         MiInformacionComponent,
         MisLugaresComponent,
+        PagoComponent
+       
     ]
 })
 export class ReedEventoModule { }
