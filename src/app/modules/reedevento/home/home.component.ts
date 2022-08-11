@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
   }
 
   async getLugares(){
-    this.lugaresService.getLugares().subscribe( (data) => {
+     await this.lugaresService.getLugares().subscribe( (data) => {
       this.lugares = data
       for (let dato of data){
         let lug:boleto={idLugar:dato['idLugar'],precio:dato['precio'],disponible:dato['comprado']}
@@ -55,16 +55,17 @@ export class HomeComponent implements OnInit {
       }
      // console.log(this.lugares)
      
-     this.cargando=true
-     this.initLugares()
+    this.initLugares()
+    this.cargando=true
+     
+     
     }, err => {
       
     });
     
   }
   initLugares(){
-    if(this.cargando){
-      
+    
       let toArray = this.inputsArray.toArray()
       for (let lugar of this.lugaresDisponibles){
         let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == lugar.idLugar)
@@ -76,7 +77,6 @@ export class HomeComponent implements OnInit {
           
         }      
       }
-    }
   
   }
  
@@ -110,14 +110,19 @@ export class HomeComponent implements OnInit {
         let newBoleto={"idLugar":boleto.nativeElement.id,"precio":"575USD","disponible":true}
         this.boletosSeleccionados.push(newBoleto)
       }
+      this.actualizarBoleto()
     }
     else{
-      console.log("selecciona un asiento")
+      
       this.displayBasic = true;
     }
   }
   unseled(){
+    //console.log(this.boletosSeleccionados)
     this.boletosSeleccionados=[]
+    this.componetesSeleccionados=[]
+    console.log("cancelaron")
+   
   }
   cancelarCompra(){
 
@@ -128,6 +133,14 @@ export class HomeComponent implements OnInit {
     this.componetesSeleccionados=[]
     this.boletosSeleccionados=[]
   }
+
+  actualizarBoleto(){
+
+      this.lugaresService.updatelugar(this.boletosSeleccionados)
+    
+    //console.log(this.boletosSeleccionados)
+  }
+
   comprarMesa(idMesa){
     let toArray = this.inputsArray.toArray()
     let colorMesa=false

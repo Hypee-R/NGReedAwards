@@ -3,6 +3,7 @@ import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, 
 import { SafeUrl } from "@angular/platform-browser"
 import { PrintingService } from 'src/app/services/Print.service';
 import {DialogModule} from 'primeng/dialog';
+import { LugaresService } from 'src/app/services/lugares.service';
 export class boleto {
   idLugar: String;
   precio: String;
@@ -11,7 +12,7 @@ export class boleto {
     this.idLugar = "";
     this.precio = '';
     this.disponible=false;
-  
+    
   }
 }
 
@@ -31,7 +32,9 @@ export class PagoComponent implements OnInit {
   boletos: boleto[]=[];
   boleto:boleto={idLugar:"A1",precio:"547 USD",disponible:true}
   public grabber = false;
-  constructor(    private printingService: PrintingService) { }
+  constructor(    private printingService: PrintingService, 
+    private lugaresService:LugaresService
+    ) { }
   total = 0
   //QR
   public qrCodeDownloadLink: SafeUrl = "";
@@ -82,7 +85,7 @@ export class PagoComponent implements OnInit {
     .render( this.paypalElement.nativeElement );
   
 
-    console.log(this.boletosSeleccionados)
+    //console.log(this.boletosSeleccionados)
     this.llenarTabla()
     this.cols = [
       { field: 'idLugar', header: 'Lugar' },
@@ -91,8 +94,16 @@ export class PagoComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    console.log("sali")
+  
     this.fetchNominaciones.emit(true)
+    //console.log(this.boletosSeleccionados)
+
+   /* for(let boleto of this.boletosSeleccionados){
+      this.lugaresService.updatelugar(boleto.idLugar,boleto.disponible)
+    }*/
+    this.lugaresService.cancelarLugar(this.boletosSeleccionados)
+    //// validar si se hizo el pago
+    
   }
   llenarTabla() {
 
@@ -100,8 +111,8 @@ export class PagoComponent implements OnInit {
     this.total = this.boletos.length * 575
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
     this.codigotiket='REED22'+this.lugaresAdquiridos.replace(",","");
-    console.log(this.boletos);
-     console.log(this.total);
+    ///console.log(this.boletos);
+    // console.log(this.total);
      this.data = [
       'INFORMACION DE TU COMPRA',
       'Nombre: Jose Daniel',

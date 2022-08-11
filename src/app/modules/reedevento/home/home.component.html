@@ -1,20 +1,10 @@
 
 <p-card header="Selecciona un lugar" align="center" [style]="styleOBJ" >
-  <div class="container-fluid">
-    <div class="grid2">
-      <button class="btn btn-danger"(click)="cancelarCompra()" >Cancelar</button>
-      <br>
-      <button class="btn btn-primary"(click)="realizarCompra()">Siguiente</button>
-    </div>
-  
-  </div>
-  
-  <br>
-  <br>
+ 
 
 
-<div class="container-fluid"> 
-<div class="container">
+<div class="container-fluid" > 
+<div class="container" >
    <div class="zonaGeneral">
     <br>
     <br>
@@ -165,37 +155,39 @@
   <br>
     <br>
     <br>
+    <br>
+    <br>
     <div class="grid4">
-      <div class="iconVIP" #MyRef [id]="'D'" (click)="comprarMesa('D') " [pTooltip]="'Mesa: D'+'\n Precio: 5750 USD'">
+      <div class="icon" #MyRef [id]="'D'" (click)="comprarMesa('D') " [pTooltip]="'Mesa: D'+'\n Precio: 5750 USD'">
         D
         <ul class="menu" >  
-          <li class="spreadVIP" *ngFor="let name of mesas">
-                <a #MyRef [id]="'D'+name" class="unitVIP">{{name}}</a>
+          <li class="spread" *ngFor="let name of mesas">
+                <a #MyRef [id]="'D'+name" class="unit">{{name}}</a>
           </li>
         </ul>
       </div>
-      <div class="iconVIP"  #MyRef [id]="'C'" (click)="comprarMesa('C')" [pTooltip]="'Mesa: C'+'\n Precio: 5750 USD'">
+      <div class="icon"  #MyRef [id]="'C'" (click)="comprarMesa('C')" [pTooltip]="'Mesa: C'+'\n Precio: 5750 USD'">
         C
         <ul class="menu" >  
-          <li class="spreadVIP" *ngFor="let name of mesas">
-                <a class="unitVIP" #MyRef [id]="'C'+name" >{{name}}</a>
+          <li class="spread" *ngFor="let name of mesas">
+                <a class="unit" #MyRef [id]="'C'+name" >{{name}}</a>
           </li>
         </ul>
       </div>
-      <div class="iconVIP"  #MyRef [id]="'B'" (click)="comprarMesa('B')" [pTooltip]="'Mesa: B'+'\n Precio: 5750 USD'">
+      <div class="icon"  #MyRef [id]="'B'" (click)="comprarMesa('B')" [pTooltip]="'Mesa: B'+'\n Precio: 5750 USD'">
         B
         <ul class="menu" >  
-          <li class="spreadVIP" *ngFor="let name of mesas">
-                <a class="unitVIP" #MyRef [id]="'B'+name" >{{name}}</a>
+          <li class="spread" *ngFor="let name of mesas">
+                <a class="unit" #MyRef [id]="'B'+name" >{{name}}</a>
           </li>
         </ul>
       </div>
       
-      <div class="iconVIP"  #MyRef [id]="'A'" (click)="comprarMesa('A')" [pTooltip]="'Mesa: A'+'\n Precio: 5750 USD'">
+      <div class="icon"  #MyRef [id]="'A'" (click)="comprarMesa('A')" [pTooltip]="'Mesa: A'+'\n Precio: 5750 USD'">
         A
         <ul class="menu"  >  
-          <li class="spreadVIP" *ngFor="let name of mesas">
-                <a class="unitVIP" #MyRef [id]="'A'+name">{{name}}</a>
+          <li class="spread" *ngFor="let name of mesas">
+                <a class="unit" #MyRef [id]="'A'+name">{{name}}</a>
           </li>
         </ul>
       </div> 
@@ -213,6 +205,16 @@
     </div>
   </div>
 </div>
+<br>
+<div class="container-fluid">
+   
+  <button class="btn btn-primary"(click)="realizarCompra()">Siguiente</button>
+
+
+</div>
+
+<br>
+<br>
 </p-card>
 
 <p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000">
