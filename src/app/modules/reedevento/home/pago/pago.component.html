@@ -18,19 +18,15 @@
       </tr>
     </ng-template>
   </p-table>
-
-  <br>
   <h5>Total: {{total}} USD</h5>
-
-  <!-- <p-button type="button"  label="Aceptar" styleClass="p-button-success" (onClick)="vaciarDatos()"></p-button>
-<p-button type="button"   label="Cancelar" styleClass="p-button-secondary" (onClick)="vaciarDatos()"></p-button> -->
 </div>
 <p-card header="Pagar Reservacion:">
-
   <div class="container">
     <div class="mb-3">
-      <label class="text-danger">Una vez que se realize el pago ya no podra cancelar los lugares y/o mesa
-        seleccionados</label>
+      <span class="badge bg-danger">
+         Una vez que se realize el pago<br>
+         ya no podra cancelar los lugares<br>
+          y/o mesa seleccionados</span>
     </div>
   </div>
   <div class="container">
@@ -39,45 +35,25 @@
     </div>
   </div>
 </p-card>
-<p-card header="Compra Realizada Correctamente:">
 
+<p-dialog header="Detalles de Reservacion" [(visible)]="statuspago">
+  <span class="badge bg-success" >Compra Realizada Correctamente</span>
+  <p>Reed Latino 2022</p>
+  <p>Lugares:{{this.lugaresAdquiridos}}</p>
+  <p>Código de ticket:{{this.codigotiket}}</p>
+  <p>Estatus de Pago:<span class="badge bg-success" >Pagado</span></p>
   <div class="container">
     <div class="mb-3">
       <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="dataToString"
-      [imageSrc]="'https://reedlatino.com/wp-content/uploads/2022/04/Estatuilla-425x1024.png'"
       [colorDark]="'#94969e'"
       [colorLight]="'#000000'"
-      [imageHeight]="250"
-      [imageWidth]="255"
+      [imageSrc]="'https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/files%2FEscudo-RL.png?alt=media&token=58ee9622-0c5e-4d17-90f1-39a9447a7472'"
+      [imageHeight]="170"
+    [imageWidth]="170"
       [title]="'A custom title attributesss'" [width]="256" [errorCorrectionLevel]="'M'">Datos</qrcode>
-      
     <a [href]="qrCodeDownloadLink" download="qrcode">Descargue su QR de Acceso !!</a>
     </div>
   </div>
+</p-dialog>
 
-</p-card>
-<!-- <qrcode [qrdata]="'Your data string html'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode> -->
-<!-- <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="dataToString"
-  [imageSrc]="'https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/logo%2FLogo-REED-LATINO%20(3).png?alt=media&token=205e1fc6-cb93-4d20-863a-c87d4af3bcdc'"
-  [title]="'A custom title attributesss'" [width]="256" [errorCorrectionLevel]="'M'">Datos</qrcode>
-<a [href]="qrCodeDownloadLink" download="qrcode">Descargar QR Aqui!!</a> -->
 
-<!-- <div class="qrcodeImage">
-  <qrcode
-    [qrdata]="'https://github.com/Cordobo/angularx-qrcode'"
-    [allowEmptyString]="true"
-    [ariaLabel]="'QR Code image with the following content...'"
-    [cssClass]="'center'"
-    [colorDark]="'#000000ff'"
-    [colorLight]="'#ffffffff'"
-    [elementType]="'canvas'"
-    [errorCorrectionLevel]="'M'"
-    [imageSrc]="'./assets/angular-logo.png'"
-    [imageHeight]="75"
-    [imageWidth]="75"
-    [margin]="4"
-    [scale]="1"
-    [title]="'A custom title attributesss'"
-    [width]="300"
-  ></qrcode>
-</div> -->

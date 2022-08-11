@@ -1,12 +1,8 @@
-import { Serializer } from '@angular/compiler';
 
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { CategoriaModel } from 'src/app/models/categoria.model';
-import { FileItem } from 'src/app/models/img.model';
 import { SafeUrl } from "@angular/platform-browser"
 import { PrintingService } from 'src/app/services/Print.service';
-
+import {DialogModule} from 'primeng/dialog';
 export class boleto {
   idLugar: String;
   precio: String;
@@ -27,7 +23,6 @@ declare var paypal;
 })
 export class PagoComponent implements OnInit {
   @ViewChild('paypal', { static: true }) paypalElement: ElementRef;
-  @ViewChild('printEl') printEl: ElementRef;
 
   @Input() boletosSeleccionados: any;
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
@@ -39,19 +34,13 @@ export class PagoComponent implements OnInit {
   constructor(    private printingService: PrintingService) { }
   total = 0
   //QR
-  public myAngularxQrCode: string = "";
   public qrCodeDownloadLink: SafeUrl = "";
-
-  data = [
-    'Todal de la compra:' + this.boletos.toString,
-    'Total de la compra:'+   this.total.toString,
-    'email: john@doe.com',
-    'hobby: coding',
-  ]
-
-  dataToString = JSON.stringify(this.data);
-
-
+  dataToString:any;
+  data: any;
+ //Status Pago
+  statuspago : boolean = false;
+  lugaresAdquiridos : String ;
+  codigotiket : String ;
 
   ngOnInit(): void { paypal
     .Buttons({
@@ -74,8 +63,9 @@ export class PagoComponent implements OnInit {
         console.log(order.id);
         console.log(order.status);
         console.log(order.purchase_units);
-
-
+        this.statuspago=true;
+      
+       
         // this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
         // this.nominacionForm.controls['idpago'].setValue(order.id);
 
@@ -108,8 +98,19 @@ export class PagoComponent implements OnInit {
 
     this.boletos = this.boletosSeleccionados
     this.total = this.boletos.length * 575
-
-
+    this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
+    this.codigotiket='REED22'+this.lugaresAdquiridos.replace(",","");
+    console.log(this.boletos);
+     console.log(this.total);
+     this.data = [
+      'INFORMACION DE TU COMPRA',
+      'Nombre: Jose Daniel',
+      'Lugares Comprados:' + this.boletos.map(x=>x.idLugar).join(","),
+      'Total de la compra:$'+this.total +'US',
+      'Correo del comprados: john@doe.com',
+    
+    ]   
+     this.dataToString = JSON.stringify(this.data);
   }
   vaciarDatos() {
 
