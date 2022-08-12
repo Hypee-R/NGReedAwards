@@ -75,8 +75,8 @@ export class PagoComponent implements OnInit {
         console.log(order.status);
         console.log(order.purchase_units);
         this.statuspago=true;
-      
-       
+        console.log(this.statuspago)
+        this.lugaresService.updatelugarPagado(this.boletosSeleccionados)
         // this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
         // this.nominacionForm.controls['idpago'].setValue(order.id);
 
@@ -110,7 +110,8 @@ export class PagoComponent implements OnInit {
         this.timeLeft--;
       } else {
         clearInterval(this.interval);
-        this.lugaresService.cancelarLugar(this.boletosSeleccionados)
+      if(!this.statuspago)
+        {this.lugaresService.cancelarLugar(this.boletosSeleccionados)}
         this.tiempo=false
       }
       this.time=this.secondsToString(this.timeLeft)
@@ -130,10 +131,13 @@ export class PagoComponent implements OnInit {
 
 
   ngOnDestroy() {
-  
+    console.log(this.statuspago)
+   
+    if(!this.statuspago)
+    {
+      this.lugaresService.cancelarLugar(this.boletosSeleccionados)
+    }
     this.fetchNominaciones.emit(true)
-    
-    this.lugaresService.cancelarLugar(this.boletosSeleccionados)
     //// validar si se hizo el pago
     
   }
