@@ -4,14 +4,23 @@ import { SafeUrl } from "@angular/platform-browser"
 import { PrintingService } from 'src/app/services/Print.service';
 import {DialogModule} from 'primeng/dialog';
 import { LugaresService } from 'src/app/services/lugares.service';
+import { timer } from 'rxjs';
+import { reservacionService } from 'src/app/services/reservaciones.service';
+import { ReservacionModel } from '../../../../models/reservacion.model';
+import { collection, doc, Firestore, getDoc, getFirestore, setDoc } from "@angular/fire/firestore";
+import { collectionData } from '@angular/fire/firestore';
 export class boleto {
   idLugar: String;
   precio: String;
-  disponible:Boolean;
+  comprado:Boolean;
+  apartado:Boolean;
+  hora:String;
     constructor(){
     this.idLugar = "";
     this.precio = '';
-    this.disponible=false;
+    this.comprado=false;
+    this.apartado=false;
+    this.hora=""
     
   }
 }
@@ -25,16 +34,24 @@ declare var paypal;
 export class PagoComponent implements OnInit {
   @ViewChild('paypal', { static: true }) paypalElement: ElementRef;
 
-  @Input() boletosSeleccionados: any;
+  @Input() boletosSeleccionados:boleto[];
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   cols: any[];
   boletos: boleto[]=[];
-  boleto:boleto={idLugar:"A1",precio:"547 USD",disponible:true}
+  boleto:boleto={idLugar:"A1",precio:"547 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
+
+  userData: any;
+  uid = JSON.parse(localStorage.d).uid;
   constructor(    private printingService: PrintingService, 
-    private lugaresService:LugaresService
-    ) { }
+                  private lugaresService:LugaresService,
+                  private reservacionService: reservacionService,
+                  private afs: Firestore,
+    ) { 
+      this.getUserData();
+     
+    }
   total = 0
   //QR
   public qrCodeDownloadLink: SafeUrl = "";
@@ -42,9 +59,15 @@ export class PagoComponent implements OnInit {
   data: any;
  //Status Pago
   statuspago : boolean = false;
-  lugaresAdquiridos : String ;
-  codigotiket : String ;
-
+  lugaresAdquiridos = '' ;
+  codigotiket  = '' ;
+  tiempo=true;
+  timeLeft: number = 120;
+  time:string=''
+  interval;
+  //Datos del comprador
+  nombrecomprador  = '' ;
+  correocomprador  = '' ;
   ngOnInit(): void { paypal
     .Buttons({
       createOrder: (data, actions) => {
@@ -61,23 +84,36 @@ export class PagoComponent implements OnInit {
         })
       },
       onApprove: async (data, actions) => {
-        console.log(data)
+        // console.log(data)
         const order = await actions.order.capture();
-        console.log(order.id);
-        console.log(order.status);
-        console.log(order.purchase_units);
-        this.statuspago=true;
-      
-       
-        // this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
-        // this.nominacionForm.controls['idpago'].setValue(order.id);
-
+        // console.log(order.id);
+        // console.log(order.status);
+        // console.log(order.purchase_units);
+        if(order.status=='COMPLETED'){
+          this.statuspago=true;
+          this.lugaresService.updatelugarPagado(this.boletosSeleccionados)
+          this.tiempo=false;
+          clearInterval(this.interval);
+        }
+        const dataReservacion: ReservacionModel = {
+          id: Date.now().toString(),
+          LugaresComprados: this.lugaresAdquiridos,
+          codigotiket:this.codigotiket,
+          peticionpaypal:data,
+          respuestapaypal:order,
+          idpagopaypal:order.id,
+          statuspago: this.statuspago ==true ? 'pagado':'No pagado',
+          descripcionpago: this.statuspago ==true ? 'pagado':'No pagado',
+          montopago: this.total,
+          uid: JSON.parse(localStorage.d).uid,
+          fechaCreacion: "",
+          fechaActualizacion: ""
+        };
+        this.reservacionService.addreservacion(dataReservacion);
+     
 
       },
       onError: err =>{
-        // this.nominacionForm.controls['statuspago'].setValue("");
-        // this.nominacionForm.controls['idpago'].setValue("");
-
         console.log(err);
 
       }
@@ -86,22 +122,67 @@ export class PagoComponent implements OnInit {
   
 
     //console.log(this.boletosSeleccionados)
-    this.llenarTabla()
+    this.llenarTabla();
     this.cols = [
       { field: 'idLugar', header: 'Lugar' },
       { field: 'precio', header: 'Precio' },
     ];
+ 
+    this.tiempo=true
+  
+    this.showTime()
+
+    this.getUserData().subscribe(data => {
+      if(data) {
+        this.userData = data.filter(item => item.uid === this.uid);
+       this.nombrecomprador  = this.userData[0].firstName+ this.userData[0].lastName
+       this.correocomprador= this.userData[0].email;
+      }
+    },
+    err => {
+    }
+    );
+  
   }
 
-  ngOnDestroy() {
-  
-    this.fetchNominaciones.emit(true)
-    //console.log(this.boletosSeleccionados)
+  getUserData() {
+    const itemsCollection = collection(this.afs,'usuarios');
+    return collectionData(itemsCollection);
+  }
 
-   /* for(let boleto of this.boletosSeleccionados){
-      this.lugaresService.updatelugar(boleto.idLugar,boleto.disponible)
-    }*/
-    this.lugaresService.cancelarLugar(this.boletosSeleccionados)
+   showTime(){
+    this.interval = setInterval(() => {
+      if(this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        clearInterval(this.interval);
+        this.lugaresService.cancelarLugar(this.boletosSeleccionados)
+        this.tiempo=false
+       
+      }
+      this.time=this.secondsToString(this.timeLeft)
+
+    },1000)
+
+    
+
+  }
+
+  secondsToString(seconds) {
+   
+    let minute = Math.floor((seconds / 60) % 60);
+    let mins= (minute < 10)? '0' + minute : minute;
+    let second = seconds % 60;
+    let secondS = (second < 10)? '0' + second : second;
+    return  mins + ':' + secondS;
+  }
+
+
+  ngOnDestroy() {
+    clearInterval(this.interval);
+    //console.log(this.statuspago)
+    this.getLugares(this.boletosSeleccionados)
+    this.fetchNominaciones.emit(true)
     //// validar si se hizo el pago
     
   }
@@ -111,14 +192,14 @@ export class PagoComponent implements OnInit {
     this.total = this.boletos.length * 575
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
     this.codigotiket='REED22'+this.lugaresAdquiridos.replace(",","");
-    ///console.log(this.boletos);
-    // console.log(this.total);
+
      this.data = [
       'INFORMACION DE TU COMPRA',
-      'Nombre: Jose Daniel',
-      'Lugares Comprados:' + this.boletos.map(x=>x.idLugar).join(","),
+      'Nombre: '+  this.nombrecomprador,
+      'Lugares Comprados:' + this.lugaresAdquiridos,
       'Total de la compra:$'+this.total +'US',
-      'Correo del comprados: john@doe.com',
+      'Correo del comprados: '+ this.correocomprador,
+      'Correo del comprados: '+this.codigotiket,
     
     ]   
      this.dataToString = JSON.stringify(this.data);
@@ -135,4 +216,28 @@ export class PagoComponent implements OnInit {
    onChangeURL(url: SafeUrl) {
     this.qrCodeDownloadLink = url;
   }
+
+
+  lugaresPagados:boleto[]=[]
+  async getLugares(boleto:boleto[]){
+    await this.lugaresService.getLugaresPagados(boleto[0]).subscribe( (data) => {
+
+    
+     
+     for (let dato of data){
+       let lug:boleto={idLugar:dato['idLugar'],precio:dato['precio'],comprado:dato['comprado'],apartado:dato['apartado'],hora:dato['fecha']}
+       this.lugaresPagados.push(lug)
+     }
+  
+     for(let l of this.lugaresPagados){
+        if(!l.comprado){
+          this.lugaresService.cancelarLugar(this.boletosSeleccionados)
+        }
+     }
+   
+   }, err => {
+     
+   });
+   
+ }
 }

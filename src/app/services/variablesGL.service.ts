@@ -23,6 +23,7 @@ export class VariablesService {
   endProcessNominacion = new BehaviorSubject<string>(null);
   endProcessContacto = new BehaviorSubject<string>(null);
   preloadCategoria = new BehaviorSubject<CategoriaModel>(null);
+  endProcessreservacion = new BehaviorSubject<string>(null);
 
   constructor(
     private router: Router
