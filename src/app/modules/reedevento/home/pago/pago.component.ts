@@ -190,6 +190,7 @@ export class PagoComponent implements OnInit {
 
     this.boletos = this.boletosSeleccionados
     this.total = this.boletos.length * 575
+    
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
     this.codigotiket='REED22'+this.lugaresAdquiridos.replace(",","");
 
