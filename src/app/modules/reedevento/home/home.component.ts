@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit {
           else{
 
             if(lugar.apartado){
-              if(!lugar.comprado && this.diferencia>1)
+              if(!lugar.comprado && this.diferencia>2)
               {
                 this.cancelarApartado(lugar)
                 ref.nativeElement.setAttribute('style', this.enableColor)
@@ -164,7 +164,7 @@ export class HomeComponent implements OnInit {
   
     this.boletosSeleccionados=[]
     this.componetesSeleccionados=[]
-    console.log("cancelaron")
+  
    
   }
   cancelarCompra(){
