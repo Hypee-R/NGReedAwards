@@ -5,6 +5,10 @@ import { PrintingService } from 'src/app/services/Print.service';
 import {DialogModule} from 'primeng/dialog';
 import { LugaresService } from 'src/app/services/lugares.service';
 import { timer } from 'rxjs';
+import { reservacionService } from 'src/app/services/reservaciones.service';
+import { ReservacionModel } from '../../../../models/reservacion.model';
+import { collection, doc, Firestore, getDoc, getFirestore, setDoc } from "@angular/fire/firestore";
+import { collectionData } from '@angular/fire/firestore';
 export class boleto {
   idLugar: String;
   precio: String;
@@ -37,10 +41,15 @@ export class PagoComponent implements OnInit {
   boletos: boleto[]=[];
   boleto:boleto={idLugar:"A1",precio:"547 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
-  constructor(    private printingService: PrintingService, 
-                  private lugaresService:LugaresService
-    ) { 
 
+  userData: any;
+  uid = JSON.parse(localStorage.d).uid;
+  constructor(    private printingService: PrintingService, 
+                  private lugaresService:LugaresService,
+                  private reservacionService: reservacionService,
+                  private afs: Firestore,
+    ) { 
+      this.getUserData();
      
     }
   total = 0
@@ -50,12 +59,15 @@ export class PagoComponent implements OnInit {
   data: any;
  //Status Pago
   statuspago : boolean = false;
-  lugaresAdquiridos : String ;
-  codigotiket : String ;
+  lugaresAdquiridos = '' ;
+  codigotiket  = '' ;
   tiempo=true;
   timeLeft: number = 120;
   time:string=''
   interval;
+  //Datos del comprador
+  nombrecomprador  = '' ;
+  correocomprador  = '' ;
   ngOnInit(): void { paypal
     .Buttons({
       createOrder: (data, actions) => {
@@ -72,25 +84,36 @@ export class PagoComponent implements OnInit {
         })
       },
       onApprove: async (data, actions) => {
-        console.log(data)
+        // console.log(data)
         const order = await actions.order.capture();
-        //console.log(order.id);
-        //console.log(order.status);
-        //console.log(order.purchase_units);
-        this.statuspago=true;
-        this.lugaresService.updatelugarPagado(this.boletosSeleccionados)
-        this.tiempo=false;
-        clearInterval(this.interval);
-  
-        // this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
-        // this.nominacionForm.controls['idpago'].setValue(order.id);
-
+        // console.log(order.id);
+        // console.log(order.status);
+        // console.log(order.purchase_units);
+        if(order.status=='COMPLETED'){
+          this.statuspago=true;
+          this.lugaresService.updatelugarPagado(this.boletosSeleccionados)
+          this.tiempo=false;
+          clearInterval(this.interval);
+        }
+        const dataReservacion: ReservacionModel = {
+          id: Date.now().toString(),
+          LugaresComprados: this.lugaresAdquiridos,
+          codigotiket:this.codigotiket,
+          peticionpaypal:data,
+          respuestapaypal:order,
+          idpagopaypal:order.id,
+          statuspago: this.statuspago ==true ? 'pagado':'No pagado',
+          descripcionpago: this.statuspago ==true ? 'pagado':'No pagado',
+          montopago: this.total,
+          uid: JSON.parse(localStorage.d).uid,
+          fechaCreacion: "",
+          fechaActualizacion: ""
+        };
+        this.reservacionService.addreservacion(dataReservacion);
+     
 
       },
       onError: err =>{
-        // this.nominacionForm.controls['statuspago'].setValue("");
-        // this.nominacionForm.controls['idpago'].setValue("");
-
         console.log(err);
 
       }
@@ -106,9 +129,27 @@ export class PagoComponent implements OnInit {
     ];
  
     this.tiempo=true
-    console.log("hola")
+  
     this.showTime()
+
+    this.getUserData().subscribe(data => {
+      if(data) {
+        this.userData = data.filter(item => item.uid === this.uid);
+       this.nombrecomprador  = this.userData[0].firstName+ this.userData[0].lastName
+       this.correocomprador= this.userData[0].email;
+      }
+    },
+    err => {
+    }
+    );
+  
   }
+
+  getUserData() {
+    const itemsCollection = collection(this.afs,'usuarios');
+    return collectionData(itemsCollection);
+  }
+
    showTime(){
     this.interval = setInterval(() => {
       if(this.timeLeft > 0) {
@@ -151,13 +192,13 @@ export class PagoComponent implements OnInit {
     this.total = this.boletos.length * 575
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
     this.codigotiket='REED22'+this.lugaresAdquiridos.replace(",","");
-    
+
      this.data = [
       'INFORMACION DE TU COMPRA',
-      'Nombre: Jose Daniel',
+      'Nombre: '+  this.nombrecomprador,
       'Lugares Comprados:' + this.lugaresAdquiridos,
       'Total de la compra:$'+this.total +'US',
-      'Correo del comprados: john@doe.com',
+      'Correo del comprados: '+ this.correocomprador,
       'Correo del comprados: '+this.codigotiket,
     
     ]   
