@@ -30,7 +30,7 @@ declare var paypal;
 export class PagoComponent implements OnInit {
   @ViewChild('paypal', { static: true }) paypalElement: ElementRef;
 
-  @Input() boletosSeleccionados: any;
+  @Input() boletosSeleccionados:boleto[];
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   cols: any[];
@@ -38,8 +38,11 @@ export class PagoComponent implements OnInit {
   boleto:boleto={idLugar:"A1",precio:"547 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
   constructor(    private printingService: PrintingService, 
-    private lugaresService:LugaresService
-    ) { }
+                  private lugaresService:LugaresService
+    ) { 
+
+     
+    }
   total = 0
   //QR
   public qrCodeDownloadLink: SafeUrl = "";
@@ -50,7 +53,7 @@ export class PagoComponent implements OnInit {
   lugaresAdquiridos : String ;
   codigotiket : String ;
   tiempo=true;
-  timeLeft: number = 60;
+  timeLeft: number = 120;
   time:string=''
   interval;
   ngOnInit(): void { paypal
@@ -71,12 +74,14 @@ export class PagoComponent implements OnInit {
       onApprove: async (data, actions) => {
         console.log(data)
         const order = await actions.order.capture();
-        console.log(order.id);
-        console.log(order.status);
-        console.log(order.purchase_units);
+        //console.log(order.id);
+        //console.log(order.status);
+        //console.log(order.purchase_units);
         this.statuspago=true;
-        console.log(this.statuspago)
         this.lugaresService.updatelugarPagado(this.boletosSeleccionados)
+        this.tiempo=false;
+        clearInterval(this.interval);
+  
         // this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
         // this.nominacionForm.controls['idpago'].setValue(order.id);
 
@@ -101,7 +106,7 @@ export class PagoComponent implements OnInit {
     ];
  
     this.tiempo=true
-    
+    console.log("hola")
     this.showTime()
   }
    showTime(){
@@ -110,13 +115,15 @@ export class PagoComponent implements OnInit {
         this.timeLeft--;
       } else {
         clearInterval(this.interval);
-      if(!this.statuspago)
-        {this.lugaresService.cancelarLugar(this.boletosSeleccionados)}
+        this.lugaresService.cancelarLugar(this.boletosSeleccionados)
         this.tiempo=false
+       
       }
       this.time=this.secondsToString(this.timeLeft)
-      
+
     },1000)
+
+    
 
   }
 
@@ -131,12 +138,9 @@ export class PagoComponent implements OnInit {
 
 
   ngOnDestroy() {
-    console.log(this.statuspago)
-   
-    if(!this.statuspago)
-    {
-      this.lugaresService.cancelarLugar(this.boletosSeleccionados)
-    }
+    clearInterval(this.interval);
+    //console.log(this.statuspago)
+    this.getLugares(this.boletosSeleccionados)
     this.fetchNominaciones.emit(true)
     //// validar si se hizo el pago
     
@@ -171,4 +175,28 @@ export class PagoComponent implements OnInit {
    onChangeURL(url: SafeUrl) {
     this.qrCodeDownloadLink = url;
   }
+
+
+  lugaresPagados:boleto[]=[]
+  async getLugares(boleto:boleto[]){
+    await this.lugaresService.getLugaresPagados(boleto[0]).subscribe( (data) => {
+
+    
+     
+     for (let dato of data){
+       let lug:boleto={idLugar:dato['idLugar'],precio:dato['precio'],comprado:dato['comprado'],apartado:dato['apartado'],hora:dato['fecha']}
+       this.lugaresPagados.push(lug)
+     }
+  
+     for(let l of this.lugaresPagados){
+        if(!l.comprado){
+          this.lugaresService.cancelarLugar(this.boletosSeleccionados)
+        }
+     }
+   
+   }, err => {
+     
+   });
+   
+ }
 }

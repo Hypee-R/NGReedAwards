@@ -5,7 +5,9 @@
       <div class="time-countdown">
         <ul align="center">
           <h6 *ngIf="tiempo">Tiempo restante: {{time}}</h6>
-          <h6 *ngIf="!tiempo">Se agoto el tiempo</h6>
+          <h6 *ngIf="!tiempo&&!statuspago">Se agotó el tiempo</h6>
+          <h6 *ngIf="!tiempo&&statuspago">Pago Realizado</h6>
+
         </ul>
     </div>
       </div>

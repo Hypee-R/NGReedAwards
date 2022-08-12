@@ -36,6 +36,12 @@ export class LugaresService {
     return collectionData(query(categoriasCollection, orderBy("idLugar", "asc")));
   }
 
+  getLugaresPagados(boleto:boleto){
+    const categoriasCollection = collection(this.firestore, 'lugares');
+    
+    return collectionData(query(categoriasCollection,where("idLugar","==",boleto.idLugar), orderBy("idLugar", "asc")));
+  }
+
   /*async addLugar(idLugar:string, disponible: boolean,precio:number) {
     await addDoc(this.categoriaCol, {
       idLugar,
