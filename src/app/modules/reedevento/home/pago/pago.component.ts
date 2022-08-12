@@ -196,15 +196,10 @@ export class PagoComponent implements OnInit {
   llenarTabla() {
 
     this.boletos = this.boletosSeleccionados
-<<<<<<< HEAD
     
     this.totalParcial = this.boletos.length * 575
     this.totalPorcentaje=(this.totalParcial)*.05
     this.total=this.totalParcial+this.totalPorcentaje
-=======
-    this.total = this.boletos.length * 575
-    
->>>>>>> 21d3c5bda2166950f71fc729d6dc545f6d211bfc
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
     this.codigotiket='REED22'+this.lugaresAdquiridos.replace(",","");
 
