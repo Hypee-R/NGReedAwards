@@ -21,10 +21,8 @@ export class HomeComponent implements OnInit {
   status = "Enable";
   componetesSeleccionados:ElementRef[]=[];
 
-  
-  @ViewChild('MyRef') element: ElementRef;
+
   @ViewChildren('MyRef') inputsArray: QueryList<ElementRef>
-  mensaje=""
   selectedColor='background-color:rgb(143, 191, 22)'
   unselectedColor='background-color:rgb(171, 90, 90)&:hover:{background: rgb(211, 202, 26)}'
   enableColor='background-color:rgb(178, 178, 178)'
@@ -36,19 +34,13 @@ export class HomeComponent implements OnInit {
   boletosSeleccionados:boleto[]=[]
   cargando=false
   lugares:any
-  lugaresApartados:boleto[]=[]
-
   lugaresDisponibles:boleto[]=[]
-  day: any;
-  hours: any;
-  minutes: any;
-  seconds: any;
   clock: any;
   source = timer(0, 1000);
   end: any;
   now: Date;
-  lugaresenWeb:boleto[]=[]
   diferencia:number;
+  mesa:boolean=true;
   constructor(
     private lugaresService:LugaresService,
     public datepipe: DatePipe
@@ -90,9 +82,7 @@ export class HomeComponent implements OnInit {
           this.diferencia =  (this.now.getTime()-newDate.getTime())/60000;   
         }
         let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == lugar.idLugar)
-        if(lugar.apartado||lugar.comprado){
-          ///console.log("no esta disponible"+lugar.idLugar)
-          
+        if(lugar.apartado||lugar.comprado){ 
           if(lugar.comprado){
             
             ref.nativeElement.setAttribute('style', this.enableColor)
@@ -143,29 +133,42 @@ export class HomeComponent implements OnInit {
   
   
   }
+
   cancelarApartado(boleto:boleto){
-    this.lugaresService.cancelarLugarAparatdo(boleto)
-  }
+      this.lugaresService.cancelarLugarAparatdo(boleto)
+    }
+
   realizarCompra(){
     if(this.componetesSeleccionados.length>0){
+
+
+      for(let boleto of this.componetesSeleccionados){
+        let newBoleto={"idLugar":boleto.nativeElement.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
+        let estatus=this.lugaresService.getLugaresPagados(newBoleto)
+
+        
+      } 
+
+
+
       this.visibleSidebar2=true;
       for(let boleto of this.componetesSeleccionados){
         let newBoleto={"idLugar":boleto.nativeElement.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
         this.boletosSeleccionados.push(newBoleto)
       }
       this.actualizarBoleto()
+      
     }
     else{
-      
       this.displayBasic = true;
     }
-  }
-  unseled(){
   
+  }
+
+  unseled()
+  {
     this.boletosSeleccionados=[]
     this.componetesSeleccionados=[]
-  
-   
   }
   cancelarCompra(){
 
@@ -185,6 +188,10 @@ export class HomeComponent implements OnInit {
   }
 
   comprarMesa(idMesa){
+    ///console.log(idMesa+"0")
+    let disponiblidad= this.lugaresDisponibles.find(el=>el.idLugar==idMesa+"1")
+    if(!disponiblidad.comprado&&!disponiblidad.apartado)
+    {
     let toArray = this.inputsArray.toArray()
     let colorMesa=false
     for (let silla of this.mesas){
@@ -211,18 +218,11 @@ export class HomeComponent implements OnInit {
       ref.nativeElement.setAttribute('style', this.unselectedColor)
     }
     
-    
+  }
   }
   showBasicDialog() {
     this.displayBasic = true;
 }
 
-ngOnDestroy() {
-  
-  //console.log(this.lugaresService.cancelarLugar(this.lugaresApartados))
-  
-  //this.lugaresService.cancelarLugar(this.boletosSeleccionados)
-  //// validar si se hizo el pago
-  
-}
+
 }
