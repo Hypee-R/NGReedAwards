@@ -236,8 +236,13 @@ this.edit= false
   }
 
   ExcelPiezasInscritas(usuarios, nominaciones) {
+    
     var piezasInscritas = [];
+    
     nominaciones.forEach((nominacion, index) => {
+      var tieneUsuario = false;
+      
+
       var materialMultimedia = nominacion.materialMultimedia;
       let video
       let png
@@ -273,16 +278,25 @@ this.edit= false
         return data.id
       })
       lastMethodPay = nominacion.pagarCon;
-      usuarios.forEach((usuario) => {
-        if (nominacion.uid == usuario.uid) {
-          // console.log(nominacion);
-
-          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, 'MEDIO_DE_PAGO':lastMethodPay, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length+jpeg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": pdf.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria, "Pais": nominacion.pais, "Nominado": nominacion.nominado}));
+      
+      for(var i = 0; i < usuarios.length; i++){
+        if (nominacion.uid == usuarios[i].uid) {
+          
+          tieneUsuario = true;
+          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuarios[i].uid, "NOMBRE": usuarios[i].firstName, "APELLIDO": usuarios[i].lastName,"CORREO": usuarios[i].email, "TELEFONO": usuarios[i].phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, 'MEDIO_DE_PAGO':lastMethodPay, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length+jpeg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": pdf.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria, "Pais": nominacion.pais, "Nominado": nominacion.nominado}));
+          break;
         }
-      });
-    })
+      }
+
+      if(tieneUsuario == false){
+        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": "", "NOMBRE": "NO SE ENCONTRO USUARIO", "APELLIDO": "","CORREO": "", "TELEFONO": "","PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, 'MEDIO_DE_PAGO':"", "NUM_VIDEO": "","NUM_IMAGENES": "", "NUM_AUDIO": "", "NUM_DOCS": "", "CATEGORIA": "", "NOMBRE_CATEGORIA": nominacion.categoria, "Pais": nominacion.pais, "Nominado": nominacion.nominado}));
+      }
+      
+    });
+    
     return piezasInscritas;
   }
+  
 
   ExcelUsuariosConPiezasInscritas(usuarios, nominaciones) {
     var piezasInscritas = [];
@@ -322,7 +336,7 @@ this.edit= false
 
   ExcelOrdenesPagadas(usuarios, nominaciones) {
     var piezasInscritas = [];
-
+      var indexPiezasEncontradas = 0;
       usuarios.forEach((usuario,index) => {
       var num_nominaciones = 0;
       var total_pagado = 0;
@@ -332,30 +346,46 @@ this.edit= false
       var cat = ''
       // console.log(usuario.uid);
         nominaciones.forEach((nominacion) => {
+          
         if (nominacion.uid == usuario.uid && (nominacion.statuspago == "Pago Realizado" || nominacion.statuspago == "pagado")) {
           console.log(nominacion.uid);
-          
           num_nominaciones++;
           total_pagado += parseInt(nominacion.montopago);
           lastMethodPay = nominacion.pagarCon;
           estadoPago = nominacion.statuspago
-          // if(nominacion.fileBaucher > '' && (nominacion.statuspago == "Pago Realizado" || nominacion.statuspago == "pagado" )){
-          //   estadoPago = nominacion.statuspago + '('+Vaoucher+')'
-          // }
-          // if((nominacion.fileBaucher < ''|| nominacion.statuspago == "")){
-          //   estadoPago = Vaoucher
-          // }
-          
+        
         }else{
 
           // console.log(nominacion.uid, usuario.uid);
         }
       });
       if(num_nominaciones > 0){
-        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":estadoPago,"NUM_PIEZAS":num_nominaciones, "TOTAL_USD":"","COIN":"","TOTAL_MXM":"$" +total_pagado,"COIN_2":"MXM", "FECHA_DE_PAGO": "","DATA":"","MEDIO_DE_PAGO":lastMethodPay}));
+
+        indexPiezasEncontradas++;
+        piezasInscritas.push(new Object({"#":indexPiezasEncontradas, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":estadoPago,"NUM_PIEZAS":num_nominaciones, "TOTAL_USD":"","COIN":"","TOTAL_MXM":"$" +total_pagado,"COIN_2":"MXM", "FECHA_DE_PAGO": "","DATA":"","MEDIO_DE_PAGO":lastMethodPay}));
       }
-    })
+    });
+    this.AddExcelOrdenesPagadasSinUser(nominaciones, usuarios,piezasInscritas);
     return piezasInscritas;
+  }
+
+  AddExcelOrdenesPagadasSinUser(nominaciones, usuarios,piezasInscritas){
+   var lengtPiezasInscritas = piezasInscritas.length;
+   var contarPiezasSinUser = 0;
+    nominaciones.forEach((nominacion) => {
+    var tieneUsuario = false;
+      usuarios.forEach((usuario) => {
+        if (nominacion.uid == usuario.uid) {
+          tieneUsuario = true;
+        }
+      });
+      if(tieneUsuario == false){
+        if(nominacion.statuspago == "Pago Realizado" || nominacion.statuspago == "pagado"){
+        contarPiezasSinUser++;
+          piezasInscritas.push(new Object({"#":lengtPiezasInscritas + contarPiezasSinUser, "ID_USUARIO": "", "NOMBRE": "NO SE ENCONTRO USUARIO", "APELLIDO": "","CORREO": "", "TELEFONO": "","ESTADO":nominacion.statuspago,"NUM_PIEZAS":"1", "TOTAL_USD":"","COIN":"","TOTAL_MXM":"$" + nominacion.montopago,"COIN_2":"MXM", "FECHA_DE_PAGO": "","DATA":"","MEDIO_DE_PAGO":""}));
+        }
+      }
+    });
   }
 
   ExcelOrdenesNoPagadas(usuarios, nominaciones) {
