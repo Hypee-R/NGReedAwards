@@ -4,6 +4,9 @@ import { NominacionService } from 'src/app/services/nominacion.service';
 import { ToastrService } from 'ngx-toastr';
 import { QueryDocumentSnapshot } from 'firebase/firestore';
 import { NominacionModel } from 'src/app/models/nominacion.model';
+import { connectStorageEmulator } from 'firebase/storage';
+import { reservacionService } from 'src/app/services/reservaciones.service';
+import { ReservacionModel } from 'src/app/models/reservacion.model';
 
 
 
@@ -17,29 +20,35 @@ declare var paypal;
 export class MisLugaresComponent implements OnInit {
 
   visibleSide: boolean;
-  listlugares: NominacionModel[] = [];
+  listBoletos: ReservacionModel[] = [];
   loading: boolean = true;
   accion: string = '';
   nominacionEditar: any;
   constructor(
     private toastr: ToastrService,
-    private lugaresService: NominacionService
+    private reservacionesService: reservacionService
   ) {
-    this.getlugares();
+    this.getBoletos();
   }
 
   ngOnInit(): void {
+   
   }
 
-  async getlugares(){
-    this.listlugares = await this.lugaresService.getNominaciones();
-    if(this.listlugares.length > 0){
-      this.listlugares = this.listlugares.filter(x => x.titulo && x.nominado && x.descripcion);
+  async getBoletos(){
+    this.listBoletos = await this.reservacionesService.getreservaciones();
+    if(this.listBoletos.length > 0){
+      //this.listBoletos = this.listlugares.filter(x => x.titulo && x.nominado && x.descripcion);
       //console.log('data ', this.listlugares);
+      /*for(let l of this.listBoletos){
+        console.log(l.id)
+      }*/
+      //console.log(this.listBoletos)
     }
-    if(this.listlugares.length == 0){
-      this.listlugares = null;
+    if(this.listBoletos.length == 0){
+      this.listBoletos = null;
     }
+    //this.misBoletos
     this.loading = false;
     // .subscribe( data => {
     //     if(data){
@@ -72,7 +81,7 @@ export class MisLugaresComponent implements OnInit {
     this.visibleSide = true;
   }
 
-  async eliminarNominacion(nominacion: NominacionModel){
+  /*async eliminarNominacion(nominacion: NominacionModel){
     Swal.fire({
       title: 'Desea Eliminar Ésta Nominación?',
       text: "Ésta accion no se podrá revertir ni cambiar",
@@ -89,7 +98,7 @@ export class MisLugaresComponent implements OnInit {
         this.getlugares();
       }
     });
-  }
+  }*/
 
   vistaPrevia(nominacion){
      if(nominacion.mostrarMas){
@@ -100,10 +109,11 @@ export class MisLugaresComponent implements OnInit {
   }
 
   async fetchNominacion(){
-    await this.getlugares();
+    /*await this.getlugares();
     this.visibleSide = false;
     this.accion = null;
     this.nominacionEditar = null;
+    */
   }
 
 }

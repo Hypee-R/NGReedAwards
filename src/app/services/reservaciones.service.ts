@@ -95,10 +95,25 @@ export class reservacionService {
     const q = query(itemsCollection, where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // this.listareservaciones.push({
-        //     id: doc.id,
-        // });
+         //console.log(doc.data().LugaresComprados)
+          let b: ReservacionModel={
+            id: doc.data().id,
+            LugaresComprados: doc.data().LugaresComprados,
+            codigotiket: doc.data().codigotiket,
+            peticionpaypal:doc.data().id.peticionpaypal,
+            respuestapaypal:doc.data().id.respuestapaypal,
+            idpagopaypal:doc.data().id.idpagopaypal,
+            statuspago:doc.data().id.statuspago,
+            descripcionpago:doc.data().descripcionpago,
+            montopago:doc.data().montopago,
+            uid: doc.data().uid,
+            fechaCreacion:doc.data().id.fechaCreacion,
+            fechaActualizacion: doc.data().id.fechaActualizacion
+          }
+       
+        this.listareservaciones.push(b)
+        
+        // );
         //console.log(doc.id, " => ", doc.data());
     });
     return this.listareservaciones;
