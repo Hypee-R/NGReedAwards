@@ -45,6 +45,22 @@ export class LugaresService {
     return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
   }*/
 
+  async updatelugarPagado( boletos:boleto[]) {
+    for(let boleto of boletos){
+      let idLugar=boleto.idLugar
+      let apartado= true
+      let fecha =boleto.hora
+      let comprado=true
+    const querySnapshot = await getDocs(query(collection(this.db, "lugares/"), where("idLugar", "==", boleto.idLugar)));
+    querySnapshot.forEach((doc) => {
+    this.id = doc.id  
+      })
+    const docRef = doc(this.db, 'lugares/'+ this.id);
+    await updateDoc( docRef, { idLugar,  apartado,fecha,comprado})}
+    return this.toastr.warning('Reservacion valida durante 2 min!!','Seleccionar forma de pago');}
+
+
+
   async updatelugarApartado( boletos:boleto[]) {
     for(let boleto of boletos){
       let idLugar=boleto.idLugar

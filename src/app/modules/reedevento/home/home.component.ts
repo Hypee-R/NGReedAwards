@@ -91,9 +91,14 @@ export class HomeComponent implements OnInit {
         }
         let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == lugar.idLugar)
         if(lugar.apartado||lugar.comprado){
-          console.log("no esta disponible"+lugar.idLugar)
+          ///console.log("no esta disponible"+lugar.idLugar)
           
+          if(lugar.comprado){
             
+            ref.nativeElement.setAttribute('style', this.enableColor)
+          }
+          else{
+
             if(lugar.apartado){
               if(!lugar.comprado && this.diferencia>1)
               {
@@ -102,8 +107,8 @@ export class HomeComponent implements OnInit {
               }
               ref.nativeElement.setAttribute('style', this.enableColor)
             }
-            
-           //////Falta poner que ya se compro
+          }
+        
         }
         else{
           ref.nativeElement.setAttribute('style', this.unselectedColor)
