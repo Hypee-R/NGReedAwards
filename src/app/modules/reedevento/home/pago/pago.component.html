@@ -18,6 +18,7 @@
         <th *ngFor="let col of columns">
           {{col.header}}
         </th>
+    
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">
@@ -26,9 +27,40 @@
           {{rowData[col.field]}}
         </td>
       </tr>
+      
     </ng-template>
+   
   </p-table>
-  <h5>Total: {{total}} USD</h5>
+  <p-table [columns]="nombres" [value]= "[0]">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col.header}}
+        </th>
+    
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td>
+          
+        </td>
+        <td>
+          {{totalPorcentaje}} (5%) USD
+        </td> 
+      </tr>
+      <tr>
+        <td>
+          <h6>Total</h6>
+        </td>
+        <td>
+          {{total}} USD
+        </td> 
+      </tr>
+      
+    </ng-template>
+   
+  </p-table>
 </div>
 <p-card  header="Pagar Reservacion:">
   <div class="container">

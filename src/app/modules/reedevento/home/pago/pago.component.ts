@@ -38,6 +38,7 @@ export class PagoComponent implements OnInit {
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   cols: any[];
+  nombres:any[];
   boletos: boleto[]=[];
   boleto:boleto={idLugar:"A1",precio:"547 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
@@ -53,6 +54,8 @@ export class PagoComponent implements OnInit {
      
     }
   total = 0
+  totalPorcentaje=0
+  totalParcial=0
   //QR
   public qrCodeDownloadLink: SafeUrl = "";
   dataToString:any;
@@ -127,6 +130,10 @@ export class PagoComponent implements OnInit {
       { field: 'idLugar', header: 'Lugar' },
       { field: 'precio', header: 'Precio' },
     ];
+    this.nombres = [
+      { field: 'idLugar', header: '' },
+      { field: 'precio', header: '' },
+    ];
  
     this.tiempo=true
   
@@ -189,7 +196,10 @@ export class PagoComponent implements OnInit {
   llenarTabla() {
 
     this.boletos = this.boletosSeleccionados
-    this.total = this.boletos.length * 575
+    
+    this.totalParcial = this.boletos.length * 575
+    this.totalPorcentaje=(this.totalParcial)*.05
+    this.total=this.totalParcial+this.totalPorcentaje
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
     this.codigotiket='REED22'+this.lugaresAdquiridos.replace(",","");
 
