@@ -151,14 +151,14 @@ export class PagoComponent implements OnInit {
     this.total = this.boletos.length * 575
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
     this.codigotiket='REED22'+this.lugaresAdquiridos.replace(",","");
-    ///console.log(this.boletos);
-    // console.log(this.total);
+    
      this.data = [
       'INFORMACION DE TU COMPRA',
       'Nombre: Jose Daniel',
-      'Lugares Comprados:' + this.boletos.map(x=>x.idLugar).join(","),
+      'Lugares Comprados:' + this.lugaresAdquiridos,
       'Total de la compra:$'+this.total +'US',
       'Correo del comprados: john@doe.com',
+      'Correo del comprados: '+this.codigotiket,
     
     ]   
      this.dataToString = JSON.stringify(this.data);
