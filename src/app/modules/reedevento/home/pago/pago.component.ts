@@ -97,6 +97,7 @@ export class PagoComponent implements OnInit {
           this.lugaresService.updatelugarPagado(this.boletosSeleccionados)
           this.tiempo=false;
           clearInterval(this.interval);
+          
         }
         const dataReservacion: ReservacionModel = {
           id: Date.now().toString(),
