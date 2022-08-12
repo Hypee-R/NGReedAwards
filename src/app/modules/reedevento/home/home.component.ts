@@ -4,6 +4,10 @@ import { ElementRef, ViewChild } from '@angular/core';
 import { Console } from 'console';
 import { boleto } from './pago/pago.component';
 import { LugaresService } from 'src/app/services/lugares.service';
+import { ComponentFixtureAutoDetect } from '@angular/core/testing';
+import { map, Observable, shareReplay, timer } from 'rxjs';
+import { DatePipe } from '@angular/common'
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -27,73 +31,105 @@ export class HomeComponent implements OnInit {
   disbledColor=''
   defaultColor=''
   styleClickOn=''
-  visibleSidebar2
+  visibleSidebar2=false
   displayBasic: boolean;
   boletosSeleccionados:boleto[]=[]
   cargando=false
   lugares:any
-
+  lugaresApartados:boleto[]=[]
 
   lugaresDisponibles:boleto[]=[]
+  day: any;
+  hours: any;
+  minutes: any;
+  seconds: any;
+  clock: any;
+  source = timer(0, 1000);
+  end: any;
+  now: Date;
+  lugaresenWeb:boleto[]=[]
+  diferencia:number;
   constructor(
-    private lugaresService:LugaresService
+    private lugaresService:LugaresService,
+    public datepipe: DatePipe
   ) { 
-    //this.getLugares();
-  }
-  ngOnInit(): void {
-   this.getLugares()
+    
+    this.getLugares();
+    this.clock = this.source.subscribe(t => {
+      this.now = new Date();
+    });
    
   }
-
+  ngOnInit(): void {
+ 
+ 
+  }
+  
   async getLugares(){
      await this.lugaresService.getLugares().subscribe( (data) => {
       this.lugares = data
+      this.lugaresDisponibles=[]
       for (let dato of data){
-        let lug:boleto={idLugar:dato['idLugar'],precio:dato['precio'],disponible:dato['comprado']}
+        let lug:boleto={idLugar:dato['idLugar'],precio:dato['precio'],comprado:dato['comprado'],apartado:dato['apartado'],hora:dato['fecha']}
         this.lugaresDisponibles.push(lug)
-        
       }
-     // console.log(this.lugares)
      
     this.initLugares()
     this.cargando=true
-     
-     
     }, err => {
       
     });
     
   }
   initLugares(){
-    
       let toArray = this.inputsArray.toArray()
       for (let lugar of this.lugaresDisponibles){
+        if(lugar.hora){
+          let f=lugar.hora.toString()
+          let newDate = new Date(f);
+          this.diferencia =  (this.now.getTime()-newDate.getTime())/60000;   
+        }
         let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == lugar.idLugar)
-        if(!lugar.disponible){
-          ref.nativeElement.setAttribute('style', this.unselectedColor)
+        if(lugar.apartado||lugar.comprado){
+          console.log("no esta disponible"+lugar.idLugar)
+          
+            
+            if(lugar.apartado){
+              if(!lugar.comprado && this.diferencia>1)
+              {
+                this.cancelarApartado(lugar)
+                ref.nativeElement.setAttribute('style', this.enableColor)
+              }
+              ref.nativeElement.setAttribute('style', this.enableColor)
+            }
+            
+           //////Falta poner que ya se compro
         }
         else{
-          ref.nativeElement.setAttribute('style', this.enableColor)
-          
-        }      
+          ref.nativeElement.setAttribute('style', this.unselectedColor)
+        }
+        
       }
   
   }
  
   selectedAsiento(item){
-    let disponible= this.lugaresDisponibles.find(el=>el.idLugar==item)
-  
-    if(!disponible.disponible)
+    
+    let disponiblidad= this.lugaresDisponibles.find(el=>el.idLugar==item)
+    if(!disponiblidad.comprado&&!disponiblidad.apartado)
     {
 
       let toArray = this.inputsArray.toArray()
       let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == item)
       let status=this.componetesSeleccionados.find(el=>el.nativeElement.id==ref.nativeElement.id)
+      
       if(!status){
         this.componetesSeleccionados.push(ref)
         ref.nativeElement.setAttribute('style', this.selectedColor)
+       
       }
       else{
+       
         this.componetesSeleccionados=this.componetesSeleccionados.filter(item=>item.nativeElement.id!=ref.nativeElement.id)
         ref.nativeElement.setAttribute('style', this.unselectedColor)
       }
@@ -102,12 +138,14 @@ export class HomeComponent implements OnInit {
   
   
   }
-
+  cancelarApartado(boleto:boleto){
+    this.lugaresService.cancelarLugarAparatdo(boleto)
+  }
   realizarCompra(){
     if(this.componetesSeleccionados.length>0){
       this.visibleSidebar2=true;
       for(let boleto of this.componetesSeleccionados){
-        let newBoleto={"idLugar":boleto.nativeElement.id,"precio":"575USD","disponible":true}
+        let newBoleto={"idLugar":boleto.nativeElement.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
         this.boletosSeleccionados.push(newBoleto)
       }
       this.actualizarBoleto()
@@ -118,7 +156,7 @@ export class HomeComponent implements OnInit {
     }
   }
   unseled(){
-    //console.log(this.boletosSeleccionados)
+  
     this.boletosSeleccionados=[]
     this.componetesSeleccionados=[]
     console.log("cancelaron")
@@ -136,9 +174,9 @@ export class HomeComponent implements OnInit {
 
   actualizarBoleto(){
 
-      this.lugaresService.updatelugar(this.boletosSeleccionados)
-    
-    //console.log(this.boletosSeleccionados)
+      this.lugaresService.updatelugarApartado(this.boletosSeleccionados)
+
+  
   }
 
   comprarMesa(idMesa){
@@ -174,5 +212,12 @@ export class HomeComponent implements OnInit {
     this.displayBasic = true;
 }
 
+ngOnDestroy() {
   
+  //console.log(this.lugaresService.cancelarLugar(this.lugaresApartados))
+  
+  //this.lugaresService.cancelarLugar(this.boletosSeleccionados)
+  //// validar si se hizo el pago
+  
+}
 }

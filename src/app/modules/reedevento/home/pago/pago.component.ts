@@ -4,14 +4,19 @@ import { SafeUrl } from "@angular/platform-browser"
 import { PrintingService } from 'src/app/services/Print.service';
 import {DialogModule} from 'primeng/dialog';
 import { LugaresService } from 'src/app/services/lugares.service';
+import { timer } from 'rxjs';
 export class boleto {
   idLugar: String;
   precio: String;
-  disponible:Boolean;
+  comprado:Boolean;
+  apartado:Boolean;
+  hora:String;
     constructor(){
     this.idLugar = "";
     this.precio = '';
-    this.disponible=false;
+    this.comprado=false;
+    this.apartado=false;
+    this.hora=""
     
   }
 }
@@ -30,7 +35,7 @@ export class PagoComponent implements OnInit {
 
   cols: any[];
   boletos: boleto[]=[];
-  boleto:boleto={idLugar:"A1",precio:"547 USD",disponible:true}
+  boleto:boleto={idLugar:"A1",precio:"547 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
   constructor(    private printingService: PrintingService, 
     private lugaresService:LugaresService
@@ -44,7 +49,10 @@ export class PagoComponent implements OnInit {
   statuspago : boolean = false;
   lugaresAdquiridos : String ;
   codigotiket : String ;
-
+  tiempo=true;
+  timeLeft: number = 60;
+  time:string=''
+  interval;
   ngOnInit(): void { paypal
     .Buttons({
       createOrder: (data, actions) => {
@@ -86,21 +94,45 @@ export class PagoComponent implements OnInit {
   
 
     //console.log(this.boletosSeleccionados)
-    this.llenarTabla()
+    this.llenarTabla();
     this.cols = [
       { field: 'idLugar', header: 'Lugar' },
       { field: 'precio', header: 'Precio' },
     ];
+ 
+    this.tiempo=true
+    
+    this.showTime()
   }
+   showTime(){
+    this.interval = setInterval(() => {
+      if(this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        clearInterval(this.interval);
+        this.lugaresService.cancelarLugar(this.boletosSeleccionados)
+        this.tiempo=false
+      }
+      this.time=this.secondsToString(this.timeLeft)
+      
+    },1000)
+
+  }
+
+  secondsToString(seconds) {
+   
+    let minute = Math.floor((seconds / 60) % 60);
+    let mins= (minute < 10)? '0' + minute : minute;
+    let second = seconds % 60;
+    let secondS = (second < 10)? '0' + second : second;
+    return  mins + ':' + secondS;
+  }
+
 
   ngOnDestroy() {
   
     this.fetchNominaciones.emit(true)
-    //console.log(this.boletosSeleccionados)
-
-   /* for(let boleto of this.boletosSeleccionados){
-      this.lugaresService.updatelugar(boleto.idLugar,boleto.disponible)
-    }*/
+    
     this.lugaresService.cancelarLugar(this.boletosSeleccionados)
     //// validar si se hizo el pago
     

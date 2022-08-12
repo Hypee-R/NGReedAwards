@@ -36,25 +36,26 @@ export class LugaresService {
     return collectionData(query(categoriasCollection, orderBy("idLugar", "asc")));
   }
 
-  async addLugar(idLugar:string, disponible: boolean,precio:number) {
+  /*async addLugar(idLugar:string, disponible: boolean,precio:number) {
     await addDoc(this.categoriaCol, {
       idLugar,
       disponible,
       precio,
     })
     return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
-  }
+  }*/
 
-  async updatelugar( boletos:boleto[]) {
+  async updatelugarApartado( boletos:boleto[]) {
     for(let boleto of boletos){
       let idLugar=boleto.idLugar
-      let comprado= true
+      let apartado= true
+      let fecha =boleto.hora
     const querySnapshot = await getDocs(query(collection(this.db, "lugares/"), where("idLugar", "==", boleto.idLugar)));
     querySnapshot.forEach((doc) => {
     this.id = doc.id  
       })
     const docRef = doc(this.db, 'lugares/'+ this.id);
-    await updateDoc( docRef, { idLugar, comprado })}
+    await updateDoc( docRef, { idLugar,  apartado,fecha})}
     return this.toastr.warning('Reservacion valida durante 2 min!!','Seleccionar forma de pago');}
 
 
@@ -62,12 +63,32 @@ export class LugaresService {
     async cancelarLugar( boletos:boleto[]) {
       for(let boleto of boletos){
         let idLugar=boleto.idLugar
+        let apartado= false
         let comprado= false
+        let fecha= null
       const querySnapshot = await getDocs(query(collection(this.db, "lugares/"), where("idLugar", "==", boleto.idLugar)));
       querySnapshot.forEach((doc) => {
       this.id = doc.id  
         })
       const docRef = doc(this.db, 'lugares/'+ this.id);
-      await updateDoc( docRef, { idLugar, comprado })}
+      await updateDoc( docRef, { idLugar, apartado,comprado,fecha})}
       return this.toastr.warning('Reservacion cancelada');}
-}
+
+      async cancelarLugarAparatdo( boleto:boleto) {
+       
+          let idLugar=boleto.idLugar
+          let apartado= false
+          let comprado=false
+          let fecha = null
+        const querySnapshot = await getDocs(query(collection(this.db, "lugares/"), where("idLugar", "==", boleto.idLugar)));
+        querySnapshot.forEach((doc) => {
+        this.id = doc.id  
+          })
+        const docRef = doc(this.db, 'lugares/'+ this.id);
+        await updateDoc( docRef, { idLugar, apartado,comprado ,fecha})
+        }
+  }
+
+
+
+

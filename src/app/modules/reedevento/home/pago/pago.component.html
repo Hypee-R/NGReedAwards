@@ -1,7 +1,15 @@
 <div class="container mt-4 mb-lg-5">
+  <div>
+
+    <div class="container">
+      <div class="time-countdown">
+        <ul align="center">
+          <h6 *ngIf="tiempo">Tiempo restante: {{time}}</h6>
+          <h6 *ngIf="!tiempo">Se agoto el tiempo</h6>
+        </ul>
+    </div>
+      </div>
   <h4 class="text-bold text-center">Realizar pago</h4>
-
-
   <p-table [columns]="cols" [value]="boletos">
     <ng-template pTemplate="header" let-columns>
       <tr>
@@ -20,7 +28,7 @@
   </p-table>
   <h5>Total: {{total}} USD</h5>
 </div>
-<p-card header="Pagar Reservacion:">
+<p-card  header="Pagar Reservacion:">
   <div class="container">
     <div class="mb-3">
       <span class="badge bg-danger">
@@ -29,9 +37,9 @@
           y/o mesa seleccionados</span>
     </div>
   </div>
-  <div class="container">
+  <div class="container" >
     <div class="mb-3">
-      <div #paypal></div>
+      <div #paypal ></div>
     </div>
   </div>
 </p-card>
