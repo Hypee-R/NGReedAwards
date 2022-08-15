@@ -100,15 +100,15 @@ export class reservacionService {
             id: doc.data().id,
             LugaresComprados: doc.data().LugaresComprados,
             codigotiket: doc.data().codigotiket,
-            peticionpaypal:doc.data().id.peticionpaypal,
-            respuestapaypal:doc.data().id.respuestapaypal,
-            idpagopaypal:doc.data().id.idpagopaypal,
-            statuspago:doc.data().id.statuspago,
+            peticionpaypal:doc.data().peticionpaypal,
+            respuestapaypal:doc.data().respuestapaypal,
+            idpagopaypal:doc.data().idpagopaypal,
+            statuspago:doc.data().statuspago,
             descripcionpago:doc.data().descripcionpago,
             montopago:doc.data().montopago,
             uid: doc.data().uid,
-            fechaCreacion:doc.data().id.fechaCreacion,
-            fechaActualizacion: doc.data().id.fechaActualizacion
+            fechaCreacion:doc.data().fechaCreacion,
+            fechaActualizacion: doc.data().fechaActualizacion
           }
        
         this.listareservaciones.push(b)

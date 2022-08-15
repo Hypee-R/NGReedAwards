@@ -40,14 +40,13 @@
                 <p>Reed Latino 2022</p>
                 <div >
                     <label>Total de Lugares adquiridos: {{lugar.LugaresComprados}}</label><br>
-                    <label>Codigo de Ticket: {{lugar.codigotiket}}</label><br>
                     <label>Codigo: {{lugar.codigotiket}}</label><br>
-                    <label>Costo total:$ {{lugar.montopago}}</label><br>
+                    <label>Costo total: ${{lugar.montopago}} USD</label><br>
                     <label *ngIf="lugar.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == '' || lugar.statuspago == 'Pago No Realizado'">Estatus del Pago: <span class="badge bg-danger" >Pago No Realizado</span></label>
-                    <label>Fechya de Compra: {{lugar.fechaCreacion}}</label><br>
+                    <label>Fecha de Compra: {{lugar.fechaCreacion}}</label><br>
                     <!-- <label>Metodo de Pago: <i [class]="lugar.pagarCon == 'paypal' ? 'fa-brands fa-cc-paypal fa-xl' : 'fa-solid fa-money-bill-transfer fa-xl'"></i></label><br>
                     <label *ngIf="lugar.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{lugar.statuspago}}</span></label>
