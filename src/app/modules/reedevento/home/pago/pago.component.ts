@@ -71,6 +71,9 @@ export class PagoComponent implements OnInit {
   //Datos del comprador
   nombrecomprador  = '' ;
   correocomprador  = '' ;
+//Tipo de pago
+opcionSeleccionado:any;
+  pagarCon : any;
   ngOnInit(): void { paypal
     .Buttons({
       createOrder: (data, actions) => {
@@ -228,7 +231,11 @@ export class PagoComponent implements OnInit {
    onChangeURL(url: SafeUrl) {
     this.qrCodeDownloadLink = url;
   }
-
+  capturar() {
+    // Pasamos el valor seleccionado a la variable verSeleccion
+    this.pagarCon = this.opcionSeleccionado;
+    console.log('Tipo de pago=>'+   this.pagarCon);
+}
 
   lugaresPagados:boleto[]=[]
   async getLugares(boleto:boleto[]){

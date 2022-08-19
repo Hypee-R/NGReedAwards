@@ -71,11 +71,62 @@
           y/o mesa seleccionados</span>
     </div>
   </div>
-  <div class="container" >
+
+  <label>Cambiar método de pago:</label>
+  
+<select  name="select"  class="form-control text-center "  [(ngModel)]="pagarCon" name="op"> 
+    
+    <option value="swift">Transferencia SWIFT</option>
+    <option value="paypal" selected >PayPal</option>
+  </select>
+
+
+
+
+  <!-- <br *ngIf="nominacionForm.controls['statuspago'].value != 'Pago Realizado'"> -->
+  <p-card *ngIf="this.pagarCon === 'swift'" header="Pagar con transferencia SWIFT " >
+      <div class="col-12">
+          <div class="mb-3">
+         <p>Ingresa el baucher con la transferencia por <strong>USD: {{this.total}}</strong>
+                  <br>Los datos para realizar tu transferencia se encuentran en la página de
+                  <a target="_blank" href="">Inicio</a>
+              </p>
+             <!-- <label *ngIf="this.pagarCon === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" for="formFile" class="form-label">Comprobante de pago*</label>
+              <input *ngIf="this.pagarCon === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
+              <div *ngIf="submitted && nominacionForm.controls['fileBaucher'].errors" class="text-danger">
+              </div> 
+             <label *ngIf="accion == 'editar' && !agregarFileBaucher && nominacionEditar.fileBaucher">
+            <a target="_blank" [href]="nominacionEditar.fileBaucher?.url | safeurl : ''">Archivo de comprobante de pago</a> <button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="setTypeArchivo('FileBaucher')">Cambiar</button>
+          </label>   -->
+          </div>
+      </div>
+  </p-card>
+  <br *ngIf="this.pagarCon === 'swift'">
+  <p-card [hidden]="this.pagarCon === 'swift'" header="Pagar con Paypal">
+      <div class="row">
+          <div class="col-12">
+            <!-- <input type="text" class="form-control" id="statuspago" formControlName="statuspago" [ngClass]="submitted && nominacionForm.controls['statuspago'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['statuspago'].valid ? 'is-valid' : submitted && nominacionForm.controls['statuspago'].valid ? 'is-valid' : null"
+                  disabled>
+              <div *ngIf="submitted && nominacionForm.controls['statuspago'].errors" class="text-danger">
+                  <div *ngIf="nominacionForm.controls['statuspago'].errors.required">El Pago es requerido</div>
+              </div>
+              <input type="hidden" class="form-control" id="idpago" formControlName="idpago" [ngClass]="submitted && nominacionForm.controls['idpago'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['idpago'].valid ? 'is-valid' : submitted && nominacionForm.controls['idpago'].valid ? 'is-valid' : null"
+                  disabled>
+              <br> -->
+              <div class="container">
+                  <div class="mb-3">
+                      <div #paypal></div>
+                  </div>
+              </div> 
+          </div>
+      </div>
+  </p-card>
+
+  <!-- <div class="container" >
     <div class="mb-3">
       <div #paypal ></div>
     </div>
-  </div>
+  </div> -->
 </p-card>
 
 <p-dialog header="Detalles de Reservacion" [(visible)]="statuspago">
