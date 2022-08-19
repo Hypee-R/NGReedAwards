@@ -108,7 +108,8 @@ export class reservacionService {
             montopago:doc.data().montopago,
             uid: doc.data().uid,
             fechaCreacion:doc.data().fechaCreacion,
-            fechaActualizacion: doc.data().fechaActualizacion
+            fechaActualizacion: doc.data().fechaActualizacion,
+            Nombrecomprador: doc.data().Nombrecomprador
           }
        
         this.listareservaciones.push(b)

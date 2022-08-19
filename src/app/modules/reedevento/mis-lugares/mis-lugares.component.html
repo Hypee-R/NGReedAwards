@@ -39,9 +39,14 @@
                 </ng-template>
                 <p>Reed Latino 2022</p>
                 <div >
+                    <label>ID Pago Paypal: {{lugar.idpagopaypal}}</label><br>
+                    <br>
+                    <label>Nombre del Comprador: {{lugar.Nombrecomprador}}</label><br>
                     <label>Total de Lugares adquiridos: {{lugar.LugaresComprados}}</label><br>
                     <label>Codigo: {{lugar.codigotiket}}</label><br>
                     <label>Costo total: ${{lugar.montopago}} USD</label><br>
+                   
+              
                     <label *ngIf="lugar.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{lugar.statuspago}}</span></label>

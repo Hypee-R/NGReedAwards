@@ -11,4 +11,5 @@ export class ReservacionModel{
   uid: string;
   fechaCreacion: string;
   fechaActualizacion: string;
+  Nombrecomprador: string;
 }

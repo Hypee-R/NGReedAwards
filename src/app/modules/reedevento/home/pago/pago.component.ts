@@ -111,7 +111,8 @@ export class PagoComponent implements OnInit {
           montopago: this.total,
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: "",
-          fechaActualizacion: ""
+          fechaActualizacion: "",
+          Nombrecomprador:this.nombrecomprador
         };
         this.reservacionService.addreservacion(dataReservacion);
      
@@ -143,7 +144,7 @@ export class PagoComponent implements OnInit {
     this.getUserData().subscribe(data => {
       if(data) {
         this.userData = data.filter(item => item.uid === this.uid);
-       this.nombrecomprador  = this.userData[0].firstName+ this.userData[0].lastName
+       this.nombrecomprador  = this.userData[0].firstName+ " "+this.userData[0].lastName
        this.correocomprador= this.userData[0].email;
       }
     },
