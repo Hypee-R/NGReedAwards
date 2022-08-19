@@ -426,7 +426,8 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value ? this.nominacionForm.get('idpago').value : Date.now().toString(),
-          montopago: this.producto.precio.toString(),
+          // montopago: this.producto.precio.toString(),
+          montopago: this.nominacionEditar.montopago,
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: this.nominacionEditar.fechaCreacion,
           fechaActualizacion: ""
