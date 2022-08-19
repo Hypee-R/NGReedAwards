@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
       this.lugares = data
       this.lugaresDisponibles=[]
       for (let dato of data){
-        let lug:boleto={idLugar:dato['idLugar'],precio:dato['precio'],comprado:dato['comprado'],apartado:dato['apartado'],hora:dato['fecha']}
+        let lug:boleto  ={idLugar:dato['idLugar'],precio:dato['precio'],comprado:dato['comprado'],apartado:dato['apartado'],hora:dato['fecha']}
         this.lugaresDisponibles.push(lug)
       }
      
