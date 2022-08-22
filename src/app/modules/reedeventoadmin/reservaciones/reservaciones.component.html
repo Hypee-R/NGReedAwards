@@ -1,64 +1,104 @@
 
-<div class="container">
+
     <p-toolbar>
         <ng-template pTemplate="left">
             <h3 class="text-dark">Reservaciones</h3>
         </ng-template>
         <ng-template pTemplate="right">
 
-          <!-- <button pButton pRipple class="p-button-info mr-2" (click)="GenereteReportMasterExcel()" label="Exportar Reporte" icon="pi pi-upload"> </button> -->
-
-            <button pButton pRipple label="Nueva Reservacion" con="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+       
+            <button pButton pRipple label="Nueva Reservacion" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
         </ng-template>
     </p-toolbar>
 
-    <p-table [value]="categoriaCollectiondata" [rows]="20" [paginator]="true" [loading]="loading" [rowsPerPageOptions]="[20,35,50]">
+    <p-table [value]="reservacionCollectiondata" [rows]="20" [paginator]="true" [loading]="loading" [rowsPerPageOptions]="[20,35,50]">
         <ng-template pTemplate="header">
             <tr>
                 <th>
-                    Nombre
-                    <!-- <p-sortIcon field="nombre"></p-sortIcon> -->
+                    ID
+              
                 </th>
-
+                <th>
+                    LugaresComprados
+              
+                </th>
+                <th>
+                    codigotiket
+              
+                </th>
+                <th>
+                    descripcionpago
+              
+                </th>
+                <th>
+                    fechaActualizacion
+              
+                </th>
+                <th>
+                    idpagopaypal
+              
+                </th>
+                <th>
+                    montopago
+              
+                </th>
                 <th>
                     Acciones
                 </th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-categoria>
+        <ng-template pTemplate="body" let-reservacion>
             <tr>
                 <td>
-                    <p>{{categoria.nombre}}</p>
-                    <!-- <p>{{categoria.id}}</p> -->
+                    <p>{{reservacion.id}}</p>
                 </td>
+                <td>
+                    <p>{{reservacion.LugaresComprados}}</p>
+                </td>
+                <td>
+                    <p>{{reservacion.codigotiket}}</p>
+                </td>
+                <td>
+                    <p>{{reservacion.descripcionpago}}</p>
+                </td>
+                <td>
+                    <p>{{reservacion.fechaActualizacion}}</p>
+                </td>
+                <td>
+                    <p>{{reservacion.idpagopaypal}}</p>
+                </td>
+                <td>
+                    <p>${{reservacion.montopago}}</p>
+                </td>
+         
 
 
 
 
                 <td>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mx-3" (click)="delete(categoria)"></button>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editar(categoria)" (click)="edit"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mx-3" (click)="delete(reservacion)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editar(reservacion)" (click)="edit"></button>
                 </td>
 
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                Total de Reservaciones{{categoriaCollectiondata ? categoriaCollectiondata.length : 0 }}.
+                Total de Reservaciones{{reservacionCollectiondata ? reservacionCollectiondata.length : 0 }}.
             </div>
         </ng-template>
     </p-table>
-</div>
 
-<!-- Nueva categoria -->
-<p-dialog [(visible)]="visible" [style]="{width: '450px'}" header="Nueva Categoria" [modal]="true" styleClass="p-fluid">
+
+<!-- Nueva reservacion -->
+<p-dialog [(visible)]="visible" [style]="{width: '450px'}" header="Nueva reservacion" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
 
-        <form [formGroup]="categoriaForm">
+        <form [formGroup]="reservacionForm">
 
-            <div class="field">
+            <!-- <div class="field">
                 <label for="id">id:</label>
-                <input type="number" pInputText name="id" class="" value="" [(ngModel)]="reservacionModel.id" formControlName="id" [ngClass]="submitted && categoriaForm.controls['id'].errors ? 'is-invalid' : !submitted && categoriaForm.controls['id'].valid ? 'is-valid' : submitted && categoriaForm.controls['id'].valid ? 'is-valid' : null">
+                <input type="number" pInputText name="id" class="" value="" [(ngModel)]="reservacionModel.id" formControlName="id" [ngClass]="submitted && reservacionForm.controls['id'].errors ? 'is-invalid' : !submitted && reservacionForm.controls['id'].valid ? 'is-valid' : submitted && reservacionForm.controls['id'].valid ? 'is-valid' : null">
                 <small class="p-error" *ngIf="submitted && !reservacionModel.id">nombre is required.</small>
 
             </div>
@@ -67,7 +107,7 @@
                 <input type="text" name="nombre" class="" value="" pInputText required [(ngModel)]="reservacionModel.nombre" formControlName="nombre" required/>
                 <small class="p-error" *ngIf="submitted && !reservacionModel.nombre">nombre is required.</small>
 
-            </div>
+            </div> -->
 
 
 
@@ -86,14 +126,14 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="edit" [style]="{width: '450px'}" header="Editar Categoria" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="edit" [style]="{width: '450px'}" header="Editar reservacion" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
 
-        <form [formGroup]="categoriaForm">
-
+        <form [formGroup]="reservacionForm">
+<!-- 
             <div class="field">
                 <label for="id">id:</label>
-                <input type="number" pInputText name="id" class="" value="" [(ngModel)]="reservacionModel.id" formControlName="id" [ngClass]="submitted && categoriaForm.controls['id'].errors ? 'is-invalid' : !submitted && categoriaForm.controls['id'].valid ? 'is-valid' : submitted && categoriaForm.controls['id'].valid ? 'is-valid' : null">
+                <input type="number" pInputText name="id" class="" value="" [(ngModel)]="reservacionModel.id" formControlName="id" [ngClass]="submitted && reservacionForm.controls['id'].errors ? 'is-invalid' : !submitted && reservacionForm.controls['id'].valid ? 'is-valid' : submitted && reservacionForm.controls['id'].valid ? 'is-valid' : null">
                 <small class="p-error" *ngIf="submitted && !reservacionModel.id">Id is required.</small>
 
             </div>
@@ -102,7 +142,7 @@
                 <input type="text" name="nombre" class="" value="" pInputText required [(ngModel)]="reservacionModel.nombre" formControlName="nombre" required/>
                 <small class="p-error" *ngIf="submitted && !reservacionModel.nombre">Nombre is required.</small>
 
-            </div>
+            </div> -->
 
 
 

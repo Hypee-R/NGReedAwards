@@ -69,7 +69,7 @@ import { ToastModule } from 'primeng/toast';
         HomeComponent,
         MensajesContactoComponent,
         UsuariosComponent,
-        ReservacionesComponent
+        ReservacionesComponent,
     ]
 })
 export class ReedEventoAdminModule { }

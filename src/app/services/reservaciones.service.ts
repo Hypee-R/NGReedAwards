@@ -1,20 +1,37 @@
-import { DatePipe } from '@angular/common';
-import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, addDoc, updateDoc, deleteDoc, getFirestore } from '@angular/fire/firestore';
-import { doc, getDocs, query, where } from 'firebase/firestore';
-import { ReservacionModel } from '../models/reservacion.model';
-import { VariablesService } from './variablesGL.service';
 
+import { DatePipe } from '@angular/common';
+import { VariablesService } from './variablesGL.service';
+import { ReservacionModel } from '../models/reservacion.model';
+
+import { Injectable } from '@angular/core';
+import { getFirestore, collection, addDoc, getDoc, deleteDoc, doc, updateDoc, DocumentData, CollectionReference, onSnapshot, QuerySnapshot, query, orderBy, where, DocumentReference, getDocs } from 'firebase/firestore';
+import { collectionChanges, collectionData, Firestore } from '@angular/fire/firestore';
+import { Subject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+
+import { initializeApp } from "firebase/app";
 @Injectable({
   providedIn: 'root'
 })
 export class reservacionService {
+  db: Firestore;
+  categoriaCol: CollectionReference<DocumentData>;
+  private updatedSnapshot = new Subject<QuerySnapshot<DocumentData>>();
+  obsr_UpdatedSnapshot = this.updatedSnapshot.asObservable();
   listareservaciones: ReservacionModel[] = [];
   pipe = new DatePipe('en-US');
   constructor(
     private afs: Firestore,
     private variablesGL: VariablesService,
   ){
+    this.db = getFirestore();
+    this.categoriaCol = collection(this.db, 'reservaciones');
+   // Get Realtime Data
+   onSnapshot(this.categoriaCol, (snapshot) => {
+    this.updatedSnapshot.next(snapshot);
+  }, (err) => {
+    console.log(err);
+  })
   }
 
   async addreservacion(reservacion: ReservacionModel){
@@ -159,5 +176,11 @@ export class reservacionService {
         //console.log(doc.id, " => ", doc.data());
     });
     return this.listareservaciones;
+  }
+
+
+  getReservacionesAdmin(){
+    const categoriasCollection = collection(this.afs, 'reservaciones');
+    return collectionData(query(categoriasCollection));
   }
 }

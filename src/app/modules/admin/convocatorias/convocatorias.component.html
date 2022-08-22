@@ -62,7 +62,8 @@
         </ng-template>
     </p-toolbar>
 
-    <p-table [value]="convocatoriaCollectiondata" [rows]="10" [paginator]="true">
+    <div class="card">
+    <p-table responsiveLayout="scroll" [value]="convocatoriaCollectiondata" [rows]="10" [paginator]="true">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="titulo">
@@ -109,6 +110,7 @@
             </div>
         </ng-template>
     </p-table>
+</div>
 </div>
 
 <!-- Nueva Convocatoria -->
