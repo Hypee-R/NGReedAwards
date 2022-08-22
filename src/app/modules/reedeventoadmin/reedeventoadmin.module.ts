@@ -29,6 +29,7 @@ import { ReedEventoAdminComponent } from './reedeventoadmin.component';
 import { HomeComponent } from './home/home.component';
 import { MensajesContactoComponent } from './mensajes-contacto/mensajes-contacto.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { ReservacionesComponent } from './reservaciones/reservaciones.component';
 
 import { ToastModule } from 'primeng/toast';
 
@@ -68,6 +69,7 @@ import { ToastModule } from 'primeng/toast';
         HomeComponent,
         MensajesContactoComponent,
         UsuariosComponent,
+        ReservacionesComponent
     ]
 })
 export class ReedEventoAdminModule { }

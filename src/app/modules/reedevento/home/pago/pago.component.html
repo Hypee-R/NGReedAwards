@@ -89,8 +89,9 @@
           <div class="mb-3">
          <p>Ingresa el baucher con la transferencia por <strong>USD: {{this.total}}</strong>
                   <br>Los datos para realizar tu transferencia se encuentran en la página de
-                  <a target="_blank" href="">Inicio</a>
+                  <a target="_blank" href="/reedevento/contacto">Contacto</a>
               </p>
+              <input  class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')">
              <!-- <label *ngIf="this.pagarCon === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" for="formFile" class="form-label">Comprobante de pago*</label>
               <input *ngIf="this.pagarCon === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
               <div *ngIf="submitted && nominacionForm.controls['fileBaucher'].errors" class="text-danger">

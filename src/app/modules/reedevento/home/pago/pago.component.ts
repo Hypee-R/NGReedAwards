@@ -259,4 +259,13 @@ opcionSeleccionado:any;
    });
    
  }
+
+
+ onFileSelected(event: any, fileMapped: string){
+  switch(fileMapped){
+      case "FileBaucher":
+       event.target.files;
+     
+  }
+}
 }
