@@ -51,7 +51,9 @@ ws['!cols'] = [
     return this.toastr.success('Exportado con exito!!', 'Exito');
 }
   convoc(convoc: any){
-    let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(convoc, { header: ['titulo', 'fechaInicio', 'fechaFin'] })
+    console.log(convoc);
+    
+    let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(convoc, { header: ['ID', 'fechaInicio', 'fechaFin'] })
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'convocatorias');
     XLSX.writeFile(wb, 'convocatorias.xlsx')
@@ -111,4 +113,13 @@ ws['!cols'] = [
     XLSX.writeFile(wb, 'ReporteAppWebReedAwards.xlsx')
     return this.toastr.success('Exportado con exito!!', 'Exito');
   }
+
+reservaciones(reservacionesCollection: any){
+  
+  let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(reservacionesCollection, { header: [] })
+  const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'reservaciones');
+  XLSX.writeFile(wb, 'reservaciones.xlsx')
+  return this.toastr.success('Exportado con exito!!', 'Exito');
+}
 }

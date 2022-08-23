@@ -163,4 +163,26 @@ this.edit= false
     console.log(key);
 
   }
+
+  Excel() {
+    var reportExcel = [];
+    this.firebaseServiceUsuarios.getusuarios().subscribe((usuarios) => {
+      this.reservacionCollectiondata.forEach((reservacion) => {
+        //console.log(reservacion);
+        usuarios.forEach((usuario) => {
+         if (usuario.uid === reservacion.uid){
+         reportExcel.push({"#":reservacion.id, "LUGARES_COMPRADOS": reservacion.LugaresComprados, "CODIGO_TICKET" : reservacion.codigotiket,
+          "DESCRIPCION_CODIGO" : reservacion.descripcionpago, "FECHA_CREACION" : reservacion.fechaCreacion,"FECHA_ACTUALIZACION": reservacion.fechaActualizacion, "MONTO_PAGO": reservacion.montopago,
+          "ESTATUS_PAGO": reservacion.statuspago, "ID_PAGO_PAYPAL" : reservacion.idpagopaypal, "NOMBRE_USUARIO" : usuario.firstName,"APELLIDO_USUARIO" : usuario.lastName,"EMAIL_USUARIO": usuario.email, "TELEFONO": usuario.phone
+          });
+          console.log(usuario);
+         }
+          
+        });
+      });
+
+      this.exporExcel.reservaciones(reportExcel);
+    });
+
+  }
 }
