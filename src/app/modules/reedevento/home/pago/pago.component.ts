@@ -12,6 +12,8 @@ import { collectionData } from '@angular/fire/firestore';
 import { FileItem } from '../../../../models/img.model';
 import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
 import { VariablesService } from 'src/app/services/variablesGL.service';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 export class boleto {
   idLugar: String;
   precio: String;
@@ -36,6 +38,7 @@ declare var paypal;
 })
 export class PagoComponent implements OnInit {
   @ViewChild('paypal', { static: true }) paypalElement: ElementRef;
+  @ViewChild('reservacionPDF') reservacionElement!: ElementRef;
 
   @Input() boletosSeleccionados:boleto[];
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
@@ -317,6 +320,30 @@ opcionSeleccionado:any;
     this.cargaImagenesFBService.upload(this.archivos);
 
   }
+}
+
+public generatePDF(): void {
+
+  html2canvas(this.reservacionElement.nativeElement, { scale: 3 }).then((canvas) => {
+    const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
+    const fileWidth = 205;
+    const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
+    let PDF = new jsPDF('p', 'mm', 'a4',);
+    PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
+    PDF.html(this.reservacionElement.nativeElement.innerHTML);
+    PDF.text(this.codigotiket.toString(),7,67);//Folio
+    PDF.text(this.nombrecomprador.toString(),7,85);//Comprador
+    PDF.text(this.total.toString(),110,85);//Costo
+    PDF.text(this.codigotiket.toString(),7,264);//Folio
+    PDF.text(this.nombrecomprador.toString(),7,283);//Comprador
+    PDF.text(this.total.toString(),110,283);//Costo
+    PDF.link(55, 225, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
+    PDF.link(160, 225, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
+    // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });
+    // PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
+    PDF.save('reed-latino-reservacion.pdf');
+  });
+
 }
 
 }

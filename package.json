@@ -23,6 +23,8 @@
         "angular2-qrcode": "^2.0.3",
         "angularx-qrcode": "^13.0.15",
         "firebase": "^9.6.11",
+        "html2canvas": "^1.4.1",
+        "jspdf": "^2.5.1",
         "ngx-toastr": "^14.3.0",
         "primeicons": "^5.0.0",
         "primeng": "^13.3.3",

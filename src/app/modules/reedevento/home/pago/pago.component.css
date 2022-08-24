@@ -15,8 +15,6 @@ button:focus {
     border-color: #3c3174;
 }
 
-
-
 ul {
     display: flex;
     justify-content: center;
@@ -52,7 +50,6 @@ ul {
     margin-right: 5%;
     text-align: center;
     display: inline-block;
-   
     color: #fff;
 }
 
@@ -67,4 +64,41 @@ ul {
     line-height: 60px;
     font-weight: 700;
     display: block;
+}
+
+.qr {
+    width: 100px;
+    margin-left: 20px;
+    margin-top: 38px;
+}
+
+.qr-rigth {
+    width: 100px;
+    margin-left: 10px;
+    margin-top: 38px;
+}
+
+.banner {
+    width: 146px;
+    margin-top: 6px;
+}
+
+.banner-r {
+    width: 156px;
+    margin-left: -10px;
+}
+
+.footer {
+    width: 592px;
+    margin-left: 5px;
+}
+
+.ubicacion {
+    font-size: small;
+    margin-left: 33px;
+}
+
+.ubicacion-r {
+    font-size: small;
+    margin-left: 27px;
 }
