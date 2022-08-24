@@ -9,6 +9,9 @@ import { reservacionService } from 'src/app/services/reservaciones.service';
 import { ReservacionModel } from '../../../../models/reservacion.model';
 import { collection, doc, Firestore, getDoc, getFirestore, setDoc } from "@angular/fire/firestore";
 import { collectionData } from '@angular/fire/firestore';
+import { FileItem } from '../../../../models/img.model';
+import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
+import { VariablesService } from 'src/app/services/variablesGL.service';
 export class boleto {
   idLugar: String;
   precio: String;
@@ -21,7 +24,7 @@ export class boleto {
     this.comprado=false;
     this.apartado=false;
     this.hora=""
-    
+
   }
 }
 
@@ -40,18 +43,21 @@ export class PagoComponent implements OnInit {
   cols: any[];
   nombres:any[];
   boletos: boleto[]=[];
+  archivos: FileItem[] = [];
   boleto:boleto={idLugar:"A1",precio:"547 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
 
   userData: any;
   uid = JSON.parse(localStorage.d).uid;
-  constructor(    private printingService: PrintingService, 
+  constructor(    private printingService: PrintingService,
                   private lugaresService:LugaresService,
                   private reservacionService: reservacionService,
                   private afs: Firestore,
-    ) { 
+                  private cargaImagenesFBService: CargaImagenesService,
+                  private variablesGL: VariablesService,
+    ) {
       this.getUserData();
-     
+
     }
   total = 0
   totalPorcentaje=0
@@ -100,7 +106,7 @@ opcionSeleccionado:any;
           this.lugaresService.updatelugarPagado(this.boletosSeleccionados)
           this.tiempo=false;
           clearInterval(this.interval);
-          
+
         }
         const dataReservacion: ReservacionModel = {
           id: Date.now().toString(),
@@ -115,10 +121,12 @@ opcionSeleccionado:any;
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: "",
           fechaActualizacion: "",
-          Nombrecomprador:this.nombrecomprador
+          Nombrecomprador:this.nombrecomprador,
+          fileBaucher: null,
+          pagarCon: "paypal"
         };
         this.reservacionService.addreservacion(dataReservacion);
-     
+
 
       },
       onError: err =>{
@@ -127,7 +135,40 @@ opcionSeleccionado:any;
       }
     })
     .render( this.paypalElement.nativeElement );
-  
+
+    this.variablesGL.endProcessCargaCompleta.subscribe(endProcessUpload => {
+      //Aqui ya terminó de subir los archivos al storage y agregar las url a firestore
+      if(endProcessUpload){
+        if(this.archivos.length > 0){
+          let imgSave = this.cargaImagenesFBService.idsImageSave;
+          this.statuspago=true;
+          this.lugaresService.updatelugarPagado(this.boletosSeleccionados)
+          this.tiempo=false;
+          clearInterval(this.interval);
+          const dataReservacion: ReservacionModel = {
+            id: Date.now().toString(),
+            LugaresComprados: this.lugaresAdquiridos,
+            codigotiket:this.codigotiket,
+            peticionpaypal:null,
+            respuestapaypal:null,
+            idpagopaypal:null,
+            statuspago: this.statuspago == true ? 'pagado':'No pagado',
+            descripcionpago: this.statuspago ==true ? 'pagado':'No pagado',
+            montopago: this.total,
+            uid: JSON.parse(localStorage.d).uid,
+            fechaCreacion: "",
+            fechaActualizacion: "",
+            Nombrecomprador:this.nombrecomprador,
+            pagarCon: "swift",
+            fileBaucher: imgSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : '',
+          };
+          this.reservacionService.addreservacion(dataReservacion);
+        }
+      }else{
+        console.error("Error al guardar el baucher *******");
+
+      }
+    });
 
     //console.log(this.boletosSeleccionados)
     this.llenarTabla();
@@ -139,9 +180,9 @@ opcionSeleccionado:any;
       { field: 'idLugar', header: '' },
       { field: 'precio', header: '' },
     ];
- 
+
     this.tiempo=true
-  
+
     this.showTime()
 
     this.getUserData().subscribe(data => {
@@ -154,7 +195,7 @@ opcionSeleccionado:any;
     err => {
     }
     );
-  
+
   }
 
   getUserData() {
@@ -170,18 +211,18 @@ opcionSeleccionado:any;
         clearInterval(this.interval);
         this.lugaresService.cancelarLugar(this.boletosSeleccionados)
         this.tiempo=false
-       
+
       }
       this.time=this.secondsToString(this.timeLeft)
 
     },1000)
 
-    
+
 
   }
 
   secondsToString(seconds) {
-   
+
     let minute = Math.floor((seconds / 60) % 60);
     let mins= (minute < 10)? '0' + minute : minute;
     let second = seconds % 60;
@@ -196,12 +237,12 @@ opcionSeleccionado:any;
     this.getLugares(this.boletosSeleccionados)
     this.fetchNominaciones.emit(true)
     //// validar si se hizo el pago
-    
+
   }
   llenarTabla() {
 
     this.boletos = this.boletosSeleccionados
-    
+
     this.totalParcial = this.boletos.length * 575
     this.totalPorcentaje=(this.totalParcial)*.05
     this.total=this.totalParcial+this.totalPorcentaje
@@ -215,8 +256,8 @@ opcionSeleccionado:any;
       'Total de la compra:$'+this.total +'US',
       'Correo del comprados: '+ this.correocomprador,
       'Correo del comprados: '+this.codigotiket,
-    
-    ]   
+
+    ]
      this.dataToString = JSON.stringify(this.data);
   }
   vaciarDatos() {
@@ -241,31 +282,41 @@ opcionSeleccionado:any;
   async getLugares(boleto:boleto[]){
     await this.lugaresService.getLugaresPagados(boleto[0]).subscribe( (data) => {
 
-    
-     
+
+
      for (let dato of data){
        let lug:boleto={idLugar:dato['idLugar'],precio:dato['precio'],comprado:dato['comprado'],apartado:dato['apartado'],hora:dato['fecha']}
        this.lugaresPagados.push(lug)
      }
-  
+
      for(let l of this.lugaresPagados){
         if(!l.comprado){
           this.lugaresService.cancelarLugar(this.boletosSeleccionados)
         }
      }
-   
+
    }, err => {
-     
+
    });
-   
+
  }
 
 
  onFileSelected(event: any, fileMapped: string){
-  switch(fileMapped){
-      case "FileBaucher":
-       event.target.files;
-     
+  if(event.target.files.length>0){
+    event.target.files;
+    let archivosLista: FileList = event.target.files;
+    for (const propiedad in Object.getOwnPropertyNames(archivosLista)) {
+     const archivoTemp = archivosLista[propiedad];
+
+     const newArchivo = new FileItem(archivoTemp);
+     newArchivo.fileMapped = fileMapped;
+     this.archivos.push(newArchivo);
+    }
+
+    this.cargaImagenesFBService.upload(this.archivos);
+
   }
 }
+
 }

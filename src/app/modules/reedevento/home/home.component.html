@@ -1,229 +1,207 @@
-
-<p-card header="Selecciona un lugar" align="center" [style]="styleOBJ" >
- 
+<p-card header="Selecciona un lugar" align="center" [style]="styleOBJ">
 
 
-<div class="container-fluid" > 
-<div class="container" >
-   <div class="zonaGeneral">
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="grid">
-      <div class="icon">
-        O
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas" >
-                <a #MyRef [id]="'O'+name" class="unit"
-                (click)="selectedAsiento('O'+name)" [pTooltip]="'Asiento: O'+name+'\n Precio: 575 USD' ">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon">
-        N
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'N'+name" class="unit"
-                [pTooltip]="'Asiento: N'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('N'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon">
-        M
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'M'+name" class="unit"
-                [pTooltip]="'Asiento: M'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('M'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
+
+    <div class="container-fluid">
+        <div class="container">
+            <div class="zonaGeneral">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="grid">
+                    <div class="icon">
+                        O
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'O'+name" class="unit" (click)="selectedAsiento('O'+name)" [pTooltip]="'Asiento: O'+name+'\n Precio: 575 USD' ">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon">
+                        N
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'N'+name" class="unit" [pTooltip]="'Asiento: N'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('N'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon">
+                        M
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'M'+name" class="unit" [pTooltip]="'Asiento: M'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('M'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="grid4">
+                    <div class="icon">
+                        L
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'L'+name" class="unit" [pTooltip]="'Asiento: L'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('L'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon">
+                        K
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'K'+name" class="unit" [pTooltip]="'Asiento: K'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('K'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon">
+                        J
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'J'+name" class="unit" [pTooltip]="'Asiento: J'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('J'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon">
+                        I
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'I'+name" class="unit" [pTooltip]="'Asiento: I'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('I'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <div class="grid4">
+                    <div class="icon">
+                        H
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'H'+name" class="unit" [pTooltip]="'Asiento: H'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('H'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon">
+                        G
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'G'+name" class="unit" [pTooltip]="'Asiento: G'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('G'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon">
+                        F
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'F'+name" class="unit" [pTooltip]="'Asiento: F'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('F'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon">
+                        E
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'E'+name" class="unit" [pTooltip]="'Asiento: E'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('E'+name)">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <br>
+                <br>
+                <br>
+
+
+            </div>
+
+            <div class="zonaVIP">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="grid4">
+                    <div class="icon" #MyRef [id]="'D'" (click)="comprarMesa('D') " [pTooltip]="'Mesa: D'+'\n Precio: 5750 USD'">
+                        D
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a #MyRef [id]="'D'+name" class="unit">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon" #MyRef [id]="'C'" (click)="comprarMesa('C')" [pTooltip]="'Mesa: C'+'\n Precio: 5750 USD'">
+                        C
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a class="unit" #MyRef [id]="'C'+name">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="icon" #MyRef [id]="'B'" (click)="comprarMesa('B')" [pTooltip]="'Mesa: B'+'\n Precio: 5750 USD'">
+                        B
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a class="unit" #MyRef [id]="'B'+name">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="icon" #MyRef [id]="'A'" (click)="comprarMesa('A')" [pTooltip]="'Mesa: A'+'\n Precio: 5750 USD'">
+                        A
+                        <ul class="menu">
+                            <li class="spread" *ngFor="let name of mesas">
+                                <a class="unit" #MyRef [id]="'A'+name">{{name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+            <div>
+                <p-card>
+                    <h1>Escenario</h1>
+
+                </p-card>
+            </div>
+        </div>
     </div>
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="grid4">
-      <div class="icon">
-        L
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'L'+name" class="unit"
-                [pTooltip]="'Asiento: L'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('L'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon">
-        K
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'K'+name" class="unit" 
-                [pTooltip]="'Asiento: K'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('K'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon">
-        J
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'J'+name" class="unit" 
-                [pTooltip]="'Asiento: J'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('J'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon">
-        I
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'I'+name" class="unit"
-                [pTooltip]="'Asiento: I'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('I'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    
-    <div class="grid4">
-      <div class="icon">
-        H
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'H'+name" class="unit" 
-                [pTooltip]="'Asiento: H'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('H'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon">
-        G
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'G'+name" class="unit" 
-                [pTooltip]="'Asiento: G'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('G'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon">
-        F
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'F'+name" class="unit" 
-                [pTooltip]="'Asiento: F'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('F'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon">
-        E
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'E'+name" class="unit" 
-                [pTooltip]="'Asiento: E'+name+'\n Precio: 575 USD'"
-                (click)="selectedAsiento('E'+name)">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
- 
-  
-  <br>
-    <br>
-    <br>
-    
+    <div class="container-fluid">
 
-</div>
-  
-  <div class="zonaVIP">
-  <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="grid4">
-      <div class="icon" #MyRef [id]="'D'" (click)="comprarMesa('D') " [pTooltip]="'Mesa: D'+'\n Precio: 5750 USD'">
-        D
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a #MyRef [id]="'D'+name" class="unit">{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon"  #MyRef [id]="'C'" (click)="comprarMesa('C')" [pTooltip]="'Mesa: C'+'\n Precio: 5750 USD'">
-        C
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" #MyRef [id]="'C'+name" >{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      <div class="icon"  #MyRef [id]="'B'" (click)="comprarMesa('B')" [pTooltip]="'Mesa: B'+'\n Precio: 5750 USD'">
-        B
-        <ul class="menu" >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" #MyRef [id]="'B'+name" >{{name}}</a>
-          </li>
-        </ul>
-      </div>
-      
-      <div class="icon"  #MyRef [id]="'A'" (click)="comprarMesa('A')" [pTooltip]="'Mesa: A'+'\n Precio: 5750 USD'">
-        A
-        <ul class="menu"  >  
-          <li class="spread" *ngFor="let name of mesas">
-                <a class="unit" #MyRef [id]="'A'+name">{{name}}</a>
-          </li>
-        </ul>
-      </div> 
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-  </div>
-    <div>
-      <p-card>
-        <h1>Escenario</h1>
-      
-      </p-card>
-    </div>
-  </div>
-</div>
-<br>
-<div class="container-fluid">
-   
-  <button class="btn btn-primary"(click)="realizarCompra()">Siguiente</button>
+        <button class="btn btn-primary" (click)="realizarCompra()">Siguiente</button>
 
 
-</div>
+    </div>
 
-<br>
-<br>
+    <br>
+    <br>
 </p-card>
 
-<p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000">
-  <app-pago *ngIf="visibleSidebar2" [boletosSeleccionados]="boletosSeleccionados" (fetchNominaciones)="unseled()"></app-pago>
+<p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000" [style]="{'width':'50vw'}">
+    <app-pago *ngIf="visibleSidebar2" [boletosSeleccionados]="boletosSeleccionados" (fetchNominaciones)="unseled()"></app-pago>
 </p-sidebar>
 
-<p-dialog  header="Error" [(visible)]="displayBasic" [style]="{width: '20vw'}" [baseZIndex]="1000">
-  <p> Debes Seleccionar un lugar</p>
-  <ng-template pTemplate="footer">
-      <p-button icon="pi pi-times" (click)="displayBasic=false" label="Aceptar  " ></p-button>
-  </ng-template>
+<p-dialog header="Error" [(visible)]="displayBasic" [style]="{width: '20vw'}" [baseZIndex]="1000">
+    <p> Debes Seleccionar un lugar</p>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="displayBasic=false" label="Aceptar  "></p-button>
+    </ng-template>
 </p-dialog>

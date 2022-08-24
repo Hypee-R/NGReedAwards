@@ -7,9 +7,11 @@ export class ReservacionModel{
   idpagopaypal:string;
   statuspago:string;
   descripcionpago:string;
+  pagarCon: string;
   montopago:number;
   uid: string;
   fechaCreacion: string;
   fechaActualizacion: string;
   Nombrecomprador: string;
+  fileBaucher: any;
 }

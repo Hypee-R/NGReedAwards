@@ -126,11 +126,13 @@ export class reservacionService {
             uid: doc.data().uid,
             fechaCreacion:doc.data().fechaCreacion,
             fechaActualizacion: doc.data().fechaActualizacion,
-            Nombrecomprador: doc.data().Nombrecomprador
+            Nombrecomprador: doc.data().Nombrecomprador,
+            fileBaucher: doc.data().fileBaucher,
+            pagarCon: doc.data().pagarCon
           }
-       
+
         this.listareservaciones.push(b)
-        
+
         // );
         //console.log(doc.id, " => ", doc.data());
     });
