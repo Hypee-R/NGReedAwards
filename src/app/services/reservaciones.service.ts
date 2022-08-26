@@ -128,7 +128,8 @@ export class reservacionService {
             fechaActualizacion: doc.data().fechaActualizacion,
             Nombrecomprador: doc.data().Nombrecomprador,
             fileBaucher: doc.data().fileBaucher,
-            pagarCon: doc.data().pagarCon
+            pagarCon: doc.data().pagarCon,
+            platoFuerte: doc.data().platoFuerte
           }
 
         this.listareservaciones.push(b)
