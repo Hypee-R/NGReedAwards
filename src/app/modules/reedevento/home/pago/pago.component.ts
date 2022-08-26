@@ -49,7 +49,9 @@ export class PagoComponent implements OnInit {
   archivos: FileItem[] = [];
   boleto:boleto={idLugar:"A1",precio:"547 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
-
+  comidaOpcion1 = "Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
+  comidaOpcion2 = "Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
+  comidaOpcionSelected = "";
   userData: any;
   uid = JSON.parse(localStorage.d).uid;
   constructor(    private printingService: PrintingService,
@@ -111,6 +113,9 @@ opcionSeleccionado:any;
           clearInterval(this.interval);
 
         }
+        if(this.comidaOpcionSelected == ""){
+          this.comidaOpcionSelected = this.comidaOpcion1;
+        }
         const dataReservacion: ReservacionModel = {
           id: Date.now().toString(),
           LugaresComprados: this.lugaresAdquiridos,
@@ -126,7 +131,8 @@ opcionSeleccionado:any;
           fechaActualizacion: "",
           Nombrecomprador:this.nombrecomprador,
           fileBaucher: null,
-          pagarCon: "paypal"
+          pagarCon: "paypal",
+          platoFuerte: this.comidaOpcionSelected
         };
         this.reservacionService.addreservacion(dataReservacion);
 
@@ -148,6 +154,9 @@ opcionSeleccionado:any;
           this.lugaresService.updatelugarPagado(this.boletosSeleccionados)
           this.tiempo=false;
           clearInterval(this.interval);
+          if(this.comidaOpcionSelected == ""){
+            this.comidaOpcionSelected = this.comidaOpcion1;
+          }
           const dataReservacion: ReservacionModel = {
             id: Date.now().toString(),
             LugaresComprados: this.lugaresAdquiridos,
@@ -164,6 +173,7 @@ opcionSeleccionado:any;
             Nombrecomprador:this.nombrecomprador,
             pagarCon: "swift",
             fileBaucher: imgSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : '',
+            platoFuerte: this.comidaOpcionSelected
           };
           this.reservacionService.addreservacion(dataReservacion);
         }

@@ -62,6 +62,15 @@
 
         </p-table>
     </div>
+    <p-card header="Elige tu plato fuerte">
+        <label>Selecciona un plato fuerte:</label>
+        <select id="plato-fuerte" class="form-control text-center" [(ngModel)]="comidaOpcionSelected">
+              <option default value="" disabled>Selecciona tu plato fuerte para la cena</option>
+              <option [value]="comidaOpcion1">{{comidaOpcion1}}</option>
+              <option [value]="comidaOpcion2">{{comidaOpcion2}}</option>
+            </select>
+    </p-card>
+    <br>
     <p-card header="Pagar Reservacion:">
         <div class="container">
             <div class="mb-3">
@@ -151,7 +160,7 @@
     </p-dialog>
 
     <!-- PDF REED LATINO  -->
-    <div id="reservacionPDF" #reservacionPDF>
+    <div id="reservacionPDF" #reservacionPDF *ngIf="statuspago">
         <div class="row">
             <div class="col-12">
                 <img src="assets/pdf/header_pdf.PNG" alt="" style="width: 590px; margin-left: 5px;">

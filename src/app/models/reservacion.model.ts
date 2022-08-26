@@ -11,6 +11,7 @@ export class ReservacionModel{
   montopago:number;
   uid: string;
   fechaCreacion: string;
+  platoFuerte: string;
   fechaActualizacion: string;
   Nombrecomprador: string;
   fileBaucher: any;
