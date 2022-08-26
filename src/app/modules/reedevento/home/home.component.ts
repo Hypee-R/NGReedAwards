@@ -20,6 +20,12 @@ export class HomeComponent implements OnInit {
   toggle = true;
   status = "Enable";
   componetesSeleccionados:ElementRef[]=[];
+  txt1="A partir de esta fila son lugares individuales, \n aunque tambien puedes adquirir si lo prefieres \n mesas completas";
+  txt2="De la mesa A a la D son venta mesas completas";
+  txt3="Ahora al escoger tú lugar, también puedes escoger entre tu plato fuerte en la cena:";
+  txt4="1.- Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
+  txt5="2.- Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
+  txt6="El cual puede ser seleccionado al momento de pagar";
 
 
   @ViewChildren('MyRef') inputsArray: QueryList<ElementRef>
@@ -44,19 +50,19 @@ export class HomeComponent implements OnInit {
   constructor(
     private lugaresService:LugaresService,
     public datepipe: DatePipe
-  ) { 
-    
+  ) {
+
     this.getLugares();
     this.clock = this.source.subscribe(t => {
       this.now = new Date();
     });
-   
+
   }
   ngOnInit(): void {
- 
- 
+
+
   }
-  
+
   async getLugares(){
      await this.lugaresService.getLugares().subscribe( (data) => {
       this.lugares = data
@@ -65,13 +71,13 @@ export class HomeComponent implements OnInit {
         let lug:boleto  ={idLugar:dato['idLugar'],precio:dato['precio'],comprado:dato['comprado'],apartado:dato['apartado'],hora:dato['fecha']}
         this.lugaresDisponibles.push(lug)
       }
-     
+
     this.initLugares()
     this.cargando=true
     }, err => {
-      
+
     });
-    
+
   }
   initLugares(){
       let toArray = this.inputsArray.toArray()
@@ -79,12 +85,12 @@ export class HomeComponent implements OnInit {
         if(lugar.hora){
           let f=lugar.hora.toString()
           let newDate = new Date(f);
-          this.diferencia =  (this.now.getTime()-newDate.getTime())/60000;   
+          this.diferencia =  (this.now.getTime()-newDate.getTime())/60000;
         }
         let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == lugar.idLugar)
-        if(lugar.apartado||lugar.comprado){ 
+        if(lugar.apartado||lugar.comprado){
           if(lugar.comprado){
-            
+
             ref.nativeElement.setAttribute('style', this.enableColor)
           }
           else{
@@ -98,18 +104,18 @@ export class HomeComponent implements OnInit {
               ref.nativeElement.setAttribute('style', this.enableColor)
             }
           }
-        
+
         }
         else{
           ref.nativeElement.setAttribute('style', this.unselectedColor)
         }
-        
+
       }
-  
+
   }
- 
+
   selectedAsiento(item){
-    
+
     let disponiblidad= this.lugaresDisponibles.find(el=>el.idLugar==item)
     if(!disponiblidad.comprado&&!disponiblidad.apartado)
     {
@@ -117,21 +123,21 @@ export class HomeComponent implements OnInit {
       let toArray = this.inputsArray.toArray()
       let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == item)
       let status=this.componetesSeleccionados.find(el=>el.nativeElement.id==ref.nativeElement.id)
-      
+
       if(!status){
         this.componetesSeleccionados.push(ref)
         ref.nativeElement.setAttribute('style', this.selectedColor)
-       
+
       }
       else{
-       
+
         this.componetesSeleccionados=this.componetesSeleccionados.filter(item=>item.nativeElement.id!=ref.nativeElement.id)
         ref.nativeElement.setAttribute('style', this.unselectedColor)
       }
     }
-   
-  
-  
+
+
+
   }
 
   cancelarApartado(boleto:boleto){
@@ -146,8 +152,8 @@ export class HomeComponent implements OnInit {
         let newBoleto={"idLugar":boleto.nativeElement.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
         let estatus=this.lugaresService.getLugaresPagados(newBoleto)
 
-        
-      } 
+
+      }
 
 
 
@@ -157,12 +163,12 @@ export class HomeComponent implements OnInit {
         this.boletosSeleccionados.push(newBoleto)
       }
       this.actualizarBoleto()
-      
+
     }
     else{
       this.displayBasic = true;
     }
-  
+
   }
 
   unseled()
@@ -173,8 +179,8 @@ export class HomeComponent implements OnInit {
   cancelarCompra(){
 
     for (let item of this.inputsArray){
-      
-      item.nativeElement.setAttribute('style', this.unselectedColor) 
+
+      item.nativeElement.setAttribute('style', this.unselectedColor)
     }
     this.componetesSeleccionados=[]
     this.boletosSeleccionados=[]
@@ -184,7 +190,7 @@ export class HomeComponent implements OnInit {
 
       this.lugaresService.updatelugarApartado(this.boletosSeleccionados)
 
-  
+
   }
 
   comprarMesa(idMesa){
@@ -207,17 +213,17 @@ export class HomeComponent implements OnInit {
         this.componetesSeleccionados=this.componetesSeleccionados.filter(item=>item.nativeElement.id!=ref.nativeElement.id)
         ref.nativeElement.setAttribute('style', this.unselectedColor)
         colorMesa=false
-      }      
-     
+      }
+
     }
     let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == idMesa)
     if(colorMesa){
-      ref.nativeElement.setAttribute('style', this.selectedColor) 
+      ref.nativeElement.setAttribute('style', this.selectedColor)
     }
     else{
       ref.nativeElement.setAttribute('style', this.unselectedColor)
     }
-    
+
   }
   }
   showBasicDialog() {
