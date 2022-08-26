@@ -1,9 +1,11 @@
-<p-card header="Selecciona un lugar" align="center" [style]="styleOBJ">
-
-
-
+<p-card header="Selecciona un lugar" align="center"subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2022" [style]="styleOBJ">
+    <div class="card-body">
+    <div class="row">
     <div class="container-fluid">
         <div class="container">
+            <div class="col-15">
+                
+                <div class="col col-md-12">
             <div class="zonaGeneral">
                 <br>
                 <br>
@@ -175,15 +177,13 @@
                 <br>
                 <br>
             </div>
-            <div>
-                <p-card>
-                    <h1>Escenario</h1>
-
-                </p-card>
+            <br>
+            <div ><p-card><h2>Escenario</h2></p-card>      
+                <img alt="Card" src="assets/img/LogoReed.jpg" [style]="{width: '1090px'}">
             </div>
-        </div>
-    </div>
-    <br>
+                </div>
+            </div>
+        <br>
     <div class="container-fluid">
 
         <button class="btn btn-primary" (click)="realizarCompra()">Siguiente</button>
@@ -193,6 +193,10 @@
 
     <br>
     <br>
+    </div>
+    </div>
+    </div>
+    </div>
 </p-card>
 
 <p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000" [style]="{'width':'50vw'}">

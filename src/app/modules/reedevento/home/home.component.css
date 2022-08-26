@@ -7,7 +7,9 @@
   .ui-card-title {
     text-align: center;
 }
-
+.escenario{
+  background-color: black;
+}
 .grid{
     display: grid;
     
@@ -28,10 +30,10 @@
 }
 
 .zonaGeneral{
-    border: 8px solid lightblue;
+    border: 8px solid rgb(34, 167, 160);
 }
 .zonaVIP{
-    border: 8px solid rgb(221, 230, 173);
+    border: 8px solid rgb(255, 236, 0);
 }
 .icon {
     position: relative;
@@ -194,7 +196,7 @@
   /* END .icon:hover */
   .unit {
     position: absolute;
-    background: rgb(171, 90, 90);
+    background: rgb(0, 0, 0);
     font-size: 60%;
     text-decoration: none;
     width: 50px;
