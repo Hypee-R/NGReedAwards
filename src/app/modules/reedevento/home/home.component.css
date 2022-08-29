@@ -53,7 +53,7 @@
 
   .iconVIP{
     position: relative;
-    background: rgb(207, 201, 201);
+    background: rgb(6, 29, 241);
     cursor: pointer;
     margin: auto;
     color: rgb(255, 255, 255);
@@ -66,10 +66,10 @@
     font-weight: bold;
     transition: 1.0s 0.s;
   }
-  .iconVIP:hover{
+  /* .iconVIP:hover{
     background:  rgb(211, 202, 26);
     
-  }
+  } */
   
   
   
@@ -241,25 +241,87 @@
     outline: 0;
     padding: 0;
     list-style: none;
-  }
-  
+  }  
   html,
   body {
     height: 100%;
     min-height: 300px;
   }
-  
   body {
     font-family: sans-serif;
     background: radial-gradient(#00bfff, #1e90ff);
     transform: translate3d(0, 0, 0);
   }
-  
   .icon {
     top: 50%;
     margin-top: -75px;
   }
-
-
-  
-  
+  .iconVIP {
+    top: 50%;
+    margin-top: -75px;
+  }
+  .iconVIP::content .menu {
+    transition: transform 0.4s 0.08s, z-index 0s 0.5s;
+    transform: scale(.7);
+    z-index: 5;
+  }
+  .iconVIP::content .spread:nth-child(1) {
+    transform: rotate(80deg);
+  }
+  .iconVIP::content .spread:nth-child(1) .unit {
+    transform: rotate(635deg);
+  }
+  .iconVIP::content .spread:nth-child(2) {
+    transform: rotate(116deg);
+  }
+  .iconVIP::content .spread:nth-child(2) .unit {
+    transform: rotate(595deg);
+  }
+  .iconVIP::content .spread:nth-child(3) {
+    transform: rotate(152deg);
+  }
+  .iconVIP::content .spread:nth-child(3) .unit {
+    transform: rotate(555deg);
+  }
+  .iconVIP::content .spread:nth-child(4) {
+    transform: rotate(188deg);
+  }
+  .iconVIP::content .spread:nth-child(4) .unit {
+    transform: rotate(520deg);
+  }
+  .iconVIP::content .spread:nth-child(5) {
+    transform: rotate(224deg);
+  }
+  .iconVIP::content .spread:nth-child(5) .unit {
+    transform: rotate(495deg);
+  }
+  .iconVIP::content .spread:nth-child(6) {
+    transform: rotate(260deg);
+  }
+  .iconVIP::content .spread:nth-child(6) .unit {
+    transform: rotate(455deg);
+  }
+  .iconVIP::content .spread:nth-child(7) {
+    transform: rotate(296deg);
+  }
+  .iconVIP::content .spread:nth-child(7) .unit {
+    transform: rotate(410deg);
+  }
+  .iconVIP::content .spread:nth-child(8) {
+    transform: rotate(332deg);
+  }
+  .iconVIP::content .spread:nth-child(8) .unit {
+    transform: rotate(390deg);
+  }
+  .iconVIP::content .spread:nth-child(9) {
+    transform: rotate(368deg);
+  }
+  .iconVIP::content .spread:nth-child(9) .unit {
+    transform: rotate(340deg);
+  }
+  .iconVIP::content .spread:nth-child(10) {
+    transform: rotate(404deg);
+  }
+  .iconVIP::content .spread:nth-child(10) .unit {
+    transform: rotate(320deg);
+  }
