@@ -112,7 +112,7 @@
                                         G
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas">
-                                                <a #MyRef [id]="'G'+name" class="unit" [pTooltip]="'Asiento: G'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('G'+name)">{{name}}</a>
+                                                <a #MyRef [id]="'G'+name" class="unit" [pTooltip]="'Asiento: G'+name+'\n Precio: 575 USD'" (click)="comprarMesa('G')">{{name}}</a>
                                             </li>
                                         </ul>
                                     </div>
