@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   @ViewChildren('MyRef') inputsArray: QueryList<ElementRef>
   selectedColor='background-color:rgb(143, 191, 22)'
   unselectedColor='background-color:rgb(0, 0, 0)&:hover:{background: rgb(211, 202, 26)}'
-  enableColor='background-color:rgb(178, 178, 178)'
+  enableColor='background-color:rgb(255, 6, 6)'
   disbledColor=''
   defaultColor=''
   styleClickOn=''
