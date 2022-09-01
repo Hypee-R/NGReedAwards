@@ -103,11 +103,19 @@
                                 <br>
 
                                 <div class="grid4">
-                                    <div class="icon">
+                                    <!-- <div class="icon">
                                         H
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas">
-                                                <a #MyRef [id]="'H'+name" class="unit" [pTooltip]="'Asiento: H'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('H'+name)">{{name}}</a>
+                                                <a #MyRef [id]="'H'+name" class="unit" [pTooltip]="'Asiento: H'+name+'\n Precio: 575 USD'" (click)="comprarMesa('H'+name)">{{name}}</a>
+                                            </li>
+                                        </ul>
+                                    </div> -->
+                                    <div class="icon" #MyRef [id]="'H'" (click)="comprarMesa('H')" [pTooltip]="'Mesa: H'+'\n Precio: 5750 USD'">
+                                        H
+                                        <ul class="menu">
+                                            <li class="spread" *ngFor="let name of mesas">
+                                                <a class="unitVIP" #MyRef [id]="'H'+name">{{name}}</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -115,15 +123,24 @@
                                         G
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas">
-                                                <a #MyRef [id]="'G'+name" class="unitVIP" [pTooltip]="'Asiento: G'+name+'\n Precio: 575 USD'" (click)="comprarMesa('G')">{{name}}</a>
+                                                <a #MyRef [id]="'G'+name" class="unit" [pTooltip]="'Asiento: G'+name+'\n Precio: 575 USD'" (click)="comprarMesa('G')">{{name}}</a>
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="icon">
+                                    <!-- <div class="icon">
                                         F
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas">
-                                                <a #MyRef [id]="'F'+name" class="unit" [pTooltip]="'Asiento: F'+name+'\n Precio: 575 USD'" (click)="selectedAsiento('F'+name)">{{name}}</a>
+                                                <a #MyRef [id]="'F'+name" class="unit" [pTooltip]="'Asiento: F'+name+'\n Precio: 575 USD'" (click)="comprarMesa('F'+name)">{{name}}</a>
+                                            </li>
+                                        </ul>
+                                    </div> -->
+
+                                    <div class="icon" #MyRef [id]="'F'" (click)="comprarMesa('F')" [pTooltip]="'Mesa: F'+'\n Precio: 5750 USD'">
+                                        F
+                                        <ul class="menu">
+                                            <li class="spread" *ngFor="let name of mesas">
+                                                <a class="unitVIP" #MyRef [id]="'F'+name">{{name}}</a>
                                             </li>
                                         </ul>
                                     </div>
