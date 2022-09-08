@@ -43,6 +43,8 @@ import { ToastModule } from 'primeng/toast';
 import { CardModule } from 'primeng/card';
 import { SplitButtonModule } from 'primeng/splitbutton';
 
+import { ChipModule } from "primeng/chip";
+
 
 import { InputTextModule } from 'primeng/inputtext';
 
@@ -84,6 +86,7 @@ import { AddNominacionAdminComponent } from './nominaciones/add-nominacion/add-n
         InputNumberModule,
         ConfirmDialogModule,
         InputTextareaModule,
+        ChipModule
     ],  providers: [ConfirmationService],
     declarations: [
         AdminComponent,

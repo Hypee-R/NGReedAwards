@@ -1,5 +1,7 @@
 <div class="contenedor mt-4 mb-lg-5" #content>
     <h3 class="text-bold text-center">Nominaciones</h3>
+    <!--button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="getAllFiles()" >Descargar archivos</button-->
+   
     <hr>
 
     <div class="row" *ngIf="loading">
@@ -74,7 +76,7 @@
             </p-card>
         </div> -->
 
-        <p-table #tableNominaciones [value]="listNominaciones" [columns]="cols" selectionMode="single" [(selection)]="selectedNominacion" dataKey="id" [loading]="loading" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+        <p-table  rowExpandMode="single" #tableNominaciones [value]="listNominaciones" [columns]="cols" selectionMode="single" [(selection)]="selectedNominacion" dataKey="id" [loading]="loading" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
             currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} nominaciones" [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-striped" [globalFilterFields]="['titulo','nominado','categoria','fechaCreacion','fechaActualizacion','usuario.displayName','usuario.email']">
             <ng-template pTemplate="caption">
                 <div class="flex">
@@ -87,6 +89,8 @@
             </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>
+
+            <th style="width: 3rem"></th>
                     <th>Acciones</th>
                     <th *ngFor="let col of columns" [pSortableColumn]="col.filter">
                         <div class="flex justify-content-center align-items-center" style="width: 13em;">
@@ -104,8 +108,11 @@
                     </th>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <ng-template pTemplate="body"    let-rowData let-columns="columns" let-expanded="expanded">
                 <tr [pSelectableRow]="rowData">
+                    <td>
+                        <button type="button" pButton pRipple [pRowToggler]="rowData" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
                     <td>
                         <!-- <i data-bs-toggle="tooltip" data-bs-placement="top" title="Editar" class="fa-solid fa-pen" (click)="editarNominacion(rowData)"></i>
                         <i data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar" class="fa-solid fa-trash" (click)="eliminarNominacion(rowData)" style="margin-left: 1em;"></i> -->
@@ -118,6 +125,21 @@
                         </div>
                         <div class="text-overflow" *ngIf="col.fiel == 'displayName' || col.field == 'email'">
                             {{ rowData.usuario ? rowData.usuario[col.field] : 'Desconocido' }}
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <!-- CONTENIDO AL EXPANDIR EL RENGLON-->
+            <ng-template pTemplate="rowexpansion" let-rowData>
+                <tr>
+                    <td colspan="8">
+                        <div class="flex align-items-center">
+                            <h5>Material Multimedia</h5>
+                            <a *ngFor="let item of rowData.materialMultimedia"  [href]="item.url" downloadFile target="blank">
+                              
+                            <p-chip  [label]="fileNameFromUrl(item.url)" [style]="{ 'margin-right': '6px', 'margin-bottom': '6px'}"  icon="pi pi-download"></p-chip>
+                            <!--p-chip  [label]="fileNameFromUrl(item.url)" [style]="{ 'margin-right': '6px', 'margin-bottom': '6px'}" (click)="downloadFile(item.url,fileNameFromUrl(item.url))" icon="pi pi-download"></p-chip-->
+                        </a>
                         </div>
                     </td>
                 </tr>
