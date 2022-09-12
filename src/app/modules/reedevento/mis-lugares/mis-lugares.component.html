@@ -20,33 +20,29 @@
 
     <div class="row" *ngIf="listBoletos && listBoletos.length && listBoletos.length > 0 && !loading">
         <div class="col-12 col-md-3" *ngFor="let lugar of listBoletos">
-             <p-card [header]="lugar.titulo" [subheader]="lugar.categoria" [style]="{ 'width': '100%', 'margin-bottom': '2em'}" styleClass="p-card-shadow">
+            <p-card [header]="lugar.titulo" [subheader]="lugar.categoria" [style]="{ 'width': '100%', 'margin-bottom': '2em'}" styleClass="p-card-shadow">
                 <ng-template pTemplate="header">
                     <div class="text-center">
                         <div class="container">
                             <div class="mb-3">
-                              <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="dataToString"
-                              [colorDark]="'#94969e'"
-                              [colorLight]="'#000000'"
-                              [imageSrc]="'https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/files%2FEscudo-RL.png?alt=media&token=58ee9622-0c5e-4d17-90f1-39a9447a7472'"
-                              [imageHeight]="170"
-                            [imageWidth]="170"
-                              [title]="'A custom title attributesss'" [width]="256" [errorCorrectionLevel]="'M'">Datos</qrcode>
-                            <a [href]="qrCodeDownloadLink" download="qrcode">Descargue su QR de Acceso !!</a>
+                                <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="dataToString" [colorDark]="'#94969e'" [colorLight]="'#000000'" [imageSrc]="'https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/files%2FEscudo-RL.png?alt=media&token=58ee9622-0c5e-4d17-90f1-39a9447a7472'"
+                                    [imageHeight]="170" [imageWidth]="170" [title]="'A custom title attributesss'" [width]="256" [errorCorrectionLevel]="'M'">Datos</qrcode>
+                                <!-- <a [href]="qrCodeDownloadLink" download="qrcode">Descargue su QR de Acceso !!</a> -->
+                                <button class="btn btn-primary" (click)="generatePDF(lugar)">Descargue su PDF de Acceso !!</button>
                             </div>
-                          </div>
+                        </div>
                     </div>
                 </ng-template>
                 <p>Reed Latino 2022</p>
-                <div >
+                <div>
                     <label>ID Pago Paypal: {{lugar.idpagopaypal}}</label><br>
                     <br>
                     <label>Nombre del Comprador: {{lugar.Nombrecomprador}}</label><br>
                     <label>Total de Lugares adquiridos: {{lugar.LugaresComprados}}</label><br>
                     <label>Codigo: {{lugar.codigotiket}}</label><br>
                     <label>Costo total: ${{lugar.montopago}} USD</label><br>
-                   
-              
+
+
                     <label *ngIf="lugar.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{lugar.statuspago}}</span></label>
@@ -84,3 +80,30 @@
 <!-- <p-sidebar [(visible)]="visibleSide" position="right" [blockScroll]="true" [baseZIndex]="2" [style]="{ 'width': '60%'}">
     <app-add-lugar *ngIf="visibleSide" [accion]="accion" [lugarEditar]="lugarEditar" (fetchlugares)="fetchlugar()"></app-add-lugar>
 </p-sidebar> -->
+
+<!-- PDF REED LATINO  -->
+<div id="reservacionPDF" #reservacionPDF *ngIf="showTemplatePDF">
+    <div class="row">
+        <div class="col-12">
+            <img src="assets/pdf/header_pdf.PNG" alt="" style="width: 590px; margin-left: 5px;">
+        </div>
+        <div class="col-12" style="margin-top: 10px;">
+            <div style="display: flex;">
+                <div style="width: 295px;">
+                    <img [src]="qrCodeDownloadLink" class="qr">
+                    <img src="assets/pdf/baner_left.PNG" class="banner" alt="">
+                    <a class="ubicacion" href="https://bit.ly/3KsUcLv" target="_blank">https://bit.ly/3KsUcLv</a>
+                </div>
+                <div style="width: 295px;">
+                    <img [src]="qrCodeDownloadLink" class="qr-rigth">
+                    <img src="assets/pdf/baner_rigth.PNG" class="banner-r" alt="">
+                    <a class="ubicacion-r" href="https://bit.ly/3PKjSUy" target="_blank">https://bit.ly/3PKjSUy</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12" style="margin-top: 10px;">
+            <img src="assets/pdf/footer_pdf.PNG" class="footer" alt="">
+        </div>
+    </div>
+</div>
+<!-- FIN PDF  -->

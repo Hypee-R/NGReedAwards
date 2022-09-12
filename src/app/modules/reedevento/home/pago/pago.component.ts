@@ -1,4 +1,3 @@
-
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { SafeUrl } from "@angular/platform-browser"
 import { PrintingService } from 'src/app/services/Print.service';
@@ -334,25 +333,50 @@ opcionSeleccionado:any;
 
 public generatePDF(): void {
 
+  let width = window.screen.width;
+  let widthDocument = width == 1920 ? 300 : 204;
+  console.log('width pantalla ', width);
+
   html2canvas(this.reservacionElement.nativeElement, { scale: 3 }).then((canvas) => {
-    const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
-    const fileWidth = 205;
-    const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-    let PDF = new jsPDF('p', 'mm', 'a4',);
-    PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
-    PDF.html(this.reservacionElement.nativeElement.innerHTML);
-    PDF.text(this.codigotiket.toString(),7,67);//Folio
-    PDF.text(this.nombrecomprador.toString(),7,85);//Comprador
-    PDF.text(this.total.toString(),110,85);//Costo
-    PDF.text(this.codigotiket.toString(),7,264);//Folio
-    PDF.text(this.nombrecomprador.toString(),7,283);//Comprador
-    PDF.text(this.total.toString(),110,283);//Costo
-    PDF.link(55, 225, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
-    PDF.link(160, 225, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
-    // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });
-    // PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
-    PDF.save('reed-latino-reservacion.pdf');
+  const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
+  const fileWidth = widthDocument;
+  const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
+  let PDF = new jsPDF('p', 'mm', 'a4',);
+  PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
+  PDF.html(this.reservacionElement.nativeElement.innerHTML);
+  PDF.text(this.codigotiket.toString(),7,68);//Folio
+  PDF.text(this.nombrecomprador.toString(),7,86);//Comprador
+  PDF.text(this.total.toString(),110,86);//Costo
+  PDF.text(this.codigotiket.toString(),7,270);//Folio
+  PDF.text(this.nombrecomprador.toString(),7,289);//Comprador
+  PDF.text(this.total.toString(),110,289);//Costo
+  PDF.link(55, 231, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
+  PDF.link(160, 231, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
+  // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });
+  // PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
+  PDF.save('reed-latino-reservacion.pdf');
   });
+
+
+  // html2canvas(this.reservacionElement.nativeElement, { scale: 3 }).then((canvas) => {
+  //   const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
+  //   const fileWidth = 205;
+  //   const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
+  //   let PDF = new jsPDF('p', 'mm', 'a4',);
+  //   PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
+  //   PDF.html(this.reservacionElement.nativeElement.innerHTML);
+  //   PDF.text(this.codigotiket.toString(),7,67);//Folio
+  //   PDF.text(this.nombrecomprador.toString(),7,85);//Comprador
+  //   PDF.text(this.total.toString(),110,85);//Costo
+  //   PDF.text(this.codigotiket.toString(),7,264);//Folio
+  //   PDF.text(this.nombrecomprador.toString(),7,283);//Comprador
+  //   PDF.text(this.total.toString(),110,283);//Costo
+  //   PDF.link(55, 225, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
+  //   PDF.link(160, 225, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
+  //   // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });
+  //   // PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
+  //   PDF.save('reed-latino-reservacion.pdf');
+  // });
 
 }
 

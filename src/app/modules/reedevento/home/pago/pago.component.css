@@ -68,24 +68,25 @@ ul {
 
 .qr {
     width: 100px;
-    margin-left: 20px;
+    margin-left: 17px;
     margin-top: 38px;
 }
 
 .qr-rigth {
     width: 100px;
-    margin-left: 10px;
+    margin-left: 16px;
     margin-top: 38px;
 }
 
 .banner {
     width: 146px;
     margin-top: 6px;
+    margin-left: 3px;
 }
 
 .banner-r {
     width: 156px;
-    margin-left: -10px;
+    margin-left: 1px;
 }
 
 .footer {
@@ -95,10 +96,10 @@ ul {
 
 .ubicacion {
     font-size: small;
-    margin-left: 33px;
+    margin-left: 139px;
 }
 
 .ubicacion-r {
     font-size: small;
-    margin-left: 27px;
+    margin-left: 143px;
 }
