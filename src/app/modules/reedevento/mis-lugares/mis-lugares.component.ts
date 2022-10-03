@@ -7,6 +7,7 @@ import { ReservacionModel } from 'src/app/models/reservacion.model';
 import { SafeUrl } from "@angular/platform-browser"
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { VariablesService } from '../../../services/variablesGL.service';
 
 
 declare var paypal;
@@ -32,7 +33,8 @@ export class MisLugaresComponent implements OnInit {
 
   constructor(
     private toastr: ToastrService,
-    private reservacionesService: reservacionService
+    private variablesGL: VariablesService,
+    private reservacionesService: reservacionService,
   ) {
     this.getBoletos();
   }
@@ -145,9 +147,7 @@ export class MisLugaresComponent implements OnInit {
 
     public generatePDF(lugar: ReservacionModel): void {
       this.showTemplatePDF = true;
-      let width = window.screen.width;
-      let widthDocument = width == 1920 ? 660 : 460;
-      console.log('width pantalla ', width);
+      let widthDocument = this.variablesGL.getWidthDocument();
 
       Swal.fire({
           title: 'Por favor espera...',
@@ -169,9 +169,9 @@ export class MisLugaresComponent implements OnInit {
         PDF.text(lugar.codigotiket.toString(),7,68);//Folio
         PDF.text(lugar.Nombrecomprador.toString(),7,86);//Comprador
         PDF.text(lugar.montopago.toString(),110,86);//Costo
-        PDF.text(lugar.codigotiket.toString(),7,270);//Folio
-        PDF.text(lugar.Nombrecomprador.toString(),7,289);//Comprador
-        PDF.text(lugar.montopago.toString(),110,289);//Costo
+        PDF.text(lugar.codigotiket.toString(),7,269);//Folio
+        PDF.text(lugar.Nombrecomprador.toString(),7,288);//Comprador
+        PDF.text(lugar.montopago.toString(),110,288);//Costo
         PDF.link(55, 231, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
         PDF.link(160, 231, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
         // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });

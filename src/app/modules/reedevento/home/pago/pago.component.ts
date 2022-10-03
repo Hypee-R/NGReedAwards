@@ -333,9 +333,7 @@ opcionSeleccionado:any;
 
 public generatePDF(): void {
 
-  let width = window.screen.width;
-  let widthDocument = width == 1920 ? 300 : 204;
-  console.log('width pantalla ', width);
+  let widthDocument = this.variablesGL.getWidthDocument();
 
   html2canvas(this.reservacionElement.nativeElement, { scale: 3 }).then((canvas) => {
   const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
@@ -347,9 +345,9 @@ public generatePDF(): void {
   PDF.text(this.codigotiket.toString(),7,68);//Folio
   PDF.text(this.nombrecomprador.toString(),7,86);//Comprador
   PDF.text(this.total.toString(),110,86);//Costo
-  PDF.text(this.codigotiket.toString(),7,270);//Folio
-  PDF.text(this.nombrecomprador.toString(),7,289);//Comprador
-  PDF.text(this.total.toString(),110,289);//Costo
+  PDF.text(this.codigotiket.toString(),7,269);//Folio
+  PDF.text(this.nombrecomprador.toString(),7,288);//Comprador
+  PDF.text(this.total.toString(),110,288);//Costo
   PDF.link(55, 231, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
   PDF.link(160, 231, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
   // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });

@@ -89,4 +89,18 @@ export class VariablesService {
     const confirmPassword = group.controls.repetirPassword?.value;
     return pass === confirmPassword ? null : { notSame: true };
   }
+
+  getWidthDocument(){
+    let width = window.screen.width;
+    let widthDocument = Math.trunc((width * 460) / 1366) + (width < 1920 ? 7 : 14);
+    // width = 1920 -> 660
+    // width = 1366 -> 460
+    if(width == 1366){
+      widthDocument = 460;
+    }else if (width == 1920){
+      widthDocument = 660;
+    }
+    console.log('width pantalla: '+width+' --> ', widthDocument);
+    return widthDocument;
+  }
 }
