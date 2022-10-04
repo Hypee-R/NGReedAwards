@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { reservacionService } from 'src/app/services/reservaciones.service';
 import { UsuarioService } from 'src/app/services/usuarios.service';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
@@ -7,20 +7,27 @@ import { ToastrService } from 'ngx-toastr';
 import * as XLSX from 'xlsx';
 import { ExcelService } from 'src/app/services/excel.service';
 import { ConfirmationService } from 'primeng/api';
+import { ReservacionModel } from 'src/app/models/reservacion.model';
+import { VariablesService } from 'src/app/services/variablesGL.service';
+import { SafeUrl } from '@angular/platform-browser';
 
 // import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-reservacions',
   templateUrl: './reservaciones.component.html',
   styleUrls: ['./reservaciones.component.css']
 })
-export class ReservacionesComponent implements OnInit {
+export class ReservacionesComponent implements OnInit, OnDestroy {
+  @ViewChild('reservacionPDF') reservacionElement!: ElementRef;
+  public qrCodeDownloadLink: SafeUrl = "";
+
   piezasPorreservacion: any = [
     {id:'', nombre:'',pago: 0, total: 0}
   ];
 
   reservacionCollectiondata: any = [
-    {LugaresComprados:'', 
+    {LugaresComprados:'',
     codigotiket:'',
     descripcionpago:'',
     fechaActualizacion:'',
@@ -34,6 +41,8 @@ export class ReservacionesComponent implements OnInit {
   reservacionForm: FormGroup;
   submitted: boolean;
   loading: boolean =true
+  showTemplatePDF: boolean = false;
+  dataToString: string = '';
 
   visible: boolean;
   reservacionModelDialog: boolean;
@@ -49,15 +58,22 @@ export class ReservacionesComponent implements OnInit {
   visibleDe:boolean= false;
   id: any;
 
+  subscriptionStatusTemplatePDF: Subscription;
+
   constructor(
     private firebaseServiceUsuarios: UsuarioService,
     private firebaseServiceReservacion: reservacionService,
-  
+
     private fb: FormBuilder,
     private toastr: ToastrService,
     private exporExcel: ExcelService,
-    private confirmationService: ConfirmationService
+    private variablesGL: VariablesService,
+    private confirmationService: ConfirmationService,
   ) {
+
+    this.subscriptionStatusTemplatePDF = variablesGL.statusTemplateRservacionPDF.subscribe( status => {
+      this.showTemplatePDF = status;
+    });
 
   }
 
@@ -68,6 +84,12 @@ export class ReservacionesComponent implements OnInit {
      this.firebaseServiceReservacion.obsr_UpdatedSnapshot.subscribe((snapshot) => {
       this.updatereservacionCollection(snapshot);
    })
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscriptionStatusTemplatePDF){
+      this.subscriptionStatusTemplatePDF.unsubscribe();
+    }
   }
 
   initForm() {
@@ -83,7 +105,7 @@ export class ReservacionesComponent implements OnInit {
     this.submitted = true;
     // this.visible = false
     if (this.reservacionForm.valid) {
-    
+
           const { id,nombre} = this.reservacionModel;
           await this.firebaseServiceReservacion.addreservacion( this.reservacionModel);
           console.log('dd');
@@ -96,7 +118,7 @@ this.visible = false
 
       this.toastr.info('Todos los Campos son requeridos!!', 'Espera');
       this.visible = true
-    
+
     }
 
 this.submitted = false
@@ -108,6 +130,20 @@ this.submitted = false
      this.firebaseServiceReservacion.getReservacionesAdmin().subscribe((data) => {
        console.log(data)
        this.reservacionCollectiondata = data;
+
+      if(data[0]){
+        let dataString = [
+          'INFORMACION DE TU COMPRA',
+          'Lugares Comprados:' + data[0].LugaresComprados,
+          'Total de la compra:$'+ data[0].montopago + ' US',
+          'Ticket de compra: '+ data[0].codigotiket,
+          'Estatus de Pago: '+ data[0].descripcionpago,
+          'Fecha de compra: '+ data[0].fechaCreacion,
+        ]
+        this.dataToString = JSON.stringify(dataString);
+        console.log('datatostring ', this.dataToString);
+
+      }
 
        this.loading= false
      });
@@ -177,12 +213,27 @@ this.edit= false
           });
           console.log(usuario);
          }
-          
+
         });
       });
 
       this.exporExcel.reservaciones(reportExcel);
     });
 
+  }
+
+  onChangeURL(url: SafeUrl) {
+    this.qrCodeDownloadLink = url;
+    // console.log('qr ', this.qrCodeDownloadLink);
+
+  }
+
+  downloadPdfReservacion(reservacion: ReservacionModel){
+      this.variablesGL.statusTemplateRservacionPDF.next(true);
+      setTimeout(() => {
+        let tmpl = {...this.reservacionElement};
+        console.log('template ', tmpl);
+        this.variablesGL.generateReservacionPDF(reservacion, this.reservacionElement);
+      }, 100);
   }
 }

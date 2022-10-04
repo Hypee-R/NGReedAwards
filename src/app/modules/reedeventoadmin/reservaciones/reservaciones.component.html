@@ -16,31 +16,34 @@
             <tr>
                 <th>
                     ID
-              
+
                 </th>
                 <th>
                     LugaresComprados
-              
+
                 </th>
                 <th>
                     codigotiket
-              
+
                 </th>
                 <th>
                     descripcionpago
-              
+
                 </th>
                 <th>
                     fechaActualizacion
-              
+
                 </th>
                 <th>
                     idpagopaypal
-              
+
                 </th>
                 <th>
                     montopago
-              
+
+                </th>
+                <th style="display: none;">
+                  QR
                 </th>
                 <th>
                     Acciones
@@ -70,14 +73,18 @@
                 <td>
                     <p>${{reservacion.montopago}}</p>
                 </td>
-         
 
+                <td style="display: none;">
+                  <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="dataToString" [colorDark]="'#94969e'" [colorLight]="'#000000'" [imageSrc]="'https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/files%2FEscudo-RL.png?alt=media&token=58ee9622-0c5e-4d17-90f1-39a9447a7472'"
+                                    [imageHeight]="170" [imageWidth]="170" [title]="'A custom title attributesss'" allowEmptyString="true" [width]="256" [errorCorrectionLevel]="'M'">Datos</qrcode>
+                </td>
 
 
 
                 <td>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mx-3" (click)="delete(reservacion)"></button>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editar(reservacion)" (click)="edit"></button>
+                    <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-tertiary mr-2" (click)="downloadPdfReservacion(reservacion)"></button>
                 </td>
 
             </tr>
@@ -130,7 +137,7 @@
     <ng-template pTemplate="content">
 
         <form [formGroup]="reservacionForm">
-<!-- 
+<!--
             <div class="field">
                 <label for="id">id:</label>
                 <input type="number" pInputText name="id" class="" value="" [(ngModel)]="reservacionModel.id" formControlName="id" [ngClass]="submitted && reservacionForm.controls['id'].errors ? 'is-invalid' : !submitted && reservacionForm.controls['id'].valid ? 'is-valid' : submitted && reservacionForm.controls['id'].valid ? 'is-valid' : null">
@@ -164,3 +171,31 @@
 
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+
+<!-- PDF REED LATINO  -->
+<div id="reservacionPDF" #reservacionPDF *ngIf="showTemplatePDF">
+    <div class="row">
+        <div class="col-12">
+            <img src="assets/pdf/header_pdf.PNG" alt="" style="width: 590px; margin-left: 5px;">
+        </div>
+        <div class="col-12" style="margin-top: 10px;">
+            <div style="display: flex;">
+                <div style="width: 295px;">
+                    <img [src]="qrCodeDownloadLink" class="qr">
+                    <img src="assets/pdf/baner_left.PNG" class="banner" alt="">
+                    <a class="ubicacion" href="https://bit.ly/3KsUcLv" target="_blank">https://bit.ly/3KsUcLv</a>
+                </div>
+                <div style="width: 295px;">
+                    <img [src]="qrCodeDownloadLink" class="qr-rigth">
+                    <img src="assets/pdf/baner_rigth.PNG" class="banner-r" alt="">
+                    <a class="ubicacion-r" href="https://bit.ly/3PKjSUy" target="_blank">https://bit.ly/3PKjSUy</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12" style="margin-top: 10px;">
+            <img src="assets/pdf/footer_pdf.PNG" class="footer" alt="">
+        </div>
+    </div>
+</div>
+<!-- FIN PDF  -->

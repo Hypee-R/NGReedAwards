@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NominacionModel } from 'src/app/models/nominacion.model';
 import { reservacionService } from 'src/app/services/reservaciones.service';
@@ -8,6 +8,7 @@ import { SafeUrl } from "@angular/platform-browser"
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { VariablesService } from '../../../services/variablesGL.service';
+import { Subscription } from 'rxjs';
 
 
 declare var paypal;
@@ -17,8 +18,8 @@ declare var paypal;
   templateUrl: './mis-lugares.component.html',
   styleUrls: ['./mis-lugares.component.css']
 })
-export class MisLugaresComponent implements OnInit {
-  @ViewChild('reservacionPDF') reservacionElement!: ElementRef;
+export class MisLugaresComponent implements OnInit, OnDestroy {
+  @ViewChild('reservacionPDF') reservacionElement: ElementRef;
 
   visibleSide: boolean;
   listBoletos: ReservacionModel[] = [];
@@ -31,12 +32,24 @@ export class MisLugaresComponent implements OnInit {
     dataToString:any;
     data: any;
 
+    subscriptionStatusTemplatePDF: Subscription;
+
   constructor(
     private toastr: ToastrService,
     private variablesGL: VariablesService,
     private reservacionesService: reservacionService,
   ) {
     this.getBoletos();
+
+    this.subscriptionStatusTemplatePDF = variablesGL.statusTemplateRservacionPDF.subscribe( status => {
+      this.showTemplatePDF = status;
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscriptionStatusTemplatePDF){
+      this.subscriptionStatusTemplatePDF.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -143,52 +156,15 @@ export class MisLugaresComponent implements OnInit {
     // Re-enable, when a method to download images has been implemented
     onChangeURL(url: SafeUrl) {
       this.qrCodeDownloadLink = url;
+
     }
 
-    public generatePDF(lugar: ReservacionModel): void {
-      this.showTemplatePDF = true;
-      let widthDocument = this.variablesGL.getWidthDocument();
-
-      Swal.fire({
-          title: 'Por favor espera...',
-          allowEscapeKey: false,
-          allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          }
-      });
-
+    downloadPdfReservacion(lugar: ReservacionModel): void {
+      this.variablesGL.statusTemplateRservacionPDF.next(true);
       setTimeout(() => {
-        html2canvas(this.reservacionElement.nativeElement, { scale: 3 }).then((canvas) => {
-        const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
-        const fileWidth = widthDocument;
-        const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-        let PDF = new jsPDF('p', 'mm', 'a4',);
-        PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
-        PDF.html(this.reservacionElement.nativeElement.innerHTML);
-        PDF.text(lugar.codigotiket.toString(),7,68);//Folio
-        PDF.text(lugar.Nombrecomprador.toString(),7,86);//Comprador
-        PDF.text(lugar.montopago.toString(),110,86);//Costo
-        PDF.text(lugar.codigotiket.toString(),7,269);//Folio
-        PDF.text(lugar.Nombrecomprador.toString(),7,288);//Comprador
-        PDF.text(lugar.montopago.toString(),110,288);//Costo
-        PDF.link(55, 231, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
-        PDF.link(160, 231, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
-        // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });
-        // PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
-        PDF.save('reed-latino-reservacion.pdf');
-        setTimeout(() => {
-            Swal.close();
-            this.showTemplatePDF = false;
-            Swal.fire({
-              icon: 'success',
-              title: 'PDF Generado Correctamente!',
-              showConfirmButton: false,
-              timer: 2500
-            });
-          }, 1000);
-        });
-      }, 1000);
-
+        let tmpl = {...this.reservacionElement};
+        console.log('template ', tmpl);
+        this.variablesGL.generateReservacionPDF(lugar, this.reservacionElement);
+      }, 100);
     }
 }

@@ -66,6 +66,8 @@ ul {
     display: block;
 }
 
+/* STYLES TEMPLATE PDF */
+
 .qr {
     width: 100px;
     margin-left: 17px;
@@ -103,3 +105,5 @@ ul {
     font-size: small;
     margin-left: 143px;
 }
+
+/* FIN STYLES TEMPLATE PDF */

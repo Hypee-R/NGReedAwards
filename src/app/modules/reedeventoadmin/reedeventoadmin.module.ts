@@ -32,6 +32,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ReservacionesComponent } from './reservaciones/reservaciones.component';
 
 import { ToastModule } from 'primeng/toast';
+//QR
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
     imports: [
@@ -62,6 +64,7 @@ import { ToastModule } from 'primeng/toast';
         InputNumberModule,
         ConfirmDialogModule,
         InputTextareaModule,
+        QRCodeModule
     ],
     providers: [ConfirmationService],
     declarations: [
