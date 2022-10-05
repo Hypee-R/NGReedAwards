@@ -1,5 +1,22 @@
+
+<!-- Aqui se agrega el spiner antes de cargar los lugares -->
+<div *ngIf="StatusCargaLugares==false">
+  
+    <p-card style="background-color: white;" header="Selecciona un lugar" align="center" subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2022" [style]="styleOBJ">
+    
+        <div class="card-body">
+            <h5>Cargando Informacion...Solo spodra continuar su compra si termino de cargar la informacion</h5>
+            <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+
+        </div>
+    
+    </p-card>
+     
+</div>
 <p-card style="background-color: white;" header="Selecciona un lugar" align="center" subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2022" [style]="styleOBJ">
+  
     <div class="card-body">
+        
         <div class="row">
 
             <div>
@@ -11,8 +28,9 @@
                 <p style="font-size: 1em; font-weight: bold;">{{txt5}}</p>
                 <p style="font-size: 1em; font-weight: bold;">{{txt6}}</p>
             </div>
+         
 
-            <div class="container-fluid">
+            <div class="container-fluid" id="zonasOcultar">
                 <div class="container">
                     <div class="col-15">
                         <div class="col col-md-12">
@@ -25,21 +43,21 @@
                                 <br>
                                 <br>
                                 <div class="grid4">
-                                    <div class="icon">
-                                        T
+                                    <div class="icons">
+                                        <!-- T
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas">
                                                 <a #MyRef [id]="'T'+name" class="unit" (click)="selectedAsiento('T'+name)" [pTooltip]="'Asiento: T'+name+'\n Precio: 575 USD' ">{{name}}</a>
                                             </li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
-                                    <div class="icon">
-                                        S
+                                    <div class="icons">
+                                        <!-- S
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas">
                                                 <a #MyRef [id]="'S'+name" class="unit" (click)="selectedAsiento('S'+name)" [pTooltip]="'Asiento: S'+name+'\n Precio: 575 USD' ">{{name}}</a>
                                             </li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
                                     <div class="icon">
                                         R
@@ -279,12 +297,15 @@
                         </div>
                     </div>
                     <br>
-                    <div class="container-fluid">
-
-                        <button class="btn btn-primary" (click)="realizarCompra()">Siguiente</button>
-
-
+                    <div *ngIf="StatusCargaLugares==true">
+  
+                        <div class="container-fluid">
+                            <button class="btn btn-primary" (click)="realizarCompra()">Siguiente</button>
+    
+                        </div>
+                         
                     </div>
+                 
 
                     <br>
                     <br>
@@ -292,6 +313,7 @@
             </div>
         </div>
     </div>
+
 </p-card>
 
 <p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000" [style]="{'width':'50vw'}">

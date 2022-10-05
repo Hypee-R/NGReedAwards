@@ -8,6 +8,7 @@ import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { map, Observable, shareReplay, timer } from 'rxjs';
 import { DatePipe } from '@angular/common'
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -47,6 +48,8 @@ export class HomeComponent implements OnInit {
   now: Date;
   diferencia:number;
   mesa:boolean=true;
+  StatusCargaLugares:boolean=false;
+
   constructor(
     private lugaresService:LugaresService,
     public datepipe: DatePipe
@@ -59,18 +62,23 @@ export class HomeComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
+    
 
   }
 
   async getLugares(){
      await this.lugaresService.getLugares().subscribe( (data) => {
       this.lugares = data
+
+        this.StatusCargaLugares=true;
+    
       this.lugaresDisponibles=[]
       for (let dato of data){
         let lug:boleto  ={idLugar:dato['idLugar'],precio:dato['precio'],comprado:dato['comprado'],apartado:dato['apartado'],hora:dato['fecha']}
         this.lugaresDisponibles.push(lug)
       }
+    
+   
 
     this.initLugares()
     this.cargando=true
@@ -80,6 +88,7 @@ export class HomeComponent implements OnInit {
 
   }
   initLugares(){
+  
       let toArray = this.inputsArray.toArray()
       for (let lugar of this.lugaresDisponibles){
         if(lugar.hora){

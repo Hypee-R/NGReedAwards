@@ -23,6 +23,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { PagoComponent } from './home/pago/pago.component';
 import { SidebarModule } from 'primeng/sidebar';
 import { DialogModule } from 'primeng/dialog';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 //QR
 import { QRCodeModule } from 'angularx-qrcode';
 
@@ -44,6 +45,7 @@ import { QRCodeModule } from 'angularx-qrcode';
         SidebarModule,
         DialogModule,
         QRCodeModule,
+        ProgressSpinnerModule
        
     ],
     providers: [ConfirmationService],
