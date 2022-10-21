@@ -148,7 +148,7 @@ export class NominacionesComponent implements OnInit {
       console.log(data.length);
       
       if (data.length > 1) {
-        for (var i = 150; i < data.length; i++) {
+        for (var i = 206; i < data.length; i++) {
           var categorias = zip.folder(data[i].nombre);
           //console.log(data[i]);
           for (var j = 0; j < this.listNominaciones.length; j++) {
