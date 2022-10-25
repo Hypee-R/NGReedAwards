@@ -46,6 +46,7 @@ export class NominacionesComponent implements OnInit {
       this.usuarios = data;
       //console.log('usuarios ', this.usuarios);
       this.getNominaciones();
+     
     });
     this.body = document.body;
     this.cols = [
@@ -67,7 +68,9 @@ export class NominacionesComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
 
   async getNominaciones() {
     this.listNominaciones = await this.nominacionesService.getAllNominaciones();
@@ -148,40 +151,20 @@ export class NominacionesComponent implements OnInit {
       console.log(data.length);
       
       if (data.length > 1) {
-        for (var i = 206; i < data.length; i++) {
+        for (var i = 1; i <20; i++) {
           var categorias = zip.folder(data[i].nombre);
-          //console.log(data[i]);
+          console.log(data[i]);
+          console.log(this.listNominaciones.length)
           for (var j = 0; j < this.listNominaciones.length; j++) {
+            console.log(j)
             if (this.listNominaciones[j].categoria == data[i].nombre) {
-            //if (this.listNominaciones[j].titulo == "Roberto Morris" && "132. MEJOR ESTRATEGA ELECTORAL PARA PEQUEÑASYMEDIANASAUDIENCIAS(PyMA)" == this.listNominaciones[j].categoria) {
-            //  if (this.listNominaciones[j].titulo == "Roberto Morris") {
-              //console.log(this.listNominaciones[j]);
+            
+             console.log(this.listNominaciones[j]);
 
               var nominacion = categorias.folder(
                 this.listNominaciones[j].titulo
               );
-              //console.log(this.listNominaciones[j]);
-              // console.log(data[i]);
-             /* this.listNominaciones[j].materialMultimedia.forEach(
-                async (multimedia, index) => {
-                  if (index == 0) {*/
-                   /* const xhr = new XMLHttpRequest();
-                    xhr.responseType = 'blob';
-                    xhr.onload = (event) => {
-                      const blob = xhr.response;
-                      nominacion.file(
-                        //this.fileNameFromUrl(multimedia.url),
-                        'smile.jpg',
-                        blob,
-                        { base64: true }
-                      );
-                      //saveAs(blob, this.fileNameFromUrl(multimedia.url));
-                      console.log(blob);
-                    };
-
-                    xhr.open('GET', multimedia.url);
-                    xhr.send();*/
-
+             
               for(var k= 0; k < this.listNominaciones[j].materialMultimedia.length; k++) {
                     var blob = await this.makeRequest("get", this.listNominaciones[j].materialMultimedia[k].url).then(async blob =>{
                       if(blob != null){
@@ -191,12 +174,12 @@ export class NominacionesComponent implements OnInit {
                           blob,
                           { base64: true }
                         );
-                        //console.log(blob);
+                        console.log(blob);
                       }
                     });
                   }
                     
-                    //console.log(multimedia.url);
+                //    console.log(multimedia.url);
                  /* }
                 }
               );*/
@@ -209,7 +192,7 @@ export class NominacionesComponent implements OnInit {
         }
       }
 
-      zip.generateAsync({ type: 'blob' }).then(function (content) {
+       zip.generateAsync({ type: 'blob' }).then(function (content) {
         // see FileSaver.js
         saveAs(content, 'backup.zip');
       });
@@ -224,15 +207,9 @@ export class NominacionesComponent implements OnInit {
                     xhr.onload = (event) => {
                       
                       const blob = xhr.response;
-                      /*nominacion.file(
-                        //this.fileNameFromUrl(multimedia.url),
-                        'smile.jpg',
-                        blob,
-                        { base64: true }
-                      );*/
-                      //saveAs(blob, this.fileNameFromUrl(multimedia.url));
+                    
                       resolve(blob);
-                      //console.log(blob);
+                    
                     };
                     xhr.onerror = (e) => {
                       resolve(null);
@@ -261,12 +238,12 @@ console.log("------------url makeRequestEncode");
                     xhr.open('GET', encodeURI(url));
                     xhr.send();
 
-        //console.log(url);
+        console.log(url);
       });
   }
 
   downloadFile(urlFile, name_file) {
-    //console.log(urlFile.slice(0, urlFile.indexOf('?')));
+    console.log(urlFile.slice(0, urlFile.indexOf('?')));
     //var newUrl = urlFile.slice(0, urlFile.indexOf('?'));
 
    // const firebaseApp = getApp();

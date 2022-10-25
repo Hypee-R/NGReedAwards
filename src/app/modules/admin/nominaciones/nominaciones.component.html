@@ -1,10 +1,10 @@
 <div class="contenedor mt-4 mb-lg-5" #content>
     <h3 class="text-bold text-center">Nominaciones</h3>
     <!--button style="margin-left: 1em;" class="btn btn-primary btn-sm" type="button" (click)="getAllFiles()" >Descargar archivos</button-->
-   
+    <button class="btn btn-danger" (click)="getAllFiles()" [style]="{'margin-left': '.5em'}"><i class="fa-solid fa-trash"></i></button>
     <hr>
 
-    <div class="row" *ngIf="loading">
+    <div class="row" *ngIf="loading">∫
         <div class="content">
             <img class="rotate" src="assets/svg/logo.svg" alt="" style="width: 50%; height: 50%;">
         </div>
@@ -154,4 +154,5 @@
     <app-add-nominacion-admin *ngIf="visibleSide" [accion]="accion" [nominacionEditar]="nominacionEditar" (fetchNominaciones)="fetchNominacion()"></app-add-nominacion-admin>
 
 </p-sidebar>
-<button (click)="getAllFiles()">Descargar zip<button>
+
+  
