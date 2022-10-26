@@ -1,5 +1,5 @@
 <!-- Nav bar usuario -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="type== 'user'">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="this.currentUser === 'user'">
     <div class="container-fluid">
         <a class="navbar-brand" routerLink="/portal/inicio">
             <a class="navbar-brand" routerLink="/portal/inicio">
@@ -46,7 +46,7 @@
 </nav>
 
 <!-- Nav bar Admin -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark"  *ngIf="type== 'user'">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="this.currentUser === 'admin'">
     <div class="container-fluid">
         <a class="navbar-brand" routerLink="/admin/home">
             <a class="navbar-brand" routerLink="/admin/home">

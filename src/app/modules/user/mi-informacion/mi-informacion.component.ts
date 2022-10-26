@@ -87,7 +87,7 @@ export class MiInformacionComponent implements OnInit {
         const user = await getAuth().currentUser;
         const userEmail = user.email;
         //get user role from this.userData
-        const userRole = this.userData[0].rol;
+        const userRole ="user";
         console.log('userRole', userRole);
 
         await setDoc(doc(db, 'usuarios', uid),{
