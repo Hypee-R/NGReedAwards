@@ -123,15 +123,57 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="descripcion" class="form-label">Descripci&oacute;n*</label>
-                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" >{{this.nominacionEditar.descripcion}}</textarea>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" disabled>{{this.nominacionEditar.descripcion}}</textarea>
                        
                     </div>
                 </div>
             </div>
-            <hr>
-            <h5>Evaluar</h5>
-            <p-knob [(ngModel)]="value" [min]="1" [max]="5" valueColor="SlateGray" rangeColor="MediumTurquoise"></p-knob>
+            <p-card >
+                <tr>
+                    <td colspan="8">
+                        <div class="flex align-items-center">
+                            <h5>Material Multimedia</h5>
+                            <a *ngFor="let item of this.nominacionEditar.materialMultimedia"  [href]="item.url" downloadFile target="blank">
+                              
+                            <p-chip  [label]="fileNameFromUrl(item.url)" [style]="{ 'margin-right': '6px', 'margin-bottom': '6px'}"  icon="pi pi-download"></p-chip>
+                        </a>
+                        </div>
+                    </td>
+                </tr>
+            </p-card>
+
+
+            <div class="row">
+                <div class="col-sm">
+           <label>Seleccionar el porcentaje de Evaluacion del siguiente selector y dar click en Guardar Evaluacion:</label>
+                </div>
+                <div class="col-sm">
+                  
+                
+                  <h5>Evaluar</h5>
+                  <p-dropdown [options]="evaluar" optionLabel="name"></p-dropdown>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                </div>
+                <div class="col-sm">
+                    <br>
+                    <button pButton type="button" class="p-button-success p-button-rounded">Guardar Evaluacion</button>
+                    <br>
+                </div>
+              </div>
         </p-card>
+   
         <!-- <app-add-nominacion-admin *ngIf="visibleSide" [accion]="accion" [nominacionEditar]="nominacionEditar" (fetchNominaciones)="fetchNominacion()"></app-add-nominacion-admin> -->
     </p-sidebar>
+
     

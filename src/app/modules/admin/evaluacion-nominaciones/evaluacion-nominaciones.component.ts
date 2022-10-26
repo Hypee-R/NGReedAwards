@@ -11,11 +11,13 @@ import { UsuarioService } from 'src/app/services/usuarios.service';
   templateUrl: './evaluacion-nominaciones.component.html',
   styleUrls: ['./evaluacion-nominaciones.component.css']
 })
+
+
 export class EvaluacionNominacionesComponent implements OnInit {
   visibleSide: boolean;
   accion: string = '';
   nominacionEditar: NominacionModel;
- 
+  evaluar: any;
   selectedNominacion: NominacionModel;
   loading: boolean = true;
   listNominaciones: any[] = [];
@@ -30,6 +32,7 @@ export class EvaluacionNominacionesComponent implements OnInit {
     private firebaseService: CategoriasService,
     private toastr: ToastrService,
     private nominacionesService: NominacionService,
+    private nominacionService: NominacionService,
     private usuariosService: UsuarioService,
     private exportExcel: ExcelService
   ) {
@@ -67,7 +70,13 @@ export class EvaluacionNominacionesComponent implements OnInit {
 
   ngOnInit(): void {
     this.nominacionEditar = new NominacionModel();
-    
+    this.evaluar = [
+      {name: '1', code: '1'},
+      {name: '2', code: '2'},
+      {name: '3', code: '3'},
+      {name: '4', code: '4'},
+      {name: '5', code: '5'}
+  ];
   }
 
   
@@ -98,7 +107,18 @@ export class EvaluacionNominacionesComponent implements OnInit {
     }
   }
 
+guardarEvaluacion(dataNominacion: NominacionModel){
+  if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
+     this.nominacionService.updateNominacion(dataNominacion);
+    this.toastr.success('Nominación actualizada con exito!!', 'Success');
+    console.log("END PROCESS UPDATE");
+   
+  }else{
+    console.log('********** datos vacios, que no deberian ir... ******************');
+  }
 
+}
+  
   editarNominacion(nominacion: NominacionModel) {
     console.log(nominacion);
     this.accion = 'editar';
