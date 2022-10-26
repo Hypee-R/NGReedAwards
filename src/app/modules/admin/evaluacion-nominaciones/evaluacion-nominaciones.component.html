@@ -151,7 +151,7 @@
                   
                 
                   <h5>Evaluar</h5>
-                  <p-dropdown [options]="evaluar" optionLabel="name"></p-dropdown>
+                  <p-dropdown  placeholder="Seleccionar Puntaje" [options]="evaluar" [(ngModel)]="selectedEvaluacion" optionLabel="name"   [showClear]="true"></p-dropdown>
                   <br>
                   <br>
                   <br>
@@ -167,7 +167,7 @@
                 </div>
                 <div class="col-sm">
                     <br>
-                    <button pButton type="button" class="p-button-success p-button-rounded">Guardar Evaluacion</button>
+                    <button pButton type="button" class="p-button-success p-button-rounded" (click)="guardarEvaluacion(this.nominacionEditar)">Guardar Evaluacion</button>
                     <br>
                 </div>
               </div>

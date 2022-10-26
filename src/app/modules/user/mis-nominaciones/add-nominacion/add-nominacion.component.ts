@@ -362,7 +362,8 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           montopago: this.producto.precio.toString(),
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: "",
-          fechaActualizacion: ""
+          fechaActualizacion: "",
+          evaluacion:""
         };
 
         if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
@@ -430,7 +431,8 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           montopago: this.nominacionEditar.montopago,
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: this.nominacionEditar.fechaCreacion,
-          fechaActualizacion: ""
+          fechaActualizacion: "",
+          evaluacion:""
         }
 
         if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){

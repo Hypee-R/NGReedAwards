@@ -17,7 +17,7 @@ export class EvaluacionNominacionesComponent implements OnInit {
   visibleSide: boolean;
   accion: string = '';
   nominacionEditar: NominacionModel;
-  evaluar: any;
+  evaluar: evaluardata[];
   selectedNominacion: NominacionModel;
   loading: boolean = true;
   listNominaciones: any[] = [];
@@ -25,6 +25,7 @@ export class EvaluacionNominacionesComponent implements OnInit {
   body: any;
   cols: any;
   value: number = 0;
+  selectedEvaluacion: evaluardata;
 
   userData: any;
   uid = JSON.parse(localStorage.d).uid;
@@ -108,15 +109,21 @@ export class EvaluacionNominacionesComponent implements OnInit {
   }
 
 guardarEvaluacion(dataNominacion: NominacionModel){
+
+  if(this.selectedEvaluacion==undefined){ this.toastr.error('No se le agrego una Evaluacion a la Nominacion!!', 'Error');}else{
+  dataNominacion.evaluacion=this.selectedEvaluacion.code;
+  console.log(this.selectedEvaluacion);
   if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
      this.nominacionService.updateNominacion(dataNominacion);
+    console.log(dataNominacion);
+   
     this.toastr.success('Nominación actualizada con exito!!', 'Success');
     console.log("END PROCESS UPDATE");
    
   }else{
     console.log('********** datos vacios, que no deberian ir... ******************');
   }
-
+}
 }
   
   editarNominacion(nominacion: NominacionModel) {
@@ -145,6 +152,11 @@ guardarEvaluacion(dataNominacion: NominacionModel){
   excel() {
     this.exportExcel.nomina(this.listNominaciones);
   }
+}
+
+interface evaluardata {
+  name: string,
+  code: string
 }
 
 

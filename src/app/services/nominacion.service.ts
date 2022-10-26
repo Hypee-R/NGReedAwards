@@ -62,7 +62,8 @@ export class NominacionService {
       montopago:updateNominacion.montopago,
       uid:updateNominacion.uid,
       fechaCreacion: updateNominacion.fechaCreacion,
-      fechaActualizacion: this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a')
+      fechaActualizacion: this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a'),
+      evaluacion:updateNominacion.evaluacion
     });
   }
 
@@ -121,7 +122,8 @@ export class NominacionService {
             montopago:doc.data().montopago,
             uid:doc.data().uid,
             fechaCreacion:doc.data().fechaCreacion,
-            fechaActualizacion: doc.data().fechaActualizacion
+            fechaActualizacion: doc.data().fechaActualizacion,
+            evaluacion: doc.data().evaluacion
         });
         //console.log(doc.id, " => ", doc.data());
     });
@@ -162,7 +164,8 @@ export class NominacionService {
             montopago:doc.data().montopago,
             uid:doc.data().uid,
             fechaCreacion: doc.data().fechaCreacion,
-            fechaActualizacion: doc.data().fechaActualizacion
+            fechaActualizacion: doc.data().fechaActualizacion,
+            evaluacion:doc.data().evaluacion
         });
         //console.log(doc.id, " => ", doc.data());
     });

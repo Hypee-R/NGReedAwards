@@ -24,4 +24,5 @@ export class NominacionModel{
   uid: string;
   fechaCreacion: string;
   fechaActualizacion: string;
+  evaluacion: string;
 }
