@@ -43,6 +43,7 @@
                     </tr>
                     <tr>
                         <th></th>
+                        <th></th>
                         <th *ngFor="let col of columns">
                             <div class="flex justify-content-center align-items-center" style="width: 16em;">
                                 <p-columnFilter type="text" [field]="col.filter" hideOnClear="true" [style]="{'width':'100%'}"></p-columnFilter>
@@ -62,9 +63,9 @@
                             <div class="text-overflow" *ngIf="col.fiel != 'displayName' && col.field != 'email'">
                                 {{ rowData[col.field] }}
                             </div>
-                            <div class="text-overflow" *ngIf="col.fiel == 'displayName' || col.field == 'email'">
+                            <!-- <div class="text-overflow" *ngIf="col.fiel == 'displayName' || col.field == 'email'">
                                 {{ rowData.usuario ? rowData.usuario[col.field] : 'Desconocido' }}
-                            </div>
+                            </div> -->
                         </td>
                     </tr>
                 </ng-template>
@@ -87,10 +88,50 @@
         </div>
     
     </div>
-    
+  
+
+
     <p-sidebar [(visible)]="visibleSide" position="right" [appendTo]="body" [baseZIndex]="2" [style]="{ 'width': '60%'}">
-        <app-add-nominacion-admin *ngIf="visibleSide" [accion]="accion" [nominacionEditar]="nominacionEditar" (fetchNominaciones)="fetchNominacion()"></app-add-nominacion-admin>
-    
+
+         
+        <p-card header="Informaci&oacute;n de la pieza">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">T&iacute;tulo de la pieza*</label>
+                        <label >{{this.nominacionEditar.titulo}}</label>
+                     
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+
+                    <div class="mb-3">
+                        <label for="nominado" class="form-label">Nombre del nominado*</label>
+                        <label >{{this.nominacionEditar.nominado}}</label>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Categor&iacute;a*</label>
+                        <label >{{this.nominacionEditar.categoria}}</label>
+                       
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripci&oacute;n*</label>
+                        <textarea class="form-control" id="descripcion" name="descripcion" rows="4" >{{this.nominacionEditar.descripcion}}</textarea>
+                       
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h5>Evaluar</h5>
+            <p-knob [(ngModel)]="value" [min]="1" [max]="5" valueColor="SlateGray" rangeColor="MediumTurquoise"></p-knob>
+        </p-card>
+        <!-- <app-add-nominacion-admin *ngIf="visibleSide" [accion]="accion" [nominacionEditar]="nominacionEditar" (fetchNominaciones)="fetchNominacion()"></app-add-nominacion-admin> -->
     </p-sidebar>
     
-      

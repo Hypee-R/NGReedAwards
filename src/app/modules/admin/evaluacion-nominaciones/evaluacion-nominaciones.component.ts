@@ -15,12 +15,14 @@ export class EvaluacionNominacionesComponent implements OnInit {
   visibleSide: boolean;
   accion: string = '';
   nominacionEditar: NominacionModel;
+ 
   selectedNominacion: NominacionModel;
   loading: boolean = true;
   listNominaciones: any[] = [];
   usuarios: any[] = [];
   body: any;
   cols: any;
+  value: number = 0;
 
   userData: any;
   uid = JSON.parse(localStorage.d).uid;
@@ -64,7 +66,7 @@ export class EvaluacionNominacionesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.nominacionEditar = new NominacionModel();
     
   }
 
@@ -98,9 +100,11 @@ export class EvaluacionNominacionesComponent implements OnInit {
 
 
   editarNominacion(nominacion: NominacionModel) {
+    console.log(nominacion);
     this.accion = 'editar';
     this.nominacionEditar = nominacion;
-    this.visibleSide = true;
+    console.log(this.nominacionEditar.titulo)
+   this.visibleSide = true;
   }
 
   async fetchNominacion() {

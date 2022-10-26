@@ -28,7 +28,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-
+import {KnobModule} from 'primeng/knob';
 import { ButtonModule } from 'primeng/button';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { ConvocatoriasComponent } from './convocatorias/convocatorias.component';
@@ -86,7 +86,8 @@ import { AddNominacionAdminComponent } from './nominaciones/add-nominacion/add-n
         InputNumberModule,
         ConfirmDialogModule,
         InputTextareaModule,
-        ChipModule
+        ChipModule,
+        KnobModule
     ],  providers: [ConfirmationService],
     declarations: [
         AdminComponent,
