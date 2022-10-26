@@ -42,6 +42,7 @@ export class LoginAdminComponent implements OnInit {
     this.loading = true;
     signInWithEmailAndPassword(this.auth, usuario, password)
       .then((userCredential) => {
+console.log(userCredential);
 
         if (userCredential.user?.emailVerified) {
           this.toastr.success('Bienvenido', 'Login correcto');

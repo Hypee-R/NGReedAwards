@@ -46,8 +46,12 @@ export class NavBarComponent implements OnInit {
       if(data) {
         this.userData = data.filter(item => item.uid === this.userUid);
         //get user rol from userData
+        console.log("=====>DATA");
+        console.log(this.userData[0]?.rol);
         if(this.userData[0]?.rol){
           this.currentUser = this.userData[0].rol;
+          console.log("=====>currentUser");
+          console.log(this.currentUser );
         }
 
       }
