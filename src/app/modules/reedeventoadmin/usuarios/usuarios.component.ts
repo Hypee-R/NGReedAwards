@@ -118,9 +118,9 @@ export class UsuariosComponent implements OnInit {
       message: '¿Está seguro de que desea eliminar la cueta  '+ docId.displayName + '?',
       header: 'Confirmacion',
       icon: 'pi pi-exclamation-triangle',
-      
+
       accept: () => {
-        
+
           this.firebaseService.deleteUsuario(docId.uid);
       }
   });

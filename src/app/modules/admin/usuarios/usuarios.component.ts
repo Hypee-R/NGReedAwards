@@ -16,6 +16,7 @@ export class UsuariosComponent implements OnInit {
 
   users: ProfileUser[] = [];
   usuario: any;
+  rolItems = ['user', 'admin', 'juez']
   //categoriaCollectiondata: { id: string, titulo: string, fechaInicio: Date, fechaFin: Date }[] | any = [];
 
 
@@ -118,9 +119,9 @@ export class UsuariosComponent implements OnInit {
       message: '¿Está seguro de que desea eliminar la cueta  '+ docId.displayName + '?',
       header: 'Confirmacion',
       icon: 'pi pi-exclamation-triangle',
-      
+
       accept: () => {
-        
+
           this.firebaseService.deleteUsuario(docId.uid);
       }
   });

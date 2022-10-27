@@ -3,6 +3,7 @@ import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { JuesesService } from 'src/app/services/jueses.service';
+import { CategoriasService } from 'src/app/services/categorias.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NgStyle } from '@angular/common';
 import { ConfirmationService } from 'primeng/api';
@@ -27,6 +28,7 @@ export class JuecesComponent implements OnInit {
   id:any;
   constructor(
     private firestore: JuesesService,
+    private firestoreCategories: CategoriasService,
     private fb: FormBuilder,
     private toastr: ToastrService,
     private exporExcel: ExcelService,
@@ -49,6 +51,10 @@ export class JuecesComponent implements OnInit {
 
     })
   }
+  async getCategories() {
+    const snapshot = await this.firestoreCategories.getCategorias()
+  }
+
   async get() {
     const snapshot = await this.firestore.getJueses();
     this.updatejuesesCollection(snapshot);
@@ -90,9 +96,9 @@ export class JuecesComponent implements OnInit {
       message: '¿Está seguro de que desea eliminar jues  '+ docId.name + '?',
       header: 'Confirmacion',
       icon: 'pi pi-exclamation-triangle',
-      
+
       accept: () => {
-        
+
           this.firestore.deletejueses(docId.id);
       }
   });

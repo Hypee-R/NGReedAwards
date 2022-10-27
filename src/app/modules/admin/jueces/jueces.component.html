@@ -18,7 +18,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-jues>
             <tr>
-                <td>{{jues.name}}</td>
+                <td>{{jues.displayName}}</td>
                 <td>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="delete(jues)"></button>
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editar(jues)"></button>

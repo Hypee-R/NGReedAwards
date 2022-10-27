@@ -115,9 +115,12 @@
                 <input type="text" name="photoURL" class="" pInputText required [(ngModel)]="usuarioModel.photoURL" formControlName="photoURL" />
                 <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.photoURL">nombre is required.</small> -->
             </div>
-            <div class="field mt-2">
+            <div class="field mt-2 mb-2">
                 <label for="rol">Rol:</label>
-                <input type="text" name="rol" class="" pInputText required [(ngModel)]="usuarioModel.rol" formControlName="rol" />
+                <select [(ngModel)]="usuarioModel.rol" class="form-select" required formControlName="rol">
+                  <option disabled selected value="undefined">Seleciona un rol</option>
+                  <option *ngFor="let item of rolItems" [ngValue]="item">{{item}}</option>
+                </select>
                 <!-- <small class="p-error" *ngIf="submitted && !usuarioModel.rol"></small> -->
             </div>
             <div class="field">
