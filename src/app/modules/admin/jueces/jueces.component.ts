@@ -16,6 +16,8 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class JuecesComponent implements OnInit {
   jueses: any;
+  categories: any
+  selectedCategories: any
   juesModel: any
   juesForm: FormGroup;
 
@@ -33,19 +35,28 @@ export class JuecesComponent implements OnInit {
     private toastr: ToastrService,
     private exporExcel: ExcelService,
     private confirmationService: ConfirmationService
-  ) {
+    ) {
 
-  }
+    }
 
-  ngOnInit(): void {
-    this.initForm();
-    this.firestore.obsr_UpdatedSnapshot.subscribe((snapshot) => {
-      this.updatejuesesCollection(snapshot);
-    })
-  }
-  initForm() {
+    ngOnInit(): void {
+      this.initForm();
+      this.firestore.obsr_UpdatedSnapshot.subscribe((snapshot) => {
+        this.updatejuesesCollection(snapshot);
+      })
+    }
+    initForm() {
     this.juesForm = this.fb.group({
-      name: ['', [Validators.required]],
+      // name: ['', [Validators.required]],
+      address: [''],
+      email: [''],
+      displayName: [''],
+      firstName: [''],
+      lastName: [''],
+      phone: [''],
+      photoURL: [''],
+      rol: ['', [Validators.required]],
+      uid: ['', [Validators.required]],
       // fechaInicio: ['', [Validators.required]],
       // fechaFin: ['', [Validators.required]],
 
@@ -53,6 +64,7 @@ export class JuecesComponent implements OnInit {
   }
   async getCategories() {
     const snapshot = await this.firestoreCategories.getCategorias()
+    this.categories = snapshot
   }
 
   async get() {
@@ -109,10 +121,9 @@ export class JuecesComponent implements OnInit {
       this.juesesCollectiondata.push({ ...student.data(), id: student.id });
     })
   }
-  editar(jues: any) {
-    this.visible = true
+  editar(jues) {
     this.juesModel = { ...jues }
-
+    this.visible = true
   }
   openNew() {
     this.juesModel = { name: '' }
