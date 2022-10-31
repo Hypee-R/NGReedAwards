@@ -39,9 +39,9 @@ selectedCategories:  any = [ {id:'', nombre:''}];
     private toastr: ToastrService,
     private exporExcel: ExcelService,
     private confirmationService: ConfirmationService
-    
+
     ) {
-     
+
 
     }
 
@@ -74,7 +74,7 @@ selectedCategories:  any = [ {id:'', nombre:''}];
       this.categoriaCollectiondata = data;
 
       console.log(this.categoriaCollectiondata)
-     
+
     });
     //this.updatecategoriaCollection(snapshot);
   }
@@ -93,7 +93,7 @@ selectedCategories:  any = [ {id:'', nombre:''}];
     // if (this.convocatoriaForm.valid) {
    // if (this.juesModel.name.trim()) {
       if (this.juesModel.id) {
-        this.firestore.updatejueses(this.juesModel.displayName, this.juesModel.id)
+        this.firestore.updatejueses(this.juesModel.displayName, this.juesModel.id, this.selectedCategories)
         this.visible = false
 
       } else {

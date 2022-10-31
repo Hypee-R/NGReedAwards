@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, DocumentData, CollectionReference, onSnapshot, QuerySnapshot, query, orderBy } from 'firebase/firestore';
-import { collectionData, Firestore, where } from '@angular/fire/firestore';
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, DocumentData, CollectionReference, onSnapshot, QuerySnapshot, query, orderBy, FieldValue } from 'firebase/firestore';
+import { arrayUnion, collectionData, Firestore, where } from '@angular/fire/firestore';
 import { Subject } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
@@ -47,9 +47,11 @@ export class JuesesService {
   }
 
   //aqui agregregale el array categoriass
-  async updatejueses( name: string, id:string) {
-    const docRef = doc(this.db, 'jueces', id);
-    await updateDoc(docRef, { name })
+  async updatejueses( name: string, id:string, categories: { id: string, name: string }[]) {
+    console.log(id, name);
+    const docRef = doc(this.db, 'usuarios', id);
+    console.log(docRef);
+    await updateDoc(docRef, { displayName: name, categorias: arrayUnion(categories) })
     return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
   }
 
