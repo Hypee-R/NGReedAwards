@@ -46,6 +46,7 @@ export class JuesesService {
     return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
   }
 
+  //aqui agregregale el array categoriass
   async updatejueses( name: string, id:string) {
     const docRef = doc(this.db, 'jueces', id);
     await updateDoc(docRef, { name })

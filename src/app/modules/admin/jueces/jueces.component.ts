@@ -15,9 +15,13 @@ import { ConfirmationService } from 'primeng/api';
   styleUrls: ['./jueces.component.css']
 })
 export class JuecesComponent implements OnInit {
+// agregamos la informacion de las categorias
+selectedCategories:  any = [ {id:'', nombre:''}];
+  categoriaCollectiondata: any = [ {id:'', nombre:''}];
+// agregamos la informacion de las categorias
+
   jueses: any;
   categories: any
-  selectedCategories: any
   juesModel: any
   juesForm: FormGroup;
 
@@ -30,16 +34,19 @@ export class JuecesComponent implements OnInit {
   id:any;
   constructor(
     private firestore: JuesesService,
-    private firestoreCategories: CategoriasService,
+    private firebaseService: CategoriasService,
     private fb: FormBuilder,
     private toastr: ToastrService,
     private exporExcel: ExcelService,
     private confirmationService: ConfirmationService
+    
     ) {
+     
 
     }
 
     ngOnInit(): void {
+      this.getCat();
       this.initForm();
       this.firestore.obsr_UpdatedSnapshot.subscribe((snapshot) => {
         this.updatejuesesCollection(snapshot);
@@ -62,22 +69,31 @@ export class JuecesComponent implements OnInit {
 
     })
   }
-  async getCategories() {
-    const snapshot = await this.firestoreCategories.getCategorias()
-    this.categories = snapshot
+  async getCat() {
+    this.firebaseService.getCategorias().subscribe((data) => {
+      this.categoriaCollectiondata = data;
+
+      console.log(this.categoriaCollectiondata)
+     
+    });
+    //this.updatecategoriaCollection(snapshot);
   }
+
 
   async get() {
     const snapshot = await this.firestore.getJueses();
     this.updatejuesesCollection(snapshot);
   }
   async add() {
+    //aqui te puse las categorias asignadas ahora contempla guardar ese array en el update jueces de firebase
+    console.log(this.selectedCategories)
+
     this.submitted = true;
     // this.visible = false
     // if (this.convocatoriaForm.valid) {
-    if (this.juesModel.name.trim()) {
+   // if (this.juesModel.name.trim()) {
       if (this.juesModel.id) {
-        this.firestore.updatejueses(this.juesModel.name, this.juesModel.id)
+        this.firestore.updatejueses(this.juesModel.displayName, this.juesModel.id)
         this.visible = false
 
       } else {
@@ -91,7 +107,7 @@ export class JuecesComponent implements OnInit {
 
 
       }
-    }
+  //  }
 
     // } else {
 
@@ -115,6 +131,7 @@ export class JuecesComponent implements OnInit {
       }
   });
   }
+
   updatejuesesCollection(snapshot: QuerySnapshot<DocumentData>) {
     this.juesesCollectiondata = [];
     snapshot.docs.forEach((student) => {
