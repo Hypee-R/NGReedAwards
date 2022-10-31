@@ -47,11 +47,13 @@ export class JuesesService {
   }
 
   //aqui agregregale el array categoriass
-  async updatejueses( name: string, id:string, categories: { id: string, name: string }[]) {
+  async updatejueses( name: string, id:string, selectedCategories:[]) {
     console.log(id, name);
+    console.log(selectedCategories)
     const docRef = doc(this.db, 'usuarios', id);
     console.log(docRef);
-    await updateDoc(docRef, { displayName: name, categorias: arrayUnion(categories) })
+    //await updateDoc(docRef, { displayName: name, categorias: arrayUnion({0:"categoria 1"}) })
+    await updateDoc(docRef, { displayName: name, categorias: arrayUnion(...selectedCategories) })
     return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
   }
 

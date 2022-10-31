@@ -93,7 +93,7 @@ selectedCategories:  any = [ {id:'', nombre:''}];
     // if (this.convocatoriaForm.valid) {
    // if (this.juesModel.name.trim()) {
       if (this.juesModel.id) {
-        this.firestore.updatejueses(this.juesModel.displayName, this.juesModel.id, this.selectedCategories)
+        this.firestore.updatejueses(this.juesModel.displayName, this.juesModel.id,this.selectedCategories)
         this.visible = false
 
       } else {
