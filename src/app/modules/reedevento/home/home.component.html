@@ -46,8 +46,17 @@
                                 <br>
                                 <br>
                                 <br>
-                                <div class="grid4">
-
+                                <div class="grid5">
+                                    <div class="icon">
+                                        X
+                                        <ul class="menu">
+                                            <li class="spread" *ngFor="let name of mesas">
+                                                <a #MyRef [id]="'X'+name" class="unit"
+                                                    [pTooltip]="'Asiento: X'+name+'\n Precio: 575 USD'"
+                                                    (click)="selectedAsiento('X'+name)">{{name}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <div class="icon">
                                         W
                                         <ul class="menu">
