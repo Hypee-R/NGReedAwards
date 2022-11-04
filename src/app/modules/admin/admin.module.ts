@@ -45,6 +45,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 
 import { ChipModule } from "primeng/chip";
 
+import {PickListModule} from 'primeng/picklist';
 
 import { InputTextModule } from 'primeng/inputtext';
 
@@ -87,7 +88,8 @@ import { AddNominacionAdminComponent } from './nominaciones/add-nominacion/add-n
         ConfirmDialogModule,
         InputTextareaModule,
         ChipModule,
-        KnobModule
+        KnobModule,
+        PickListModule
     ],  providers: [ConfirmationService],
     declarations: [
         AdminComponent,

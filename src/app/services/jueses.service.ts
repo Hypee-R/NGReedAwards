@@ -47,15 +47,16 @@ export class JuesesService {
   }
 
   //aqui agregregale el array categoriass
-  async updatejueses( name: string, id:string, selectedCategories:[]) {
+  async updatejueses( name: string, id:string, selectedCategories:[],selectedCategoriesRemove:[]) {
     const docRef = doc(this.db, 'usuarios', id);
     console.log(docRef);
     //Test de carga de arrays dummy
     //await updateDoc(docRef, { displayName: name, categorias: arrayUnion({0:"categoria 1"}) })
     //test de added arrays:arrayUnion
-    //await updateDoc(docRef, { displayName: name, categorias: arrayUnion(...selectedCategories) })
+    await updateDoc(docRef, { displayName: name, categorias: arrayUnion(...selectedCategories) })
     //test remove arrays :arrayRemove
-    await updateDoc(docRef, { displayName: name, categorias: arrayRemove(...selectedCategories) })
+    const filteredLibraries = selectedCategoriesRemove.filter((item) => item !== selectedCategories);
+     await updateDoc(docRef, { displayName: name, categorias: arrayRemove(...filteredLibraries) })
     return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion');
   }
 

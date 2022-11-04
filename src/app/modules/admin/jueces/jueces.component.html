@@ -29,7 +29,7 @@
 </div>
 
 
-<p-dialog [(visible)]="visible" [style]="{width: '50vw'}" header="Detalles del mensaje" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="visible" [style]="{width: '100vw'}" header="Detalles del mensaje" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
 
       
@@ -83,12 +83,39 @@
 
             </div>
           
+        
             <div class="field mt-2">
              
                 
                
             </div>
-
+            
+               
+            <div class="field mt-2">
+               
+                <p-pickList [source]="  this.categoriaCollectiondata " [target]="juesModel.categorias" sourceHeader="Categorias Disponibles" targetHeader="Categorias asignadas" [dragdrop]="true"
+                [responsive]="true" [sourceStyle]="{'height':'30rem'}" [targetStyle]="{'height':'30rem'}" filterBy="nombre"
+                sourceFilterPlaceholder="Buscar por nombre" targetFilterPlaceholder="Buscar por nombre">
+                <ng-template let-product pTemplate="item">
+                    <div class="product-item">
+                        <div class="image-container">
+                                <!-- <img src="assets/showcase/images/demo/product/{{product.image}}" [alt]="product.name" class="product-image" /> -->
+                        </div>
+                        <div class="product-list-detail">
+                            <h5 class="mb-2">{{product.nombre}}</h5>
+                            <!-- <i class="pi pi-tag product-category-icon"></i>
+                            <span class="product-category">{{product.category}}</span> -->
+                        </div>
+                        <!-- <div class="product-list-action">
+                            <h6 class="mb-2">${{product.price}}</h6>
+                            <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                        </div> -->
+                    </div>
+                </ng-template>
+            </p-pickList>
+               
+            </div>
+            
 
     </ng-template>
 

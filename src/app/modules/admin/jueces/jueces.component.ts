@@ -46,6 +46,8 @@ selectedCategories:  any = [ {id:'', nombre:''}];
     }
 
     ngOnInit(): void {
+  
+
       this.getCat();
       this.initForm();
       this.firestore.obsr_UpdatedSnapshot.subscribe((snapshot) => {
@@ -87,13 +89,13 @@ selectedCategories:  any = [ {id:'', nombre:''}];
   async add() {
     //aqui te puse las categorias asignadas ahora contempla guardar ese array en el update jueces de firebase
     console.log(this.selectedCategories)
-
+    console.log(this.juesesCollectiondata[0].categorias)
     this.submitted = true;
     // this.visible = false
     // if (this.convocatoriaForm.valid) {
    // if (this.juesModel.name.trim()) {
       if (this.juesModel.id) {
-        this.firestore.updatejueses(this.juesModel.displayName, this.juesModel.id,this.selectedCategories)
+        this.firestore.updatejueses(this.juesModel.displayName, this.juesModel.id, this.juesModel.categorias, this.categoriaCollectiondata )
         this.visible = false
 
       } else {
@@ -136,6 +138,9 @@ selectedCategories:  any = [ {id:'', nombre:''}];
     this.juesesCollectiondata = [];
     snapshot.docs.forEach((student) => {
       this.juesesCollectiondata.push({ ...student.data(), id: student.id });
+
+      console.log(this.juesesCollectiondata)
+      console.log(this.juesesCollectiondata[0].categorias)
     })
   }
   editar(jues) {

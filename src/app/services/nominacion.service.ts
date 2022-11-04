@@ -176,6 +176,12 @@ export class NominacionService {
     this.listaNominaciones = [];
     let uid = JSON.parse(localStorage.d).uid;
     const itemsCollection = collection(this.afs,'nominaciones'); //where('uid', '==', uid)
+   
+    console.log(filter.length==0)
+    if(filter.length==0){
+      filter=[""]
+    }
+  
     // return collectionData(query(itemsCollection, where("uid", "==", uid)));
     const q = query(itemsCollection, where("categoria", "in", filter));
     const querySnapshot = await getDocs(q);

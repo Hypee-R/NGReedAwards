@@ -60,8 +60,18 @@ export class EvaluacionNominacionesComponent implements OnInit {
           }
         }
       }
-      recorreArray(this.userData[0].categorias);
-      this.getNominaciones(this.categoriasFilterUser);
+      if(this.userData[0].categorias!=undefined){
+        recorreArray(this.userData[0].categorias);
+        this.getNominaciones(this.categoriasFilterUser);
+      }else{
+
+        this.getNominaciones([""]);
+      }
+      //recorreArray(this.userData[0].categorias);
+      console.log(this.userData[0].categorias)
+
+
+    
      
     });
 
