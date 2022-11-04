@@ -171,4 +171,49 @@ export class NominacionService {
     });
     return this.listaNominaciones;
   }
+
+  async getAllNominacionesFilterCategorias(filter:string[]){
+    this.listaNominaciones = [];
+    let uid = JSON.parse(localStorage.d).uid;
+    const itemsCollection = collection(this.afs,'nominaciones'); //where('uid', '==', uid)
+    // return collectionData(query(itemsCollection, where("uid", "==", uid)));
+    const q = query(itemsCollection, where("categoria", "in", filter));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        this.listaNominaciones.push({
+            id: doc.id,
+            titulo: doc.data().titulo,
+            categoria: doc.data().categoria,
+            nominado: doc.data().nominado,
+            descripcion: doc.data().descripcion,
+            fileLogoEmpresa: doc.data().fileLogoEmpresa,
+            organizacion:doc.data().organizacion,
+            responsable:doc.data().responsable,
+            telefono:doc.data().telefono,
+            pais:doc.data().pais,
+            rsInstagram: doc.data().rsInstagram,
+            rsTwitter: doc.data().rsTwitter,
+            rsFacebook: doc.data().rsFacebook,
+            rsYoutube: doc.data().rsYoutube,
+            fileCesionDerechos: doc.data().fileCesionDerechos,
+            fileCartaIntencion: doc.data().fileCartaIntencion,
+            materialMultimedia: doc.data().materialMultimedia,
+            fileBaucher: doc.data().fileBaucher,
+            pagarCon:doc.data().pagarCon,
+            statuspago:doc.data().statuspago,
+            idpago:doc.data().idpago,
+            montopago:doc.data().montopago,
+            uid:doc.data().uid,
+            fechaCreacion: doc.data().fechaCreacion,
+            fechaActualizacion: doc.data().fechaActualizacion,
+            evaluacion:doc.data().evaluacion
+        });
+        //console.log(doc.id, " => ", doc.data());
+    });
+    return this.listaNominaciones;
+  }
+
+
+ 
 }

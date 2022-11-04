@@ -14,6 +14,12 @@ import { UsuarioService } from 'src/app/services/usuarios.service';
 
 
 export class EvaluacionNominacionesComponent implements OnInit {
+  //added Filter Categorias String
+  //categoriasFilterUser: string[];
+
+     categoriasFilterUser: string[] = [];
+  
+  //added Filter Categorias String
   visibleSide: boolean;
   accion: string = '';
   nominacionEditar: NominacionModel;
@@ -41,7 +47,21 @@ export class EvaluacionNominacionesComponent implements OnInit {
       this.usuarios = data;
       this.userData = data.filter(item => item.uid === this.uid);
       console.log('userData ', this.userData);
-      this.getNominaciones();
+     
+    
+      const recorreArray = (arr) => {
+        for (let i = 0; i <= arr.length - 1; i++) {
+          console.log(arr[i].nombre);
+        
+          if (this.categoriasFilterUser?.push) {
+            console.log(this.categoriasFilterUser.push(arr[i].nombre));
+          } else {
+            console.log('arr is undefined or null');
+          }
+        }
+      }
+      recorreArray(this.userData[0].categorias);
+      this.getNominaciones(this.categoriasFilterUser);
      
     });
 
@@ -54,18 +74,7 @@ export class EvaluacionNominacionesComponent implements OnInit {
       { field: 'titulo', header: 'Titulo', filter: 'titulo' },
       { field: 'nominado', header: 'Nominado', filter: 'nominado' },
       { field: 'categoria', header: 'Categoría', filter: 'categoria' },
-      // {
-      //   field: 'fechaCreacion',
-      //   header: 'Fecha Creación',
-      //   filter: 'fechaCreacion',
-      // },
-      // {
-      //   field: 'fechaActualizacion',
-      //   header: 'Fecha Actualización',
-      //   filter: 'fechaActualizacion',
-      // },
-      // { field: 'displayName', header: 'Usuario Nombre', filter: 'usuario.displayName'},
-      // { field: 'email', header: 'Usuario Correo', filter: 'usuario.email' },
+  
     ];
   }
 
@@ -82,8 +91,9 @@ export class EvaluacionNominacionesComponent implements OnInit {
 
   
   
-  async getNominaciones() {
-    this.listNominaciones = await this.nominacionesService.getAllNominaciones();
+  async getNominaciones(filter:any) {
+    console.log(filter)
+    this.listNominaciones = await this.nominacionesService.getAllNominacionesFilterCategorias(filter);
     if (this.listNominaciones.length > 0) {
       this.listNominaciones = this.listNominaciones.filter(
         (x) => x.titulo && x.nominado && x.descripcion
@@ -135,7 +145,7 @@ guardarEvaluacion(dataNominacion: NominacionModel){
   }
 
   async fetchNominacion() {
-    await this.getNominaciones();
+    await this.getNominaciones( this.categoriasFilterUser);
     this.visibleSide = false;
     this.accion = null;
     this.nominacionEditar = null;

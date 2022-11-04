@@ -72,9 +72,8 @@ querySnapshot.forEach((doc) => {
   }
   
   
-    
-  
-  
+
+
     
   
   }
