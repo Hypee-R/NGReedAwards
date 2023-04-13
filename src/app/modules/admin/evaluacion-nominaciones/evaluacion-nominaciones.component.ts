@@ -5,6 +5,7 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { UsuarioService } from 'src/app/services/usuarios.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-evaluacion-nominaciones',
@@ -152,6 +153,24 @@ guardarEvaluacion(dataNominacion: NominacionModel){
     this.nominacionEditar = nominacion;
     console.log(this.nominacionEditar.titulo)
    this.visibleSide = true;
+  }
+  async eliminarNominacion(nominacion: NominacionModel) {
+    Swal.fire({
+      title: 'Desea Eliminar Ésta Nominación?',
+      text: 'Ésta accion no se podrá revertir ni cambiar',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3c3174',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Eliminar!',
+      denyButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.nominacionesService.deleteNominacion(nominacion);
+        this.toastr.success('Nominación eliminada!!', 'Success');
+        this.getNominaciones(nominacion);
+      }
+    });
   }
 
   async fetchNominacion() {
