@@ -1,3 +1,29 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="!this.currentUser">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/portal/inicio">
+            <a class="navbar-brand" routerLink="/portal/inicio">
+                <img src="https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/logo%2FLogo-REED-LATINO%20(3).png?alt=media&token=205e1fc6-cb93-4d20-863a-c87d4af3bcdc" alt="" width="35" height="29">
+            </a>
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/portal/inicio" routerLinkActive="active">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/portal/categorias" routerLinkActive="active">Categorías</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" routerLink="/portal/contacto" routerLinkActive="active">Contacto</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a class="nav-link" style="cursor: pointer;" routerLink="/portal/registro" *ngIf="!configService.Usuario">Registrate</a>
+                <a class="nav-link" style="cursor: pointer;" routerLink="/portal/login" *ngIf="!configService.Usuario">Iniciar Sesión</a>
+            </div>
+        </div>
+    </div>
+</nav>
 <!-- Nav bar usuario -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="this.currentUser === 'user'">
     <div class="container-fluid">
