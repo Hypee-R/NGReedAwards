@@ -40,7 +40,7 @@ export class CargaImagenesService {
     });
   }
 
-  upload(files: FileItem[]){
+  upload(files: FileItem[], categoria:any = null, nominado:any = null){
     this.idsImageSave = [];
     this.idsImageErr = [];
     const firebaseApp = getApp();
@@ -52,8 +52,8 @@ export class CargaImagenesService {
       if(file.progreso >= 100){
         continue;
       }
-
-      const storageRef = ref(storage, `${this.carpetaImagenes}/${file.nombreArchivo}`);
+      const rutaArchivos = (categoria && nominado)? `${categoria}/${nominado}/${file.nombreArchivo}`: `${this.carpetaImagenes}/${file.nombreArchivo}`;
+      const storageRef = ref(storage, rutaArchivos);
 
       const uploadTask = uploadBytesResumable(storageRef, file.archivo);
 

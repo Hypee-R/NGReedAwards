@@ -186,7 +186,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label *ngIf="agregarFileCDerechos" for="formFile" class="form-label">Cesi&oacute;n de derechos*</label>
-                        <input *ngIf="agregarFileCDerechos" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileCesionDerechos')" [ngClass]="submitted && nominacionForm.controls['fileCesionDerechos'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : null">
+                        <input *ngIf="agregarFileCDerechos" class="form-control" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx" id="formFile" (change)="onFileSelected($event, 'FileCesionDerechos')" [ngClass]="submitted && nominacionForm.controls['fileCesionDerechos'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCesionDerechos'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileCesionDerechos'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileCesionDerechos'].errors.required">Por favor seleccione un archivo</div>
                         </div>
@@ -198,7 +198,7 @@
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
                         <label *ngIf="agregarFileCIntencion" for="formFile" class="form-label">Carta de intenci&oacute;n*</label>
-                        <input *ngIf="agregarFileCIntencion" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileCartaIntencion')" [ngClass]="submitted && nominacionForm.controls['fileCartaIntencion'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : null">
+                        <input *ngIf="agregarFileCIntencion" class="form-control" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx" id="formFile" (change)="onFileSelected($event, 'FileCartaIntencion')" [ngClass]="submitted && nominacionForm.controls['fileCartaIntencion'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileCartaIntencion'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileCartaIntencion'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileCartaIntencion'].errors.required">Por favor seleccione un archivo</div>
                         </div>
@@ -208,6 +208,7 @@
                     </div>
                 </div>
             </div>
+            <span class="text-danger">Únicamente se aceptan los siguientes tipos de archivos: "pdf, doc, docx, ppt y pptx"</span>
         </p-card>
         <div class="w-full md:w-1/2 p-3">
             <div class="bg-white border-2 border-gray-300 rounded-lg shadow-lg p-4">
@@ -282,7 +283,7 @@
                         <label *ngIf="agregarFilesMultimedia" for="formFile" class="form-label">Cargue cualquier recurso multimedia relacionado con la
                         nominaci&oacute;n aqu&iacute;, Este material multimedia se podr&aacute; visualizar
                         publicamente.</label>
-                        <input *ngIf="agregarFilesMultimedia" class="form-control" type="file" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')" [ngClass]="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : null">
+                        <input *ngIf="agregarFilesMultimedia" class="form-control" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,image/*" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')" [ngClass]="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileMaterialMultimedia'].errors.required">Por favor seleccione un archivo</div>
                         </div>
@@ -295,6 +296,7 @@
                     </div>
                 </div>
             </div>
+            <span class="text-danger">Únicamente se aceptan los siguientes tipos de archivos: "pdf, doc, docx, ppt, pptx e imagenes"</span>
         </p-card>
         <hr>
         <div class="d-grid gap-2 col-6 mx-auto">
@@ -330,7 +332,7 @@
                         <a target="_blank" href="">Inicio</a>
                     </p>
                     <label *ngIf="nominacionForm.controls['pagarCon'].value === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" for="formFile" class="form-label">Comprobante de pago*</label>
-                    <input *ngIf="nominacionForm.controls['pagarCon'].value === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" class="form-control" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
+                    <input *ngIf="nominacionForm.controls['pagarCon'].value === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" class="form-control" accept=".pdf,.doc,.docx,image/*" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
                     <div *ngIf="submitted && nominacionForm.controls['fileBaucher'].errors" class="text-danger">
                         <!-- <div *ngIf="nominacionForm.controls['fileBaucher'].errors.required">Por favor seleccione un archivo</div> -->
                     </div>
@@ -339,6 +341,7 @@
                 </label>
                 </div>
             </div>
+            <span class="text-danger">Únicamente se aceptan los siguientes tipos de archivos: "pdf, doc, docx e imagenes"</span>
         </p-card>
         <br *ngIf="nominacionForm.controls['pagarCon'].value === 'swift'">
         <p-card [hidden]="nominacionForm.controls['pagarCon'].value === 'swift'" header="Pagar con Paypal">
