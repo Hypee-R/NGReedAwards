@@ -52,7 +52,7 @@ export class CargaImagenesService {
       if(file.progreso >= 100){
         continue;
       }
-      const rutaArchivos = (categoria && nominado)? `${categoria}/${nominado}/${file.nombreArchivo}`: `${this.carpetaImagenes}/${file.nombreArchivo}`;
+      const rutaArchivos = (categoria && nominado)? `nominaciones/${categoria}/${nominado}/${file.nombreArchivo}`: `${this.carpetaImagenes}/${file.nombreArchivo}`;
       const storageRef = ref(storage, rutaArchivos);
 
       const uploadTask = uploadBytesResumable(storageRef, file.archivo);
