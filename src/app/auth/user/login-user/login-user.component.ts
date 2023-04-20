@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ErrorService } from 'src/app/services/error.service';
 import { Router } from '@angular/router';
 import { ProfileUser } from 'src/app/models/user';
+import { Firestore, collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 
 
 
@@ -16,6 +17,8 @@ import { ProfileUser } from 'src/app/models/user';
 export class LoginUserComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
+  userdata: any;
+  db: Firestore = getFirestore();
 
   constructor(private fb: FormBuilder,
               private auth: Auth,
@@ -36,13 +39,29 @@ export class LoginUserComponent implements OnInit {
     const password = this.loginForm.get('password').value;
     this.loading = true;
     signInWithEmailAndPassword(this.auth, usuario, password)
-      .then((userCredential) => {
+      .then(async(userCredential) => {
 
         if (userCredential.user?.emailVerified) {
           this.toastr.success('Bienvenido', 'Login correcto');
           localStorage.d = JSON.stringify(userCredential.user);
+          const querySnapshot =  getDocs(query(collection(this.db, "usuarios/"), where("uid", "==", userCredential.user.uid)));
+          (await querySnapshot).forEach((doc) => {
+            this.userdata = doc.data();
+            console.log("user data",this.userdata);
+          })
+
+          localStorage.setItem('user', JSON.stringify(this.userdata));
+          switch (this.userdata.rol) {
+            case 'user':
+              this.router.navigate(['/portal']);
+              break;
+            case 'admin':
+              this.router.navigate(['/admin']);
+              break;
+          }
+
           // this.setLocalStorage(userCredential.user);
-          this.router.navigate(['/']);
+          //this.router.navigate(['/']);
         } else {
           this.toastr.error('El usuario no ha verificado su cuenta', 'Error');
           this.router.navigate(['/portal/verificarCorreo']);
