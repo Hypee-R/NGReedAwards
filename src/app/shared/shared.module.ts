@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { NavBarEventoComponent } from './components/nav-bar-evento/nav-bar-evento.component';
 import { MenuBarComponent } from './components/menu-bar/menu-bar.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import {MenubarModule} from 'primeng/menubar';
@@ -25,7 +24,7 @@ import { SafeurlPipe } from './pipes/url-sanitazer.pipe';
         NavBarComponent,
         MenuBarComponent,
         SpinnerComponent,
-        NavBarEventoComponent,
+       
         //Pipes
         SafeurlPipe,
     ],
@@ -33,7 +32,7 @@ import { SafeurlPipe } from './pipes/url-sanitazer.pipe';
         NavBarComponent,
         MenuBarComponent,
         SpinnerComponent,
-        NavBarEventoComponent,
+      
         SafeurlPipe,
         
     ]
