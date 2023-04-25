@@ -16,6 +16,13 @@ export class AuthGuard implements CanLoad, CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     if (this.authService.Usuario){
       //console.log("Autenticado");
+     const userRol = JSON.parse(localStorage.getItem('user')).rol;
+      if (state.url.includes('/admin') && userRol == 'user') { //esta en rutas de admin
+        this.router.navigate(['/portal'], { replaceUrl: true });
+      }
+      if (state.url.includes('/portal') && userRol == 'admin' ) { //esta en rutas de portal - user
+        this.router.navigate(['/admin'], { replaceUrl: true });
+      }
       return true;
     }else {
       localStorage.clear();
