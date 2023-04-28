@@ -28,16 +28,16 @@
         <ng-template pTemplate="header">
             <tr>
               
-                <th pSortableColumn="nombre">nombre
+                <th pSortableColumn="nombre">Nombre
                     <p-sortIcon field="nombre"></p-sortIcon>
                 </th>
-                <th pSortableColumn="correo">correo
+                <th pSortableColumn="correo">Correo
                     <p-sortIcon field="correo"></p-sortIcon>
                 </th>
-                <th pSortableColumn="telefono">telefono
+                <th pSortableColumn="telefono">Teléfono
                     <p-sortIcon field="telefono"></p-sortIcon>
                 </th>
-                <th pSortableColumn="mensaje">mensaje
+                <th pSortableColumn="mensaje">Mensaje
                     <p-sortIcon field="mensaje"></p-sortIcon>
                 </th>
                
@@ -72,14 +72,14 @@
     <ng-template pTemplate="content">
 
         <div class="field">
-            <label for="nombre">contacto</label>
+            <label for="nombre">Contacto</label>
             <input type="text" pInputText id="correo" [(ngModel)]="ContactoModel.correo" required autofocus />
-            <small class="p-error" *ngIf="submitted && !ContactoModel.correo">correo is required.</small>
+            <small class="p-error" *ngIf="submitted && !ContactoModel.correo">correo es requerido.</small>
         </div>
         <div class="field">
             <label for="nombre">Nombre</label>
             <input type="text" pInputText id="nombre" [(ngModel)]="ContactoModel.nombre" required autofocus />
-            <small class="p-error" *ngIf="submitted && !ContactoModel.nombre">nombre is required.</small>
+            <small class="p-error" *ngIf="submitted && !ContactoModel.nombre">nombre es requerido.</small>
         </div>
         <div class="field">
             <label for="mensaje">Mensaje</label>
@@ -91,8 +91,8 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveContactoModel()"></button>
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="saveContactoModel()"></button>
     </ng-template>
 </p-dialog>
 
