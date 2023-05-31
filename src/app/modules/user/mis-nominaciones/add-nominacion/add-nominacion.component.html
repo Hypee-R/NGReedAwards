@@ -231,7 +231,7 @@
                         <p>
                             <br>
                             <br>
-                            <a href="https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/ourFiles%2FCarta%20de%20Intencio%CC%81n%20.docx?alt=media&token=1752cf4d-74af-4bfc-b564-cedf28c80516">
+                            <a href="https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/ourFiles%2FCarta%20de%20Intenci%C3%B3n%20.docx?alt=media&token=480a1d82-3502-452a-a5bf-5b113e763087">
                                 <img src="assets/img/docx.png" alt="" height="150" width="140">
                             </a>
                             <br>Carta de intención
@@ -283,6 +283,7 @@
                         <label *ngIf="agregarFilesMultimedia" for="formFile" class="form-label">Cargue cualquier recurso multimedia relacionado con la
                         nominaci&oacute;n aqu&iacute;, Este material multimedia se podr&aacute; visualizar
                         publicamente.</label>
+                        <label>puedes subir aquí tus videos imágenes y otros materiales a tu elección</label>
                         <input *ngIf="agregarFilesMultimedia" class="form-control" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,image/*" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')" [ngClass]="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileMaterialMultimedia'].errors.required">Por favor seleccione un archivo</div>
