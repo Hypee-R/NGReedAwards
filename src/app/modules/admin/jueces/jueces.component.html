@@ -40,7 +40,7 @@
               <!-- <small class="p-error" *ngIf="submitted && !juesModel.name">nombre is required.</small> -->
             </div>
             <div class="field">
-              <label for="address"> Address:</label>
+              <label for="address">Dirección:</label>
               <input type="text" pInputText name="address" class="" [(ngModel)]="juesModel.address" >
               <!-- <small class="p-error" *ngIf="submitted && !juesModel.address">nombre is required.</small> -->
             </div>
@@ -50,22 +50,22 @@
               <!-- <small class="p-error" *ngIf="submitted && !juesModel.email">nombre is required.</small> -->
             </div>
             <div class="field mt-2">
-              <label for="firstName">First Name:</label>
+              <label for="firstName">Apellido Paterno:</label>
               <input type="text" name="firstName" class="" pInputText required [(ngModel)]="juesModel.firstName"  />
               <!-- <small class="p-error" *ngIf="submitted && !juesModel.firstName">nombre is required.</small> -->
             </div>
             <div class="field mt-2">
-                <label for="lastName">Last Name:</label>
+                <label for="lastName">Apellido Materno:</label>
                 <input type="text" name="lastName" class="" pInputText required [(ngModel)]="juesModel.lastName"  />
                 <!-- <small class="p-error" *ngIf="submitted && !juesModel.lastName">nombre is required.</small> -->
             </div>
             <div class="field mt-2">
-                <label for="phone">Phone:</label>
+                <label for="phone">Teléfono:</label>
                 <input type="text" name="phone" class="" pInputText required [(ngModel)]="juesModel.phone" />
                 <!-- <small class="p-error" *ngIf="submitted && !juesModel.phone">nombre is required.</small> -->
             </div>
             <div class="field mt-2">
-                <label for="photoURL">Photo Url:</label>
+                <label for="photoURL">Foto Url:</label>
                 <input type="text" name="photoURL" class="" pInputText required [(ngModel)]="juesModel.photoURL"  />
                 <!-- <small class="p-error" *ngIf="submitted && !juesModel.photoURL">nombre is required.</small> -->
             </div>
@@ -120,8 +120,8 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="add()"></button>
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="add()"></button>
     </ng-template>
 </p-dialog>
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
