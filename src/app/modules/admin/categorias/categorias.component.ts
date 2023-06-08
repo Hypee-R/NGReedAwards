@@ -1,13 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { ToastrService } from 'ngx-toastr';
+import { ConfirmationService } from 'primeng/api';
 import { CategoriasService } from 'src/app/services/categorias.service';
+import { ExcelService } from 'src/app/services/excel.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { UsuarioService } from 'src/app/services/usuarios.service';
-import { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import * as XLSX from 'xlsx';
-import { ExcelService } from 'src/app/services/excel.service';
-import { ConfirmationService } from 'primeng/api';
 
 // import { Subject } from 'rxjs/Subject';
 @Component({
@@ -261,13 +260,12 @@ this.edit= false
     return data
     
       })
-
-       video = valor.filter(e => e.url.includes('.mp4'))
-       png = valor.filter( e => e.url.includes('.png'))
-       jpg = valor.filter( e => e.url.includes('.jpg'))
-       pdf = valor.filter(e => e.url.includes('.pdf'))
-       jpeg = valor.filter(e => e.url.includes('.jpeg'))
-       audio = valor.filter(e => e.url.includes('.mp3'))
+       const video = valor?.filter(e => e.url && e.url.includes('.video')) ?? [];
+       const png = valor?.filter(e => e.url && e.url.includes('.png')) ?? [];
+       const jpg = valor?.filter(e => e.url && e.url.includes('.jpg')) ?? [];
+       const pdf = valor?.filter(e => e.url && e.url.includes('.pdf')) ?? [];
+       const jpeg = valor?.filter(e => e.url && e.url.includes('.jpeg')) ?? [];
+       const audio = valor?.filter(e => e.url && e.url.includes('.audio')) ?? [];
       }
       var idCat = this.categoriaCollectiondata.map(function(data){
         return data
@@ -283,7 +281,30 @@ this.edit= false
         if (nominacion.uid == usuarios[i].uid) {
           
           tieneUsuario = true;
-          piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuarios[i].uid, "NOMBRE": usuarios[i].firstName, "APELLIDO": usuarios[i].lastName,"CORREO": usuarios[i].email, "TELEFONO": usuarios[i].phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, 'MEDIO_DE_PAGO':lastMethodPay, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length+jpeg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": pdf.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria, "Pais": nominacion.pais, "Nominado": nominacion.nominado}));
+          //piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuarios[i].uid, "NOMBRE": usuarios[i].firstName, "APELLIDO": usuarios[i].lastName,"CORREO": usuarios[i].email, "TELEFONO": usuarios[i].phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, 'MEDIO_DE_PAGO':lastMethodPay, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length+jpeg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": pdf.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria, "Pais": nominacion.pais, "Nominado": nominacion.nominado}));
+          piezasInscritas.push(new Object({
+            "#": index,
+            "ID_USUARIO": usuarios[i].uid,
+            "NOMBRE": usuarios[i].firstName,
+            "APELLIDO": usuarios[i].lastName,
+            "CORREO": usuarios[i].email,
+            "TELEFONO": usuarios[i].phone,
+            "PAGO": nominacion.statuspago,
+            "ID_PIEZA": nominacion.id,
+            "NOMBRE_DE_LA_PIEZA": nominacion.titulo,
+            "EMPRESA": nominacion.organizacion,
+            "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion,
+            "MEDIO_DE_PAGO": lastMethodPay,
+            "NUM_VIDEO": video ? video.length : 0,
+            "NUM_IMAGENES": (png ? png.length : 0) + (jpg ? jpg.length : 0) + (jpeg ? jpeg.length : 0),
+            "NUM_AUDIO": audio ? audio.length : 0,
+            "NUM_DOCS": pdf ? pdf.length : 0,
+            "CATEGORIA": idCategoria.join(),
+            "NOMBRE_CATEGORIA": nominacion.categoria,
+            "Pais": nominacion.pais,
+            "Nominado": nominacion.nominado
+          }));
+          
           break;
         }
       }
