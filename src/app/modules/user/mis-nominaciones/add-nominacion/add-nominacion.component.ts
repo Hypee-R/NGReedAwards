@@ -26,12 +26,8 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
    producto = {
      descripcion : 'Compra por Nominacion de Reedlatino',
-     precio      : 141.75
+     precio      :  156.00
    }
-  // producto = {
-  //   descripcion : 'Compra por Nominacion de Reedlatino',
-  //   precio      : 150.00
-  // }
 
   codigosDescuento = [
     { codigo: 'REED20ANAC', descuento: 20 },
