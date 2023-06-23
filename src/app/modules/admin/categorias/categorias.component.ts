@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { ConfirmationService } from 'primeng/api';
+import { NominacionModel } from 'src/app/models/nominacion.model';
 import { CategoriasService } from 'src/app/services/categorias.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
@@ -292,7 +293,9 @@ this.edit= false
             "PAGO": nominacion.statuspago,
             "ID_PIEZA": nominacion.id,
             "NOMBRE_DE_LA_PIEZA": nominacion.titulo,
+            "DESCRIPCION": nominacion.descripcion,
             "EMPRESA": nominacion.organizacion,
+            "RESPONSABLE": nominacion.responsable,
             "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion,
             "MEDIO_DE_PAGO": lastMethodPay,
             "NUM_VIDEO": video ? video.length : 0,
@@ -302,7 +305,8 @@ this.edit= false
             "CATEGORIA": idCategoria.join(),
             "NOMBRE_CATEGORIA": nominacion.categoria,
             "Pais": nominacion.pais,
-            "Nominado": nominacion.nominado
+            "Nominado": nominacion.nominado,
+            "Fecha Actualizacion": nominacion.fechaActualizacion
           }));
           
           break;
@@ -310,7 +314,30 @@ this.edit= false
       }
 
       if(tieneUsuario == false){
-        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": "", "NOMBRE": "NO SE ENCONTRO USUARIO", "APELLIDO": "","CORREO": "", "TELEFONO": "","PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, 'MEDIO_DE_PAGO':"", "NUM_VIDEO": "","NUM_IMAGENES": "", "NUM_AUDIO": "", "NUM_DOCS": "", "CATEGORIA": "", "NOMBRE_CATEGORIA": nominacion.categoria, "Pais": nominacion.pais, "Nominado": nominacion.nominado}));
+        piezasInscritas.push(new Object({
+          "#":index, "ID_USUARIO": "", 
+          "NOMBRE": "NO SE ENCONTRO USUARIO", 
+          "APELLIDO": "",
+          "CORREO": "", 
+          "TELEFONO": "",
+          "PAGO": nominacion.statuspago,
+          "ID_PIEZA": nominacion.id, 
+          "NOMBRE_DE_LA_PIEZA": nominacion.titulo,
+          "DESCRIPCION": nominacion.descripcion,
+          "EMPRESA": nominacion.organizacion, 
+          "RESPONSABLE": nominacion.responsable,
+          "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion,
+          'MEDIO_DE_PAGO':"", 
+          "NUM_VIDEO": "",
+          "NUM_IMAGENES": "",
+          "NUM_AUDIO": "",
+          "NUM_DOCS": "",
+          "CATEGORIA": "",
+          "NOMBRE_CATEGORIA": nominacion.categoria,
+          "Pais": nominacion.pais,
+          "Nominado": nominacion.nominado,
+          "Fecha Actualizacion": nominacion.fechaActualizacion
+                  }));
       }
       
     });
@@ -364,7 +391,8 @@ this.edit= false
       var lastMethodPay = "";
       var estadoPago = ""
       var Vaoucher = "Vaoucher"
-      var cat = ''
+      var cat = '';
+      var lastNominacion = new NominacionModel();
       // console.log(usuario.uid);
         nominaciones.forEach((nominacion) => {
           
@@ -374,7 +402,7 @@ this.edit= false
           total_pagado += parseInt(nominacion.montopago);
           lastMethodPay = nominacion.pagarCon;
           estadoPago = nominacion.statuspago
-        
+          lastNominacion = nominacion;
         }else{
 
           // console.log(nominacion.uid, usuario.uid);
@@ -383,7 +411,28 @@ this.edit= false
       if(num_nominaciones > 0){
 
         indexPiezasEncontradas++;
-        piezasInscritas.push(new Object({"#":indexPiezasEncontradas, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":estadoPago,"NUM_PIEZAS":num_nominaciones, "TOTAL_USD":"","COIN":"","TOTAL_MXM":"$" +total_pagado,"COIN_2":"MXM", "FECHA_DE_PAGO": "","DATA":"","MEDIO_DE_PAGO":lastMethodPay}));
+        piezasInscritas.push(new Object({
+          "#":indexPiezasEncontradas,
+           "ID_USUARIO": usuario.uid,
+          "NOMBRE": usuario.firstName,
+          "APELLIDO": usuario.lastName,
+          "CORREO": usuario.email,
+          "TELEFONO": usuario.phone,
+          "ESTADO":estadoPago,
+          "NUM_PIEZAS":num_nominaciones,
+          "TOTAL_USD":"",
+          "COIN":"",
+          "TOTAL_MXM":"$" +total_pagado,
+          "COIN_2":"MXM", 
+          "FECHA_DE_PAGO": lastNominacion.fechaCreacion,
+          "FECHA_ACTUALIZACION": lastNominacion.fechaActualizacion,
+          "ULTIMA_NOMINACION_PAGADA":lastNominacion.titulo, 
+          "CATEGORIA_DE_LA_ULTIMA_NOMINACION_PAGADA":lastNominacion.categoria, 
+          "DESCRIPCION_DE_NOMINACION_PAGADA": lastNominacion.descripcion,
+          "CATEGORIA_DE_NOMINACION_PAGADA":lastNominacion.categoria, 
+          "RESPONSABLE_DE_LA_NOMINACION": lastNominacion.responsable,
+          "DATA":"",
+          "MEDIO_DE_PAGO":lastMethodPay}));
       }
     });
     this.AddExcelOrdenesPagadasSinUser(nominaciones, usuarios,piezasInscritas);
@@ -410,6 +459,7 @@ this.edit= false
   }
 
   ExcelOrdenesNoPagadas(usuarios, nominaciones) {
+    var lastNominacion = new NominacionModel();
     var piezasInscritas = [];
 
       usuarios.forEach((usuario,index) => {
@@ -423,12 +473,29 @@ this.edit= false
           num_nominaciones++;
           total_pagado += parseInt(nominacion.montopago);
           lastState = nominacion.statuspago;
-          estadoPago = nominacion.statuspago
+          estadoPago = nominacion.statuspago;
           
+          lastNominacion = nominacion;
         }
       });
       if(num_nominaciones > 0){
-        piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuario.uid, "NOMBRE": usuario.firstName, "APELLIDO": usuario.lastName,"CORREO": usuario.email, "TELEFONO": usuario.phone,"ESTADO":estadoPago,"NUM_PIEZAS":num_nominaciones, "TOTAL":"$" +total_pagado}));
+        piezasInscritas.push(new Object({
+          "#":index, 
+          "ID_USUARIO": usuario.uid, 
+          "NOMBRE": usuario.firstName,
+          "APELLIDO": usuario.lastName,
+          "CORREO": usuario.email, 
+          "TELEFONO": usuario.phone,
+          "ESTADO":estadoPago,
+          "NUM_PIEZAS":num_nominaciones, 
+          "TOTAL":"$" +total_pagado,
+          "FECHA_DE_PAGO": lastNominacion.fechaCreacion,
+          "FECHA_ACTUALIZACION": lastNominacion.fechaActualizacion,
+          "ULTIMA_NOMINACION_PAGADA":lastNominacion.titulo, 
+          "CATEGORIA_DE_LA_ULTIMA_NOMINACION_PAGADA":lastNominacion.categoria, 
+          "DESCRIPCION_DE_NOMINACION_PAGADA": lastNominacion.descripcion,
+          "CATEGORIA_DE_NOMINACION_PAGADA":lastNominacion.categoria, 
+          "RESPONSABLE_DE_LA_NOMINACION": lastNominacion.responsable,}));
       }
     })
     return piezasInscritas;
