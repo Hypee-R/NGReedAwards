@@ -284,7 +284,7 @@
                         nominaci&oacute;n aqu&iacute;, Este material multimedia se podr&aacute; visualizar
                         publicamente.</label>
                         <label>puedes subir aquí tus videos imágenes y otros materiales a tu elección</label>
-                        <input *ngIf="agregarFilesMultimedia" class="form-control" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,image/*" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')" [ngClass]="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : null">
+                        <input *ngIf="agregarFilesMultimedia" class="form-control" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,image,.mp4,.mp3/*" id="formFile" multiple (change)="onFileSelected($event, 'FileMaterialMultimedia')" [ngClass]="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileMaterialMultimedia'].valid ? 'is-valid' : null">
                         <div *ngIf="submitted && nominacionForm.controls['fileMaterialMultimedia'].errors" class="text-danger">
                             <div *ngIf="nominacionForm.controls['fileMaterialMultimedia'].errors.required">Por favor seleccione un archivo</div>
                         </div>
@@ -297,7 +297,7 @@
                     </div>
                 </div>
             </div>
-            <span class="text-danger">Únicamente se aceptan los siguientes tipos de archivos: "pdf, doc, docx, ppt, pptx e imagenes"</span>
+            <span class="text-danger">Únicamente se aceptan los siguientes tipos de archivos: "pdf, doc, docx, ppt, pptx,mp4,mp3 e imagenes"</span>
         </p-card>
         <hr>
         <div class="d-grid gap-2 col-6 mx-auto">
@@ -333,7 +333,7 @@
                         <a target="_blank" href="">Inicio</a>
                     </p>
                     <label *ngIf="nominacionForm.controls['pagarCon'].value === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" for="formFile" class="form-label">Comprobante de pago*</label>
-                    <input *ngIf="nominacionForm.controls['pagarCon'].value === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" class="form-control" accept=".pdf,.doc,.docx,image/*" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
+                    <input *ngIf="nominacionForm.controls['pagarCon'].value === 'swift' && agregarFileBaucher || nominacionEditar.fileBaucher == ''" class="form-control" accept=".pdf,.doc,.docx,image,.mp4,.mp3/*" type="file" id="formFile" (change)="onFileSelected($event, 'FileBaucher')" [ngClass]="submitted && nominacionForm.controls['fileBaucher'].errors ? 'is-invalid' : !submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : submitted && nominacionForm.controls['fileBaucher'].valid ? 'is-valid' : null">
                     <div *ngIf="submitted && nominacionForm.controls['fileBaucher'].errors" class="text-danger">
                         <!-- <div *ngIf="nominacionForm.controls['fileBaucher'].errors.required">Por favor seleccione un archivo</div> -->
                     </div>
