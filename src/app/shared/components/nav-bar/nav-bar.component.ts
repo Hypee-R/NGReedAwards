@@ -39,14 +39,23 @@ export class NavBarComponent implements OnInit {
       //if local storage is not null
       if(localStorage.d){
         this.userUid = JSON.parse(localStorage.d).uid;
+        console.log(    this.userUid)
       } else {
         this.userUid = undefined;
       }
       if(data) {
+        console.log(data)
         this.userData = data.filter(item => item.uid === this.userUid);
         //get user rol from userData
         console.log("=====>DATA");
+        console.log(this.userData[0])
+
+        if( console.log(this.userData[0])==undefined){
+          console.log('Datos undefined')
+        }
         console.log(this.userData[0]?.rol);
+
+        
         if(this.userData[0]?.rol){
           this.currentUser = this.userData[0].rol;
           console.log("=====>currentUser");
