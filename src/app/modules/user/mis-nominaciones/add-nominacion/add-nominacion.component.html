@@ -313,7 +313,7 @@
               <option value="paypal">PayPal</option>
             </select>
             <br>
-            <div class="row" *ngIf="accion == 'agregar'">
+            <div class="row" >
                 <div class="col-8">
                     <label>Aplicar codigo de descuento</label>
                     <input type="text" class="form-control" [(ngModel)]="codigoDesc" [ngModelOptions]="{standalone: true}" [disabled]="descuentoAplicado">

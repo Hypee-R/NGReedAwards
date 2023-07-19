@@ -629,7 +629,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
       console.log('Precio normal ', this.producto);
 
       if(existeCodigoDesc){
-        this.producto.precio = (this.producto.precio * .80);
+        this.producto.precio =  124.80;
         console.log('nuevo precio ', this.producto);
         this.toastr.success('Descuento aplicado de 20%', 'Exito!');
         this.descuentoAplicado = true;
