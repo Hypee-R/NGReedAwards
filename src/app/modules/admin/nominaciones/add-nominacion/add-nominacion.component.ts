@@ -12,7 +12,7 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import { CategoriaModel } from '../../../../models/categoria.model';
 import { MenuItem } from 'primeng/api';
 import { NominacionModel } from 'src/app/models/nominacion.model';
-
+import { DatePipe } from '@angular/common';
 declare var paypal;
 
 @Component({
@@ -55,6 +55,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
   preloadCategoria: CategoriaModel;
   items: MenuItem[];
   nominacionUpdate: NominacionModel;
+  pipe = new DatePipe('en-US');
   constructor(
     private fb: FormBuilder,
     private toastr: ToastrService,
@@ -329,12 +330,32 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value,
+          fechapago: "",
           montopago: this.producto.precio.toString(),
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: "",
           fechaActualizacion: "",
+      
           evaluacion:""
         }
+        console.log("====SAVE DATA NOMINACION====")
+        console.log(dataNominacion.statuspago)
+        if(dataNominacion.statuspago=="Pago Realizado")
+        {
+        
+        console.log("====SAVE DATA NOMINACION====Pago Realizado")
+               if(dataNominacion.pagarCon=="paypal"){
+                console.log("====SAVE DATA NOMINACION====Pago Realizado paypal")
+                dataNominacion.fechapago= this.nominacionForm.get('fechapago').value 
+               }else{
+                dataNominacion.fechapago= Date.now().toString()
+                console.log("====SAVE DATA NOMINACION====Pago Realizado TRANSFERENCIA")
+               }
+        
+        }
+
+        console.log("====SAVE DATA NOMINACION====FIN")
+        console.log(dataNominacion.statuspago)
 
         if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
           this.nominacionService.addNominacion(dataNominacion);
@@ -396,6 +417,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value ? this.nominacionForm.get('idpago').value : Date.now().toString(),
+          fechapago: this.nominacionForm.get('fechapago').value ,
           // montopago: this.producto.precio.toString(),
           montopago: this.nominacionEditar.montopago,
           uid: this.nominacionEditar.uid,
@@ -403,7 +425,17 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           fechaActualizacion: "",
           evaluacion:""
         }
+        if(dataNominacion.statuspago=="Pago Realizado")
+        {
+               if(dataNominacion.pagarCon=="paypal"){
 
+                dataNominacion.fechapago= this.nominacionForm.get('fechapago').value 
+               }else{
+                dataNominacion.fechapago= this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a')
+
+               }
+        
+        }
         if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
           await this.nominacionService.updateNominacion(dataNominacion);
           this.toastr.success('Nominación actualizada con exito!!', 'Success');
@@ -608,6 +640,12 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
       denyButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
+
+        console.log(this.nominacionUpdate.statuspago+"=============>")
+        
+       this.nominacionUpdate.fechapago=this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a');
+
+            
         this.nominacionUpdate.statuspago = estatus;
         this.nominacionEditar.statuspago = this.nominacionUpdate.statuspago;
         console.log('UPDATE ESTATUS PAGO ', this.nominacionUpdate);

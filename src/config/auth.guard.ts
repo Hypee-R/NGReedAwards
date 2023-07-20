@@ -30,7 +30,7 @@ export class AuthGuard implements CanLoad, CanActivate {
       if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'|| route.url[0].path == 'mis-lugares'){
         this.router.navigate(['/portal/login'], { replaceUrl: true });
       }else{
-        this.router.navigate(['/admin/login'], { replaceUrl: true });
+        this.router.navigate(['/portal/login'], { replaceUrl: true });
       }
 
 
@@ -42,9 +42,9 @@ export class AuthGuard implements CanLoad, CanActivate {
       
       if(route.url[0].path == 'jueces' || route.url[0].path == 'categorias' || route.url[0].path == 'evaluacion-nominaciones' || route.url[0].path == 'nominaciones' || route.url[0].path == 'mensajes-contacto' || route.url[0].path == 'usuarios'){
         // this.router.navigate(['/portal/login'], { replaceUrl: true });
-        this.router.navigate(['/admin/login'], { replaceUrl: true });
+        this.router.navigate(['/portal/login'], { replaceUrl: true });
       }else{
-        this.router.navigate(['/admin/login'], { replaceUrl: true });
+        this.router.navigate(['/portal/login'], { replaceUrl: true });
       }
 
       return false;

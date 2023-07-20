@@ -63,6 +63,7 @@ export class NominacionService {
       uid:updateNominacion.uid,
       fechaCreacion: updateNominacion.fechaCreacion,
       fechaActualizacion: this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a'),
+      //fechapago: updateNominacion.fechapago,
       evaluacion:updateNominacion.evaluacion
     });
   }
@@ -77,6 +78,7 @@ export class NominacionService {
 
     await updateDoc(nominacionesRef, {
       statuspago:updateNominacion.statuspago,
+      fechapago:updateNominacion.fechapago,
     });
   }
 
@@ -119,6 +121,7 @@ export class NominacionService {
             pagarCon:doc.data().pagarCon,
             statuspago:doc.data().statuspago,
             idpago:doc.data().idpago,
+            fechapago:doc.data().fechapago,
             montopago:doc.data().montopago,
             uid:doc.data().uid,
             fechaCreacion:doc.data().fechaCreacion,
@@ -161,6 +164,7 @@ export class NominacionService {
             pagarCon:doc.data().pagarCon,
             statuspago:doc.data().statuspago,
             idpago:doc.data().idpago,
+            fechapago:doc.data().fechapago,
             montopago:doc.data().montopago,
             uid:doc.data().uid,
             fechaCreacion: doc.data().fechaCreacion,
@@ -209,6 +213,7 @@ export class NominacionService {
             pagarCon:doc.data().pagarCon,
             statuspago:doc.data().statuspago,
             idpago:doc.data().idpago,
+            fechapago:doc.data().fechapago,
             montopago:doc.data().montopago,
             uid:doc.data().uid,
             fechaCreacion: doc.data().fechaCreacion,

@@ -54,7 +54,7 @@ export class VariablesService {
     localStorage.d = "";
     localStorage.clear();
     location.reload();
-    this.router.navigate(['/admin/login'], { replaceUrl: true });
+    this.router.navigate(['/portal/login'], { replaceUrl: true });
   }
 
   removeCredentialAdminEvento() {

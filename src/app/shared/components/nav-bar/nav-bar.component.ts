@@ -84,8 +84,8 @@ export class NavBarComponent implements OnInit {
       this.variablesGL.removeCredential();
   }
 
-  logoutAdmin(){
-      this.variablesGL.removeCredentialAdmin();
-  }
+  // logoutAdmin(){
+  //     this.variablesGL.removeCredentialAdmin();
+  // }
 
 }
