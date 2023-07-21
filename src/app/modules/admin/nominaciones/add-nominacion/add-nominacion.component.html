@@ -270,7 +270,7 @@
             <span class="badge bg-danger" *ngIf="!nominacionEditar.fileBaucher && nominacionForm.controls['pagarCon'].value != 'becado'">Pago No Realizado</span>
             <br>
             <br>
-            <p-splitButton *ngIf="nominacionEditar.fileBaucher || nominacionEditar.pagarCon == 'swift'" label="Pago No Realizado" (click)="setNominacionUpdate(nominacionEditar)" icon="pi pi-stop-circle" [model]="items" styleClass="p-button-danger mb-2"></p-splitButton>
+            <p-splitButton  label="Pago No Realizado" (click)="setNominacionUpdate(nominacionEditar)" icon="pi pi-stop-circle" [model]="items" styleClass="p-button-danger mb-2"></p-splitButton>
           </label>
         </p-card>
         <br>
