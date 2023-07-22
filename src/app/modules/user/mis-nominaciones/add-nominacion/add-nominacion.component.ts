@@ -105,6 +105,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
+    //Pago Paypal
     paypal
     .Buttons({
       createOrder: (data, actions) => {
@@ -122,19 +123,20 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
       },
       onApprove: async (data, actions) => {
         const order = await actions.order.capture();
+        console.log("Tes pago==========================");
         console.log(order.id);
         console.log(order.status);
         console.log(order.purchase_units);
 
 
         this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
-        this.nominacionForm.controls['idpago'].setValue(order.id);
+        this.nominacionForm.controls['idpago'].setValue(order.id+order);
 
 
       },
       onError: err =>{
         this.nominacionForm.controls['statuspago'].setValue("");
-        this.nominacionForm.controls['idpago'].setValue("");
+        this.nominacionForm.controls['idpago'].setValue(err);
 
         console.log(err);
 
@@ -235,7 +237,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
   }
 
   crearNominacion(){
-    //console.log('form data nominacion ', this.nominacionForm);
+ 
     this.submitted = true;
     if(this.nominacionForm.valid){
 
@@ -247,7 +249,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           Swal.showLoading();
         }
       });
-      //this.toastr.info('Espera un momento, se está guardando la información!!', 'Espera');
+      
       this.guardando = true;
 
       if(this.accion == 'agregar'){
@@ -262,7 +264,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           console.log('file baucher ', this.fileBaucher);
         }
         else {
-          //this.setListaArchivos(this.fileBaucher, "NoFileBaucher");
+        
           if(this.nominacionForm.get('pagarCon').value != 'paypal'){
             this.toastr.warning('No seleccionaste un archivo de baucher', 'Atención');
           }
@@ -420,13 +422,10 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           fileCesionDerechos: this.agregarFileCDerechos ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileCesionDerechos').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileCesionDerechos').url } : this.nominacionEditar.fileCesionDerechos,
           fileCartaIntencion: this.agregarFileCIntencion ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileCartaIntencion').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileCartaIntencion').url } : this.nominacionEditar.fileCartaIntencion,
           materialMultimedia: this.agregarFilesMultimedia ? this.setFilesMultimedia() : this.nominacionEditar.materialMultimedia,
-          // fileBaucher: this.agregarFileBaucher ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
-          // fileBaucher: imgSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : '',
           fileBaucher: this.filesSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
           pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
           idpago: this.nominacionForm.get('idpago').value ? this.nominacionForm.get('idpago').value : Date.now().toString(),
-          // montopago: this.producto.precio.toString(),
           montopago: this.nominacionEditar.montopago,
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: this.nominacionEditar.fechaCreacion,
