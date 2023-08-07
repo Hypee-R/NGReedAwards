@@ -23,10 +23,10 @@ export class HomeComponent implements OnInit {
   componetesSeleccionados:ElementRef[]=[];
   txt1="A partir de esta fila son lugares individuales, \n aunque tambien puedes adquirir si lo prefieres \n mesas completas";
   txt2="De la mesa A a la D son venta mesas completas";
-  txt3="Ahora al escoger tú lugar, también puedes escoger entre tu plato fuerte en la cena:";
-  txt4="1.- Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
-  txt5="2.- Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
-  txt6="El cual puede ser seleccionado al momento de pagar";
+  // txt3="Ahora al escoger tú lugar, también puedes escoger entre tu plato fuerte en la cena:";
+  // txt4="1.- Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
+  // txt5="2.- Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
+  // txt6="El cual puede ser seleccionado al momento de pagar";
 
 
   @ViewChildren('MyRef') inputsArray: QueryList<ElementRef>

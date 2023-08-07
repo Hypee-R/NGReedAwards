@@ -48,8 +48,10 @@ export class PagoComponent implements OnInit {
   archivos: FileItem[] = [];
   boleto:boleto={idLugar:"A1",precio:"547 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
-  comidaOpcion1 = "Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
-  comidaOpcion2 = "Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
+  // comidaOpcion1 = "Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
+  // comidaOpcion2 = "Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
+  comidaOpcion1 = "No disponible";
+  //comidaOpcion2 = "Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
   comidaOpcionSelected = "";
   userData: any;
   uid = JSON.parse(localStorage.d).uid;
@@ -90,7 +92,7 @@ opcionSeleccionado:any;
         return actions.order.create({
           purchase_units: [
             {
-              description: 'Reservacion ReedAwards 2022',
+              description: 'Reservacion ReedAwards 2023',
               amount     :{
                 moneda: 'US',
                 value        : this.total
@@ -350,8 +352,8 @@ public generatePDF(): void {
   PDF.text(this.total.toString(),110,288);//Costo
   PDF.link(55, 231, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
   PDF.link(160, 231, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
-  // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });
-  // PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
+  PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });
+  PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
   PDF.save('reed-latino-reservacion.pdf');
   });
 
