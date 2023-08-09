@@ -15,13 +15,14 @@ import { DatePipe } from '@angular/common'
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  mesas:string[]=["1","2","3","4","5","6","7","8","9","10"]
-  mesasN:string[]=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O"]
+  mesas:string[]=["1","2","3","4","5","6"]
+  mesasN: string[][] = [["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O"],
+  ["P","Q","R","S","U","V","W","X","Y","Z","A1","B2","C3","D4","E5","F6","G7","H8","I9"]]
   styleOBJ = {'background': "RGB(217, 222, 224)"}
   toggle = true;
   status = "Enable";
   componetesSeleccionados:ElementRef[]=[];
-  txt1="A partir de esta fila son lugares individuales, \n aunque tambien puedes adquirir si lo prefieres \n mesas completas";
+  // txt1="A partir de esta fila son lugares individuales, \n aunque tambien puedes adquirir si lo prefieres \n mesas completas";
   txt2="De la mesa A a la D son venta mesas completas";
   // txt3="Ahora al escoger tú lugar, también puedes escoger entre tu plato fuerte en la cena:";
   // txt4="1.- Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
@@ -62,7 +63,7 @@ export class HomeComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    
+
 
   }
 
@@ -71,14 +72,14 @@ export class HomeComponent implements OnInit {
       this.lugares = data
 
         this.StatusCargaLugares=true;
-    
+
       this.lugaresDisponibles=[]
       for (let dato of data){
         let lug:boleto  ={idLugar:dato['idLugar'],precio:dato['precio'],comprado:dato['comprado'],apartado:dato['apartado'],hora:dato['fecha']}
         this.lugaresDisponibles.push(lug)
       }
-    
-   
+
+
 
     this.initLugares()
     this.cargando=true
@@ -88,7 +89,7 @@ export class HomeComponent implements OnInit {
 
   }
   initLugares(){
-  
+
       let toArray = this.inputsArray.toArray()
       for (let lugar of this.lugaresDisponibles){
         if(lugar.hora){
@@ -124,6 +125,7 @@ export class HomeComponent implements OnInit {
   }
 
   selectedAsiento(item){
+    console.log(item);
 
     let disponiblidad= this.lugaresDisponibles.find(el=>el.idLugar==item)
     if(!disponiblidad.comprado&&!disponiblidad.apartado)
