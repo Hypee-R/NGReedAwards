@@ -120,7 +120,9 @@
   }
 
 
-  .icon::content .spread:nth-child(1) {
+  /** ALINEADO PARA 6 SILLAS */
+
+  /* .icon::content .spread:nth-child(1) {
 
     transform: rotate(130deg);
   }
@@ -167,14 +169,64 @@
   .icon::content .spread:nth-child(6) .unit {
 
     transform: rotate(405deg);
+  } */
+
+  /** ALINEADO PARA 10 SILLAS */
+  .icon::content .spread:nth-child(1) {
+
+    transform: rotate(80deg);
   }
-  /* .icon::content .spread:nth-child(7) {
+  .icon::content .spread:nth-child(1) .unit {
+
+    transform: rotate(640deg);
+  }
+  .icon::content .spread:nth-child(2) {
+
+    transform: rotate(116deg);
+  }
+  .icon::content .spread:nth-child(2) .unit {
+
+    transform: rotate(605deg);
+  }
+  .icon::content .spread:nth-child(3) {
+
+    transform: rotate(152deg);
+  }
+  .icon::content .spread:nth-child(3) .unit {
+
+    transform: rotate(570deg);
+  }
+  .icon::content .spread:nth-child(4) {
+
+    transform: rotate(188deg);
+  }
+  .icon::content .spread:nth-child(4) .unit {
+
+    transform: rotate(535deg);
+  }
+  .icon::content .spread:nth-child(5) {
+
+    transform: rotate(224deg);
+  }
+  .icon::content .spread:nth-child(5) .unit {
+
+    transform: rotate(495deg);
+  }
+  .icon::content .spread:nth-child(6) {
+
+    transform: rotate(260deg);
+  }
+  .icon::content .spread:nth-child(6) .unit {
+
+    transform: rotate(462deg);
+  }
+  .icon::content .spread:nth-child(7) {
 
     transform: rotate(296deg);
   }
   .icon::content .spread:nth-child(7) .unit {
 
-    transform: rotate(410deg);
+    transform: rotate(425deg);
   }
   .icon::content .spread:nth-child(8) {
 
@@ -190,7 +242,7 @@
   }
   .icon::content .spread:nth-child(9) .unit {
 
-    transform: rotate(340deg);
+    transform: rotate(350deg);
   }
   .icon::content .spread:nth-child(10) {
 
@@ -198,8 +250,8 @@
   }
   .icon::content .spread:nth-child(10) .unit {
 
-    transform: rotate(320deg);
-  } */
+    transform: rotate(315deg);
+  }
 
   /* END .icon:hover */
   .unit {
