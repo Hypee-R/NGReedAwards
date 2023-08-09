@@ -55,6 +55,8 @@ export class PagoComponent implements OnInit {
   comidaOpcionSelected = "";
   userData: any;
   uid = JSON.parse(localStorage.d).uid;
+
+  
   constructor(    private printingService: PrintingService,
                   private lugaresService:LugaresService,
                   private reservacionService: reservacionService,
