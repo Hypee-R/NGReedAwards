@@ -6,6 +6,7 @@ import { addDoc, collection, doc, getDocs, getFirestore, onSnapshot, updateDoc, 
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { boleto } from '../modules/reedevento/home/pago/pago.component';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -83,6 +84,7 @@ export class LugaresService {
 
 
     async cancelarLugar( boletos:boleto[]) {
+      
       for(let boleto of boletos){
         let idLugar=boleto.idLugar
         let apartado= false
@@ -94,7 +96,8 @@ export class LugaresService {
         })
       const docRef = doc(this.db, 'lugares/'+ this.id);
       await updateDoc( docRef, { idLugar, apartado,comprado,fecha})}
-      return this.toastr.warning('Reservacion cancelada');}
+      
+    }
 
       async cancelarLugarAparatdo( boleto:boleto) {
        

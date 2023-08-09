@@ -7,6 +7,7 @@ import { LugaresService } from 'src/app/services/lugares.service';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { map, Observable, shareReplay, timer } from 'rxjs';
 import { DatePipe } from '@angular/common'
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -156,6 +157,20 @@ export class HomeComponent implements OnInit {
     }
 
   realizarCompra(){
+    console.log(localStorage.d)
+    if(localStorage.d== undefined)
+    {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Debe Iniciar Sesion!',
+    
+      })
+
+      return
+    }
+    
     if(this.componetesSeleccionados.length>0){
 
 
