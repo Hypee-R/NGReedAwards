@@ -15,7 +15,7 @@ import { DatePipe } from '@angular/common'
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  mesas:string[]=["1","2","3","4","5","6"]
+  mesas:string[]=["1","2","3","4","5","6","7","8","9","10"]
   mesasN: string[][] = [["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O"],
   ["P","Q","R","S","U","V","W","X","Y","Z","A1","B2","C3","D4","E5","F6","G7","H8","I9"]]
   styleOBJ = {'background': "RGB(217, 222, 224)"}
