@@ -28,7 +28,7 @@
                                 <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="dataToString" [colorDark]="'#94969e'" [colorLight]="'#000000'" [imageSrc]="'https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/files%2FEscudo-RL.png?alt=media&token=58ee9622-0c5e-4d17-90f1-39a9447a7472'"
                                     [imageHeight]="170" [imageWidth]="170" [title]="'A custom title attributesss'" [width]="256" [errorCorrectionLevel]="'M'">Datos</qrcode>
                                 <!-- <a [href]="qrCodeDownloadLink" download="qrcode">Descargue su QR de Acceso !!</a> -->
-                                <!-- <button class="btn btn-primary" (click)="downloadPdfReservacion(lugar)">Descargue su PDF de Acceso !!</button> -->
+                                <button class="btn btn-primary" (click)="downloadPdfReservacion(lugar)">Descargue su PDF de Acceso !!</button>
                             </div>
                         </div>
                     </div>

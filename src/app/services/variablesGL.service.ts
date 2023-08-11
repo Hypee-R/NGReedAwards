@@ -133,7 +133,7 @@ export class VariablesService {
       PDF.text(lugar.codigotiket.toString(),7,68);//Folio
       PDF.text(lugar.Nombrecomprador.toString(),7,86);//Comprador
       PDF.text(lugar.montopago.toString(),110,86);//Costo
-      PDF.text(lugar.codigotiket.toString(),7,269);//Folio
+      PDF.text(lugar.codigotiket.toString(),110,278);//Folio
       PDF.text(lugar.Nombrecomprador.toString(),7,288);//Comprador
       PDF.text(lugar.montopago.toString(),110,288);//Costo
       PDF.link(55, 231, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
