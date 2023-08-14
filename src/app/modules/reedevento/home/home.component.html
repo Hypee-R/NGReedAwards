@@ -39,7 +39,7 @@
                                 style="display: grid; grid-template-columns: repeat(4, 1fr);margin-right: 8rem; margin-top: 4rem; margin-bottom: 7rem;">
                                 <div *ngFor="let tables of mesasVIP[0]"
                                     style="display: grid; place-items: center; position: relative;">
-                                    <div class="icon" #MyRef [id]="tables" (click)="comprarMesa(tables) "
+                                    <div class="icon" #MyRef [id]="tables" (click)="comprarMesa(tables, 'VIP1') "
                                         [pTooltip]="'Mesa: '+tables+'\n Precio: 6300 USD'">
                                         {{tables}}
                                         <ul class="menu">
@@ -54,7 +54,7 @@
                                 style="display: grid; grid-template-columns: repeat(4, 1fr); margin-right: 8rem; margin-bottom: 7rem; ">
                                 <div *ngFor="let tables of mesasVIP[1]"
                                     style="display: grid; place-items: center; position: relative;">
-                                    <div class="icon" #MyRef [id]="tables" (click)="comprarMesa(tables) "
+                                    <div class="icon" #MyRef [id]="tables" (click)="comprarMesa(tables, 'VIP2') "
                                         [pTooltip]="'Mesa: '+tables+'\n Precio: 6200 USD'">
                                         {{tables}}
                                         <ul class="menu">
@@ -69,7 +69,7 @@
                                 style="display: grid; grid-template-columns: repeat(4, 1fr); row-gap: 7rem; margin-right: 8rem;">
                                 <div *ngFor="let tables of mesasN[0]"
                                     style="display: grid; place-items: center; position: relative;">
-                                    <div class="icon" #MyRef [id]="tables" (click)="comprarMesa(tables) "
+                                    <div class="icon" #MyRef [id]="tables" (click)="comprarMesa(tables, 'VIP3') "
                                         [pTooltip]="'Mesa: '+tables+'\n Precio: 6000 USD'">
                                         {{tables}}
                                         <ul class="menu">
