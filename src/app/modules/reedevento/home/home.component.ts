@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  targetVip = ''
   mesas:string[]=["1","2","3","4","5","6","7","8","9","10"]
   mesasVIP: string[][] = [["A","B","C","D"], ["E","F","G","H"]]
   mesasN: string[][] = [["I","J","K","L","M","N","O"],
@@ -103,11 +104,11 @@ export class HomeComponent implements OnInit {
           let newDate = new Date(f);
           this.diferencia =  (this.now.getTime()-newDate.getTime())/60000;
         }
-        let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == lugar.idLugar)
+        let ref: ElementRef<HTMLInputElement> = toArray.find(el => el?.nativeElement?.id == lugar.idLugar)
         if(lugar.apartado||lugar.comprado){
           if(lugar.comprado){
 
-            ref.nativeElement.setAttribute('style', this.enableColor)
+            ref?.nativeElement?.setAttribute('style', this.enableColor)
           }
           else{
 
@@ -115,15 +116,15 @@ export class HomeComponent implements OnInit {
               if(!lugar.comprado && this.diferencia>2)
               {
                 this.cancelarApartado(lugar)
-                ref?.nativeElement.setAttribute('style', this.enableColor)
+                ref?.nativeElement?.setAttribute('style', this.enableColor)
               }
-              ref?.nativeElement.setAttribute('style', this.enableColor)
+              ref?.nativeElement?.setAttribute('style', this.enableColor)
             }
           }
 
         }
         else{
-          ref?.nativeElement.setAttribute('style', this.unselectedColor)
+          ref?.nativeElement?.setAttribute('style', this.unselectedColor)
         }
 
       }
@@ -138,8 +139,8 @@ export class HomeComponent implements OnInit {
     {
 
       let toArray = this.inputsArray.toArray()
-      let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == item)
-      let status=this.componetesSeleccionados.find(el=>el.nativeElement.id==ref.nativeElement.id)
+      let ref: ElementRef<HTMLInputElement> = toArray.find(el => el?.nativeElement?.id == item)
+      let status=this.componetesSeleccionados.find(el=>el?.nativeElement?.id==ref?.nativeElement?.id)
 
       if(!status){
         this.componetesSeleccionados.push(ref)
@@ -148,7 +149,7 @@ export class HomeComponent implements OnInit {
       }
       else{
 
-        this.componetesSeleccionados=this.componetesSeleccionados.filter(item=>item.nativeElement.id!=ref.nativeElement.id)
+        this.componetesSeleccionados=this.componetesSeleccionados.filter(item=>item?.nativeElement?.id!=ref?.nativeElement?.id)
         ref.nativeElement.setAttribute('style', this.unselectedColor)
       }
     }
@@ -180,7 +181,7 @@ export class HomeComponent implements OnInit {
 
 
       for(let boleto of this.componetesSeleccionados){
-        let newBoleto={"idLugar":boleto.nativeElement.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
+        let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
         let estatus=this.lugaresService.getLugaresPagados(newBoleto)
 
 
@@ -189,9 +190,26 @@ export class HomeComponent implements OnInit {
 
 
       this.visibleSidebar2=true;
-      for(let boleto of this.componetesSeleccionados){
-        let newBoleto={"idLugar":boleto.nativeElement.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
-        this.boletosSeleccionados.push(newBoleto)
+      if (this.targetVip === 'VIP1') {
+        for(let boleto of this.componetesSeleccionados){
+          let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"630USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
+          this.boletosSeleccionados.push(newBoleto)
+        }
+      } else if (this.targetVip === 'VIP2') {
+        for(let boleto of this.componetesSeleccionados){
+          let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"620USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
+          this.boletosSeleccionados.push(newBoleto)
+        }
+      } else if (this.targetVip === 'VIP3') {
+        for(let boleto of this.componetesSeleccionados){
+          let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"600USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
+          this.boletosSeleccionados.push(newBoleto)
+        }
+      } else {
+        for(let boleto of this.componetesSeleccionados){
+          let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
+          this.boletosSeleccionados.push(newBoleto)
+        }
       }
       this.actualizarBoleto()
 
@@ -211,7 +229,7 @@ export class HomeComponent implements OnInit {
 
     for (let item of this.inputsArray){
 
-      item.nativeElement.setAttribute('style', this.unselectedColor)
+      item?.nativeElement?.setAttribute('style', this.unselectedColor)
     }
     this.componetesSeleccionados=[]
     this.boletosSeleccionados=[]
@@ -224,30 +242,31 @@ export class HomeComponent implements OnInit {
 
   }
 
-  comprarMesa(idMesa){
+  comprarMesa(idMesa, target: string){
     ///console.log(idMesa+"0")
     let disponiblidad= this.lugaresDisponibles.find(el=>el.idLugar==idMesa+"1")
     if(!disponiblidad.comprado&&!disponiblidad.apartado)
     {
-    let toArray = this.inputsArray.toArray()
-    let colorMesa=false
-    for (let silla of this.mesas){
-      let item=idMesa+silla
-      let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == item)
-      let status=this.componetesSeleccionados.find(el=>el.nativeElement.id==ref.nativeElement.id)
-      if(!status){
+      let toArray = this.inputsArray.toArray()
+      let colorMesa=false
+      for (let silla of this.mesas){
+        let item=idMesa+silla
+        let ref: ElementRef<HTMLInputElement> = toArray.find(el => el?.nativeElement?.id == item)
+        let status=this.componetesSeleccionados.find(el=>el?.nativeElement?.id==ref?.nativeElement?.id)
+        if(!status){
         this.componetesSeleccionados.push(ref)
         ref.nativeElement.setAttribute('style', this.selectedColor)
         colorMesa=true
+        this.targetVip = target
       }
       else{
-        this.componetesSeleccionados=this.componetesSeleccionados.filter(item=>item.nativeElement.id!=ref.nativeElement.id)
+        this.componetesSeleccionados=this.componetesSeleccionados.filter(item=>item?.nativeElement?.id!=ref?.nativeElement?.id)
         ref.nativeElement.setAttribute('style', this.unselectedColor)
         colorMesa=false
       }
 
     }
-    let ref: ElementRef<HTMLInputElement> = toArray.find(el => el.nativeElement.id == idMesa)
+    let ref: ElementRef<HTMLInputElement> = toArray.find(el => el?.nativeElement?.id == idMesa)
     if(colorMesa){
       ref.nativeElement.setAttribute('style', this.selectedColor)
     }
