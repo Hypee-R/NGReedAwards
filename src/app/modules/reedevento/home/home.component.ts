@@ -65,7 +65,11 @@ export class HomeComponent implements OnInit {
 
   }
   ngOnInit(): void {
-
+    Swal.fire(
+      'Importante',
+      'Realizar el proceso de reserva en PC para tener una mejor experiencia',
+      'info'
+    )
 
   }
 
@@ -111,15 +115,15 @@ export class HomeComponent implements OnInit {
               if(!lugar.comprado && this.diferencia>2)
               {
                 this.cancelarApartado(lugar)
-                ref.nativeElement.setAttribute('style', this.enableColor)
+                ref?.nativeElement.setAttribute('style', this.enableColor)
               }
-              ref.nativeElement.setAttribute('style', this.enableColor)
+              ref?.nativeElement.setAttribute('style', this.enableColor)
             }
           }
 
         }
         else{
-          ref.nativeElement.setAttribute('style', this.unselectedColor)
+          ref?.nativeElement.setAttribute('style', this.unselectedColor)
         }
 
       }

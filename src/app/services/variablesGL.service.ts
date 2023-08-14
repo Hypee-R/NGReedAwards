@@ -127,7 +127,7 @@ export class VariablesService {
         const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
       const fileWidth = widthDocument;
       const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-      let PDF = new jsPDF('p', 'mm', 'a4',);
+      let PDF = new jsPDF({compress: true});
       PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
       PDF.html(templateElement.nativeElement.innerHTML);
       PDF.text(lugar.codigotiket.toString(),7,68);//Folio

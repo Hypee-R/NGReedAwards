@@ -13,6 +13,7 @@ import { CargaImagenesService } from 'src/app/services/cargaImagenes.service';
 import { VariablesService } from 'src/app/services/variablesGL.service';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { Console } from 'console';
 export class boleto {
   idLugar: String;
   precio: String;
@@ -46,7 +47,7 @@ export class PagoComponent implements OnInit {
   nombres:any[];
   boletos: boleto[]=[];
   archivos: FileItem[] = [];
-  boleto:boleto={idLugar:"A1",precio:"547 USD",comprado:false,apartado:false,hora:""}
+  boleto:boleto={idLugar:"A1",precio:"600 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
   // comidaOpcion1 = "Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
   // comidaOpcion2 = "Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
@@ -254,14 +255,13 @@ opcionSeleccionado:any;
 
   }
   llenarTabla() {
-
+   
     this.boletos = this.boletosSeleccionados
-
-    this.totalParcial = this.boletos.length * 575
+    this.totalParcial = this.boletos.length * 600 
     this.totalPorcentaje=(this.totalParcial)*.05
     this.total=this.totalParcial+this.totalPorcentaje
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
-    this.codigotiket='REED22'+this.lugaresAdquiridos.replace(",","");
+    this.codigotiket='REED23'+ Math.floor(Math.random() * 99).toString+this.lugaresAdquiridos.replace(",","");
 
      this.data = [
       'INFORMACION DE TU COMPRA',
@@ -356,27 +356,6 @@ public generatePDF(): void {
   PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
   PDF.save('reed-latino-reservacion.pdf');
   });
-
-
-  // html2canvas(this.reservacionElement.nativeElement, { scale: 3 }).then((canvas) => {
-  //   const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
-  //   const fileWidth = 205;
-  //   const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-  //   let PDF = new jsPDF('p', 'mm', 'a4',);
-  //   PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
-  //   PDF.html(this.reservacionElement.nativeElement.innerHTML);
-  //   PDF.text(this.codigotiket.toString(),7,67);//Folio
-  //   PDF.text(this.nombrecomprador.toString(),7,85);//Comprador
-  //   PDF.text(this.total.toString(),110,85);//Costo
-  //   PDF.text(this.codigotiket.toString(),7,264);//Folio
-  //   PDF.text(this.nombrecomprador.toString(),7,283);//Comprador
-  //   PDF.text(this.total.toString(),110,283);//Costo
-  //   PDF.link(55, 225, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
-  //   PDF.link(160, 225, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
-  //   // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });
-  //   // PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
-  //   PDF.save('reed-latino-reservacion.pdf');
-  // });
 
 }
 
