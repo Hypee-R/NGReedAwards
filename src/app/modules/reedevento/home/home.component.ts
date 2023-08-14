@@ -181,7 +181,7 @@ export class HomeComponent implements OnInit {
 
 
       for(let boleto of this.componetesSeleccionados){
-        let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
+        let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"600USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
         let estatus=this.lugaresService.getLugaresPagados(newBoleto)
 
 
@@ -200,14 +200,9 @@ export class HomeComponent implements OnInit {
           let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"620USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
           this.boletosSeleccionados.push(newBoleto)
         }
-      } else if (this.targetVip === 'VIP3') {
-        for(let boleto of this.componetesSeleccionados){
-          let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"600USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
-          this.boletosSeleccionados.push(newBoleto)
-        }
       } else {
         for(let boleto of this.componetesSeleccionados){
-          let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"575USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
+          let newBoleto={"idLugar":boleto?.nativeElement?.id,"precio":"600USD","comprado":false,"apartado":false,"hora":this.now.toLocaleString('en-US')}
           this.boletosSeleccionados.push(newBoleto)
         }
       }

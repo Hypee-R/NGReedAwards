@@ -254,11 +254,22 @@ opcionSeleccionado:any;
     //// validar si se hizo el pago
 
   }
+
+  calcularPrecio() {
+    let sum = 0
+
+    for(let i = 0; this.boletosSeleccionados.length > i; i++) {
+      sum += Number(this.boletosSeleccionados[i].precio.substring(0, 3))
+    }
+
+    return sum
+  }
+
   llenarTabla() {
-   
+
     this.boletos = this.boletosSeleccionados
-    this.totalParcial = this.boletos.length * 600 
-    this.totalPorcentaje=(this.totalParcial)*.05
+    this.totalParcial = this.calcularPrecio()
+    this.totalPorcentaje=(this.calcularPrecio())*.05
     this.total=this.totalParcial+this.totalPorcentaje
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
     this.codigotiket='REED23'+ Math.floor(Math.random() * 99).toString+this.lugaresAdquiridos.replace(",","");
