@@ -23,7 +23,8 @@
                 <p style="font-size: 1em; font-weight: bold;">{{txt5}}</p>
                 <p style="font-size: 1em; font-weight: bold;">{{txt6}}</p> -->
             </div>
-            <div class="container-fluid" id="zonasOcultar">
+           
+            <div class="container-fluid" id="zonasOcultar"  pTooltip="Seleccione sus lugares" tooltipPosition="top">
                 <div class="container">
                     <div class="col-15">
                         <div
@@ -113,7 +114,8 @@
                 <br>
                 <div *ngIf="StatusCargaLugares==true">
                     <div class="container-fluid">
-                        <p-button label="Continuar compra" icon="pi pi-shopping-cart" styleClass="p-button-lg" (click)="realizarCompra()"></p-button>
+                        <a  class="btn-flotante" (click)="realizarCompra()"  pTooltip="Pagar Lugares seleccionados" tooltipPosition="left" ><i class="pi pi-shopping-cart"></i> Continuar compra</a>
+                        <!-- <p-button label="Continuar compra" icon="pi pi-shopping-cart" styleClass="p-button-lg " (click)="realizarCompra()"></p-button> -->
                         <!-- <button class="btn btn-primary" (click)="realizarCompra()">Siguiente</button> -->
                     </div>
                 </div>
