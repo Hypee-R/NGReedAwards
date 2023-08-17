@@ -16,13 +16,13 @@ export class LugaresService {
   categoriaCol: CollectionReference<DocumentData>;
   private updatedSnapshot = new Subject<QuerySnapshot<DocumentData>>();
   obsr_UpdatedSnapshot = this.updatedSnapshot.asObservable();
-   
+
   id:any
   constructor(
 
     private toastr: ToastrService,
     private firestore: Firestore
-  ) { 
+  ) {
     this.db = getFirestore();
     this.categoriaCol = collection(this.db, 'lugares');
     onSnapshot(this.categoriaCol, (snapshot) => {
@@ -39,7 +39,7 @@ export class LugaresService {
 
   getLugaresPagados(boleto:boleto){
     const categoriasCollection = collection(this.firestore, 'lugares');
-    
+
     return collectionData(query(categoriasCollection,where("idLugar","==",boleto.idLugar), orderBy("idLugar", "asc")));
   }
 
@@ -60,11 +60,11 @@ export class LugaresService {
       let comprado=true
     const querySnapshot = await getDocs(query(collection(this.db, "lugares/"), where("idLugar", "==", boleto.idLugar)));
     querySnapshot.forEach((doc) => {
-    this.id = doc.id  
+    this.id = doc.id
       })
     const docRef = doc(this.db, 'lugares/'+ this.id);
     await updateDoc( docRef, { idLugar,  apartado,fecha,comprado})}
-    return this.toastr.warning('Reservacion valida durante 2 min!!','Seleccionar forma de pago');}
+    return this.toastr.warning('Reservacion valida durante 5 min!!','Seleccionar forma de pago');}
 
 
 
@@ -75,16 +75,16 @@ export class LugaresService {
       let fecha =boleto.hora
     const querySnapshot = await getDocs(query(collection(this.db, "lugares/"), where("idLugar", "==", boleto.idLugar)));
     querySnapshot.forEach((doc) => {
-    this.id = doc.id  
+    this.id = doc.id
       })
     const docRef = doc(this.db, 'lugares/'+ this.id);
     await updateDoc( docRef, { idLugar,  apartado,fecha})}
-    return this.toastr.warning('Reservacion valida durante 2 min!!','Seleccionar forma de pago');}
+    return this.toastr.warning('Reservacion valida durante 5 min!!','Seleccionar forma de pago');}
 
 
 
     async cancelarLugar( boletos:boleto[]) {
-      
+
       for(let boleto of boletos){
         let idLugar=boleto.idLugar
         let apartado= false
@@ -92,22 +92,22 @@ export class LugaresService {
         let fecha= null
       const querySnapshot = await getDocs(query(collection(this.db, "lugares/"), where("idLugar", "==", boleto.idLugar)));
       querySnapshot.forEach((doc) => {
-      this.id = doc.id  
+      this.id = doc.id
         })
       const docRef = doc(this.db, 'lugares/'+ this.id);
       await updateDoc( docRef, { idLugar, apartado,comprado,fecha})}
-      
+
     }
 
       async cancelarLugarAparatdo( boleto:boleto) {
-       
+
           let idLugar=boleto.idLugar
           let apartado= false
           let comprado=false
           let fecha = null
         const querySnapshot = await getDocs(query(collection(this.db, "lugares/"), where("idLugar", "==", boleto.idLugar)));
         querySnapshot.forEach((doc) => {
-        this.id = doc.id  
+        this.id = doc.id
           })
         const docRef = doc(this.db, 'lugares/'+ this.id);
         await updateDoc( docRef, { idLugar, apartado,comprado ,fecha})

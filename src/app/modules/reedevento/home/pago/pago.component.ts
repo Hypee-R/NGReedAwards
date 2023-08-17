@@ -78,7 +78,7 @@ export class PagoComponent implements OnInit {
   lugaresAdquiridos = '' ;
   codigotiket  = '' ;
   tiempo=true;
-  timeLeft: number = 120;
+  timeLeft: number = 300;
   time:string=''
   interval;
   //Datos del comprador
