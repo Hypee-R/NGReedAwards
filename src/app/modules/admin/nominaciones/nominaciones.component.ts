@@ -50,6 +50,9 @@ export class NominacionesComponent implements OnInit {
     });
     this.body = document.body;
     this.cols = [
+      { field: 'statuspago', header: 'Estatus Pago', filter: 'statuspago' },
+      { field: 'fechapago', header: 'Fecha Pago', filter: 'fechapago' },
+      { field: 'pagarCon', header: 'Tipo Pago Pago', filter: 'pagarCon' },
       { field: 'titulo', header: 'Titulo', filter: 'titulo' },
       { field: 'nominado', header: 'Nominado', filter: 'nominado' },
       { field: 'categoria', header: 'Categoría', filter: 'categoria' },
