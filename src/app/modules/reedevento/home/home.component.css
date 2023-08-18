@@ -43,6 +43,7 @@
     border: 8px solid rgb(255, 236, 0);
 } */
 .icon {
+  user-select: none;
     position: relative;
     background: rgb(207, 201, 201);
     cursor: pointer;
@@ -98,7 +99,6 @@
     left: -100px;
     transform-origin: 100px 100px;
     cursor: pointer;
-
   }
 
 
@@ -279,31 +279,31 @@
     transition: 0.6s; */
   }
 
-  /* .unitVIP {
+  .unitVIP {
     position: absolute;
     background:rgb(0, 16, 233);
     font-size: 60%;
     text-decoration: none;
     width: 50px;
-    height: 45px;
+    height: 50px;
     line-height: 45px;
     color: rgb(255, 255, 255);
     border-radius: 50%;
-    transition: 0.6s;
+    /* transition: 0.6s; */
   }
 
   .unitVIP:hover {
-    position: absolute;
+    /* position: absolute; */
     background: rgb(211, 202, 26);
-    font-size: 60%;
+    /* font-size: 60%;
     text-decoration: none;
     width: 50px;
     height: 45px;
     line-height: 45px;
     color: rgb(255, 255, 255);
-    border-radius: 50%;
-    transition: 0.6s;
-  } */
+    border-radius: 50%; */
+    /* transition: 0.6s; */
+  }
   /* Just CodePen layout stuff: */
   body,
   a,
@@ -336,67 +336,89 @@
     transition: transform 0.4s 0.08s, z-index 0s 0.5s;
     transform: scale(.7);
     z-index: 5;
-  }
-  .iconVIP::content .spread:nth-child(1) {
+  } */
+
+  .icon::content .spread:nth-child(1) {
+
     transform: rotate(80deg);
   }
-  .iconVIP::content .spread:nth-child(1) .unitVIP {
-    transform: rotate(635deg);
+  .icon::content .spread:nth-child(1) .unitVIP {
+
+    transform: rotate(640deg);
   }
-  .iconVIP::content .spread:nth-child(2) {
+  .icon::content .spread:nth-child(2) {
+
     transform: rotate(116deg);
   }
-  .iconVIP::content .spread:nth-child(2) .unitVIP {
-    transform: rotate(595deg);
+  .icon::content .spread:nth-child(2) .unitVIP {
+
+    transform: rotate(605deg);
   }
-  .iconVIP::content .spread:nth-child(3) {
+  .icon::content .spread:nth-child(3) {
+
     transform: rotate(152deg);
   }
-  .iconVIP::content .spread:nth-child(3) .unitVIP {
-    transform: rotate(555deg);
+  .icon::content .spread:nth-child(3) .unitVIP {
+
+    transform: rotate(570deg);
   }
-  .iconVIP::content .spread:nth-child(4) {
+  .icon::content .spread:nth-child(4) {
+
     transform: rotate(188deg);
   }
-  .iconVIP::content .spread:nth-child(4) .unitVIP {
-    transform: rotate(520deg);
+  .icon::content .spread:nth-child(4) .unitVIP {
+
+    transform: rotate(535deg);
   }
-  .iconVIP::content .spread:nth-child(5) {
+  .icon::content .spread:nth-child(5) {
+
     transform: rotate(224deg);
   }
-  .iconVIP::content .spread:nth-child(5) .unitVIP {
+  .icon::content .spread:nth-child(5) .unitVIP {
+
     transform: rotate(495deg);
   }
-  .iconVIP::content .spread:nth-child(6) {
+  .icon::content .spread:nth-child(6) {
+
     transform: rotate(260deg);
   }
-  .iconVIP::content .spread:nth-child(6) .unitVIP {
-    transform: rotate(455deg);
+  .icon::content .spread:nth-child(6) .unitVIP {
+
+    transform: rotate(462deg);
   }
-  .iconVIP::content .spread:nth-child(7) {
+  .icon::content .spread:nth-child(7) {
+
     transform: rotate(296deg);
   }
-  .iconVIP::content .spread:nth-child(7) .unitVIP {
-    transform: rotate(410deg);
+  .icon::content .spread:nth-child(7) .unitVIP {
+
+    transform: rotate(425deg);
   }
-  .iconVIP::content .spread:nth-child(8) {
+  .icon::content .spread:nth-child(8) {
+
     transform: rotate(332deg);
   }
-  .iconVIP::content .spread:nth-child(8) .unitVIP {
+  .icon::content .spread:nth-child(8) .unitVIP {
+
     transform: rotate(390deg);
   }
-  .iconVIP::content .spread:nth-child(9) {
+  .icon::content .spread:nth-child(9) {
+
     transform: rotate(368deg);
   }
-  .iconVIP::content .spread:nth-child(9) .unitVIP {
-    transform: rotate(340deg);
+  .icon::content .spread:nth-child(9) .unitVIP {
+
+    transform: rotate(350deg);
   }
-  .iconVIP::content .spread:nth-child(10) {
+  .icon::content .spread:nth-child(10) {
+
     transform: rotate(404deg);
   }
-  .iconVIP::content .spread:nth-child(10) .unitVIP {
-    transform: rotate(320deg);
-  } */
+  .icon::content .spread:nth-child(10) .unitVIP {
+
+    transform: rotate(315deg);
+  }
+
 .btn-flotante {
 	font-size: 16px; /* Cambiar el tamaño de la tipografia */
 	text-transform: uppercase; /* Texto en mayusculas */
@@ -425,4 +447,4 @@
 		bottom: 20px;
 		right: 20px;
 	}
-} 
+}
