@@ -163,9 +163,11 @@ export class HomeComponent implements OnInit {
     }
 
   realizarCompra(){
+
+    const currentUser = JSON.parse(localStorage.getItem('d')) ?? null
+
     console.log(localStorage.d)
-    if(localStorage.d== undefined)
-    {
+    if(localStorage.d== undefined) {
 
       Swal.fire({
         icon: 'error',
@@ -175,6 +177,14 @@ export class HomeComponent implements OnInit {
       })
 
       return
+    }
+
+    if (!currentUser.providerData[0].displayName) {
+      return Swal.fire(
+        'Importante',
+        'Perfil de usuario, aún requiere información para poder comprar tus boletos',
+        'info'
+      )
     }
 
     if(this.componetesSeleccionados.length>0){
