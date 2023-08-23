@@ -112,6 +112,22 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
                                     </div>
                                 </div>
                             </div>
+                            <div
+                                style="display: grid; grid-template-columns: repeat(4, 1fr); row-gap: 7rem; margin-right: 8rem; margin-top: 8rem; ">
+                                <div *ngFor="let tables of mesasN[2]"
+                                    style="display: grid; place-items: center; position: relative;">
+                                    <div class="icon">
+                                        {{tables}}
+                                        <ul class="menu">
+                                            <li class="spread" *ngFor="let name of mesas">
+                                                <a #MyRef [id]="tables+name" class="unit"
+                                                    [pTooltip]="'Asiento: '+tables+name+'\n Precio: 600 USD'"
+                                                    (click)="selectedAsiento(tables+name)">{{name}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                             <label
                                 style="background-color: black; color: white; padding: 1rem; margin-left: 2rem; width: 100px; font-size: 20px; margin-top: 6rem">
                                 Baños
