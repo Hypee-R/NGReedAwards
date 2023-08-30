@@ -103,7 +103,7 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
                                     <div class="icon">
                                         {{tables}}
                                         <ul class="menu">
-                                            <li class="spread" *ngFor="let name of mesas">
+                                            <li class="spread" *ngFor="let name of mesas | slice:0:8">
                                                 <a #MyRef [id]="tables+name" class="unit"
                                                     [pTooltip]="'Asiento: '+tables+name+'\n Precio: 600 USD'"
                                                     (click)="selectedAsiento(tables+name)">{{name}}</a>
@@ -119,7 +119,7 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
                                     <div class="icon">
                                         {{tables}}
                                         <ul class="menu">
-                                            <li class="spread" *ngFor="let name of mesas">
+                                            <li class="spread" *ngFor="let name of mesas | slice:0:8">
                                                 <a #MyRef [id]="tables+name" class="unit"
                                                     [pTooltip]="'Asiento: '+tables+name+'\n Precio: 600 USD'"
                                                     (click)="selectedAsiento(tables+name)">{{name}}</a>
