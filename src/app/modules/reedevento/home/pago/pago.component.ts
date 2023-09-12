@@ -272,7 +272,7 @@ opcionSeleccionado:any;
     this.totalPorcentaje=(this.calcularPrecio())*.05
     this.total=this.totalParcial+this.totalPorcentaje
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
-    this.codigotiket='REED23'+ Math.floor(Math.random() * 99).toString+this.lugaresAdquiridos.replace(",","");
+    this.codigotiket='REED23'+this.lugaresAdquiridos.replace(",","")+this.uid;
 
      this.data = [
       'INFORMACION DE TU COMPRA',
