@@ -1,14 +1,29 @@
-<!-- <div id="contenedor" class="container-fluid">
+<div id="contenedor" class="container-fluid">
     <div class="row">
-        <app-nav-bar id="sidenav" class="sideNav" [type]="'user'" style="padding: 0;"></app-nav-bar>
+               
+
+    <div class="div-texto">
+        <div class="row p-5">
+            <div class="col-10">
+                <label class="text-justify w-100">La página a la cual deseas acceder no existe o no tienes permisos, da
+                  clic en el botón para redirigirte al inicio.</label>
+            </div>
+            <div class="col-2 h-100 d-vertical">
+                <a routerLink="/portal" routerLinkActive="active" class="btn text-info rounded-pill border border-primary p-3">
+                    <i class="fas fa-home"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+        <!-- <app-nav-bar id="sidenav" class="sideNav" [type]="'user'" style="padding: 0;"></app-nav-bar> -->
         <div id="Contenido" class="contenidoNormal">
             <p-toast [style]="{marginTop: '80px'}" position="top-right" key="toast"></p-toast>
             <router-outlet></router-outlet>
         </div>
     </div>
 
-</div> -->
-<div class="contenedor">
+</div>
+<!-- <div class="contenedor">
 
   
 
@@ -30,4 +45,4 @@
     <div class="h-100 d-vertical">
         <img src="assets/img/banner-red-latino.jpg" class="img-404">
     </div>
-</div>
+</div> -->

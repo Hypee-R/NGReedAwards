@@ -53,7 +53,7 @@ export class LoginUserComponent implements OnInit {
           localStorage.setItem('user', JSON.stringify(this.userdata));
           switch (this.userdata.rol) {
             case 'user':
-              this.router.navigate(['/portal']);
+             // this.router.navigate(['/portal']);
               break;
             case 'admin':
               this.router.navigate(['/admin']);

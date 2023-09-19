@@ -186,7 +186,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
 
   setValueForm(){
     let searchCat = this.categorias.find(x => x.nombre == this.nominacionEditar.categoria);
-    //console.log('CATEGORIA ENCONTRADA ', searchCat, this.nominacionEditar.categoria, this.categorias.length);
+    console.log('CATEGORIA ENCONTRADA ', searchCat, this.nominacionEditar.categoria, this.categorias.length);
 
     setTimeout(() => {
       this.nominacionForm.patchValue({
