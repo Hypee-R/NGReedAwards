@@ -241,7 +241,8 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
         }
         //Carga las imagenes solo si no se han cargado
         if(!this.variablesGL.endProcessCargaCompleta.value){
-          this.cargaImagenesFBService.upload(this.archivos);
+          this.cargaImagenesFBService.upload(this.archivos,this.nominacionForm.get('categoria').value,this.nominacionForm.get('nominado').value);
+      
         }
       }else{
         //Si no desea modificar ningun archivo se salta el upload
@@ -270,7 +271,8 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
             }
             //Carga las imagenes solo si no se han cargado
             if(this.archivos.length > 0){
-              this.cargaImagenesFBService.upload(this.archivos);
+              this.cargaImagenesFBService.upload(this.archivos,this.nominacionForm.get('categoria').value,this.nominacionForm.get('nominado').value);
+              //this.cargaImagenesFBService.upload(this.archivos);
               //console.log("Entro a cargar los archivos al actualizar ", this.archivos.length);
             }else{
               this.variablesGL.endProcessCargaCompleta.next(true);
@@ -428,8 +430,9 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
         if(dataNominacion.statuspago=="Pago Realizado")
         {
                if(dataNominacion.pagarCon=="paypal"){
+                dataNominacion.fechapago= this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a')
 
-                dataNominacion.fechapago= this.nominacionForm.get('fechapago').value 
+                //dataNominacion.fechapago= this.nominacionForm.get('fechapago').value 
                }else{
                 dataNominacion.fechapago= this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a')
 
