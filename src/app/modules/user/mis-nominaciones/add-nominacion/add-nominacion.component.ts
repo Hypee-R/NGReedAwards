@@ -238,7 +238,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
   }
 
   crearNominacion(){
- 
+
     this.submitted = true;
     if(this.nominacionForm.valid){
 
@@ -250,7 +250,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           Swal.showLoading();
         }
       });
-      
+
       this.guardando = true;
 
       if(this.accion == 'agregar'){
@@ -265,7 +265,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           console.log('file baucher ', this.fileBaucher);
         }
         else {
-        
+
           if(this.nominacionForm.get('pagarCon').value != 'paypal'){
             this.toastr.warning('No seleccionaste un archivo de baucher', 'Atención');
           }
@@ -577,7 +577,6 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-
   private esImagen(tipoArchivo: string): boolean{
     return (tipoArchivo === '' || tipoArchivo === undefined) ? false : tipoArchivo.startsWith('image');
   }
