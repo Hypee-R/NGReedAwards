@@ -34,6 +34,11 @@ export class CategoriasService {
 }
   
   //Ya estaba ---Nominaciones
+  getCategoriasN(){
+    const categoriasCollection = collection(this.firestore, 'categoriasN');
+    return collectionData(query(categoriasCollection, orderBy("id", "asc")));
+  }
+
   getCategorias(){
     const categoriasCollection = collection(this.firestore, 'categorias');
     return collectionData(query(categoriasCollection, orderBy("id", "asc")));

@@ -7,14 +7,29 @@
         </div>
     </div> -->
     <hr>
-    <p-table #tableCategorias [value]="categorias" selectionMode="single" [(selection)]="selectedCategoria" (onRowSelect)="addNominacion($event)" dataKey="nombre" [loading]="loading" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+    <p-table #tableCategorias [value]="categoriasFilters" selectionMode="single" [(selection)]="selectedCategoria" (onRowSelect)="addNominacion($event)" dataKey="nombre" [loading]="loading" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
         currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} categorias" [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-striped" [globalFilterFields]="['nombre','categoria.nombre']">
         <ng-template pTemplate="caption">
+            <div class="field">
+                <p-dropdown appendTo="body" 
+                placeholder="SELECIONA UNA CATEGORIA" 
+                optionLabel="nombre"
+                [options] = "categoriasN" 
+                [(ngModel)] = "categoriaNSelected"
+                (onChange)="onChange($event)"
+                optionValue="id">
+                </p-dropdown>
+                
+            </div>
+            <br>
             <div class="flex">
                 <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(tableCategorias)"></button> &nbsp; &nbsp;
                 <span class="p-input-icon-left ml-auto" style="width: 89%;">
                   <i class="pi pi-search"></i>
-                  <input pInputText type="text" (input)="tableCategorias.filterGlobal($event.target.value, 'contains')" placeholder="Buscar categoria" [style]="{ width: '100%' }"/>
+                  <input pInputText type="text"
+                  [(ngModel)]="categorieName" 
+                  (ngModelChange) = "onChangeInput($event)"
+                  placeholder="Buscar categoria" [style]="{ width: '100%' }"/>
                 </span>
             </div>
         </ng-template>

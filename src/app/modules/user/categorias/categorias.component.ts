@@ -26,11 +26,15 @@ export class CategoriasComponent implements OnInit {
 
 
   categorias: any;
+  categoriasFilters: any;
+  categoriasN: any;
   convocatorias: any;
   loading: boolean = true;
   selectedCategoria: CategoriaModel;
   visibleSide: boolean = false;
   accion: string = "";
+  categoriaNSelected : any
+  categorieName = ""
   constructor(
     private router: Router,
     public configService: ConfigService,
@@ -38,13 +42,25 @@ export class CategoriasComponent implements OnInit {
     private categoriasService: CategoriasService,
     private convocatoriasService: ConvocatoriasService,
   ) {
-    this.getCategorias();
+   this.getCategorias();
     //this.getConvocatorias();
    }
 
   ngOnInit(): void {
     this.getCategorias();
+    this.getCategoriasN();
+  }
 
+  async getCategoriasN(){
+    this.categoriasService.getCategoriasN().subscribe( (data) => {
+      this.categoriasN = data;
+      console.log("-----CATEGORIAS N")
+      console.log('data categorias ', this.categoriasN);
+      this.loading = false;
+    }, err => {
+      this.categoriasN = [];
+      this.loading = false;
+    });
   }
 
   async getCategorias(){
@@ -86,5 +102,20 @@ export class CategoriasComponent implements OnInit {
     this.router.navigate(["/portal/mis-nominaciones"]);
   }
 
+  onChange(event) {
+    if(event.value != undefined && event.value != null){
+      console.log(this.categoriaNSelected)
+      this.categorieName = ""
+    }
+  }
 
+  onChangeInput(event){
+    if(this.categorieName != ""){
+      this.categoriasFilters = this.categorias.filter(cat =>{
+        if(cat.nombre.toLocaleLowerCase().includes(this.categorieName)){
+          return cat
+        }
+      })
+    }
+  }
 }
