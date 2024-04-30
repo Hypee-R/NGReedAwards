@@ -10,6 +10,7 @@ import { CategoriaModel } from '../../../models/categoria.model';
 import { Router } from '@angular/router';
 import { VariablesService } from '../../../services/variablesGL.service';
 import { ConfigService } from 'src/config/config.service';
+import { newArray } from '@angular/compiler/src/util';
 // providers: [CategoriasService]
 
 @Component({
@@ -35,6 +36,7 @@ export class CategoriasComponent implements OnInit {
   accion: string = "";
   categoriaNSelected : any
   categorieName = ""
+  selectedCategories : any;
   constructor(
     private router: Router,
     public configService: ConfigService,
@@ -105,7 +107,6 @@ export class CategoriasComponent implements OnInit {
 
  async onChange(event) {
     if(event.value != undefined && event.value != null){
-      //console.log(this.categoriaNSelected)
       var categorie = this.categoriasN.filter(cat => {
         if(cat.id == this.categoriaNSelected){
           return cat
@@ -117,15 +118,18 @@ export class CategoriasComponent implements OnInit {
     else{
       this.categoriasFilters = this.categorias
     }
-    // TODO : CORREGIR ESTE FLUJO
+ 
+    if(categorie == undefined){
+      return
+    }
     var subcategories = categorie[0].subcategorias 
     if(subcategories != null){
       subcategories.forEach(async (subcategoria) => {
         const cate = await this.categoriasService.getCategoriaId(subcategoria)
-        console.log(cate.data())
         this.categoriasFilters.push(cate.data())
       });
     }
+    this.selectedCategories = this.categoriasFilters
   }
 
   onChangeInput(event){
@@ -136,6 +140,18 @@ export class CategoriasComponent implements OnInit {
           return cat
         }
       })
+    }
+    else{
+      var pivoteFilter = []
+      pivoteFilter = this.selectedCategories.filter(cat => {
+        if(cat.nombre.toLocaleLowerCase().includes(this.categorieName)){
+          return cat
+        }
+      })
+
+      if(pivoteFilter.length != 0){
+        this.categoriasFilters = pivoteFilter
+      }
     }
   }
 }
