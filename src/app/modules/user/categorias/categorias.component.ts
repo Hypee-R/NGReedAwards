@@ -103,7 +103,9 @@ export class CategoriasComponent implements OnInit {
     this.router.navigate(["/portal/mis-nominaciones"]);
   }
 
- async onChange(event) {
+  async onChange(event) {
+  this.loading = true
+  var newLista = []
     if(event.value != undefined && event.value != null){
       var categorie = this.categoriasN.filter(cat => {
         if(cat.id == this.categoriaNSelected){
@@ -122,12 +124,16 @@ export class CategoriasComponent implements OnInit {
     }
     var subcategories = categorie[0].subcategorias 
     if(subcategories != null){
-      subcategories.forEach(async (subcategoria) => {
-        const cate = await this.categoriasService.getCategoriaId(subcategoria)
-        this.categoriasFilters.push(cate.data())
-      });
+      for(let i = 0; subcategories.length > i ; i++){
+        await this.categoriasService.getCategoriaId( subcategories[i]).then(re =>{
+          newLista.push(re.data())
+         })
+        }
     }
+    this.categoriasFilters = []
+    this.categoriasFilters = newLista
     this.selectedCategories = this.categoriasFilters
+    this.loading = false
   }
 
   onChangeInput(event){
@@ -139,7 +145,6 @@ export class CategoriasComponent implements OnInit {
       })
     }
     else{
-
 
       var pivoteFilter = []
       if(this.selectedCategories == undefined){
