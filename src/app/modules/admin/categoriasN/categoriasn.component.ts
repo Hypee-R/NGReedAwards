@@ -2,20 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { ToastrService } from 'ngx-toastr';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, SelectItemGroup } from 'primeng/api';
 import { NominacionModel } from 'src/app/models/nominacion.model';
-import { CategoriasService } from 'src/app/services/categorias.service';
+import { CategoriasService } from 'src/app/services/categoriasn.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import { NominacionService } from 'src/app/services/nominacion.service';
 import { UsuarioService } from 'src/app/services/usuarios.service';
 
+interface City {
+  name: string,
+  code: string
+}
+
 // import { Subject } from 'rxjs/Subject';
 @Component({
   selector: 'app-categorias',
-  templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.css']
+  templateUrl: './categoriasn.component.html',
+  styleUrls: ['./categoriasn.component.css']
 })
-export class CategoriasComponent implements OnInit {
+export class CategoriasNComponent implements OnInit {
+
+  // ----------------------
+  countries: any[]
+  selectedCategorias: any[];
+
+  // ----------------------
   piezasPorCategoria: any = [
     {id:'', nombre:'',pago: 0, total: 0}
   ];
@@ -54,7 +65,6 @@ export class CategoriasComponent implements OnInit {
     private exporExcel: ExcelService,
     private confirmationService: ConfirmationService
   ) {
-
   }
 
 
@@ -63,26 +73,39 @@ export class CategoriasComponent implements OnInit {
     this.get();
     this.firebaseService.obsr_UpdatedSnapshot.subscribe((snapshot) => {
       this.updatecategoriaCollection(snapshot);
-    })
+    });
   }
 
-  initForm() {
+  async initForm() {
     this.categoriaForm = this.fb.group({
       id: ['', [Validators.required]],
       nombre: ['', [Validators.required]],
-      // fechaFin: ['', [Validators.required]],,
       activo: ['', []],
+      subcategorias: ['', []],
+      // fechaFin: ['', [Validators.required]],
 
-    })
+    });
+    this.countries = await this.firebaseService.getSubCategorias();
   }
 
   async add() {
+    
+    console.log("-----------------");
+    console.log(this.categoriaForm);
+    console.log(this.selectedCategorias);
     this.submitted = true;
     // this.visible = false
+    console.log(this.categoriaForm.value);
+    
     if (this.categoriaForm.valid) {
 
-          const { id,nombre} = this.categoriaModel;
-          await this.firebaseService.addcategoria(id ,nombre, this.categoriaForm.value.activo);
+          const { id,nombre, activo} = this.categoriaModel;
+          let subcategorias = [];
+          this.selectedCategorias.map((item) =>{
+            subcategorias.push(item.uid);
+          });
+
+          await this.firebaseService.addcategoria(id ,nombre, this.categoriaForm.value.activo, subcategorias);
           console.log('dd');
           this.categoriaForm.reset()
           // this.categoria.titulo = "";
@@ -106,7 +129,8 @@ this.submitted = false
   async get() {
     this.firebaseService.getCategorias().subscribe((data) => {
       this.categoriaCollectiondata = data;
-
+      
+    
       this.loading= false
     });
     //this.updatecategoriaCollection(snapshot);
@@ -122,7 +146,7 @@ this.submitted = false
 
   async delete(docId: any) {
     this.confirmationService.confirm({
-      message: '¿Está seguro de que desea eliminar la ctegoria  '+ docId.nombre + '?',
+      message: '¿Está seguro de que desea eliminar la categoria  '+ docId.nombre + '?',
       header: 'Confirmacion',
       icon: 'pi pi-exclamation-triangle',
 
@@ -134,12 +158,20 @@ this.submitted = false
   }
 edit: boolean = false
   editar(categoria: any) {
+    console.log("------getCategorias");
+    console.log(categoria);
+    this.selectedCategorias = [];
+    if(typeof categoria.subcategorias != 'undefined' && categoria.subcategorias.length > 0){
+      categoria.subcategorias.map((item) => {
+        this.selectedCategorias.push({uid: item});
+      });
+    }
+    this.categoriaModel = { ...categoria }
     if(typeof this.categoriaForm.value.activo != 'undefined'){
       this.categoriaForm.patchValue({activo: categoria.activo});
     }else{
-      this.categoriaForm.patchValue({activo: "0"});
+      this.categoriaForm.patchValue({activo: ""});
     }
-    this.categoriaModel = { ...categoria }
     this.edit = true
 
 
@@ -149,10 +181,11 @@ edit: boolean = false
 
   }
   update() {
-    if(typeof this.categoriaForm.value.activo == 'undefined'){
-      this.categoriaForm.patchValue({activo: "0"});
-    }
-this.firebaseService.updatecategoria(this.categoriaModel.id, this.categoriaModel.nombre, this.categoriaForm.value.activo);
+    let subcategorias = [];
+          this.selectedCategorias.map((item) =>{
+            subcategorias.push(item.uid);
+          });
+this.firebaseService.updatecategoria(this.categoriaModel.id, this.categoriaModel.nombre, this.categoriaForm.value.activo, subcategorias);
 this.edit= false
   }
 
@@ -511,7 +544,7 @@ this.edit= false
   }
 
   openNew() {
-    this.categoriaModel = { id: '', nombre: ''}
+    this.categoriaModel = { id: '', nombre: '', activo: ''}
     this.visible = true;
     this.submitted = false;
     this.categoriaForm.reset()
@@ -522,6 +555,7 @@ this.edit= false
     this.visible = false;
     this.edit = false
     this.submitted = false;
+    this.selectedCategorias = [];
   }
 
 

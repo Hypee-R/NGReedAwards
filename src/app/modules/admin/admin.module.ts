@@ -50,6 +50,9 @@ import {PickListModule} from 'primeng/picklist';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { AddNominacionAdminComponent } from './nominaciones/add-nominacion/add-nominacion.component';
+import { CategoriasNComponent } from './categoriasN/categoriasn.component';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ListboxModule } from 'primeng/listbox';
 
 @NgModule({
     imports: [
@@ -89,11 +92,14 @@ import { AddNominacionAdminComponent } from './nominaciones/add-nominacion/add-n
         InputTextareaModule,
         ChipModule,
         KnobModule,
-        PickListModule
+        PickListModule,
+        CheckboxModule,
+        ListboxModule,
     ],  providers: [ConfirmationService],
     declarations: [
         AdminComponent,
         HomeComponent,
+        CategoriasNComponent,
         CategoriasComponent,
         ConvocatoriasComponent,
         JuecesComponent,

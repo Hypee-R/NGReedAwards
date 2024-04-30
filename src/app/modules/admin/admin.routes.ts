@@ -10,9 +10,11 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { AuthGuard } from 'src/config/auth.guard';
 import { EvaluacionNominacionesComponent } from './evaluacion-nominaciones/evaluacion-nominaciones.component';
 import { MensajesContactoComponent } from './mensajes-contacto/mensajes-contacto.component';
+import { CategoriasNComponent } from './categoriasN/categoriasn.component';
 export const adminRoutes: Routes = [
     { path: 'login', component: LoginAdminComponent },
     { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'categoriasN', component: CategoriasNComponent, canActivate: [AuthGuard] },
     { path: 'categorias', component: CategoriasComponent, canActivate: [AuthGuard] },
     { path: 'convocatorias', component: ConvocatoriasComponent, canActivate: [AuthGuard] },
     { path: 'evaluacion-nominaciones', component: EvaluacionNominacionesComponent, canActivate: [AuthGuard] },

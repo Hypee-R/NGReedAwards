@@ -21,7 +21,7 @@ export class CategoriasService {
   ){
    
     this.db = getFirestore();
-    this.categoriaCol = collection(this.db, 'categorias');
+    this.categoriaCol = collection(this.db, 'categoriasN');
    // Get Realtime Data
    onSnapshot(this.categoriaCol, (snapshot) => {
     this.updatedSnapshot.next(snapshot);
@@ -35,41 +35,59 @@ export class CategoriasService {
   
   //Ya estaba ---Nominaciones
   getCategorias(){
-    const categoriasCollection = collection(this.firestore, 'categorias');
+    
+    const categoriasCollection = collection(this.firestore, 'categoriasN');
     return collectionData(query(categoriasCollection, orderBy("id", "asc")));
   }
+
+  //Ya estaba ---Nominaciones
+  async getSubCategorias(){
+    let data = [];
+    const categoriasCollection = collection(this.firestore, 'categorias');
+    const q = query(categoriasCollection, orderBy("id", "asc"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      data.push({
+        uid: doc.id,
+        ...doc.data()
+      })
+    });
+    return data;
+  }
+
   //Ya estaba---Nominaciones
   getexcel(exc: any){
     // await addDoc(this.categoriaCol, {id, nombre})
   }
   
-  async addcategoria(id:number, nombre: string, activo: number) {
+  async addcategoria(id:number, nombre: string, activo: number, subcategorias: any) {
     await addDoc(this.categoriaCol, {
       id,
       nombre,
-      activo
+      activo,
+      subcategorias
     })
     return this.toastr.success('Registro Guardado  con exito!!', 'Exito');
   }
   
   async deletecategoria(id: string) {
-    const querySnapshot = await getDocs(query(collection(this.db, "categorias/"), where("id", "==", id)));
+    const querySnapshot = await getDocs(query(collection(this.db, "categoriasN/"), where("id", "==", id)));
 querySnapshot.forEach((doc) => {
   this.id = doc.id
 })
-const docRef = doc(this.db, 'categorias/'+ this.id)
+const docRef = doc(this.db, 'categoriasN/'+ this.id)
   deleteDoc(docRef)
   return    this.toastr.error('Registro Eliminado con exito!!','Advertencia');
   }
   
-  async updatecategoria(id: number, nombre: any, activo: number) {
-    const querySnapshot = await getDocs(query(collection(this.db, "categorias/"), where("id", "==", id)));
-querySnapshot.forEach((doc) => {
-  this.id = doc.id
-})
-    const docRef = doc(this.db, 'categorias/'+ this.id);
-  await updateDoc( docRef, { id, nombre,activo })
-  return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion'); 
+  async updatecategoria(id: number, nombre: any, activo: any, subcategorias: any) {
+    const querySnapshot = await getDocs(query(collection(this.db, "categoriasN/"), where("id", "==", id)));
+    querySnapshot.forEach((doc) => {
+      this.id = doc.id
+    })
+    const docRef = doc(this.db, 'categoriasN/'+ this.id);
+    await updateDoc( docRef, { id, nombre, activo, subcategorias })
+    return this.toastr.warning('Registro Actualizado con exito!!','Actualizacion'); 
   }
   
   

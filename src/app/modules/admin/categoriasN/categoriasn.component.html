@@ -1,85 +1,11 @@
-<!-- <h1>Categorias</h1>
-
-<div class="container">
-    <div class="row">
-        <div class="col">
-
-            <h1>Agregar Nueva</h1>
-            <form class="add" [formGroup]="categoriaForm" (ngSubmit)="add()">
-                <label for="id">ID</label>
-                <input type="text" name="id" class="text-white bg-dark" [(ngModel)]="categoria.id" formControlName="id" [ngClass]="submitted && categoriaForm.controls['id'].errors ? 'is-invalid' : !submitted && categoriaForm.controls['id'].valid ? 'is-valid' : submitted && categoriaForm.controls['id'].valid ? 'is-valid' : null"> -->
-<!-- <div *ngIf="submitted && categoriaForm.controls['titulo'].errors" class="text-danger">
-        <div *ngIf="categoriaForm.controls['titulo'].errors.required">El titulo es requerido</div>
-    </div> -->
-<!-- <label for="nombre">Nombre</label>
-                <input type="text" name="nombre" class="text-white bg-dark" required [(ngModel)]="categoria.nombre" formControlName="nombre" required />
-                <button type="button" class="btn btn-primary" type="submit">Agregar</button>
-            </form>
-            <br>
-            <br> -->
-
-<!-- <h1>Lista de Categorias</h1>
-            <div class="show">
-                <ng-container *ngFor="let categoria of categoriaCollectiondata">
-                    <div>
-                        <label for="nombre-show">ID:</label>
-                        <input type="text" class="text-white bg-dark col-2" name="id-show" [value]="categoria.id"  required #id>
-                        <label for="nombre-show">Nombre:</label>
-                        <input type="text" class="text-white bg-dark col-7" name="nombre-show"
-                            [value]="categoria.nombre" required #nombre>
-                        <button type="button" class="btn btn-danger" (click)="delete(categoria.id)">Eliminar</button>
-                        <button type="button" class="btn btn-warning"
-                            (click)="update(categoria.id, nombre)">Actualizar</button>
-                    </div>
-
-                </ng-container>
-            </div> -->
-<!-- <hr>
-            <p-table #tableCategorias [value]="categoria" selectionMode="single" [(selection)]="selectedCategoria" dataKey="nombre" [loading]="loading" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} categorias"
-                [rowsPerPageOptions]="[10,25,50]" styleClass="p-datatable-striped" [globalFilterFields]="['nombre','categoria.nombre']">
-                <ng-template pTemplate="caption">
-                    <div class="flex">
-                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(tableCategorias)"></button> &nbsp; &nbsp;
-                        <span class="p-input-icon-left ml-auto" style="width: 89%;">
-                          <i class="pi pi-search"></i>
-                          <input pInputText type="text" (input)="tableCategorias.filterGlobal($event.target.value, 'contains')" placeholder="Buscar categoria" [style]="{ width: '100%' }"/>
-                        </span>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Categoria</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-categoria>
-                    <tr [pSelectableRowDblClick]="categoria">
-                        <td>
-                            <div data-bs-toggle="tooltip" data-bs-placement="top" title="Doble click para agregar una nominación con ésta categoria">
-                                {{categoria.nombre}}
-                            </div>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        </div>
-
-
-
-
-    </div>
-</div> -->
-
-
-
-
 <div class="container">
     <p-toolbar>
         <ng-template pTemplate="left">
-            <h3 class="text-dark">Sub - Categorías</h3>
+            <h3 class="text-dark">Categorías</h3>
         </ng-template>
         <ng-template pTemplate="right">
 
-          <button pButton pRipple class="p-button-info mr-2" (click)="GenereteReportMasterExcel()" label="Exportar Reporte" icon="pi pi-upload"> </button>
+          <button pButton pRipple class="p-button-info mr-2 d-none" (click)="GenereteReportMasterExcel()" label="Exportar Reporte" icon="pi pi-upload"> </button>
 
             <button pButton pRipple label="Nueva categoria" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
         </ng-template>
@@ -124,7 +50,7 @@
 </div>
 
 <!-- Nueva categoria -->
-<p-dialog [(visible)]="visible" [style]="{width: '450px'}" header="Nueva Sub - Categoria" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="visible" [style]="{width: '450px'}" header="Nueva Categoria" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
 
         <form [formGroup]="categoriaForm">
@@ -142,9 +68,21 @@
 
             </div>
 
-            <div class="field mt-3">
+            <div class="field">
                 <p-checkbox label="Activo" [trueValue]="1" [falseValue]="0" formControlName="activo" binary="true"></p-checkbox>
                 <small class="p-error" *ngIf="submitted && !categoriaModel.activo">Activo is required.</small>
+            </div>
+
+            <div class="card flex justify-content-center mt-5">
+                <label for="nombre">Subcategorias</label>
+                <p-listbox [options]="countries" [(ngModel)]="selectedCategorias" formControlName="subcategorias" [metaKeySelection]="false" [checkbox]="true"
+                [filter]="true" [multiple]="true" optionLabel="nombre"  [style]="{'width':'100%', 'height': '300px', 'overflow':'auto'}">
+                <ng-template let-country pTemplate="item">
+                    <div class="country-item">
+                    <div>{{country.nombre}}</div>
+                    </div>
+                </ng-template>
+                </p-listbox>
             </div>
 
         </form>
@@ -162,7 +100,7 @@
     </ng-template>
 </p-dialog>
 
-<p-dialog [(visible)]="edit" [style]="{width: '450px'}" header="Editar Sub -Categoria" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="edit" [style]="{width: '450px'}" header="Editar Categoria" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
 
         <form [formGroup]="categoriaForm">
@@ -174,15 +112,27 @@
 
             </div>
             <div class="field">
-                <label for="nombre">Fecha de Inicio:</label>
+                <label for="nombre">Nombre:</label>
                 <input type="text" name="nombre" class="" value="" pInputText required [(ngModel)]="categoriaModel.nombre" formControlName="nombre" required/>
                 <small class="p-error" *ngIf="submitted && !categoriaModel.nombre">Nombre is required.</small>
-
             </div>
 
-            <div class="field mt-3">
+            
+            <div class="field">
                 <p-checkbox label="Activo" [trueValue]="1" [falseValue]="0" formControlName="activo" binary="true"></p-checkbox>
                 <small class="p-error" *ngIf="submitted && !categoriaModel.activo">Activo is required.</small>
+            </div>
+
+            <div class="card flex justify-content-center mt-5">
+                <label for="nombre">Subcategorias</label>
+                <p-listbox [options]="countries" [(ngModel)]="selectedCategorias" formControlName="subcategorias" [metaKeySelection]="false" [checkbox]="true"
+                [filter]="true" [multiple]="true" dataKey="uid" optionLabel="nombre"  [style]="{'width':'100%', 'height': '300px', 'overflow':'auto'}">
+                <ng-template let-country pTemplate="item">
+                    <div class="country-item">
+                    <div>{{country.nombre}}</div>
+                    </div>
+                </ng-template>
+                </p-listbox>
             </div>
 
         </form>
