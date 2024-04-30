@@ -182,11 +182,16 @@ edit: boolean = false
   }
   update() {
     let subcategorias = [];
-          this.selectedCategorias.map((item) =>{
-            subcategorias.push(item.uid);
-          });
-this.firebaseService.updatecategoria(this.categoriaModel.id, this.categoriaModel.nombre, this.categoriaForm.value.activo, subcategorias);
-this.edit= false
+    this.selectedCategorias.map(async (item) =>{
+      let exists = await this.firebaseService.existsCategory(item.uid);
+      if(exists){
+        subcategorias.push(item.uid);
+      }
+      
+      
+    });
+    this.firebaseService.updatecategoria(this.categoriaModel.id, this.categoriaModel.nombre, this.categoriaForm.value.activo, subcategorias);
+    this.edit= false
   }
 
 

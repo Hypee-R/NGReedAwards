@@ -35,9 +35,17 @@ export class CategoriasService {
   
   //Ya estaba ---Nominaciones
   getCategorias(){
-    
     const categoriasCollection = collection(this.firestore, 'categoriasN');
     return collectionData(query(categoriasCollection, orderBy("id", "asc")));
+  }
+
+  async existsCategory(id:string) {
+      const ref = doc(this.db, 'categorias', id);
+      const docSnap = await getDoc(ref);
+      if(docSnap.exists()){
+        return true
+      }
+      return false;
   }
 
   //Ya estaba ---Nominaciones
