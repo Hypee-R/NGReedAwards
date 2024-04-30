@@ -54,7 +54,7 @@ export class CategoriasComponent implements OnInit {
   async getCategoriasN(){
     this.categoriasService.getCategoriasN().subscribe( (data) => {
       this.categoriasN = data;
-      console.log("-----CATEGORIAS N")
+      ///console.log("-----CATEGORIAS N")
       console.log('data categorias ', this.categoriasN);
       this.loading = false;
     }, err => {
@@ -67,6 +67,7 @@ export class CategoriasComponent implements OnInit {
     this.categoriasService.getCategorias().subscribe( (data) => {
       this.categorias = data;
       console.log('data categorias ', this.categorias);
+      this.categoriasFilters = data
       this.loading = false;
     }, err => {
       this.categorias = [];
@@ -102,15 +103,34 @@ export class CategoriasComponent implements OnInit {
     this.router.navigate(["/portal/mis-nominaciones"]);
   }
 
-  onChange(event) {
+ async onChange(event) {
     if(event.value != undefined && event.value != null){
-      console.log(this.categoriaNSelected)
+      //console.log(this.categoriaNSelected)
+      var categorie = this.categoriasN.filter(cat => {
+        if(cat.id == this.categoriaNSelected){
+          return cat
+        }
+      })
       this.categorieName = ""
+      this.categoriasFilters = []
+    }
+    else{
+      this.categoriasFilters = this.categorias
+    }
+    // TODO : CORREGIR ESTE FLUJO
+    var subcategories = categorie[0].subcategorias 
+    if(subcategories != null){
+      subcategories.forEach(async (subcategoria) => {
+        const cate = await this.categoriasService.getCategoriaId(subcategoria)
+        console.log(cate.data())
+        this.categoriasFilters.push(cate.data())
+      });
     }
   }
 
   onChangeInput(event){
-    if(this.categorieName != ""){
+    if(this.categorieName != "" && this.categoriaNSelected == undefined){
+      console.log(this.categoriaNSelected)
       this.categoriasFilters = this.categorias.filter(cat =>{
         if(cat.nombre.toLocaleLowerCase().includes(this.categorieName)){
           return cat

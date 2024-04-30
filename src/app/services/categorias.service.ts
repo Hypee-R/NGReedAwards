@@ -43,6 +43,12 @@ export class CategoriasService {
     const categoriasCollection = collection(this.firestore, 'categorias');
     return collectionData(query(categoriasCollection, orderBy("id", "asc")));
   }
+
+  
+  async getCategoriaId(id: string) {
+    const ref = doc(this.db, 'categorias', id);
+    return await getDoc(ref);
+  }
   //Ya estaba---Nominaciones
   getexcel(exc: any){
     // await addDoc(this.categoriaCol, {id, nombre})
