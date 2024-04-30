@@ -57,7 +57,7 @@ export class CategoriasComponent implements OnInit {
     this.categoriasService.getCategoriasN().subscribe( (data) => {
       this.categoriasN = data;
       ///console.log("-----CATEGORIAS N")
-      console.log('data categorias ', this.categoriasN);
+      //console.log('data categorias ', this.categoriasN);
       this.loading = false;
     }, err => {
       this.categoriasN = [];
@@ -68,7 +68,6 @@ export class CategoriasComponent implements OnInit {
   async getCategorias(){
     this.categoriasService.getCategorias().subscribe( (data) => {
       this.categorias = data;
-      console.log('data categorias ', this.categorias);
       this.categoriasFilters = data
       this.loading = false;
     }, err => {
@@ -89,7 +88,6 @@ export class CategoriasComponent implements OnInit {
   }
 
   addNominacion(event){
-    //console.log('add nominacion event ', event, this.selectedCategoria);
     if(this.configService.Usuario){
       this.variablesGL.preloadCategoria.next(this.selectedCategoria);
       this.accion = 'agregar';
@@ -134,7 +132,6 @@ export class CategoriasComponent implements OnInit {
 
   onChangeInput(event){
     if(this.categorieName != "" && this.categoriaNSelected == undefined){
-      console.log(this.categoriaNSelected)
       this.categoriasFilters = this.categorias.filter(cat =>{
         if(cat.nombre.toLocaleLowerCase().includes(this.categorieName)){
           return cat
@@ -142,7 +139,12 @@ export class CategoriasComponent implements OnInit {
       })
     }
     else{
+
+
       var pivoteFilter = []
+      if(this.selectedCategories == undefined){
+        return
+      }
       pivoteFilter = this.selectedCategories.filter(cat => {
         if(cat.nombre.toLocaleLowerCase().includes(this.categorieName)){
           return cat
@@ -154,4 +156,17 @@ export class CategoriasComponent implements OnInit {
       }
     }
   }
+  //filtro:string = ""
+  partesResaltadas(texto: string): { resaltado: boolean, texto: string }[] {
+    if (!this.categorieName) {
+      return [{ resaltado: false, texto }];
+    }
+
+    const partes = texto.split(new RegExp(`(${this.categorieName})`, 'gi'));
+    return partes.map(part => ({
+      resaltado: part.toLowerCase() === this.categorieName.toLowerCase(),
+      texto: part
+    }));
+  }
+
 }

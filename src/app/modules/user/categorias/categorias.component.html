@@ -41,10 +41,15 @@
         </ng-template>
         <ng-template pTemplate="body" let-categoria>
             <tr [pSelectableRowDblClick]="categoria">
-                <td>
-                    <div data-bs-toggle="tooltip" data-bs-placement="top" title="Doble click para agregar una nominación con ésta categoria">
+                <td >
+                    <ng-container *ngFor="let parte of partesResaltadas(categoria.nombre)">
+                        <span [class.resaltado]="parte.resaltado">{{ parte.texto }}</span>
+                      </ng-container>
+
+                    <!--<div   [class.resaltado]="textoCoincide(categoria.nombre)"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Doble click para agregar una nominación con ésta categoria">
                         {{categoria.nombre}}
-                    </div>
+                    </div>-->
                 </td>
             </tr>
         </ng-template>
