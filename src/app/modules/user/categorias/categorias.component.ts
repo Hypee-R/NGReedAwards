@@ -137,21 +137,24 @@ export class CategoriasComponent implements OnInit {
   }
 
   onChangeInput(event){
+    
     if(this.categorieName != "" && this.categoriaNSelected == undefined){
+      
+
       this.categoriasFilters = this.categorias.filter(cat =>{
-        if(cat.nombre.toLocaleLowerCase().includes(this.categorieName)){
+        if(cat.nombre.toLocaleLowerCase().includes(this.categorieName.toLocaleLowerCase())){
           return cat
         }
       })
     }
     else{
-
+      console.log("CATEGORIA SELECCIONADA")
       var pivoteFilter = []
       if(this.selectedCategories == undefined){
         return
       }
       pivoteFilter = this.selectedCategories.filter(cat => {
-        if(cat.nombre.toLocaleLowerCase().includes(this.categorieName)){
+        if(cat.nombre.toLocaleLowerCase().includes(this.categorieName.toLocaleLowerCase())){
           return cat
         }
       })
