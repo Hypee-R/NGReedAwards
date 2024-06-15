@@ -25,6 +25,7 @@ import { MiInformacionComponent } from './mi-informacion/mi-informacion.componen
 import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.component';
 import { AddNominacionComponent } from './mis-nominaciones/add-nominacion/add-nominacion.component';
 import { InputTextModule } from 'primeng/inputtext';
+import { NominacionReedLatinoComponent } from './mis-nominaciones/nominacion-reed-latino/nominacion-reed-latino.component';
 
 @NgModule({
     imports: [
@@ -52,6 +53,7 @@ import { InputTextModule } from 'primeng/inputtext';
         MiInformacionComponent,
         MisNominacionesComponent,
         AddNominacionComponent,
+        NominacionReedLatinoComponent,
     ],
 })
 export class UserModule { }
