@@ -51,8 +51,14 @@ export class LoginUserComponent implements OnInit {
           })
 
           localStorage.setItem('user', JSON.stringify(this.userdata));
+          var link  = localStorage.getItem('urlanterior').toString()
+          //console.log(link)
           switch (this.userdata.rol) {
             case 'user':
+              ///console.log("Entre aqui en el login")
+              if(link.toString().toUpperCase() === "nomiacionReedLatino".toUpperCase() ){
+                this.router.navigate(['/portal/nomiacionReedLatino'])
+              }
              // this.router.navigate(['/portal']);
               break;
             case 'admin':

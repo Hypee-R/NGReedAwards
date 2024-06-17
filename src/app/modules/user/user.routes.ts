@@ -11,6 +11,7 @@ import { InicioComponent } from './inicio/inicio.component';
 import { MiInformacionComponent } from './mi-informacion/mi-informacion.component';
 import { MisNominacionesComponent } from './mis-nominaciones/mis-nominaciones.component';
 import { AuthGuard } from '../../../config/auth.guard';
+import { NominacionReedLatinoComponent } from './mis-nominaciones/nominacion-reed-latino/nominacion-reed-latino.component';
 
 export const userRoutes: Routes = [
     { path: 'login', component: LoginUserComponent },
@@ -19,6 +20,7 @@ export const userRoutes: Routes = [
     { path: 'verificarCorreo', component: VerificarCorreoComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'nominaciones', component: NominacionesComponent },
+    { path: 'nomiacionReedLatino', component: NominacionReedLatinoComponent ,canActivate: [AuthGuard]},
     { path: 'contacto', component: ContactoComponent },
     { path: 'inicio', component: InicioComponent },
     { path: 'mi-informacion', component: MiInformacionComponent, canActivate: [AuthGuard] },

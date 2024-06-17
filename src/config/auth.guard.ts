@@ -27,7 +27,8 @@ export class AuthGuard implements CanLoad, CanActivate {
     }else {
       localStorage.clear();
       console.log("No autenticado ");
-      if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'|| route.url[0].path == 'mis-lugares'){
+      if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'|| route.url[0].path == 'mis-lugares' 
+        || route.url[0].path == 'nomiacionReedLatino'){
         this.router.navigate(['/portal/login'], { replaceUrl: true });
       }else{
         this.router.navigate(['/portal/login'], { replaceUrl: true });
@@ -40,7 +41,12 @@ export class AuthGuard implements CanLoad, CanActivate {
         this.router.navigate(['/reedeventoadmin/login'], { replaceUrl: true });
       }
       
-      if(route.url[0].path == 'jueces' || route.url[0].path == 'categorias' || route.url[0].path == 'evaluacion-nominaciones' || route.url[0].path == 'nominaciones' || route.url[0].path == 'mensajes-contacto' || route.url[0].path == 'usuarios'){
+      if(route.url[0].path == 'jueces' || route.url[0].path == 'categorias' || route.url[0].path == 'evaluacion-nominaciones' 
+        || route.url[0].path == 'nominaciones' || route.url[0].path == 'mensajes-contacto' || route.url[0].path == 'usuarios' 
+        || route.url[0].path == 'nomiacionReedLatino'){
+
+          localStorage.setItem('urlanterior', JSON.stringify(route.url[0].path));
+          console.log("entre aqui tambien")
         // this.router.navigate(['/portal/login'], { replaceUrl: true });
         this.router.navigate(['/portal/login'], { replaceUrl: true });
       }else{
