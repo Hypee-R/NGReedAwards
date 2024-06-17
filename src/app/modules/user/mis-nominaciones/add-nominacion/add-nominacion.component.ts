@@ -26,11 +26,11 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
    producto = {
      descripcion : 'Compra por Nominacion de Reedlatino',
-     precio      :  152.00
+     precio      :  167.00
    }
 
   codigosDescuento = [
-    { codigo: 'AICODI', descuento: 20 },
+    { codigo: 'AICODI15', descuento: 15 },
     { codigo: 'REED20DESC', descuento: 20 },
     // { codigo: 'REED20QROEDO', descuento: 20 },
     // { codigo: 'REED20QROMPIO', descuento: 20 },
@@ -628,9 +628,9 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
       console.log('Precio normal ', this.producto);
 
       if(existeCodigoDesc){
-        this.producto.precio =  124.80;
+        this.producto.precio =  147.25;
         console.log('nuevo precio ', this.producto);
-        this.toastr.success('Descuento aplicado de 20%', 'Exito!');
+        this.toastr.success('Descuento aplicado de 15%', 'Exito!');
         this.descuentoAplicado = true;
       }else{
         this.toastr.error('Codigo de descuento no valido', 'Error!');
