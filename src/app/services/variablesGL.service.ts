@@ -45,6 +45,7 @@ export class VariablesService {
 
   removeCredential() {
     localStorage.d = "";
+    localStorage.setItem('urlanterior', "");
     localStorage.clear();
     location.reload();
     this.router.navigate(['/'], { replaceUrl: true });
@@ -53,12 +54,14 @@ export class VariablesService {
   removeCredentialAdmin() {
     localStorage.d = "";
     localStorage.clear();
+    localStorage.setItem('urlanterior', "");
     location.reload();
     this.router.navigate(['/portal/login'], { replaceUrl: true });
   }
 
   removeCredentialAdminEvento() {
     localStorage.d = "";
+    localStorage.setItem('urlanterior', "");
     localStorage.clear();
     location.reload();
     this.router.navigate(['/reedeventoadmin/login'], { replaceUrl: true });

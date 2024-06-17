@@ -93,6 +93,7 @@ export class CategoriasComponent implements OnInit {
       this.accion = 'agregar';
       this.visibleSide = true;
     }else{
+      localStorage.setItem('urlanterior', "categorias");
       this.router.navigate(["/portal/login"])
     }
   }

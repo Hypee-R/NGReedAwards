@@ -51,15 +51,20 @@ export class LoginUserComponent implements OnInit {
           })
 
           localStorage.setItem('user', JSON.stringify(this.userdata));
-          var link  = localStorage.getItem('urlanterior').toString()
+          var link  = localStorage.getItem('urlanterior') 
           //console.log(link)
           switch (this.userdata.rol) {
             case 'user':
-              ///console.log("Entre aqui en el login")
-              if(link.toString().toUpperCase() === "nomiacionReedLatino".toUpperCase() ){
-                this.router.navigate(['/portal/nomiacionReedLatino'])
+              if(link != undefined){
+                  this.router.navigate(['/portal/'+link])
+                  localStorage.setItem('urlanterior', "");
               }
-             // this.router.navigate(['/portal']);
+              else{
+                this.router.navigate(['/portal']);
+              }
+              ///console.log("Entre aqui en el login")
+             
+              
               break;
             case 'admin':
               this.router.navigate(['/admin']);
