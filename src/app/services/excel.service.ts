@@ -52,7 +52,7 @@ ws['!cols'] = [
 }
   convoc(convoc: any){
     console.log(convoc);
-    
+
     let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(convoc, { header: ['ID', 'fechaInicio', 'fechaFin'] })
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'convocatorias');
@@ -70,7 +70,7 @@ ws['!cols'] = [
 // console.log('pago', ordenesPagadas);
 // console.log('no', ordenesNoPagadas);
 
-    let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(piezasPorCategoria, {header:['id', 'nombre', 'pago', 'total']});
+    //let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(piezasPorCategoria, {header:['id', 'nombre', 'pago', 'total']});
     let wsPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(piezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','PAGO','ID_PIEZA','NOMBRE_DE_LA_PIEZA','EMPRESA','FECHA_DE_NOMINACIÓN','NUM','NUM_VIDEO','NUM_IMAGENES','NUM_DOCS','CATEGORIA','NOMBRE_CATEGORIA']});
     let wsUsuariosConPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(usuariosConPiezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','FECHA_DE_NOMINACIÓN']});
     let wsUsuariosSinPiezasInscritas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(usuariosSinPiezasInscritas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','FECHA_DE_NOMINACIÓN']});
@@ -78,7 +78,7 @@ ws['!cols'] = [
     let wsOrdenesNoPagadas: XLSX.WorkSheet = XLSX.utils.json_to_sheet(ordenesNoPagadas, {header:['#', 'ID_USUARIO','NOMBRE','APELLIDO','CORREO','TELEFONO','ESTADO','NUM_PIEZAS','TOTAL']});
 
     let objectMaxLength = [];
-    for (let i = 0; i < piezasPorCategoria.length; i++) {
+   /* for (let i = 0; i < piezasPorCategoria.length; i++) {
       let value = <any>Object.values(piezasPorCategoria[i]);
       for (let j = 0; j < value.length; j++) {
 
@@ -101,9 +101,9 @@ ws['!cols'] = [
   {
     width: objectMaxLength[0]
   }
-]
+]*/
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'PIEZAS POR CATEGORIA');
+    //XLSX.utils.book_append_sheet(wb, ws, 'PIEZAS POR CATEGORIA');
 
     XLSX.utils.book_append_sheet(wb, wsPiezasInscritas, 'PIEZAS INSCRITAS');
     XLSX.utils.book_append_sheet(wb, wsUsuariosConPiezasInscritas, 'USUARIOS CON PIEZAS INSCRITAS');
@@ -115,7 +115,7 @@ ws['!cols'] = [
   }
 
 reservaciones(reservacionesCollection: any){
-  
+
   let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(reservacionesCollection, { header: [] })
   const wb: XLSX.WorkBook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'reservaciones');

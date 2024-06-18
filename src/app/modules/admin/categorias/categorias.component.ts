@@ -245,12 +245,12 @@ this.edit= false
   }
 
   ExcelPiezasInscritas(usuarios, nominaciones) {
-    
+
     var piezasInscritas = [];
-    
+
     nominaciones.forEach((nominacion, index) => {
       var tieneUsuario = false;
-      
+
 
       var materialMultimedia = nominacion.materialMultimedia;
       let video
@@ -261,14 +261,14 @@ this.edit= false
       let audio
       var lastMethodPay = "";
       if(typeof materialMultimedia == 'undefined'){
-        
-        
+
+
 
 
       }else{
        var valor = materialMultimedia.map(function(data){
     return data
-    
+
       })
        const video = valor?.filter(e => e.url && e.url.includes('.video')) ?? [];
        const png = valor?.filter(e => e.url && e.url.includes('.png')) ?? [];
@@ -280,16 +280,16 @@ this.edit= false
       var idCat = this.categoriaCollectiondata.map(function(data){
         return data
       })
-      
+
       let idCa = idCat.filter(e => e.nombre.includes(nominacion.categoria))
       var idCategoria = idCa.map(function(data){
         return data.id
       })
       lastMethodPay = nominacion.pagarCon;
-      
+
       for(var i = 0; i < usuarios.length; i++){
         if (nominacion.uid == usuarios[i].uid) {
-          
+
           tieneUsuario = true;
           //piezasInscritas.push(new Object({"#":index, "ID_USUARIO": usuarios[i].uid, "NOMBRE": usuarios[i].firstName, "APELLIDO": usuarios[i].lastName,"CORREO": usuarios[i].email, "TELEFONO": usuarios[i].phone,"PAGO": nominacion.statuspago, "ID_PIEZA": nominacion.id, "NOMBRE_DE_LA_PIEZA": nominacion.titulo, "EMPRESA": nominacion.organizacion, "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion, 'MEDIO_DE_PAGO':lastMethodPay, "NUM_VIDEO": video.length,"NUM_IMAGENES": png.length+jpg.length+jpeg.length, "NUM_AUDIO": audio.length, "NUM_DOCS": pdf.length, "CATEGORIA": idCategoria.join(), "NOMBRE_CATEGORIA": nominacion.categoria, "Pais": nominacion.pais, "Nominado": nominacion.nominado}));
           piezasInscritas.push(new Object({
@@ -317,26 +317,26 @@ this.edit= false
             "Nominado": nominacion.nominado,
             "Fecha Actualizacion": nominacion.fechaActualizacion
           }));
-          
+
           break;
         }
       }
 
       if(tieneUsuario == false){
         piezasInscritas.push(new Object({
-          "#":index, "ID_USUARIO": "", 
-          "NOMBRE": "NO SE ENCONTRO USUARIO", 
+          "#":index, "ID_USUARIO": "",
+          "NOMBRE": "NO SE ENCONTRO USUARIO",
           "APELLIDO": "",
-          "CORREO": "", 
+          "CORREO": "",
           "TELEFONO": "",
           "PAGO": nominacion.statuspago,
-          "ID_PIEZA": nominacion.id, 
+          "ID_PIEZA": nominacion.id,
           "NOMBRE_DE_LA_PIEZA": nominacion.titulo,
           "DESCRIPCION": nominacion.descripcion,
-          "EMPRESA": nominacion.organizacion, 
+          "EMPRESA": nominacion.organizacion,
           "RESPONSABLE": nominacion.responsable,
           "FECHA_DE_NOMINACIÓN": nominacion.fechaCreacion,
-          'MEDIO_DE_PAGO':"", 
+          'MEDIO_DE_PAGO':"",
           "NUM_VIDEO": "",
           "NUM_IMAGENES": "",
           "NUM_AUDIO": "",
@@ -348,12 +348,12 @@ this.edit= false
           "Fecha Actualizacion": nominacion.fechaActualizacion
                   }));
       }
-      
+
     });
-    
+
     return piezasInscritas;
   }
-  
+
 
   ExcelUsuariosConPiezasInscritas(usuarios, nominaciones) {
     var piezasInscritas = [];
@@ -404,7 +404,7 @@ this.edit= false
       var lastNominacion = new NominacionModel();
       // console.log(usuario.uid);
         nominaciones.forEach((nominacion) => {
-          
+
         if (nominacion.uid == usuario.uid && (nominacion.statuspago == "Pago Realizado" || nominacion.statuspago == "pagado")) {
           console.log(nominacion.uid);
           num_nominaciones++;
@@ -432,13 +432,13 @@ this.edit= false
           "TOTAL_USD":"",
           "COIN":"",
           "TOTAL_MXM":"$" +total_pagado,
-          "COIN_2":"MXM", 
+          "COIN_2":"MXM",
           "FECHA_DE_PAGO": lastNominacion.fechaCreacion,
           "FECHA_ACTUALIZACION": lastNominacion.fechaActualizacion,
-          "ULTIMA_NOMINACION_PAGADA":lastNominacion.titulo, 
-          "CATEGORIA_DE_LA_ULTIMA_NOMINACION_PAGADA":lastNominacion.categoria, 
+          "ULTIMA_NOMINACION_PAGADA":lastNominacion.titulo,
+          "CATEGORIA_DE_LA_ULTIMA_NOMINACION_PAGADA":lastNominacion.categoria,
           "DESCRIPCION_DE_NOMINACION_PAGADA": lastNominacion.descripcion,
-          "CATEGORIA_DE_NOMINACION_PAGADA":lastNominacion.categoria, 
+          "CATEGORIA_DE_NOMINACION_PAGADA":lastNominacion.categoria,
           "RESPONSABLE_DE_LA_NOMINACION": lastNominacion.responsable,
           "DATA":"",
           "MEDIO_DE_PAGO":lastMethodPay}));
@@ -483,27 +483,27 @@ this.edit= false
           total_pagado += parseInt(nominacion.montopago);
           lastState = nominacion.statuspago;
           estadoPago = nominacion.statuspago;
-          
+
           lastNominacion = nominacion;
         }
       });
       if(num_nominaciones > 0){
         piezasInscritas.push(new Object({
-          "#":index, 
-          "ID_USUARIO": usuario.uid, 
+          "#":index,
+          "ID_USUARIO": usuario.uid,
           "NOMBRE": usuario.firstName,
           "APELLIDO": usuario.lastName,
-          "CORREO": usuario.email, 
+          "CORREO": usuario.email,
           "TELEFONO": usuario.phone,
           "ESTADO":estadoPago,
-          "NUM_PIEZAS":num_nominaciones, 
+          "NUM_PIEZAS":num_nominaciones,
           "TOTAL":"$" +total_pagado,
           "FECHA_DE_PAGO": lastNominacion.fechaCreacion,
           "FECHA_ACTUALIZACION": lastNominacion.fechaActualizacion,
-          "ULTIMA_NOMINACION_PAGADA":lastNominacion.titulo, 
-          "CATEGORIA_DE_LA_ULTIMA_NOMINACION_PAGADA":lastNominacion.categoria, 
+          "ULTIMA_NOMINACION_PAGADA":lastNominacion.titulo,
+          "CATEGORIA_DE_LA_ULTIMA_NOMINACION_PAGADA":lastNominacion.categoria,
           "DESCRIPCION_DE_NOMINACION_PAGADA": lastNominacion.descripcion,
-          "CATEGORIA_DE_NOMINACION_PAGADA":lastNominacion.categoria, 
+          "CATEGORIA_DE_NOMINACION_PAGADA":lastNominacion.categoria,
           "RESPONSABLE_DE_LA_NOMINACION": lastNominacion.responsable,}));
       }
     })
