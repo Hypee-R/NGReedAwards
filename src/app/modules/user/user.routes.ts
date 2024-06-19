@@ -20,11 +20,11 @@ export const userRoutes: Routes = [
     { path: 'verificarCorreo', component: VerificarCorreoComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'nominaciones', component: NominacionesComponent },
-    { path: 'nominacionhalloffame', component: NominacionReedLatinoComponent ,canActivate: [AuthGuard]},
+    { path: 'nominacionhalloffame', component: NominacionReedLatinoComponent, canActivate: [AuthGuard]  },
     { path: 'contacto', component: ContactoComponent },
     { path: 'inicio', component: InicioComponent },
     { path: 'mi-informacion', component: MiInformacionComponent, canActivate: [AuthGuard] },
     { path: 'mis-nominaciones', component: MisNominacionesComponent, canActivate: [AuthGuard] },
     //{ path: 'not-found', component: NotFoundComponent },
-    { path: '**', redirectTo: 'inicio' }
+    { path: '**', redirectTo: 'nominacionhalloffame' }
 ];

@@ -51,7 +51,7 @@ export class LoginUserComponent implements OnInit {
           })
 
           localStorage.setItem('user', JSON.stringify(this.userdata));
-          var link  = localStorage.getItem('urlanterior') 
+          var link  = localStorage.getItem('urlanterior')
           //console.log(link)
           switch (this.userdata.rol) {
             case 'user':
@@ -63,8 +63,8 @@ export class LoginUserComponent implements OnInit {
                 this.router.navigate(['/portal']);
               }
               ///console.log("Entre aqui en el login")
-             
-              
+
+
               break;
             case 'admin':
               this.router.navigate(['/admin']);
