@@ -20,7 +20,7 @@ export const userRoutes: Routes = [
     { path: 'verificarCorreo', component: VerificarCorreoComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'nominaciones', component: NominacionesComponent },
-    { path: 'nomiacionReedLatino', component: NominacionReedLatinoComponent ,canActivate: [AuthGuard]},
+    { path: 'nominacionhalloffame', component: NominacionReedLatinoComponent ,canActivate: [AuthGuard]},
     { path: 'contacto', component: ContactoComponent },
     { path: 'inicio', component: InicioComponent },
     { path: 'mi-informacion', component: MiInformacionComponent, canActivate: [AuthGuard] },
