@@ -27,31 +27,14 @@ export class AuthGuard implements CanLoad, CanActivate {
     }else {
       localStorage.clear();
       console.log("No autenticado ");
-      if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'|| route.url[0].path == 'mis-lugares'
-        || route.url[0].path == 'nominacionhalloffame'){
-          localStorage.setItem('urlanterior', route.url[0].path);
+      if(route.url[0].path == 'portal/nominacionhalloffame' || route.url[0].path == 'mis-nominaciones'|| route.url[0].path == 'mis-lugares'
+      ){
+
         this.router.navigate(['/portal/login'], { replaceUrl: true });
       }else{
         this.router.navigate(['/portal/login'], { replaceUrl: true });
       }
 
-
-      if( route.url[0].path == 'mis-lugares'){
-        this.router.navigate(['/reedevento/login'], { replaceUrl: true });
-      }else{
-        this.router.navigate(['/reedeventoadmin/login'], { replaceUrl: true });
-      }
-
-      if(route.url[0].path == 'jueces' || route.url[0].path == 'categorias' || route.url[0].path == 'evaluacion-nominaciones'
-        || route.url[0].path == 'nominaciones' || route.url[0].path == 'mensajes-contacto' || route.url[0].path == 'usuarios'
-        || route.url[0].path == 'nominacionhalloffame'){
-
-        localStorage.setItem('urlanterior', route.url[0].path);
-        // this.router.navigate(['/portal/login'], { replaceUrl: true });
-        this.router.navigate(['/portal/login'], { replaceUrl: true });
-      }else{
-        this.router.navigate(['/portal/login'], { replaceUrl: true });
-      }
 
       return false;
 
