@@ -46,7 +46,7 @@ export class NominacionesComponent implements OnInit {
       this.usuarios = data;
       //console.log('usuarios ', this.usuarios);
       this.getNominaciones();
-     
+
     });
     this.body = document.body;
     this.cols = [
@@ -68,11 +68,14 @@ export class NominacionesComponent implements OnInit {
       },
       // { field: 'displayName', header: 'Usuario Nombre', filter: 'usuario.displayName'},
       { field: 'email', header: 'Usuario Correo', filter: 'usuario.email' },
+      { field: 'idpago', header: 'Id Pago', filter: 'idpago' },
+
+
     ];
   }
 
   ngOnInit(): void {
-    
+
   }
 
   async getNominaciones() {
@@ -152,7 +155,7 @@ export class NominacionesComponent implements OnInit {
       console.log('----------');
       var zip = new JSZip();
       console.log(data.length);
-      
+
       if (data.length > 1) {
         for (var i = 1; i <20; i++) {
           var categorias = zip.folder(data[i].nombre);
@@ -161,13 +164,13 @@ export class NominacionesComponent implements OnInit {
           for (var j = 0; j < this.listNominaciones.length; j++) {
             console.log(j)
             if (this.listNominaciones[j].categoria == data[i].nombre) {
-            
+
              console.log(this.listNominaciones[j]);
 
               var nominacion = categorias.folder(
                 this.listNominaciones[j].titulo
               );
-             
+
               for(var k= 0; k < this.listNominaciones[j].materialMultimedia.length; k++) {
                     var blob = await this.makeRequest("get", this.listNominaciones[j].materialMultimedia[k].url).then(async blob =>{
                       if(blob != null){
@@ -181,7 +184,7 @@ export class NominacionesComponent implements OnInit {
                       }
                     });
                   }
-                    
+
                 //    console.log(multimedia.url);
                  /* }
                 }
@@ -189,7 +192,7 @@ export class NominacionesComponent implements OnInit {
 
 
 
-              
+
             }
           }
         }
@@ -204,15 +207,15 @@ export class NominacionesComponent implements OnInit {
 
   makeRequest(method, url) {
     return new Promise<Blob>(async function (resolve, reject) {
-      
+
       const xhr = new XMLHttpRequest();
                     xhr.responseType = 'blob';
                     xhr.onload = (event) => {
-                      
+
                       const blob = xhr.response;
-                    
+
                       resolve(blob);
-                    
+
                     };
                     xhr.onerror = (e) => {
                       resolve(null);
@@ -221,7 +224,7 @@ export class NominacionesComponent implements OnInit {
                     xhr.send();
 
 
-                    
+
     });
   }
 
@@ -231,7 +234,7 @@ console.log("------------url makeRequestEncode");
                     const xhr = new XMLHttpRequest();
                     xhr.responseType = 'blob';
                     xhr.onload = (event) => {
-                      
+
                       const blob = xhr.response;
                       resolve(blob);
                     };
@@ -266,7 +269,7 @@ console.log("------------url makeRequestEncode");
           const blob = xhr.response;
 
           /* var zip = new JSZip();
-          
+
           var img = zip.folder('images');
           img.file('smile.png', blob, { base64: true });
           zip.generateAsync({ type: 'blob' }).then(function (content) {

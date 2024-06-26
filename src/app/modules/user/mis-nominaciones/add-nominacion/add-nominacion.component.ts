@@ -128,18 +128,16 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
         console.log(order.id);
         console.log(order.status);
         console.log(order.purchase_units);
-
-
+        console.log(order.id+",purchase_units:"+order.purchase_units+",status:"+order.status+":Objeto order paypal:"+JSON.stringify(order)+",DATA:"+JSON.stringify(data))
         this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
-        this.nominacionForm.controls['idpago'].setValue(order.id+order);
-
-
+        this.nominacionForm.controls['idpago'].setValue(order.id+",purchase_units:"+order.purchase_units+",status:"+order.status+":Objeto order paypal:"+JSON.stringify(order)+",DATA:"+JSON.stringify(data));
+        this.crearNominacion()
       },
       onError: err =>{
-        this.nominacionForm.controls['statuspago'].setValue("");
-        this.nominacionForm.controls['idpago'].setValue(err);
+        this.nominacionForm.controls['statuspago'].setValue("")
+        this.nominacionForm.controls['idpago'].setValue("ERROR:"+JSON.stringify(err));
 
-        console.log(err);
+        console.log("ERROR:"+JSON.stringify(err));
 
       }
     })
@@ -360,7 +358,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           fileBaucher: imgSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : '',
           pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
-          idpago: this.nominacionForm.get('idpago').value,
+          idpago:  this.nominacionForm.get('idpago').value,
           montopago: this.producto.precio.toString(),
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: "",
