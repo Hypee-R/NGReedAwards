@@ -32,7 +32,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
   codigosDescuento = [
     { codigo: 'AICODI15', descuento: 15 },
     { codigo: 'REED20DESC', descuento: 20 },
-    // { codigo: 'REED20QROEDO', descuento: 20 },
+    { codigo: 'ANUNREED2024', descuento: 20 },
     // { codigo: 'REED20QROMPIO', descuento: 20 },
     // { codigo: 'REED20CORMPIO', descuento: 20 },
     // { codigo: 'REED20PUEEDO', descuento: 20 },
