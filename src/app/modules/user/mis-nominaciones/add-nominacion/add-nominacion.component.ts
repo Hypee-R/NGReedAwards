@@ -626,9 +626,18 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
       console.log('Precio normal ', this.producto);
 
       if(existeCodigoDesc){
-        this.producto.precio =  147.25;
+        if(existeCodigoDesc.descuento==20){
+
+          this.producto.precio =  135.00;
+        }
+        if(existeCodigoDesc.descuento==15){
+
+          this.producto.precio =  147.25;
+        }
+
+      //  this.producto.precio =  147.25;
         console.log('nuevo precio ', this.producto);
-        this.toastr.success('Descuento aplicado de 15%', 'Exito!');
+        this.toastr.success('Descuento aplicado ', 'Exito!');
         this.descuentoAplicado = true;
       }else{
         this.toastr.error('Codigo de descuento no valido', 'Error!');
