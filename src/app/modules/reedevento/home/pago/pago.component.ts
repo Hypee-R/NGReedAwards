@@ -123,7 +123,7 @@ opcionSeleccionado:any;
           LugaresComprados: this.lugaresAdquiridos,
           codigotiket:this.codigotiket,
           peticionpaypal:data,
-          respuestapaypal:order,
+          respuestapaypal:JSON.stringify(order),
           idpagopaypal:order.id,
           statuspago: this.statuspago ==true ? 'pagado':'No pagado',
           descripcionpago: this.statuspago ==true ? 'pagado':'No pagado',
