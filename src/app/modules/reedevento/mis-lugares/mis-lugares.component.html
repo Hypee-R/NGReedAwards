@@ -1,6 +1,5 @@
 <div class="contenedor mt-4 mb-lg-5">
     <h3 class="text-bold text-center">Mis Reservaciones</h3>
-    <!-- <button type="button" class="btn btn-primary">Nueva Nominación</button> -->
     <hr>
 
     <div class="row" *ngIf="loading">
@@ -10,12 +9,7 @@
     </div>
 
     <div class="row" *ngIf="!listBoletos !loading">
-        <!-- <p-card class="p-vacio">
-            <div class="text-center">
-                <h1>No tienes ninguna nominaci&oacute;n</h1>
-                <h4>Crea una nueva nominaci&oacute;n con el boton que se encuentra en la parte superior izquierda de la pantalla</h4>
-            </div>
-        </p-card> -->
+
     </div>
 
     <div class="row" *ngIf="listBoletos && listBoletos.length && listBoletos.length > 0 && !loading">
@@ -25,15 +19,17 @@
                     <div class="text-center">
                         <div class="container">
                             <div class="mb-3">
-                                <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="dataToString" [colorDark]="'#94969e'" [colorLight]="'#000000'" [imageSrc]="'https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/files%2FEscudo-RL.png?alt=media&token=58ee9622-0c5e-4d17-90f1-39a9447a7472'"
-                                    [imageHeight]="170" [imageWidth]="170" [title]="'A custom title attributesss'" [width]="256" [errorCorrectionLevel]="'M'">Datos</qrcode>
+                                <!-- <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="dataToString" [colorDark]="'#94969e'" [colorLight]="'#000000'" [imageSrc]="'https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/files%2FEscudo-RL.png?alt=media&token=58ee9622-0c5e-4d17-90f1-39a9447a7472'"
+                                    [imageHeight]="170" [imageWidth]="170" [title]="'A custom title attributesss'" [width]="256" [errorCorrectionLevel]="'M'">Datos</qrcode> -->
                                 <!-- <a [href]="qrCodeDownloadLink" download="qrcode">Descargue su QR de Acceso !!</a> -->
-                                <button class="btn btn-primary" (click)="downloadPdfReservacion(lugar)">Descargue su PDF de Acceso !!</button>
+                                <!-- <button class="btn btn-primary" (click)="downloadPdfReservacion(lugar)">Descargue su PDF de Acceso !!</button> -->
+                                 <h3>Su boleto le llegara pronto a su correo</h3>
+
                             </div>
                         </div>
                     </div>
                 </ng-template>
-                <p>Reed Latino 2023</p>
+                <p>Reed Latino 2024</p>
                 <div>
                     <label>ID Pago Paypal: {{lugar.idpagopaypal}}</label><br>
                     <br>
@@ -41,45 +37,20 @@
                     <label>Total de Lugares adquiridos: {{lugar.LugaresComprados}}</label><br>
                     <label>Codigo: {{lugar.codigotiket}}</label><br>
                     <label>Costo total: ${{lugar.montopago}} USD</label><br>
-
-
                     <label *ngIf="lugar.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{lugar.statuspago}}</span></label>
                     <label *ngIf="lugar.statuspago == '' || lugar.statuspago == 'Pago No Realizado'">Estatus del Pago: <span class="badge bg-danger" >Pago No Realizado</span></label>
                     <label>Fecha de Compra: {{lugar.fechaCreacion}}</label><br>
-                    <!-- <label>Metodo de Pago: <i [class]="lugar.pagarCon == 'paypal' ? 'fa-brands fa-cc-paypal fa-xl' : 'fa-solid fa-money-bill-transfer fa-xl'"></i></label><br>
-                    <label *ngIf="lugar.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{lugar.statuspago}}</span></label>
-                    <label *ngIf="lugar.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{lugar.statuspago}}</span></label>
-                    <label *ngIf="lugar.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{lugar.statuspago}}</span></label>
-                    <label *ngIf="lugar.statuspago == '' || lugar.statuspago == 'Pago No Realizado'">Estatus del Pago: <span class="badge bg-danger" >Pago No Realizado</span></label>
-                    <div *ngIf="lugar.fileBaucher">
-                        <br><label><a target="blank" [href]="lugar?.fileBaucher?.url | safeurl : ''">Documento de Pago</a></label> &nbsp;
-                    </div>
-                    <br><label><a target="blank" [href]="lugar?.fileCartaIntencion?.url | safeurl : ''">Archivo Carta Intencion</a></label> &nbsp;
-                    <label><a target="blank" [href]="lugar?.fileCesionDerechos?.url | safeurl : ''">Archivo Cesion Derechos</a></label><br>
-                    <div *ngFor="let item of lugar.materialMultimedia; let i=index">
-                        <label><a target="blank" [href]="item?.url | safeurl : ''">Material Multimedia {{i+1}}</a></label> &nbsp;
-                    </div> -->
-                    <!-- <label><i class="fa-brands fa-instagram"></i> &nbsp; <a target="blank" [href]="lugar.rsInstagram | safeurl : ''">{{lugar.rsInstagram}}</a></label>
-                    <label><i class="fa-brands fa-twitter"></i> &nbsp; <a target="blank" [href]="lugar.rsTwitter | safeurl : ''">{{lugar.rsTwitter}}</a></label>
-                    <label><i class="fa-brands fa-facebook"></i> &nbsp; <a target="blank" [href]="lugar.rsFacebook | safeurl : ''">{{lugar.rsFacebook}}</a></label>
-                    <label><i class="fa-brands fa-youtube"></i> &nbsp; <a target="blank" [href]="lugar.rsYoutube | safeurl : ''">{{lugar.rsYoutube}}</a></label> -->
+
                 </div>
-                <!--<ng-template pTemplate="footer">
-                    <button class="btn btn-primary" (click)="vistaPrevia(lugar)"><i [ngClass]="lugar.mostrarMas ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i> {{ lugar.mostrarMas ? 'Mostrar menos' : 'Vista Previa' }}</button>
-                    <button class="btn btn-secondary" (click)="editarlugar(lugar)" [style]="{'margin-left': '.5em'}"><i class="fa-solid fa-pen"></i></button>
-                    <button class="btn btn-danger" (click)="eliminarlugar(lugar)" [style]="{'margin-left': '.5em'}"><i class="fa-solid fa-trash"></i></button>
-                </ng-template>--->
+
             </p-card>
         </div>
     </div>
 
 </div>
 
-<!-- <p-sidebar [(visible)]="visibleSide" position="right" [blockScroll]="true" [baseZIndex]="2" [style]="{ 'width': '60%'}">
-    <app-add-lugar *ngIf="visibleSide" [accion]="accion" [lugarEditar]="lugarEditar" (fetchlugares)="fetchlugar()"></app-add-lugar>
-</p-sidebar> -->
 
 <!-- PDF REED LATINO  -->
 <div id="reservacionPDF" #reservacionPDF *ngIf="showTemplatePDF">

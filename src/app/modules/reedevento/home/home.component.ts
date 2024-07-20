@@ -205,7 +205,7 @@ export class HomeComponent implements OnInit {
 
 
       for (let boleto of this.componetesSeleccionados) {
-        let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "600USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
+        let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "660USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
         let estatus = this.lugaresService.getLugaresPagados(newBoleto)
 
 
@@ -216,17 +216,22 @@ export class HomeComponent implements OnInit {
       this.visibleSidebar2 = true;
       if (this.targetVip === 'VIP1') {
         for (let boleto of this.componetesSeleccionados) {
-          let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "630USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
+          let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "700USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
           this.boletosSeleccionados.push(newBoleto)
         }
       } else if (this.targetVip === 'VIP2') {
         for (let boleto of this.componetesSeleccionados) {
-          let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "620USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
+          let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "690USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
+          this.boletosSeleccionados.push(newBoleto)
+        }
+      }  if (this.targetVip === 'VIP3') {
+        for (let boleto of this.componetesSeleccionados) {
+          let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "670USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
           this.boletosSeleccionados.push(newBoleto)
         }
       } else {
         for (let boleto of this.componetesSeleccionados) {
-          let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "600USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
+          let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "660USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
           this.boletosSeleccionados.push(newBoleto)
         }
       }
@@ -308,14 +313,14 @@ export class HomeComponent implements OnInit {
   updateLugar(){
     var boletos  = []
     var mesa = 'C2';
-   for (let i = 1; i < 11; i++) 
+   for (let i = 1; i < 11; i++)
     {
       var updateBoleto = new boleto();
       updateBoleto.idLugar = mesa + i;
       updateBoleto.apartado = false
       updateBoleto.comprado = false;
       updateBoleto.precio = '575'
-      boletos.push(updateBoleto)   
+      boletos.push(updateBoleto)
   }
   console.log(boletos)
   this.lugaresService.updatelugarApartadoV2(boletos);

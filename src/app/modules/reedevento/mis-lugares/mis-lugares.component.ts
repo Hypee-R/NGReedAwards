@@ -73,35 +73,13 @@ export class MisLugaresComponent implements OnInit, OnDestroy {
 
 
     if(this.listBoletos.length > 0){
-      //this.listBoletos = this.listlugares.filter(x => x.titulo && x.nominado && x.descripcion);
-      //console.log('data ', this.listlugares);
-      /*for(let l of this.listBoletos){
-        console.log(l.id)
-      }*/
-      //console.log(this.listBoletos)
+
     }
     if(this.listBoletos.length == 0){
       this.listBoletos = null;
     }
-    //this.misBoletos
     this.loading = false;
-    // .subscribe( data => {
-    //     if(data){
-    //       this.listlugares = data;
-    //       this.listlugares.forEach( (element: QueryDocumentSnapshot) => {
-    //         console.log('data lugares ', element.data());
-    //       });
-    //       if(this.listlugares.length == 0){
-    //         this.listlugares = null;
-    //       }
-    //       this.loading = false;
-    //     }
-    // },
-    // err => {
-    //   this.toastr.error('Hubo un problema al obtener las lugares, intentelo más tarde...','Error')
-    //   this.loading = false;
-    // }
-    // );
+
   }
 
   nuevaNominacion(){
@@ -116,24 +94,7 @@ export class MisLugaresComponent implements OnInit, OnDestroy {
     this.visibleSide = true;
   }
 
-  /*async eliminarNominacion(nominacion: NominacionModel){
-    Swal.fire({
-      title: 'Desea Eliminar Ésta Nominación?',
-      text: "Ésta accion no se podrá revertir ni cambiar",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3c3174',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, Eliminar!',
-      denyButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.lugaresService.deleteNominacion(nominacion);
-        this.toastr.success('Nominación eliminada!!', 'Success');
-        this.getlugares();
-      }
-    });
-  }*/
+
 
   vistaPrevia(nominacion){
      if(nominacion.mostrarMas){
@@ -143,13 +104,7 @@ export class MisLugaresComponent implements OnInit, OnDestroy {
      }
   }
 
-  async fetchNominacion(){
-    /*await this.getlugares();
-    this.visibleSide = false;
-    this.accion = null;
-    this.nominacionEditar = null;
-    */
-  }
+
 
 
   //ticket

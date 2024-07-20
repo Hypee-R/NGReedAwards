@@ -49,7 +49,7 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
                                 <div *ngFor="let tables of mesasVIP[0]"
                                     style="display: grid; place-items: center; position: relative;">
                                     <div class="icon" #MyRef [id]="tables" (click)="comprarMesa(tables, 'VIP1') "
-                                        [pTooltip]="'Mesa: '+tables+'\n Precio: 6300 USD'">
+                                        [pTooltip]="'Mesa: '+tables+'\n Precio: 7000 USD'">
                                         {{tables}}
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas">
@@ -64,7 +64,7 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
                                 <div *ngFor="let tables of mesasVIP[1]"
                                     style="display: grid; place-items: center; position: relative;">
                                     <div class="icon" #MyRef [id]="tables" (click)="comprarMesa(tables, 'VIP2') "
-                                        [pTooltip]="'Mesa: '+tables+'\n Precio: 6200 USD'">
+                                        [pTooltip]="'Mesa: '+tables+'\n Precio: 6900 USD'">
                                         {{tables}}
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas">
@@ -79,7 +79,7 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
                                 <div *ngFor="let tables of mesasN[0]"
                                     style="display: grid; place-items: center; position: relative;">
                                     <div class="icon" #MyRef [id]="tables" (click)="comprarMesa(tables, 'VIP3') "
-                                        [pTooltip]="'Mesa: '+tables+'\n Precio: 6000 USD'">
+                                        [pTooltip]="'Mesa: '+tables+'\n Precio: 6700 USD'">
                                         {{tables}}
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas">
@@ -105,7 +105,7 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
                                         <ul class="menu">
                                             <li class="spread" *ngFor="let name of mesas | slice:0:10">
                                                 <a #MyRef [id]="tables+name" class="unit"
-                                                    [pTooltip]="'Asiento: '+tables+name+'\n Precio: 600 USD'"
+                                                    [pTooltip]="'Asiento: '+tables+name+'\n Precio: 660 USD'"
                                                     (click)="selectedAsiento(tables+name)">{{name}}</a>
                                             </li>
                                         </ul>

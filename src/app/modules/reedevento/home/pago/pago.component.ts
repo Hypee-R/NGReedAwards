@@ -47,7 +47,7 @@ export class PagoComponent implements OnInit {
   nombres:any[];
   boletos: boleto[]=[];
   archivos: FileItem[] = [];
-  boleto:boleto={idLugar:"A1",precio:"600 USD",comprado:false,apartado:false,hora:""}
+  boleto:boleto={idLugar:"A1",precio:"660 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
   // comidaOpcion1 = "Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
   // comidaOpcion2 = "Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
@@ -93,7 +93,7 @@ opcionSeleccionado:any;
         return actions.order.create({
           purchase_units: [
             {
-              description: 'Reservacion ReedAwards 2023',
+              description: 'Reservacion ReedAwards 2024',
               amount     :{
                 moneda: 'US',
                 value        : this.total
@@ -272,7 +272,7 @@ opcionSeleccionado:any;
     this.totalPorcentaje=(this.calcularPrecio())*.05
     this.total=this.totalParcial+this.totalPorcentaje
     this.lugaresAdquiridos=this.boletos.map(x=>x.idLugar).join(",");
-    this.codigotiket='REED23'+this.lugaresAdquiridos.replace(",","")+this.uid;
+    this.codigotiket='REED24'+this.lugaresAdquiridos.replace(",","")+this.uid;
 
      this.data = [
       'INFORMACION DE TU COMPRA',
