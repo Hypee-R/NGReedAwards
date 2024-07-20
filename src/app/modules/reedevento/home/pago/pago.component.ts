@@ -47,7 +47,7 @@ export class PagoComponent implements OnInit {
   nombres:any[];
   boletos: boleto[]=[];
   archivos: FileItem[] = [];
-  boleto:boleto={idLugar:"A1",precio:"660 USD",comprado:false,apartado:false,hora:""}
+  boleto:boleto={idLugar:"A1",precio:"700 USD",comprado:false,apartado:false,hora:""}
   public grabber = false;
   // comidaOpcion1 = "Short Rib, espuma de bernesesa, pure de papa al tartufo y textura de papa";
   // comidaOpcion2 = "Salmón glaseado, risotto de tomate ahumado, tierra de parmesano y tomate seco";
@@ -93,7 +93,7 @@ opcionSeleccionado:any;
         return actions.order.create({
           purchase_units: [
             {
-              description: 'Reservacion ReedAwards 2024',
+              description: 'Reservacion ReedAwards 2024:'+this.codigotiket,
               amount     :{
                 moneda: 'US',
                 value        : this.total
