@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit {
   targetVip = ''
   mesas: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
   mesasVIP: string[][] = [["A", "B", "C", "D", "E"], ["F", "G", "H", "I", "J"]]
-  mesasN: string[][] = [["K", "L", "M", "N", "O", "P", "Q", "R", "S"], [ "T", "U","V", "W", ],
-  ["X", "Y", "Z", "A1", "B2", "C3", "D4", "E5", "F6", "G7"]]
+  mesasN: string[][] = [["K", "L", "M", "N", "O", "P", "Q", "R", "S","T"], [ "U","V", "W","X","Y" ],
+  ["Z", "A2", "B2", "C2", "D2", "E2", "F2", "G2", "H2", "I2","J2","K2","L2","M2","N2"]]
   styleOBJ = { 'background': "RGB(217, 222, 224)" }
   toggle = true;
   status = "Enable";
@@ -297,5 +297,27 @@ export class HomeComponent implements OnInit {
     this.displayBasic = true;
   }
 
+  addedLugares(){
+    var mesa = "B2"
+    for(let i = 0; i < 11 ; i++){
+      console.log(mesa+i)
+      this.lugaresService.addLugar(mesa + i, true, true, '', '575');
+    }
+  }
 
+  updateLugar(){
+    var boletos  = []
+    var mesa = 'C2';
+   for (let i = 1; i < 11; i++) 
+    {
+      var updateBoleto = new boleto();
+      updateBoleto.idLugar = mesa + i;
+      updateBoleto.apartado = false
+      updateBoleto.comprado = false;
+      updateBoleto.precio = '575'
+      boletos.push(updateBoleto)   
+  }
+  console.log(boletos)
+  this.lugaresService.updatelugarApartadoV2(boletos);
+  }
 }

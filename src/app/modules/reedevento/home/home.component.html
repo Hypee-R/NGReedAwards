@@ -41,7 +41,7 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
 
                                 <h2>Escenario</h2>
                                 <img alt="Card"
-                                    src="https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/baners%2FLogoReed.jpg?alt=media&token=62d55309-79f1-46c8-b4cf-9d11d3b1100b"
+                                    src="https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/baners%2FLogoReed2024.png?alt=media&token=32b99683-269a-4791-b722-0ad067780079"
                                     [style]="{width: '1090px'}">
                             </div>
                             <div
@@ -97,13 +97,13 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
                                 style="width: 11rem; align-self: end; height: 6px; background-color: black; margin-bottom: 3rem; margin-top: 1rem;">
                             </div>
                             <div
-                                style="display: grid; grid-template-columns: repeat(4, 1fr); row-gap: 7rem; margin-right: 8rem; margin-top: 2rem; ">
+                                style="display: grid; grid-template-columns: repeat(5, 1fr); row-gap: 7rem; margin-right: 8rem; margin-top: 2rem; ">
                                 <div *ngFor="let tables of mesasN[1]"
                                     style="display: grid; place-items: center; position: relative;">
                                     <div class="icon">
                                         {{tables}}
                                         <ul class="menu">
-                                            <li class="spread" *ngFor="let name of mesas | slice:0:8">
+                                            <li class="spread" *ngFor="let name of mesas | slice:0:10">
                                                 <a #MyRef [id]="tables+name" class="unit"
                                                     [pTooltip]="'Asiento: '+tables+name+'\n Precio: 600 USD'"
                                                     (click)="selectedAsiento(tables+name)">{{name}}</a>
@@ -113,13 +113,13 @@ subheader="Selecciona tu lugar en la cena de Premiación Reed Latino 2023" [styl
                                 </div>
                             </div>
                             <div
-                                style="display: grid; grid-template-columns: repeat(4, 1fr); row-gap: 7rem; margin-right: 8rem; margin-top: 8rem; ">
+                                style="display: grid; grid-template-columns: repeat(5, 2fr); row-gap: 7rem; margin-right: 8rem; margin-top: 8rem; ">
                                 <div *ngFor="let tables of mesasN[2]"
                                     style="display: grid; place-items: center; position: relative;">
                                     <div class="icon">
                                         {{tables}}
                                         <ul class="menu">
-                                            <li class="spread" *ngFor="let name of mesas | slice:0:8">
+                                            <li class="spread" *ngFor="let name of mesas | slice:0:10">
                                                 <a #MyRef [id]="tables+name" class="unit"
                                                     [pTooltip]="'Asiento: '+tables+name+'\n Precio: 600 USD'"
                                                     (click)="selectedAsiento(tables+name)">{{name}}</a>
