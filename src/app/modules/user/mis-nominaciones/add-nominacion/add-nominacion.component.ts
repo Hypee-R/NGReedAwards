@@ -32,7 +32,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
   codigosDescuento = [
     { codigo: 'AICODI15', descuento: 15 },
     { codigo: 'REED20DESC', descuento: 20 },
-    // { codigo: 'REED20QROEDO', descuento: 20 },
+    { codigo: 'ANUNREED2024', descuento: 20 },
     // { codigo: 'REED20QROMPIO', descuento: 20 },
     // { codigo: 'REED20CORMPIO', descuento: 20 },
     // { codigo: 'REED20PUEEDO', descuento: 20 },
@@ -128,18 +128,16 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
         console.log(order.id);
         console.log(order.status);
         console.log(order.purchase_units);
-
-
+        console.log(order.id+",purchase_units:"+order.purchase_units+",status:"+order.status+":Objeto order paypal:"+JSON.stringify(order)+",DATA:"+JSON.stringify(data))
         this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
-        this.nominacionForm.controls['idpago'].setValue(order.id+order);
-
-
+        this.nominacionForm.controls['idpago'].setValue(order.id+",purchase_units:"+order.purchase_units+",status:"+order.status+":Objeto order paypal:"+JSON.stringify(order)+",DATA:"+JSON.stringify(data));
+        this.crearNominacion()
       },
       onError: err =>{
-        this.nominacionForm.controls['statuspago'].setValue("");
-        this.nominacionForm.controls['idpago'].setValue(err);
+        this.nominacionForm.controls['statuspago'].setValue("")
+        this.nominacionForm.controls['idpago'].setValue("ERROR:"+JSON.stringify(err));
 
-        console.log(err);
+        console.log("ERROR:"+JSON.stringify(err));
 
       }
     })
@@ -360,7 +358,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           fileBaucher: imgSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url } : '',
           pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
-          idpago: this.nominacionForm.get('idpago').value,
+          idpago:  this.nominacionForm.get('idpago').value,
           montopago: this.producto.precio.toString(),
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: "",
@@ -628,9 +626,18 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
       console.log('Precio normal ', this.producto);
 
       if(existeCodigoDesc){
-        this.producto.precio =  147.25;
+        if(existeCodigoDesc.descuento==20){
+
+          this.producto.precio =  135.00;
+        }
+        if(existeCodigoDesc.descuento==15){
+
+          this.producto.precio =  147.25;
+        }
+
+      //  this.producto.precio =  147.25;
         console.log('nuevo precio ', this.producto);
-        this.toastr.success('Descuento aplicado de 15%', 'Exito!');
+        this.toastr.success('Descuento aplicado ', 'Exito!');
         this.descuentoAplicado = true;
       }else{
         this.toastr.error('Codigo de descuento no valido', 'Error!');
