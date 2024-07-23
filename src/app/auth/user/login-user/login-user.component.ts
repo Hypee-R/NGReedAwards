@@ -6,6 +6,7 @@ import { ErrorService } from 'src/app/services/error.service';
 import { Router } from '@angular/router';
 import { ProfileUser } from 'src/app/models/user';
 import { Firestore, collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { ConfigService } from 'src/config/config.service';
 
 
 
@@ -24,7 +25,8 @@ export class LoginUserComponent implements OnInit {
               private auth: Auth,
               private toastr: ToastrService,
               private _errorService: ErrorService,
-              private router: Router) {
+              private router: Router,
+              private authService: ConfigService) {
     this.loginForm = this.fb.group({
       usuario: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -40,7 +42,7 @@ export class LoginUserComponent implements OnInit {
     this.loading = true;
     signInWithEmailAndPassword(this.auth, usuario, password)
       .then(async(userCredential) => {
-
+        this.authService.setLoginTime();
         if (userCredential.user?.emailVerified) {
           this.toastr.success('Bienvenido', 'Login correcto');
           localStorage.d = JSON.stringify(userCredential.user);
@@ -51,22 +53,14 @@ export class LoginUserComponent implements OnInit {
           })
 
           localStorage.setItem('user', JSON.stringify(this.userdata));
-          var link  = localStorage.getItem('urlanterior') 
           //console.log(link)
           switch (this.userdata.rol) {
             case 'user':
-              if(link != undefined){
-                  this.router.navigate(['/portal/'+link])
-                  localStorage.setItem('urlanterior', "");
-              }
-              else{
-                this.router.navigate(['/portal']);
-              }
-              ///console.log("Entre aqui en el login")
-             
-              
+
+                this.router.navigate(['/portal'])
               break;
             case 'admin':
+
               this.router.navigate(['/admin']);
               break;
           }

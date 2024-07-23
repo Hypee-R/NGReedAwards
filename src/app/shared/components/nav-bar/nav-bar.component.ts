@@ -12,9 +12,6 @@ import { VariablesService } from '../../../services/variablesGL.service';
 export class NavBarComponent implements OnInit {
   currentUser: any;
   userData: any;
-  // uid = JSON.parse(localStorage.d).uid;
-  //get uid from local storage or parse undefined is its null
-  // uid = JSON.parse(localStorage.d) ? JSON.parse(localStorage.d).uid : undefined;
   userUid: any;
   @Input() type: string;
   constructor(
@@ -39,7 +36,7 @@ export class NavBarComponent implements OnInit {
       //if local storage is not null
       if(localStorage.d){
         this.userUid = JSON.parse(localStorage.d).uid;
-        console.log(    this.userUid)
+        console.log(this.userUid)
       } else {
         this.userUid = undefined;
       }
@@ -55,7 +52,7 @@ export class NavBarComponent implements OnInit {
         }
         console.log(this.userData[0]?.rol);
 
-        
+
         if(this.userData[0]?.rol){
           this.currentUser = this.userData[0].rol;
           console.log("=====>currentUser");

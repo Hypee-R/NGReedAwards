@@ -35,29 +35,12 @@ export class MisNominacionesComponent implements OnInit {
     this.listNominaciones = await this.nominacionesService.getNominaciones();
     if(this.listNominaciones.length > 0){
       this.listNominaciones = this.listNominaciones.filter(x => x.titulo && x.nominado && x.descripcion);
-      //console.log('data ', this.listNominaciones);
     }
     if(this.listNominaciones.length == 0){
       this.listNominaciones = null;
     }
     this.loading = false;
-    // .subscribe( data => {
-    //     if(data){
-    //       this.listNominaciones = data;
-    //       this.listNominaciones.forEach( (element: QueryDocumentSnapshot) => {
-    //         console.log('data nominaciones ', element.data());
-    //       });
-    //       if(this.listNominaciones.length == 0){
-    //         this.listNominaciones = null;
-    //       }
-    //       this.loading = false;
-    //     }
-    // },
-    // err => {
-    //   this.toastr.error('Hubo un problema al obtener las nominaciones, intentelo más tarde...','Error')
-    //   this.loading = false;
-    // }
-    // );
+
   }
 
   nuevaNominacion(){

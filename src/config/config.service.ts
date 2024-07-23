@@ -24,7 +24,24 @@ export class ConfigService {
     // this.headers.next(headers);
   }
 
+  setLoginTime(): void {
+    localStorage.setItem('loginTime', new Date().toISOString());
+  }
+
+  isLoginExpired(): boolean {
+    const loginTime = localStorage.getItem('loginTime');
+    if (!loginTime) {
+      return true;
+    }
+    const now = new Date();
+    const loginTimeObj = new Date(loginTime);
+   // re Verifica si han pasado más de 6 horas (6 * 60 * 60 * 1000 milisegundos)
+   // return now.getTime() - loginTimeObj.getTime() > 1 * 60 * 1000;
+     return now.getTime() - loginTimeObj.getTime() > 6 * 60 * 60 * 1000;
+  }
+
   get Usuario() {
+    //console.log( localStorage.d)
     //return localStorage.d;
     return localStorage.d;
   }

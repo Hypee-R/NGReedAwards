@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router, CanLoad, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ConfigService } from 'src/config/config.service';
-import { VariablesService } from '../app/services/variablesGL.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +26,7 @@ export class AuthGuard implements CanLoad, CanActivate {
     }else {
       localStorage.clear();
       console.log("No autenticado ");
-      if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'|| route.url[0].path == 'mis-lugares'
+      if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'|| route.url[0].path == 'categorias' || route.url[0].path == 'mis-lugares'
         || route.url[0].path == 'nominacionhalloffame'){
           localStorage.setItem('urlanterior', route.url[0].path);
         this.router.navigate(['/portal/login'], { replaceUrl: true });
@@ -46,8 +45,7 @@ export class AuthGuard implements CanLoad, CanActivate {
         || route.url[0].path == 'nominaciones' || route.url[0].path == 'mensajes-contacto' || route.url[0].path == 'usuarios'
         || route.url[0].path == 'nominacionhalloffame'){
 
-        localStorage.setItem('urlanterior', route.url[0].path);
-        // this.router.navigate(['/portal/login'], { replaceUrl: true });
+
         this.router.navigate(['/portal/login'], { replaceUrl: true });
       }else{
         this.router.navigate(['/portal/login'], { replaceUrl: true });
@@ -62,12 +60,14 @@ export class AuthGuard implements CanLoad, CanActivate {
   }
 
   canLoad(): boolean {
-    if (this.authService.Usuario){
+    console.info(this.authService.isLoginExpired())
+    if (this.authService.Usuario && !this.authService.isLoginExpired()){
       //console.log("Autenticado");
       return true;
     }else {
       localStorage.clear();
       //console.log("No autenticado");
+     // this.authService.logout();
       this.router.navigate(['/portal/login'], { replaceUrl: true });
       return false;
     }

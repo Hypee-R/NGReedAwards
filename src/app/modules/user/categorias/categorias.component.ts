@@ -88,12 +88,14 @@ export class CategoriasComponent implements OnInit {
   }
 
   addNominacion(event){
+    console.log(this.configService.Usuario.uid)
+    console.log(this.configService.Usuario.uid)
     if(this.configService.Usuario){
       this.variablesGL.preloadCategoria.next(this.selectedCategoria);
       this.accion = 'agregar';
       this.visibleSide = true;
     }else{
-      localStorage.setItem('urlanterior', "categorias");
+      //localStorage.setItem('urlanterior', "categorias");
       this.router.navigate(["/portal/login"])
     }
   }
@@ -119,11 +121,11 @@ export class CategoriasComponent implements OnInit {
     else{
       this.categoriasFilters = this.categorias
     }
- 
+
     if(categorie == undefined){
       return
     }
-    var subcategories = categorie[0].subcategorias 
+    var subcategories = categorie[0].subcategorias
     if(subcategories != null){
       for(let i = 0; subcategories.length > i ; i++){
         await this.categoriasService.getCategoriaId( subcategories[i]).then(re =>{
@@ -138,9 +140,9 @@ export class CategoriasComponent implements OnInit {
   }
 
   onChangeInput(event){
-    
+
     if(this.categorieName != "" && this.categoriaNSelected == undefined){
-      
+
 
       this.categoriasFilters = this.categorias.filter(cat =>{
         if(cat.nombre.toLocaleLowerCase().includes(this.categorieName.toLocaleLowerCase())){
