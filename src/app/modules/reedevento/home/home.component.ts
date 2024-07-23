@@ -224,7 +224,7 @@ export class HomeComponent implements OnInit {
           let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "690USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
           this.boletosSeleccionados.push(newBoleto)
         }
-      }  if (this.targetVip === 'VIP3') {
+      }  else if (this.targetVip === 'VIP3') {
         for (let boleto of this.componetesSeleccionados) {
           let newBoleto = { "idLugar": boleto?.nativeElement?.id, "precio": "670USD", "comprado": false, "apartado": false, "hora": this.now.toLocaleString('en-US') }
           this.boletosSeleccionados.push(newBoleto)
