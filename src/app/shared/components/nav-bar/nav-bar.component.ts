@@ -44,9 +44,9 @@ export class NavBarComponent implements OnInit {
     }
     this.getUserData().subscribe(data => {
       if(data) {
-        this.userData = data.filter(item => item.uid === this.userUid);
+        this.userData  = doc(this.afs, 'usuarios/' +    this.userUid);
         //get user rol from userData
-        console.log("=====>DATA");
+        console.log("=====>DATA",     this.userData);
         console.log(this.userData[0]?.rol);
         if(this.userData[0]?.rol){
           this.currentUser = this.userData[0].rol;
@@ -62,15 +62,7 @@ export class NavBarComponent implements OnInit {
     );
   }
 
-  //get current user data
-  // getUserRole(){
-  //   //get user id from local storage
-  //   let uid = JSON.parse(localStorage.d).uid;
-  //   //get user data from firestore
-  //   const userRef = doc(this.afs, 'usuarios/' + uid);
 
-
-  // }
 
   logout(){
       this.variablesGL.removeCredential();

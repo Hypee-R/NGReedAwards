@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { collection, collectionData, doc, Firestore } from '@angular/fire/firestore';
+import { collection, collectionData, doc, docData, Firestore } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { ConfigService } from 'src/config/config.service';
 import { VariablesService } from '../../../services/variablesGL.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar-evento',
@@ -29,9 +30,9 @@ export class NavBarEventoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getUserData() {
-    const itemsCollection = collection(this.afs,'usuarios');
-    return collectionData(itemsCollection);
+  getUserData(uid: string): Observable<any> {
+    const userDocRef = doc(this.afs, `usuarios/${uid}`);
+    return docData(userDocRef);
   }
 
   init() {
@@ -42,20 +43,31 @@ export class NavBarEventoComponent implements OnInit {
     } else {
       this.userUid = undefined;
     }
-    this.getUserData().subscribe(data => {
-      if(data) {
-        this.userData = data.filter(item => item.uid === this.userUid);
-        //get user rol from userData
-        if(this.userData[0]?.rol){
-          this.currentUser = this.userData[0].rol;
-        }
-
+if( this.userUid!=undefined){
+    this.getUserData(this.userUid).subscribe(data => {
+      this.userData = data;
+      console.log(  this.userData )
+      if(this.userData[0]?.rol){
+        this.currentUser = this.userData[0].rol;
       }
-    },
-    err => {
-      this.toastr.error('Hubo un problema al obtener la información, intentelo más tarde...','Error')
-    }
-    );
+    });
+}
+    // this.getUserData( this.userUid).subscribe(data => {
+    //   if(data) {
+    //    // this.userData = data.filter(item => item.uid === this.userUid);
+    //     this.userData = doc(this.afs, 'usuarios/' + this.userUid);
+    //     console.log(  )
+    //     //get user rol from userData
+    //     if(this.userData[0]?.rol){
+    //       this.currentUser = this.userData[0].rol;
+    //     }
+
+    //   }
+    // },
+    // err => {
+    //   this.toastr.error('Hubo un problema al obtener la información, intentelo más tarde...','Error')
+    // }
+    // );
   }
 
   //get current user data

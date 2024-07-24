@@ -27,20 +27,12 @@ export class AuthGuard implements CanLoad, CanActivate {
       }
 
 
-      // if( route.url[0].path == 'mis-lugares'){
-      //   this.router.navigate(['/reedevento/login'], { replaceUrl: true });
-      // }else{
-      //   this.router.navigate(['/reedeventoadmin/login'], { replaceUrl: true });
-      // }
-      
-    
-
       return false;
 
     }
 
 
- 
+
   }
 
   canLoad(): boolean {
