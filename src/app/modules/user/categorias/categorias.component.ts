@@ -88,14 +88,12 @@ export class CategoriasComponent implements OnInit {
   }
 
   addNominacion(event){
-    console.log(this.configService.Usuario.uid)
-    console.log(this.configService.Usuario.uid)
+
     if(this.configService.Usuario){
       this.variablesGL.preloadCategoria.next(this.selectedCategoria);
       this.accion = 'agregar';
       this.visibleSide = true;
     }else{
-      //localStorage.setItem('urlanterior', "categorias");
       this.router.navigate(["/portal/login"])
     }
   }

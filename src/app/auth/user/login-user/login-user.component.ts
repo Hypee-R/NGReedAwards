@@ -42,7 +42,8 @@ export class LoginUserComponent implements OnInit {
     this.loading = true;
     signInWithEmailAndPassword(this.auth, usuario, password)
       .then(async(userCredential) => {
-        this.authService.setLoginTime();
+             //this.setLocalStorage(userCredential.user);
+       // this.authService.setLoginTime();
         if (userCredential.user?.emailVerified) {
           this.toastr.success('Bienvenido', 'Login correcto');
           localStorage.d = JSON.stringify(userCredential.user);
@@ -65,7 +66,7 @@ export class LoginUserComponent implements OnInit {
               break;
           }
 
-          // this.setLocalStorage(userCredential.user);
+
           //this.router.navigate(['/']);
         } else {
           this.toastr.error('El usuario no ha verificado su cuenta', 'Error');

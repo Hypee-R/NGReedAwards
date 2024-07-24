@@ -41,8 +41,17 @@ export class ConfigService {
   }
 
   get Usuario() {
-    //console.log( localStorage.d)
+    // const userDataString = localStorage.getItem('user');
+    // if (userDataString) {
+    //   const userData = JSON.parse(userDataString);
+    //   console.log(userData); // Aquí puedes usar `userData` como el objeto original
+    // } else {
+    //   //this.userUid = undefined;
+    //   console.log('No user data found in localStorage');
+    // }
+    // console.log( localStorage.d)
+   // console.log(JSON.parse(localStorage.d).uid)
     //return localStorage.d;
-    return localStorage.d;
+    return localStorage.getItem('user');
   }
 }

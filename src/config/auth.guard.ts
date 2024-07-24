@@ -13,8 +13,9 @@ export class AuthGuard implements CanLoad, CanActivate {
     private router: Router
   ) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    console.log("Autenticado",this.authService.Usuario);
     if (this.authService.Usuario){
-      //console.log("Autenticado");
+      console.log("Autenticado",this.authService.Usuario);
      const userRol = JSON.parse(localStorage.getItem('user')).rol;
       if (state.url.includes('/admin') && userRol == 'user') { //esta en rutas de admin
         this.router.navigate(['/portal'], { replaceUrl: true });
@@ -24,8 +25,9 @@ export class AuthGuard implements CanLoad, CanActivate {
       }
       return true;
     }else {
+      console.log("No autenticado ",this.authService.Usuario);
       localStorage.clear();
-      console.log("No autenticado ");
+
       if(route.url[0].path == 'mi-informacion' || route.url[0].path == 'mis-nominaciones'|| route.url[0].path == 'categorias' || route.url[0].path == 'mis-lugares'
         || route.url[0].path == 'nominacionhalloffame'){
           localStorage.setItem('urlanterior', route.url[0].path);
@@ -60,8 +62,8 @@ export class AuthGuard implements CanLoad, CanActivate {
   }
 
   canLoad(): boolean {
-    console.info(this.authService.isLoginExpired())
-    if (this.authService.Usuario && !this.authService.isLoginExpired()){
+    // console.info(this.authService.Usuario )
+    if (this.authService.Usuario ){
       //console.log("Autenticado");
       return true;
     }else {

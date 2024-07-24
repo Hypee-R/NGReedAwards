@@ -34,12 +34,23 @@ export class NavBarComponent implements OnInit {
   init() {
     this.getUserData().subscribe(data => {
       //if local storage is not null
-      if(localStorage.d){
-        this.userUid = JSON.parse(localStorage.d).uid;
-        console.log(this.userUid)
+      const userDataString = localStorage.getItem('user');
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        this.userUid = userData.uid;
+        console.log(userData);
       } else {
         this.userUid = undefined;
+        console.log('No user data found in localStorage');
       }
+      // console.log(localStorage.d)
+      // if(localStorage.d){
+      //  // this.userUid = JSON.parse(localStorage.d);
+      //   console.log(this.userUid)
+      // } else {
+      //   this.userUid = undefined;
+      // }
+
       if(data) {
         console.log(data)
         this.userData = data.filter(item => item.uid === this.userUid);
