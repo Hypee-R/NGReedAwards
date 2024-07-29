@@ -102,11 +102,6 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
       },
       onApprove: async (data, actions) => {
         const order = await actions.order.capture();
-        console.log(order.id);
-        console.log(order.status);
-        console.log(order.purchase_units);
-
-
         this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
         this.nominacionForm.controls['idpago'].setValue(order.id);
 
@@ -115,8 +110,6 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
       onError: err =>{
         this.nominacionForm.controls['statuspago'].setValue("");
         this.nominacionForm.controls['idpago'].setValue("");
-
-        console.log(err);
 
       }
     })
@@ -242,7 +235,7 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
         //Carga las imagenes solo si no se han cargado
         if(!this.variablesGL.endProcessCargaCompleta.value){
           this.cargaImagenesFBService.upload(this.archivos,this.nominacionForm.get('categoria').value,this.nominacionForm.get('nominado').value);
-      
+
         }
       }else{
         //Si no desea modificar ningun archivo se salta el upload
@@ -337,31 +330,31 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: "",
           fechaActualizacion: "",
-      
+
           evaluacion:""
         }
         console.log("====SAVE DATA NOMINACION====")
         console.log(dataNominacion.statuspago)
         if(dataNominacion.statuspago=="Pago Realizado")
         {
-        
+
         console.log("====SAVE DATA NOMINACION====Pago Realizado")
                if(dataNominacion.pagarCon=="paypal"){
                 console.log("====SAVE DATA NOMINACION====Pago Realizado paypal")
-                dataNominacion.fechapago= this.nominacionForm.get('fechapago').value 
+                dataNominacion.fechapago= this.nominacionForm.get('fechapago').value
                }else{
                 dataNominacion.fechapago= Date.now().toString()
                 console.log("====SAVE DATA NOMINACION====Pago Realizado TRANSFERENCIA")
                }
-        
+
         }
 
         console.log("====SAVE DATA NOMINACION====FIN")
         console.log(dataNominacion.statuspago)
 
-        if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
+        //if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
           this.nominacionService.addNominacion(dataNominacion);
-        }
+       // }
 
         this.variablesGL.endProcessNominacion.subscribe(endProcessNominacion => {
           if(endProcessNominacion != '' && endProcessNominacion != null){
@@ -432,12 +425,12 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
                if(dataNominacion.pagarCon=="paypal"){
                 dataNominacion.fechapago= this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a')
 
-                //dataNominacion.fechapago= this.nominacionForm.get('fechapago').value 
+                //dataNominacion.fechapago= this.nominacionForm.get('fechapago').value
                }else{
                 dataNominacion.fechapago= this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a')
 
                }
-        
+
         }
         if(dataNominacion.titulo && dataNominacion.nominado && dataNominacion.descripcion){
           await this.nominacionService.updateNominacion(dataNominacion);
@@ -645,10 +638,10 @@ export class AddNominacionAdminComponent implements OnInit, OnDestroy {
       if (result.isConfirmed) {
 
         console.log(this.nominacionUpdate.statuspago+"=============>")
-        
+
        this.nominacionUpdate.fechapago=this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a');
 
-            
+
         this.nominacionUpdate.statuspago = estatus;
         this.nominacionEditar.statuspago = this.nominacionUpdate.statuspago;
         console.log('UPDATE ESTATUS PAGO ', this.nominacionUpdate);

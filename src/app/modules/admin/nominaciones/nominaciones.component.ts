@@ -81,9 +81,7 @@ export class NominacionesComponent implements OnInit {
   async getNominaciones() {
     this.listNominaciones = await this.nominacionesService.getAllNominaciones();
     if (this.listNominaciones.length > 0) {
-      this.listNominaciones = this.listNominaciones.filter(
-        (x) => x.titulo && x.nominado && x.descripcion
-      );
+      this.listNominaciones = this.listNominaciones
       this.listNominaciones.forEach((item) => {
         let usuario = this.usuarios.find((x) => x.uid == item.uid);
         item.usuario = usuario;

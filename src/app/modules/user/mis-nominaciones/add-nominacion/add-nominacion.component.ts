@@ -21,6 +21,7 @@ declare var paypal;
 export class AddNominacionComponent implements OnInit, OnDestroy {
 
   @ViewChild('paypal', { static: true }) paypalElement : ElementRef;
+
   @Input() accion: string;
   @Input() nominacionEditar: any;
   @Output() fetchNominaciones: EventEmitter<boolean> = new EventEmitter<boolean>()
@@ -104,45 +105,52 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
     this.getPaises();
   }
 
+
+  ngAfterViewInit() {
+   this.initPaypalButtons();
+  }
+  initPaypalButtons() {
+    paypal
+      .Buttons({
+        createOrder: (data, actions) => {
+
+          return actions.order.create({
+            purchase_units: [
+              {
+                description: this.producto.descripcion+"Nominado:"+this.nominacionForm.get('nominado').value,
+                amount: {
+                  currency_code: 'USD',
+                  value: this.producto.precio
+                }
+              }
+            ]
+          });
+        },
+        onApprove: async (data, actions) => {
+          this.guardando = true;
+          const order = await actions.order.capture();
+          this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
+          this.nominacionForm.controls['idpago'].setValue(JSON.stringify(order));
+
+            this. crearNominacionPago();
+
+
+        },
+        onError: err => {
+          this.nominacionForm.controls['statuspago'].setValue("Pago No Realizado");
+          this.nominacionForm.controls['idpago'].setValue(JSON.stringify(err));
+         // console.log(err);
+       //   this.pagoRealizado = false;
+
+        }
+      })
+      .render(this.paypalElement.nativeElement);
+  }
+
   ngOnInit(): void {
     this.initForm();
-    //Pago Paypal
-    paypal
-    .Buttons({
-      createOrder: (data, actions) => {
-        return actions.order.create({
-          purchase_units: [
-            {
-              description: this.producto.descripcion,
-              amount     :{
-                moneda: 'US',
-                value        : this.producto.precio
-              }
-            }
-          ]
-        })
-      },
-      onApprove: async (data, actions) => {
-        const order = await actions.order.capture();
-        console.log("Tes pago==========================");
-        console.log(order.id);
-        console.log(order.status);
-        console.log(order.purchase_units);
-        console.log(order.id+",purchase_units:"+order.purchase_units+",status:"+order.status+":Objeto order paypal:"+JSON.stringify(order)+",DATA:"+JSON.stringify(data))
-        this.nominacionForm.controls['statuspago'].setValue("Pago Realizado");
-        this.nominacionForm.controls['idpago'].setValue(order.id+",purchase_units:"+order.purchase_units+",status:"+order.status+":Objeto order paypal:"+JSON.stringify(order)+",DATA:"+JSON.stringify(data));
-        this.crearNominacion()
-      },
-      onError: err =>{
-        this.nominacionForm.controls['statuspago'].setValue("")
-        this.nominacionForm.controls['idpago'].setValue("ERROR:"+JSON.stringify(err));
 
-        console.log("ERROR:"+JSON.stringify(err));
-
-      }
-    })
-    .render( this.paypalElement.nativeElement );
-  }
+   }
 
   ngOnDestroy(): void {
       this.variablesGL.preloadCategoria.next(null);
@@ -212,7 +220,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.nominacionForm.patchValue({
         titulo: this.nominacionEditar.titulo,
-        categoria: searchCat.nombre,
+        categoria: searchCat?.nombre ? searchCat.nombre:'',
         nominado: this.nominacionEditar.nominado,
         descripcion: this.nominacionEditar.descripcion,
         fileLogoEmpresa: this.nominacionEditar?.fileLogoEmpresa?.url ? 'ya cargo archivo' : '',
@@ -235,9 +243,220 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  crearNominacion(){
+  async crearNominacionPago(){
+    if(this.accion == 'agregar' && !this.nominacionForm.valid){
 
+      Swal.fire({
+        title: 'Por favor espera...',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      this.guardando = true;
+
+
+        //console.log("ACCION AGREGAR");
+        const dataNominacion: NominacionModel = {
+          id: Date.now().toString(),
+          titulo: this.nominacionForm.get('titulo').value,
+          categoria: this.nominacionForm.get('categoria').value,
+          nominado: this.nominacionForm.get('nominado').value,
+          descripcion: this.nominacionForm.get('descripcion').value,
+          fileLogoEmpresa: [],
+          organizacion: this.nominacionForm.get('organizacion').value,
+          responsable: this.nominacionForm.get('responsable').value,
+          telefono: this.nominacionForm.get('telefono').value,
+          pais: this.nominacionForm.get('pais').value,
+          rsInstagram: this.nominacionForm.get('rsInstagram').value,
+          rsTwitter: this.nominacionForm.get('rsTwitter').value,
+          rsFacebook: this.nominacionForm.get('rsFacebook').value,
+          rsYoutube: this.nominacionForm.get('rsYoutube').value,
+          fileCesionDerechos:[],
+          fileCartaIntencion: [],
+          materialMultimedia:[],
+          // fileBaucher: { idFile: imgSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: imgSave.find(x => x.fileMapped == 'FileBaucher').url },
+          fileBaucher: '',
+          pagarCon: this.nominacionForm.get('pagarCon').value,
+          statuspago: this.nominacionForm.get('statuspago').value,
+          idpago:  this.nominacionForm.get('idpago').value,
+          montopago: this.producto.precio.toString(),
+          uid: JSON.parse(localStorage.d).uid,
+          fechaCreacion: "",
+          fechaActualizacion: "",
+          evaluacion:""
+        };
+
+
+          this.nominacionService.addNominacion(dataNominacion);
+
+
+        this.variablesGL.endProcessNominacion.subscribe(endProcessNominacion => {
+          if(endProcessNominacion != '' && endProcessNominacion != null){
+            this.toastr.success('Nominación creada con exito!!', 'Success');
+            this.submitted = false;
+            this.guardando = false;
+            this.nominacionForm.reset();
+            this.archivos = [];
+            console.log("END PROCESS CREATE");
+            this.variablesGL.endProcessCargaCompleta.next(null);
+            this.variablesGL.endProcessNominacion.next(null);
+            this.fetchNominaciones.emit(true);
+            Swal.close();
+          }else if(endProcessNominacion == ''){
+            Swal.close();
+            this.toastr.error('Hubo un error al guardar la nominacion!', 'Error');
+            this.submitted = false;
+            this.guardando = false;
+          }
+
+        });
+
+
+    }else if(this.accion == 'editar' && !this.nominacionForm.valid){
+
+      let dataNominacion = {
+        id: this.nominacionEditar.id,
+        titulo: this.nominacionForm.get('titulo').value,
+        categoria: this.nominacionForm.get('categoria').value,
+        nominado: this.nominacionForm.get('nominado').value,
+        descripcion: this.nominacionForm.get('descripcion').value,
+        fileLogoEmpresa: this.agregarLogo ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileLogoEmpresa').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileLogoEmpresa').url } : this.nominacionEditar.fileLogoEmpresa,
+        organizacion: this.nominacionForm.get('organizacion').value,
+        responsable: this.nominacionForm.get('responsable').value,
+        telefono: this.nominacionForm.get('telefono').value,
+        pais: this.nominacionForm.get('pais').value,
+        rsInstagram: this.nominacionForm.get('rsInstagram').value,
+        rsTwitter: this.nominacionForm.get('rsTwitter').value,
+        rsFacebook: this.nominacionForm.get('rsFacebook').value,
+        rsYoutube: this.nominacionForm.get('rsYoutube').value,
+        fileCesionDerechos: this.agregarFileCDerechos ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileCesionDerechos').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileCesionDerechos').url } : this.nominacionEditar.fileCesionDerechos,
+        fileCartaIntencion: this.agregarFileCIntencion ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileCartaIntencion').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileCartaIntencion').url } : this.nominacionEditar.fileCartaIntencion,
+        materialMultimedia: this.agregarFilesMultimedia ? this.setFilesMultimedia() : this.nominacionEditar.materialMultimedia,
+        fileBaucher: this.filesSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
+        pagarCon: this.nominacionForm.get('pagarCon').value,
+        statuspago: this.nominacionForm.get('statuspago').value,
+        idpago: this.nominacionForm.get('idpago').value,
+        montopago: this.nominacionEditar.montopago,
+        uid: JSON.parse(localStorage.d).uid,
+        fechaCreacion: this.nominacionEditar.fechaCreacion,
+        fechaActualizacion: "",
+        evaluacion:""
+      }
+
+
+        await this.nominacionService.updateNominacion(dataNominacion);
+        this.toastr.success('Nominación actualizada con exito!!', 'Success');
+        console.log("END PROCESS UPDATE");
+        this.fetchNominaciones.emit(true);
+
+      this.submitted = false;
+      this.guardando = false;
+      this.nominacionForm.reset();
+      this.archivos = [];
+      Swal.close();
+
+      this.variablesGL.endProcessCargaCompleta.next(null);
+      this.variablesGL.endProcessNominacion.next(null);
+    }else{
+      if(this.nominacionForm.valid){
+
+        Swal.fire({
+          title: 'Por favor espera...',
+          allowEscapeKey: false,
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        this.guardando = true;
+
+        if(this.accion == 'agregar'){
+          this.archivos = [];
+          this.setListaArchivos(this.fileLogo, "FileLogoEmpresa");
+          this.setListaArchivos(this.fileCDerechos, "FileCesionDerechos");
+          this.setListaArchivos(this.fileCIntencion, "FileCartaIntencion");
+          this.setListaArchivos(this.fileMMultimedia, "FileMaterialMultimedia");
+
+          if (this.fileBaucher) {
+            this.setListaArchivos(this.fileBaucher, "FileBaucher");
+            console.log('file baucher ', this.fileBaucher);
+          }
+          else {
+
+            if(this.nominacionForm.get('pagarCon').value != 'paypal'){
+              this.toastr.warning('No seleccionaste un archivo de baucher', 'Atención');
+            }
+            //return;
+          }
+          //Carga las imagenes solo si no se han cargado
+          if(!this.variablesGL.endProcessCargaCompleta.value){
+            this.cargaImagenesFBService.upload(this.archivos,this.nominacionForm.get('categoria').value,this.nominacionForm.get('nominado').value);
+          }
+        }else{
+          //Si no desea modificar ningun archivo se salta el upload
+          if(!this.agregarLogo && !this.agregarFileCDerechos && !this.agregarFileCIntencion && !this.agregarFilesMultimedia && !this.agregarFileBaucher){
+              this.variablesGL.endProcessCargaCompleta.next(true);
+          }
+          //Si desea modificar algun archivo lo carga
+          else{
+              this.archivos = [];
+              if(this.agregarLogo){
+                this.setListaArchivos(this.fileLogo, "FileLogoEmpresa");
+              }
+              if(this.agregarFileCDerechos){
+                this.setListaArchivos(this.fileCDerechos, "FileCesionDerechos");
+              }
+              if(this.agregarFileCIntencion){
+                this.setListaArchivos(this.fileCIntencion, "FileCartaIntencion");
+              }
+              if(this.agregarFilesMultimedia){
+                this.setListaArchivos(this.fileMMultimedia, "FileMaterialMultimedia");
+              }
+              if(this.agregarFileBaucher){
+                if(this.fileBaucher){
+                  this.setListaArchivos(this.fileBaucher, "FileBaucher");
+                }
+              }
+              //Carga las imagenes solo si no se han cargado
+              if(this.archivos.length > 0){
+                this.cargaImagenesFBService.upload(this.archivos,this.nominacionForm.get('categoria').value,this.nominacionForm.get('nominado').value);
+                //console.log("Entro a cargar los archivos al actualizar ", this.archivos.length);
+              }else{
+                this.variablesGL.endProcessCargaCompleta.next(true);
+              }
+          }
+        }
+
+        this.variablesGL.endProcessCargaCompleta.subscribe(endProcessUpload => {
+          //Aqui ya terminó de subir los archivos al storage y agregar las url a firestore
+          if(endProcessUpload){
+            if(this.archivos.length > 0){
+              this.toastr.success(this.archivos.length+' Archivos cargados con exito!!', 'Success');
+            }
+            if(this.accion == 'agregar'){
+              this.saveDataNominacion();
+              //console.log("ACCION AGREGAR");
+            }else{
+              this.updateDataNominacion();
+              //console.log("ACCION EDITAR");
+            }
+          }
+        });
+      }
+
+
+    }
+
+
+  }
+  crearNominacion(){
     this.submitted = true;
+
+
     if(this.nominacionForm.valid){
 
       Swal.fire({
@@ -324,6 +543,8 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
         }
       });
     }
+
+
   }
 
   saveDataNominacion(){
@@ -424,7 +645,7 @@ export class AddNominacionComponent implements OnInit, OnDestroy {
           fileBaucher: this.filesSave.find(x => x.fileMapped == 'FileBaucher') ? { idFile: this.filesSave.find(x => x.fileMapped == 'FileBaucher').idDoc, url: this.filesSave.find(x => x.fileMapped == 'FileBaucher').url } : this.nominacionEditar.fileBaucher,
           pagarCon: this.nominacionForm.get('pagarCon').value,
           statuspago: this.nominacionForm.get('statuspago').value,
-          idpago: this.nominacionForm.get('idpago').value ? this.nominacionForm.get('idpago').value : Date.now().toString(),
+          idpago: this.nominacionForm.get('idpago').value,
           montopago: this.nominacionEditar.montopago,
           uid: JSON.parse(localStorage.d).uid,
           fechaCreacion: this.nominacionEditar.fechaCreacion,

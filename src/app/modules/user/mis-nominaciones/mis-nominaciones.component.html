@@ -27,6 +27,11 @@
                         <img class="img-mini" alt="Card" src="assets/svg/logo.svg" *ngIf="!nominacion?.fileLogoEmpresa?.url">
                     </div>
                 </ng-template>
+                <label *ngIf="nominacion.statuspago == 'Pago Realizado'">Estatus del Pago: <span class="badge bg-success" >{{nominacion.statuspago}}</span></label>
+                <label *ngIf="nominacion.statuspago == 'Pago Pendiente'">Estatus del Pago: <span class="badge bg-warning text-dark" >{{nominacion.statuspago}}</span></label>
+                <label *ngIf="nominacion.statuspago == 'Pago Rechazado'">Estatus del Pago: <span class="badge bg-danger" >{{nominacion.statuspago}}</span></label>
+                <label *ngIf="nominacion.statuspago == '' || nominacion.statuspago == 'Pago No Realizado'">Estatus del Pago: <span class="badge bg-danger" >Pago No Realizado</span></label>
+
                 <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p> -->
                 <div *ngIf="nominacion.mostrarMas">
                     <label>Nominado: {{nominacion.nominado}}</label><br>

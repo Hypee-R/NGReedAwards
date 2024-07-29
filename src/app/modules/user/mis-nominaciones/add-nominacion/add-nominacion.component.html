@@ -300,11 +300,7 @@
             <span class="text-danger">Únicamente se aceptan los siguientes tipos de archivos: "pdf, doc, docx, ppt, pptx,mp4,mp3 e imagenes"</span>
         </p-card>
         <hr>
-        <div class="d-grid gap-2 col-6 mx-auto">
-            <!-- [disabled]="submitted && guardando" -->
-            <button class="btn btn-primary" type="submit">{{accion == 'agregar' ? 'Crear' : 'Actualizar'}}</button>
-        </div>
-        <br>
+
         <p-card header="Pagar con:" *ngIf="nominacionForm.controls['statuspago'].value != 'Pago Realizado'">
             <label>Selecciona un método de pago:</label>
             <select id="objetivo" class="form-control text-center" formControlName="pagarCon">
@@ -372,15 +368,19 @@
                 <input type="text" class="form-control" id="descriptionpago" formControlName="descriptionpago" disabled value="Pago ">
                 <input type="text" class="form-control" id="valuecost" formControlName="valuecost" disabled value="108"> -->
                     <br>
-
-
                     <div class="container">
                         <div class="mb-3">
-                            <div #paypal></div>
+                            <div #paypal ></div>
                         </div>
                     </div>
                 </div>
             </div>
         </p-card>
+         <br>
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <!-- [disabled]="submitted && guardando" -->
+          <button class="btn btn-primary" type="submit">{{accion == 'agregar' ? 'Crear' : 'Actualizar'}}</button>
+      </div>
+      <br>
     </form>
 </div>
