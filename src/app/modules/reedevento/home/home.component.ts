@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
   targetVip = ''
   mesas: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
   mesasVIP: string[][] = [["A", "B", "C", "D", "E"], ["F", "G", "H", "I", "J"]]
-  mesasN: string[][] = [["K", "L", "M", "N", "O", "P", "Q", "R", "S","T"], [ "U","V", "W","X","Y" ],
+  mesasN: string[][] = [["K", "L", "M", "N", "O"], ["P", "Q", "R", "S","T", "U","V", "W","X","Y" ],
   ["Z", "A2", "B2", "C2", "D2", "E2", "F2", "G2", "H2", "I2","J2","K2","L2","M2","N2"]]
   styleOBJ = { 'background': "RGB(217, 222, 224)" }
   toggle = true;
