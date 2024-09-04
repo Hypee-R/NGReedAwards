@@ -25,12 +25,10 @@ import { QRCodeModule } from 'angularx-qrcode';
 // Idioma Español
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { CargaImagenesService } from './services/cargaImagenes.service';
-
+import { getFunctions, provideFunctions } from '@angular/fire/functions';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AuthModule,
@@ -44,15 +42,15 @@ import { CargaImagenesService } from './services/cargaImagenes.service';
     provideStorage(() => getStorage()),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
+    provideFunctions(() => getFunctions()),
     AngularFireModule,
     AngularFirestoreModule,
     StorageModule,
     AngularFireAuthModule,
     //QR
     QRCodeModule,
-
   ],
   providers: [DatePipe, TitleCasePipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

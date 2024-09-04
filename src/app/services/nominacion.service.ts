@@ -16,7 +16,7 @@ export class NominacionService {
     private variablesGL: VariablesService,
   ){
   }
-
+  
   async addNominacion(nominacion: NominacionModel){
     nominacion.fechaCreacion = this.pipe.transform(Date.now(), 'dd/MM/yyyy, h:mm:ss a');
     await addDoc(collection(this.afs,'nominaciones'), nominacion)
@@ -225,6 +225,35 @@ export class NominacionService {
     return this.listaNominaciones;
   }
 
-
+  async sendEmail(email:String)
+  {
+    const db = getFirestore();
+     const docRef = await addDoc(collection(db, 'mail'), {
+       to: email,
+       message: {
+         subject: "Correo de prueba",
+         html: `
+          <p>Estimado usuario de KOI KOI,</p>
+          <p>Esperamos que este mensaje te encuentre disfrutando de tu experiencia de lectura digital con nosotros. Como parte de nuestro compromiso continuo de brindarte acceso a una amplia variedad de libros digitales, nos complace anunciar que hemos preparado una emocionante oferta exclusivamente para ti.</p>
+          <p>Como muestra de agradecimiento por tu apoyo y fidelidad, estamos encantados de ofrecerte la oportunidad de disfrutar de 5 ediciones gratis de nuestra extensa biblioteca digital. A continuación, te presentamos los libros que podrás disfrutar:</p>
+          <ul>
+             
+          </ul>
+          <p>¿Cómo puedes obtener tus 5 ediciones gratis? Es simple:</p>
+          <ol>
+              <li>Inicia sesión en tu cuenta de KOI KOI.</li>
+              <li>Dirígete a la sección de "Mis libros" en la aplicación.</li>
+              <li>Reclama las 5 ediciones que más te llamen la atención.</li>
+              <li>¡Disfruta de tus nuevos libros digitales!</li>
+          </ol>
+          <p>¡Gracias por ser parte de nuestra comunidad de lectores digitales! Esperamos que disfrutes al máximo de esta emocionante oferta.</p>
+          <p>¡Feliz lectura!</p>
+          <p>Atentamente,</p>
+          <p>App KOI KOI</p>
+      `,
+       },
+     });
+     console.log('El email se grabó con el ID: ', docRef.id);
+  }
  
 }

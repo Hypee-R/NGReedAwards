@@ -9,8 +9,9 @@ import { UsuarioService } from '../../../services/usuarios.service';
 import { ChipModule } from 'primeng/chip';
 
 import { CategoriasService } from 'src/app/services/categorias.service';
-
+import { Functions, httpsCallableData } from '@angular/fire/functions';
 import { getApp } from '@angular/fire/app';
+import { Observable } from 'rxjs';
 import {
   getStorage,
   ref,
@@ -35,18 +36,22 @@ export class NominacionesComponent implements OnInit {
   usuarios: any[] = [];
   body: any;
   cols: any;
+  notifFunction: (data: any) => Observable<any>;
   constructor(
     private firebaseService: CategoriasService,
     private toastr: ToastrService,
     private nominacionesService: NominacionService,
     private usuariosService: UsuarioService,
-    private exportExcel: ExcelService
+    private exportExcel: ExcelService,
+    functions: Functions
   ) {
+    this.notifFunction = httpsCallableData(functions, 'sendEmailNotification', {
+      timeout: 3_000,
+    });
     this.usuariosService.getusuarios().subscribe((data) => {
       this.usuarios = data;
       //console.log('usuarios ', this.usuarios);
       this.getNominaciones();
-
     });
     this.body = document.body;
     this.cols = [
@@ -69,19 +74,15 @@ export class NominacionesComponent implements OnInit {
       // { field: 'displayName', header: 'Usuario Nombre', filter: 'usuario.displayName'},
       { field: 'email', header: 'Usuario Correo', filter: 'usuario.email' },
       { field: 'idpago', header: 'Id Pago', filter: 'idpago' },
-
-
     ];
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   async getNominaciones() {
     this.listNominaciones = await this.nominacionesService.getAllNominaciones();
     if (this.listNominaciones.length > 0) {
-      this.listNominaciones = this.listNominaciones
+      this.listNominaciones = this.listNominaciones;
       this.listNominaciones.forEach((item) => {
         let usuario = this.usuarios.find((x) => x.uid == item.uid);
         item.usuario = usuario;
@@ -121,6 +122,28 @@ export class NominacionesComponent implements OnInit {
     });
   }
 
+  async enviarNotificacion(nominacion: any) {
+    Swal.fire({
+      title: 'Desea Enviar notificación de ésta Nominación?',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3c3174',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Enviar',
+      denyButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.nominacionesService.sendEmail('xioneitor@gmail.com');
+        /*this.nominacionesService.deleteNominacion(nominacion);
+        this.toastr.success('Nominación eliminada!!', 'Success');
+        this.getNominaciones();*/
+      }
+    });
+  }
+
+  enviarCorreo() {}
+
   editarNominacion(nominacion: NominacionModel) {
     this.accion = 'editar';
     this.nominacionEditar = nominacion;
@@ -133,7 +156,6 @@ export class NominacionesComponent implements OnInit {
     this.accion = null;
     this.nominacionEditar = null;
   }
-
 
   /* INICIA DESCARGA MASIVA DE MULTIMEDIA */
   fileNameFromUrl(url) {
@@ -155,48 +177,52 @@ export class NominacionesComponent implements OnInit {
       console.log(data.length);
 
       if (data.length > 1) {
-        for (var i = 1; i <20; i++) {
+        for (var i = 1; i < 20; i++) {
           var categorias = zip.folder(data[i].nombre);
           console.log(data[i]);
-          console.log(this.listNominaciones.length)
+          console.log(this.listNominaciones.length);
           for (var j = 0; j < this.listNominaciones.length; j++) {
-            console.log(j)
+            console.log(j);
             if (this.listNominaciones[j].categoria == data[i].nombre) {
-
-             console.log(this.listNominaciones[j]);
+              console.log(this.listNominaciones[j]);
 
               var nominacion = categorias.folder(
                 this.listNominaciones[j].titulo
               );
 
-              for(var k= 0; k < this.listNominaciones[j].materialMultimedia.length; k++) {
-                    var blob = await this.makeRequest("get", this.listNominaciones[j].materialMultimedia[k].url).then(async blob =>{
-                      if(blob != null){
-                        nominacion.file(
-                          this.fileNameFromUrl(this.listNominaciones[j].materialMultimedia[k].url),
-                          //'smile.jpg',
-                          blob,
-                          { base64: true }
-                        );
-                        console.log(blob);
-                      }
-                    });
+              for (
+                var k = 0;
+                k < this.listNominaciones[j].materialMultimedia.length;
+                k++
+              ) {
+                var blob = await this.makeRequest(
+                  'get',
+                  this.listNominaciones[j].materialMultimedia[k].url
+                ).then(async (blob) => {
+                  if (blob != null) {
+                    nominacion.file(
+                      this.fileNameFromUrl(
+                        this.listNominaciones[j].materialMultimedia[k].url
+                      ),
+                      //'smile.jpg',
+                      blob,
+                      { base64: true }
+                    );
+                    console.log(blob);
                   }
+                });
+              }
 
-                //    console.log(multimedia.url);
-                 /* }
+              //    console.log(multimedia.url);
+              /* }
                 }
               );*/
-
-
-
-
             }
           }
         }
       }
 
-       zip.generateAsync({ type: 'blob' }).then(function (content) {
+      zip.generateAsync({ type: 'blob' }).then(function (content) {
         // see FileSaver.js
         saveAs(content, 'backup.zip');
       });
@@ -205,68 +231,61 @@ export class NominacionesComponent implements OnInit {
 
   makeRequest(method, url) {
     return new Promise<Blob>(async function (resolve, reject) {
-
       const xhr = new XMLHttpRequest();
-                    xhr.responseType = 'blob';
-                    xhr.onload = (event) => {
+      xhr.responseType = 'blob';
+      xhr.onload = (event) => {
+        const blob = xhr.response;
 
-                      const blob = xhr.response;
-
-                      resolve(blob);
-
-                    };
-                    xhr.onerror = (e) => {
-                      resolve(null);
-                    }
-                    xhr.open('GET', url);
-                    xhr.send();
-
-
-
+        resolve(blob);
+      };
+      xhr.onerror = (e) => {
+        resolve(null);
+      };
+      xhr.open('GET', url);
+      xhr.send();
     });
   }
 
   makeRequestEncode(method, url) {
     return new Promise<Blob>(async function (resolve, reject) {
-console.log("------------url makeRequestEncode");
-                    const xhr = new XMLHttpRequest();
-                    xhr.responseType = 'blob';
-                    xhr.onload = (event) => {
+      console.log('------------url makeRequestEncode');
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = 'blob';
+      xhr.onload = (event) => {
+        const blob = xhr.response;
+        resolve(blob);
+      };
+      xhr.onerror = (e) => {
+        resolve(null);
+      };
+      xhr.open('GET', encodeURI(url));
+      xhr.send();
 
-                      const blob = xhr.response;
-                      resolve(blob);
-                    };
-                    xhr.onerror = (e) => {
-                      resolve(null);
-                    }
-                    xhr.open('GET', encodeURI(url));
-                    xhr.send();
-
-        console.log(url);
-      });
+      console.log(url);
+    });
   }
 
   downloadFile(urlFile, name_file) {
     console.log(urlFile.slice(0, urlFile.indexOf('?')));
     //var newUrl = urlFile.slice(0, urlFile.indexOf('?'));
 
-   // const firebaseApp = getApp();
+    // const firebaseApp = getApp();
     //const storage = getStorage(firebaseApp, 'gs://rewards-latino.appspot.com');
     //const httpsReference = ref(storage, newUrl);
 
     //getDownloadURL(httpsReference)
-     // .then((url) => {
-        // This can be downloaded directly:
-        console.log('URL RESOINSE');
+    // .then((url) => {
+    // This can be downloaded directly:
+    console.log('URL RESOINSE');
 
-        //console.log(url);
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', urlFile, true);
-        xhr.responseType = 'blob';
-        xhr.onload = (event) => {
-          const blob = xhr.response;
+    //console.log(url);
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', urlFile, true);
+    xhr.responseType = 'blob';
+    xhr.onload = (event) => {
+      const blob = xhr.response;
 
-          /* var zip = new JSZip();
+      /* var zip = new JSZip();
 
           var img = zip.folder('images');
           img.file('smile.png', blob, { base64: true });
@@ -275,12 +294,12 @@ console.log("------------url makeRequestEncode");
             saveAs(content, 'backup.zip');
           });*/
 
-          saveAs(blob, name_file);
-          console.log(blob);
-        };
-        xhr.send();
-     // })
-      //.catch((error) => {});
+      saveAs(blob, name_file);
+      console.log(blob);
+    };
+    xhr.send();
+    // })
+    //.catch((error) => {});
   }
 
   toDataUrl(url, callback) {

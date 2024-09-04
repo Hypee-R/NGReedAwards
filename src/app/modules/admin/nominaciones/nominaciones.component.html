@@ -44,6 +44,9 @@
 
                     <th style="width: 3rem"></th>
                     <th>Acciones</th>
+                    <th>
+                        Notificación
+                    </th>
                     <th *ngFor="let col of columns" [pSortableColumn]="col.filter">
                         <div class="flex justify-content-center align-items-center" style="width: 13em;">
                             {{col.header}}
@@ -74,6 +77,11 @@
                             (click)="eliminarNominacion(rowData)"></button>
                         <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                             (click)="editarNominacion(rowData)"></button>
+                        
+                    </td>
+                    <td>
+                        <button pButton pRipple icon="pi pi-send" class="p-button-rounded p-button-primary"
+                            (click)="enviarNotificacion(rowData)"></button>
                     </td>
                     <td *ngFor="let col of columns">
                         <div class="text-overflow" *ngIf="col.fiel != 'displayName' && col.field != 'email'">
