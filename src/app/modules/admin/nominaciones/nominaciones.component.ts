@@ -9,7 +9,6 @@ import { UsuarioService } from '../../../services/usuarios.service';
 import { ChipModule } from 'primeng/chip';
 
 import { CategoriasService } from 'src/app/services/categorias.service';
-import { Functions, httpsCallableData } from '@angular/fire/functions';
 import { getApp } from '@angular/fire/app';
 import { Observable } from 'rxjs';
 import {
@@ -36,18 +35,17 @@ export class NominacionesComponent implements OnInit {
   usuarios: any[] = [];
   body: any;
   cols: any;
-  notifFunction: (data: any) => Observable<any>;
+  // notifFunction: (data: any) => Observable<any>;
   constructor(
     private firebaseService: CategoriasService,
     private toastr: ToastrService,
     private nominacionesService: NominacionService,
     private usuariosService: UsuarioService,
-    private exportExcel: ExcelService,
-    functions: Functions
+    private exportExcel: ExcelService
   ) {
-    this.notifFunction = httpsCallableData(functions, 'sendEmailNotification', {
+    /*this.notifFunction = httpsCallableData(functions, 'sendEmailNotification', {
       timeout: 3_000,
-    });
+    });*/
     this.usuariosService.getusuarios().subscribe((data) => {
       this.usuarios = data;
       //console.log('usuarios ', this.usuarios);
@@ -134,15 +132,93 @@ export class NominacionesComponent implements OnInit {
       denyButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.nominacionesService.sendEmail('xioneitor@gmail.com');
-        /*this.nominacionesService.deleteNominacion(nominacion);
-        this.toastr.success('Nominación eliminada!!', 'Success');
-        this.getNominaciones();*/
+        var correo: any = {
+          correo: '',
+        };
+        correo.correo = nominacion.usuario.email;
+        correo.mensaje = this.mensajeCorreo(nominacion);
+        correo.subject = nominacion.titulo;
+        correo.titulo = 'NOMINACION';
+        this.nominacionesService.sendEmail(correo).subscribe((response) => {
+          if (response.exito) {
+            this.toastr.success('Mensaje enviado Correctamente', 'Correcto');
+          } else {
+           this.toastr.error(response.mensaje, 'Error');
+          }
+        });
       }
     });
   }
 
-  enviarCorreo() {}
+  mensajeCorreo(nominacion: any): string {
+    var mensaje = `<html lang="es">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Notificación de Sistema</title>
+      <style>
+          body {
+              font-family: Arial, sans-serif;
+              color: #333;
+              line-height: 1.6;
+              margin: 0;
+              padding: 0;
+              background-color: #f4f4f4;
+          }
+          .container {
+              width: 80%;
+              margin: 0 auto;
+              background: #fff;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 0 10px rgba(0,0,0,0.1);
+          }
+          .header {
+              background: #000000;
+              color: #fff;
+              padding: 10px;
+              text-align: center;
+              border-radius: 8px 8px 0 0;
+          }
+          .content {
+              margin: 20px 0;
+          }
+          .footer {
+              text-align: center;
+              font-size: 0.9em;
+              color: #777;
+          }
+          a {
+              color: #007BFF;
+              text-decoration: none;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <div class="header">
+              <h1>REED AWARDS</h1>
+          </div>
+          <div class="content">
+              <p>Hola <strong>${nominacion.nominado}</strong>,</p>
+              <p>Te informamos de la <strong>Nominación</strong> a ${nominacion.titulo}</p>
+              <p>Ha sido nominado a la categoria ${nominacion.categoria}<p>
+              <ul>
+                  <li><strong>Fecha y Hora:</strong> ${nominacion.fechaCreacion}</li>
+                  <li><strong>Descripción:</strong> ${nominacion.titulo}</li>
+              </ul>
+              <p>Para más información, visita nuestro sitio web o contacta a soporte.</p>
+              <p><a href="https://panel.reedlatino.com/portal/inicio">Visita el soporte</a></p>
+          </div>
+          <div class="footer">
+              <p>Gracias por tu atención.</p>
+          </div>
+      </div>
+  </body>
+  </html>`;
+
+    return mensaje;
+  }
 
   editarNominacion(nominacion: NominacionModel) {
     this.accion = 'editar';
