@@ -272,7 +272,7 @@ export class VariablesService {
 <div style="text-align:center">
 <p style="margin:0;font-size:24px;line-height:26px"><span style="color:#000000">Hola ${nominacion.nominado}</span></p>
 <p style="margin:0;font-size:24px;line-height:26px"><span>&nbsp;</span></p>
-<p style="margin:0;font-size:24px;line-height:26px"><span style="color:#000000">Te comunicamos que tu trabajo en fue nominado al Reed Latino 2024</span></p>
+<p style="margin:0;font-size:24px;line-height:26px"><span style="color:#000000">Te comunicamos que tu trabajo fue nominado al Reed Latino 2024</span></p>
 <p style="margin:0;text-align:left;font-size:24px;line-height:26px"><span>&nbsp;</span></p>
 <p style="margin:0;text-align:left;font-size:24px;line-height:26px"><span>&nbsp;</span></p>
 <p style="margin:0;font-size:24px;line-height:52px"><span style="font-size:48px">MUCHAS FELICIDADES</span></p>
