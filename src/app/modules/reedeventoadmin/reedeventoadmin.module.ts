@@ -34,6 +34,7 @@ import { ReservacionesComponent } from './reservaciones/reservaciones.component'
 import { ToastModule } from 'primeng/toast';
 //QR
 import { QRCodeModule } from 'angularx-qrcode';
+import { ReservasComponent } from './reservas/reservas.component';
 
 @NgModule({
     imports: [
@@ -73,6 +74,7 @@ import { QRCodeModule } from 'angularx-qrcode';
         MensajesContactoComponent,
         UsuariosComponent,
         ReservacionesComponent,
+        ReservasComponent,
     ]
 })
 export class ReedEventoAdminModule { }

@@ -2,16 +2,21 @@
 
     <p-toolbar>
         <ng-template pTemplate="left">
-            <h3 class="text-dark">Reservaciones</h3>
+            <h3 class="text-dark">Reservas Acceso</h3>
+            
         </ng-template>
         <ng-template pTemplate="right">
-
+            <div>
+                <input class="form-control" type="file" id="formFileDisabled" #fileImportInput
+                    name="File Upload" id="txtFileUpload" (change)="fileChangeListener($event)" accept=".csv" />
+            </div>
+            <button pButton pRipple label="Importar" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
             <button pButton pRipple label="Exportar" icon="pi pi-download" class="p-button-info mr-2" (click)="Excel()" [style]="{marginRight: '6px'}"></button>
-            <button pButton pRipple label="Nueva Reservacion" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+    
         </ng-template>
     </p-toolbar>
 
-    <p-table [value]="reservacionCollectiondata" [rows]="20" [paginator]="true" [loading]="loading" [rowsPerPageOptions]="[20,35,50]">
+    <p-table [value]="reservaCollectiondata" [rows]="20" [paginator]="true" [loading]="loading" [rowsPerPageOptions]="[20,35,50]">
         <ng-template pTemplate="header">
             <tr>
                 <th>
@@ -19,35 +24,40 @@
 
                 </th>
                 <th>
-                    LugaresComprados
+                   Mesa y Asiento
 
                 </th>
                 <th>
-                    codigotiket
+                    Nombre
 
                 </th>
                 <th>
-                    descripcionpago
+                   Comida
 
                 </th>
                 <th>
-                    fechaActualizacion
+                    Empresa
 
                 </th>
                 <th>
-                    idpagopaypal
+                    STATUS PAGO
 
                 </th>
                 <th>
-                    montopago
+                    PAGO MX O DLS
 
                 </th>
-                <th style="display: none;">
-                  QR
+                <th>
+                    Correo
+
+                </th>
+                <th>
+                    Confirmado
                 </th>
                 <th>
                     Acciones
                 </th>
+                
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-reservacion>
@@ -56,39 +66,41 @@
                     <p>{{reservacion.id}}</p>
                 </td>
                 <td>
-                    <p>{{reservacion.LugaresComprados}}</p>
+                    <p>{{reservacion.mesa}}</p>
                 </td>
                 <td>
-                    <p>{{reservacion.codigotiket}}</p>
+                    <p>{{reservacion.nombre}}</p>
                 </td>
                 <td>
-                    <p>{{reservacion.descripcionpago}}</p>
+                    <p>{{reservacion.comida}}</p>
                 </td>
                 <td>
-                    <p>{{reservacion.fechaActualizacion}}</p>
+                    <p>{{reservacion.empresa}}</p>
                 </td>
                 <td>
-                    <p>{{reservacion.idpagopaypal}}</p>
+                    <p>{{reservacion.statusPago}}</p>
                 </td>
                 <td>
-                    <p>${{reservacion.montopago}}</p>
+                    <p>{{reservacion.pago}}</p>
+                </td>
+                <td>
+                    <p>{{reservacion.correo}}</p>
                 </td>
 
-                <td style="display: none;">
-                  <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="dataToString" [colorDark]="'#94969e'" [colorLight]="'#000000'" [imageSrc]="'https://firebasestorage.googleapis.com/v0/b/rewards-latino.appspot.com/o/files%2FEscudo-RL.png?alt=media&token=58ee9622-0c5e-4d17-90f1-39a9447a7472'"
-                                    [imageHeight]="170" [imageWidth]="170" [title]="'A custom title attributesss'" allowEmptyString="true" [width]="256" [errorCorrectionLevel]="'M'">Datos</qrcode>
+                <td>
+                    <p>{{reservacion.confirmado}}</p>
                 </td>
                 <td>
+                    <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editar(reservacion)" (click)="edit"></button>-->
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning mx-3" (click)="delete(reservacion)"></button>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editar(reservacion)" (click)="edit"></button>
-                    <button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-tertiary mr-2" (click)="downloadPdfReservacion(reservacion)"></button>
+                   
+                    <!--<button pButton pRipple icon="pi pi-file-pdf" class="p-button-rounded p-button-tertiary mr-2" (click)="downloadPdfReservacion(reservacion)"></button> !-->
                 </td>
-
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-                Total de Reservaciones{{reservacionCollectiondata ? reservacionCollectiondata.length : 0 }}.
+                Total de Reservas de acceso {{reservaCollectiondata ? reservaCollectiondata.length : 0 }}.
             </div>
         </ng-template>
     </p-table>
