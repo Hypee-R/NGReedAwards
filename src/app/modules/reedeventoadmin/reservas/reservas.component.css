@@ -1,0 +1,4 @@
+#reservacionPDF img {
+  width: 100%; /* Ajustar a todo el ancho del contenedor */
+  height: auto; /* Mantener la proporción de la imagen */
+}

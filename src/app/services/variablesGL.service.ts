@@ -109,7 +109,8 @@ export class VariablesService {
     return widthDocument;
   }
 
-  generateReservacionPDF(lugar: ReservacionModel, templateElement: any): void {
+  generateReservacionPDF(lugar: any, templateElement: any): void {
+    console.log(lugar)
     let widthDocument = this.getWidthDocument();
 
     Swal.fire({
@@ -123,21 +124,22 @@ export class VariablesService {
 
     setTimeout(() => {
 
-      html2canvas(templateElement.nativeElement, { scale: 3 }).then((canvas) => {
+      html2canvas(templateElement.nativeElement, { scale: 4 }).then((canvas) => {
         const imageGeneratedFromTemplate = canvas.toDataURL('image/png');
       const fileWidth = widthDocument;
       const generatedImageHeight = (canvas.height * fileWidth) / canvas.width;
-      let PDF = new jsPDF({compress: true});
-      PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5, fileWidth, generatedImageHeight,);
+
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      PDF.addImage(imageGeneratedFromTemplate, 'PNG', 0, 5,  210, 297);
       PDF.html(templateElement.nativeElement.innerHTML);
-      PDF.text(lugar.codigotiket.toString(),7,68);//Folio
-      PDF.text(lugar.Nombrecomprador.toString(),7,86);//Comprador
-      PDF.text(lugar.montopago.toString(),110,86);//Costo
-      PDF.text(lugar.codigotiket.toString(),110,278);//Folio
-      PDF.text(lugar.Nombrecomprador.toString(),7,288);//Comprador
-      PDF.text(lugar.montopago.toString(),110,288);//Costo
-      PDF.link(55, 231, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
-      PDF.link(160, 231, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
+      PDF.text(lugar.uid.toString(),7,72);//Folio
+      PDF.text(lugar.empresa.toString(),7,88);//Comprador
+      PDF.text("",110,86);//Costo
+      PDF.text(lugar.uid.toString(),7,278);//Folio
+      PDF.text(lugar.empresa.toString(),7,293);//Comprador
+      PDF.text("",110,288);//Costo
+      // PDF.link(55, 231, 44, 7, { url: 'https://bit.ly/3KsUcLv' });//url left
+      // PDF.link(160, 231, 44, 7, { url: 'https://bit.ly/3PKjSUy' });//url rigth
       // PDF.textWithLink('https://bit.ly/3KsUcLv', 55, 230,{ url: 'https://bit.ly/3KsUcLv' });
       // PDF.textWithLink('https://bit.ly/3PKjSUy', 160, 230,{ url: 'https://bit.ly/3PKjSUy' });
       PDF.save('reed-latino-reservacion.pdf');

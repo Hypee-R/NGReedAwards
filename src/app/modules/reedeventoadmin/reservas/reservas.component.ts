@@ -33,7 +33,7 @@ import { invalid } from '@angular/compiler/src/render3/view/util';
 })
 export class ReservasComponent implements OnInit {
   @ViewChild('reservacionPDF') reservacionElement!: ElementRef;
-  public qrCodeDownloadLink: SafeUrl = '';
+
 
   piezasPorreservacion: any = [{ id: '', nombre: '', pago: 0, total: 0 }];
 
@@ -300,12 +300,12 @@ export class ReservasComponent implements OnInit {
       'Confirmado': row.confirmado
     };
   }
-  onChangeURL(url: SafeUrl) {
-    this.qrCodeDownloadLink = url;
-    // console.log('qr ', this.qrCodeDownloadLink);
-  }
 
-  downloadPdfReservacion(reservacion: ReservacionModel) {
+
+  downloadPdfReservacion(reservacion: any) {
+
+    console.log(reservacion)
+    this.dataToString="Boleto:"+reservacion.mesa+"-FOLIO:"+reservacion.uid
     this.variablesGL.statusTemplateRservacionPDF.next(true);
     setTimeout(() => {
       let tmpl = { ...this.reservacionElement };
