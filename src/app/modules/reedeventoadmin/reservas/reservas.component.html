@@ -94,7 +94,7 @@
 
                 </td>
                 <td>
-                  <button class="btn btn-primary" (click)="downloadPdfReservacion(reservacion)">PDF</button>
+                  <button class="btn btn-primary" (click)="downloadPdfReservacion(reservacion)">QR</button>
               </td>
 
                 <td>
@@ -190,7 +190,7 @@
 
 <div></div>
 <!-- PDF REED LATINO  -->
-<div id="reservacionPDF" #reservacionPDF *ngIf="showTemplatePDF">
+<!-- <div id="reservacionPDF" #reservacionPDF *ngIf="showTemplatePDF">
     <div class="row">
 
         <div class="col-12">
@@ -210,5 +210,14 @@
             <img src="assets/pdf/footer_pdf.png" class="footer" alt="">
         </div>
     </div>
-</div>
+</div> -->
+
+
 <!-- FIN PDF  -->
+<!-- Elemento del QR que se genera -->
+<qrcode
+  #qrCodeElement
+  [qrdata]="dataToString"
+  [width]="256"
+  [errorCorrectionLevel]="'M'"
+></qrcode>

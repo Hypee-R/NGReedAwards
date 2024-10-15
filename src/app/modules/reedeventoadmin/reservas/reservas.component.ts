@@ -25,6 +25,7 @@ import { Subscription } from 'rxjs';
 import { ReservasService } from 'src/app/services/reservas.service';
 import { ReservaModel } from 'src/app/models/reservar.model';
 import { invalid } from '@angular/compiler/src/render3/view/util';
+import { QRCodeComponent } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-reservas',
@@ -34,6 +35,8 @@ import { invalid } from '@angular/compiler/src/render3/view/util';
 export class ReservasComponent implements OnInit {
   @ViewChild('reservacionPDF') reservacionElement!: ElementRef;
 
+  @ViewChild('qrCodeElement', { static: false }) qrCodeElement: QRCodeComponent;
+  @ViewChild('canvas', { static: false }) canvas: ElementRef<HTMLCanvasElement>;
 
   piezasPorreservacion: any = [{ id: '', nombre: '', pago: 0, total: 0 }];
 
@@ -301,20 +304,25 @@ export class ReservasComponent implements OnInit {
     };
   }
 
-
   downloadPdfReservacion(reservacion: any) {
+    // Configura los datos para el QR
+    this.dataToString = 'Boleto:' + reservacion.mesa + '-FOLIO:' + reservacion.uid;
 
-    console.log(reservacion)
-    this.dataToString="Boleto:"+reservacion.mesa+"-FOLIO:"+reservacion.uid
-    this.variablesGL.statusTemplateRservacionPDF.next(true);
+    // Generar y descargar el QR en PNG
     setTimeout(() => {
-      let tmpl = { ...this.reservacionElement };
-      console.log('template ', tmpl);
-      this.variablesGL.generateReservacionPDF(
-        reservacion,
-        this.reservacionElement
-      );
-    }, 100);
+      this.downloadQR();
+    }, 500); // Delay para asegurarse que el QR se renderice antes de capturarlo
+  }
+
+  downloadQR() {
+    const canvasElement = this.qrCodeElement.qrcElement.nativeElement.querySelector('canvas');
+    const imgData = canvasElement.toDataURL('image/png'); // Obtener la imagen en base64
+
+    // Crear un enlace temporal para descargar el PNG
+    const link = document.createElement('a');
+    link.href = imgData;
+    link.download = 'reservacion_qr.png';
+    link.click();
   }
 
   fileChangeListener($event: any): void {
