@@ -148,9 +148,14 @@ export class ReservasComponent implements OnInit {
         this.dataToString = JSON.stringify(dataString);
         console.log('datatostring ', this.dataToString);
       }*/
-
+      this.reservaCollectiondata = this.reservaCollectiondata.sort((a, b) => {
+        if (a.id < b.id) return -1;
+        if (a.id > b.id) return 1;
+      });
       this.loading = false;
     });
+
+   
   }
 
   updatereservacionCollection(snapshot: QuerySnapshot<DocumentData>) {
@@ -339,6 +344,7 @@ export class ReservasComponent implements OnInit {
     for (let i = 1; i < csvRecordsArray.length; i++) {
       let data = (<string>csvRecordsArray[i]).split(',');
       if (data.length == headerLength) {
+       // console.log(data)
         let csvRecord: ReservaModel = {
           id: data[0].trim() || '',
           mesa: data[1].trim() || '',
@@ -351,6 +357,7 @@ export class ReservasComponent implements OnInit {
           enviado: data[8].trim() || '',
           confirmado: data[9].trim() || '',
         };
+        //console.log(csvRecord)
         dataArr.push(csvRecord);
       }
     }

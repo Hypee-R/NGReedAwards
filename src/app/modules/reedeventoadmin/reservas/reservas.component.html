@@ -12,16 +12,39 @@
             </div>
             <button pButton pRipple label="Importar" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
             <button pButton pRipple label="Exportar" icon="pi pi-download" class="p-button-info mr-2" (click)="Excel()" [style]="{marginRight: '6px'}"></button>
+            
+             
 
         </ng-template>
     </p-toolbar>
 
-    <p-table [value]="reservaCollectiondata" [rows]="20" [paginator]="true" [loading]="loading" [rowsPerPageOptions]="[20,35,50]">
+    <p-table #dt [value]="reservaCollectiondata" 
+    dataKey="id"
+    [globalFilterFields]="[
+                    'id',
+                    'mesa',
+                    'nombre',
+                    'comida',
+                  ]"
+    [rows]="20" [paginator]="true" [loading]="loading" [rowsPerPageOptions]="[20,35,50]">
+        <ng-template pTemplate="caption">
+            <div class="col col-md-5">
+                <span class="p-input-icon-left" style="width: 100%;">
+                                  <input pInputText type="text"
+                                      (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                      placeholder="Buscar..." [style]="{'width': '100%'}" />
+                              </span>
+            </div>
+            
+        </ng-template>
+        
         <ng-template pTemplate="header">
             <tr>
-                <th>
-                    ID
-
+                <th pSortableColumn="id">
+                   
+                        ID
+                  
+                    <p-sortIcon></p-sortIcon>
                 </th>
                 <th>
                    Mesa y Asiento
@@ -66,7 +89,9 @@
         <ng-template pTemplate="body" let-reservacion>
             <tr>
                 <td>
+                   
                     <p>{{reservacion.id}}</p>
+                    
                 </td>
                 <td>
                     <p>{{reservacion.mesa}}</p>
